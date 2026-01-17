@@ -4,6 +4,8 @@ En interaktiv presentation som visar Geoffrey Hintons 10 viktigaste bidrag till 
 
 🌐 **Live demo:** [https://kentlundgren.github.io/AI/1/](https://kentlundgren.github.io/AI/1/)
 
+> 📝 **Om denna README:** Detta är dokumentationen specifikt för undermapp 1 (Geoffrey Hinton-projektet). För övergripande information om hela AI-projektet och dess struktur, se [huvud-README →](../README.md)
+
 ## Funktioner
 
 ✨ **Interaktiv presentation**
@@ -47,6 +49,36 @@ Presentationen täcker Hintons 10 viktigaste bidrag:
 **Kontroller:**
 - `←` / `→` knappar - Navigera mellan slides
 - `English` / `Svenska` knapp - Byt språk
+
+---
+
+## 📚 Git & GitHub Guider
+
+### 🚀 Huvudguide - Git & GitHub från grunden
+En komplett guide som förklarar hur hela AI-projektet är strukturerat med Git och GitHub.
+
+**📖 [Läs huvudguiden →](../github.html)** | **🌐 [Live →](https://kentlundgren.github.io/AI/github.html)**
+
+**Lär dig:**
+- Hur man skapar AI-projektet från början
+- Initiera Git repository
+- Koppla till GitHub
+- Skapa undermappar (1, 2, 3...)
+- Dagligt arbetsflöde
+- Interaktiva demos och kopierbar kod
+
+### 📁 Undermapp-guide - Git från denna mapp
+En specialiserad guide som förklarar hur Git fungerar när du arbetar från en undermapp som denna (mapp "1").
+
+**📖 [Läs undermapp-guiden →](github1.html)** | **🌐 [Live →](https://kentlundgren.github.io/AI/1/github1.html)**
+
+**Lär dig:**
+- Var .git/-mappen finns (inte i undermappar!)
+- Hur Git hittar repository-roten
+- Två sätt att arbeta från undermapp
+- Praktiska exempel
+- Interaktiv quiz för att testa din förståelse
+- Snabbreferens för kommandon
 
 ---
 
