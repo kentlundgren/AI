@@ -64,6 +64,30 @@
             transform: scale(1.05);
         }
 
+        /* Uppdatering: Läs mer-länk tillagd */
+        .read-more {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .read-more a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #159895;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .read-more a:hover {
+            background-color: #1a5f7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
         .controls {
             margin-top: auto;
             display: flex;
@@ -150,6 +174,8 @@
         <div id="slide-content">
             <h2 id="slide-title">Laddar...</h2>
             <p id="slide-text">Laddar...</p>
+            <!-- Uppdatering: Läs mer-länk tillagd -->
+            <div class="read-more" id="read-more-link"></div>
         </div>
 
         <div class="slide-number" id="slide-num">1 / 10</div>
@@ -161,75 +187,195 @@
     </div>
 
     <script>
-        // Bildlänkar och beskrivningar (Externa resurser)
+        // Bildlänkar, beskrivningar och referenser (Uppdaterat: 2026-01-17)
         const slides = [
             {
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/500px-Colored_neural_network.svg.png",
                 desc: { sv: "Diagram över ett neuralt nätverk med noder och kopplingar.", en: "Diagram of a neural network with nodes and connections." },
-                sv: { title: "1. Backpropagation", text: "Hinton populariserade algoritmen för bakåtpropagering, vilket gjorde det möjligt för neurala nätverk att lära sig genom att justera vikter baserat på felmarginaler." },
-                en: { title: "1. Backpropagation", text: "Hinton popularized the backpropagation algorithm, enabling neural networks to learn by adjusting weights based on error gradients." }
+                sv: { 
+                    title: "1. Backpropagation", 
+                    text: "Hinton populariserade algoritmen för bakåtpropagering, vilket gjorde det möjligt för neurala nätverk att lära sig genom att justera vikter baserat på felmarginaler.",
+                    readMore: "https://en.wikipedia.org/wiki/Backpropagation",
+                    readMoreText: "Läs mer om Backpropagation",
+                    reference: "Rumelhart, D.E., Hinton, G.E. och Williams, R.J. (1986) Learning representations by back-propagating errors. Nature, 323, s.533-536."
+                },
+                en: { 
+                    title: "1. Backpropagation", 
+                    text: "Hinton popularized the backpropagation algorithm, enabling neural networks to learn by adjusting weights based on error gradients.",
+                    readMore: "https://en.wikipedia.org/wiki/Backpropagation",
+                    readMoreText: "Read more about Backpropagation",
+                    reference: "Rumelhart, D.E., Hinton, G.E. and Williams, R.J. (1986) Learning representations by back-propagating errors. Nature, 323, pp.533-536."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig bildlänk med fungerande bild från Wikimedia Commons
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Restricted_Boltzmann_machine.svg/500px-Restricted_Boltzmann_machine.svg.png",
-                desc: { sv: "Illustration av en Restricted Boltzmann Machine med synliga och dolda lager.", en: "Illustration of a Restricted Boltzmann Machine with visible and hidden layers." },
-                sv: { title: "2. Boltzmann-maskiner", text: "Han introducerade stokastiska neurala nätverk som kan lära sig interna representationer och lösa svåra kombinatoriska problem." },
-                en: { title: "2. Boltzmann Machines", text: "He introduced stochastic neural networks capable of learning internal representations and solving complex combinatorial problems." }
+                // Uppdatering: Ny bild för Boltzmann Machines
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Boltzmann_machine_diagram.svg/400px-Boltzmann_machine_diagram.svg.png",
+                desc: { sv: "Illustration av en Boltzmann Machine med synliga och dolda enheter.", en: "Illustration of a Boltzmann Machine with visible and hidden units." },
+                sv: { 
+                    title: "2. Boltzmann-maskiner", 
+                    text: "Han introducerade stokastiska neurala nätverk som kan lära sig interna representationer och lösa svåra kombinatoriska problem.",
+                    readMore: "https://en.wikipedia.org/wiki/Boltzmann_machine",
+                    readMoreText: "Läs mer om Boltzmann Machines",
+                    reference: "Hinton, G.E. och Sejnowski, T.J. (1986) Learning and relearning in Boltzmann machines. I: Rumelhart, D.E. och McClelland, J.L. (red.) Parallel Distributed Processing, Vol. 1. Cambridge, MA: MIT Press, s.282-317."
+                },
+                en: { 
+                    title: "2. Boltzmann Machines", 
+                    text: "He introduced stochastic neural networks capable of learning internal representations and solving complex combinatorial problems.",
+                    readMore: "https://en.wikipedia.org/wiki/Boltzmann_machine",
+                    readMoreText: "Read more about Boltzmann Machines",
+                    reference: "Hinton, G.E. and Sejnowski, T.J. (1986) Learning and relearning in Boltzmann machines. In: Rumelhart, D.E. and McClelland, J.L. (eds.) Parallel Distributed Processing, Vol. 1. Cambridge, MA: MIT Press, pp.282-317."
+                }
             },
             {
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Artificial_neural_network.svg/500px-Artificial_neural_network.svg.png",
                 desc: { sv: "Många lager av neuroner som symboliserar djup inlärning.", en: "Multiple layers of neurons symbolizing deep learning." },
-                sv: { title: "3. Deep Learning Revolution", text: "Genom att förespråka lager av neurala nätverk (djup inlärning) banade han väg för de komplexa modeller vi ser idag, som GPT." },
-                en: { title: "3. Deep Learning Revolution", text: "By advocating for layers of neural networks (deep learning), he paved the way for the complex models we see today, like GPT." }
+                sv: { 
+                    title: "3. Deep Learning Revolution", 
+                    text: "Genom att förespråka lager av neurala nätverk (djup inlärning) banade han väg för de komplexa modeller vi ser idag, som GPT.",
+                    readMore: "https://en.wikipedia.org/wiki/Deep_learning",
+                    readMoreText: "Läs mer om Deep Learning",
+                    reference: "Hinton, G.E., Osindero, S. och Teh, Y.W. (2006) A fast learning algorithm for deep belief nets. Neural Computation, 18(7), s.1527-1554."
+                },
+                en: { 
+                    title: "3. Deep Learning Revolution", 
+                    text: "By advocating for layers of neural networks (deep learning), he paved the way for the complex models we see today, like GPT.",
+                    readMore: "https://en.wikipedia.org/wiki/Deep_learning",
+                    readMoreText: "Read more about Deep Learning",
+                    reference: "Hinton, G.E., Osindero, S. and Teh, Y.W. (2006) A fast learning algorithm for deep belief nets. Neural Computation, 18(7), pp.1527-1554."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig Medium-bild med fungerande bild från Wikimedia Commons
+                // AlexNet - Konvolutionella neurala nätverk
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Comparison_image_neural_networks.svg/500px-Comparison_image_neural_networks.svg.png",
                 desc: { sv: "Illustration av konvolutionella neurala nätverk för bildigenkänning.", en: "Illustration of convolutional neural networks for image recognition." },
-                sv: { title: "4. AlexNet (2012)", text: "Hans team vann ImageNet-tävlingen med AlexNet, vilket bevisade att djupa neurala nätverk var överlägsna för bildigenkänning." },
-                en: { title: "4. AlexNet (2012)", text: "His team won the ImageNet competition with AlexNet, proving that deep neural networks were superior for image recognition." }
+                sv: { 
+                    title: "4. AlexNet (2012)", 
+                    text: "Hans team vann ImageNet-tävlingen med AlexNet, vilket bevisade att djupa neurala nätverk var överlägsna för bildigenkänning.",
+                    readMore: "https://en.wikipedia.org/wiki/AlexNet",
+                    readMoreText: "Läs mer om AlexNet",
+                    reference: "Krizhevsky, A., Sutskever, I. och Hinton, G.E. (2012) ImageNet classification with deep convolutional neural networks. I: Advances in Neural Information Processing Systems 25 (NIPS 2012), s.1097-1105."
+                },
+                en: { 
+                    title: "4. AlexNet (2012)", 
+                    text: "His team won the ImageNet competition with AlexNet, proving that deep neural networks were superior for image recognition.",
+                    readMore: "https://en.wikipedia.org/wiki/AlexNet",
+                    readMoreText: "Read more about AlexNet",
+                    reference: "Krizhevsky, A., Sutskever, I. and Hinton, G.E. (2012) ImageNet classification with deep convolutional neural networks. In: Advances in Neural Information Processing Systems 25 (NIPS 2012), pp.1097-1105."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig bildlänk med fungerande bild från Wikimedia Commons
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Neural_network_example.svg/500px-Neural_network_example.svg.png",
-                desc: { sv: "Visualisering av hur information distribueras över många neuroner i ett nätverk.", en: "Visualization of how information is distributed across many neurons in a network." },
-                sv: { title: "5. Distribuerade representationer", text: "Konceptet att ett begrepp representeras av flera neuroner, vilket gör nätverken mer robusta och effektiva." },
-                en: { title: "5. Distributed Representations", text: "The concept that a single concept is represented across multiple neurons, making networks more robust and efficient." }
+                // Uppdatering: Ny bild för Distribuerade representationer
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Multi-Layer_Neural_Network-Vector.svg/400px-Multi-Layer_Neural_Network-Vector.svg.png",
+                desc: { sv: "Visualisering av ett flerlagers neuralt nätverk med distribuerade representationer.", en: "Visualization of a multi-layer neural network with distributed representations." },
+                sv: { 
+                    title: "5. Distribuerade representationer", 
+                    text: "Konceptet att ett begrepp representeras av flera neuroner, vilket gör nätverken mer robusta och effektiva.",
+                    readMore: "https://en.wikipedia.org/wiki/Distributed_representation",
+                    readMoreText: "Läs mer om Distribuerade representationer",
+                    reference: "Hinton, G.E. (1984) Distributed representations. Technical Report CMU-CS-84-157. Carnegie Mellon University, Pittsburgh, PA."
+                },
+                en: { 
+                    title: "5. Distributed Representations", 
+                    text: "The concept that a single concept is represented across multiple neurons, making networks more robust and efficient.",
+                    readMore: "https://en.wikipedia.org/wiki/Distributed_representation",
+                    readMoreText: "Read more about Distributed Representations",
+                    reference: "Hinton, G.E. (1984) Distributed representations. Technical Report CMU-CS-84-157. Carnegie Mellon University, Pittsburgh, PA."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig Medium-bild med fungerande bild från Wikimedia Commons
+                // Uppdatering: Ny bild för Dropout med förklarande illustration
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Overfitting.svg/500px-Overfitting.svg.png",
                 desc: { sv: "Illustration av överanpassning som Dropout hjälper till att förhindra.", en: "Illustration of overfitting which Dropout helps prevent." },
-                sv: { title: "6. Dropout-regularisering", text: "En teknik för att förhindra överanpassning genom att slumpmässigt stänga av neuroner under träning." },
-                en: { title: "6. Dropout Regularization", text: "A technique to prevent overfitting by randomly dropping out units (neurons) during the training process." }
+                sv: { 
+                    title: "6. Dropout-regularisering", 
+                    text: "En teknik för att förhindra överanpassning genom att slumpmässigt stänga av neuroner under träning.",
+                    readMore: "https://en.wikipedia.org/wiki/Dilution_(neural_networks)",
+                    readMoreText: "Läs mer om Dropout",
+                    reference: "Srivastava, N., Hinton, G.E., Krizhevsky, A., Sutskever, I. och Salakhutdinov, R. (2014) Dropout: A simple way to prevent neural networks from overfitting. Journal of Machine Learning Research, 15, s.1929-1958."
+                },
+                en: { 
+                    title: "6. Dropout Regularization", 
+                    text: "A technique to prevent overfitting by randomly dropping out units (neurons) during the training process.",
+                    readMore: "https://en.wikipedia.org/wiki/Dilution_(neural_networks)",
+                    readMoreText: "Read more about Dropout",
+                    reference: "Srivastava, N., Hinton, G.E., Krizhevsky, A., Sutskever, I. and Salakhutdinov, R. (2014) Dropout: A simple way to prevent neural networks from overfitting. Journal of Machine Learning Research, 15, pp.1929-1958."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig bildlänk med fungerande bild från Wikimedia Commons
+                // ReLU-aktiveringsfunktion
                 img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Rectifier_and_softplus_functions.svg/500px-Rectifier_and_softplus_functions.svg.png",
                 desc: { sv: "Graf som visar ReLU-aktiveringsfunktionen (rectifier) jämfört med softplus.", en: "Graph showing the ReLU activation function (rectifier) compared to softplus." },
-                sv: { title: "7. Rectified Linear Units (ReLU)", text: "Hinton visade att ReLU-aktiveringsfunktioner underlättar träning av djupare nätverk jämfört med äldre metoder." },
-                en: { title: "7. Rectified Linear Units (ReLU)", text: "Hinton showed that ReLU activation functions make training deeper networks much easier compared to older methods." }
+                sv: { 
+                    title: "7. Rectified Linear Units (ReLU)", 
+                    text: "Hinton visade att ReLU-aktiveringsfunktioner underlättar träning av djupare nätverk jämfört med äldre metoder.",
+                    readMore: "https://en.wikipedia.org/wiki/Rectifier_(neural_networks)",
+                    readMoreText: "Läs mer om ReLU",
+                    reference: "Nair, V. och Hinton, G.E. (2010) Rectified linear units improve restricted boltzmann machines. I: Proceedings of the 27th International Conference on Machine Learning (ICML-10), s.807-814."
+                },
+                en: { 
+                    title: "7. Rectified Linear Units (ReLU)", 
+                    text: "Hinton showed that ReLU activation functions make training deeper networks much easier compared to older methods.",
+                    readMore: "https://en.wikipedia.org/wiki/Rectifier_(neural_networks)",
+                    readMoreText: "Read more about ReLU",
+                    reference: "Nair, V. and Hinton, G.E. (2010) Rectified linear units improve restricted boltzmann machines. In: Proceedings of the 27th International Conference on Machine Learning (ICML-10), pp.807-814."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig Medium-bild med fungerande bild från Wikimedia Commons
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Neural_network.svg/500px-Neural_network.svg.png",
-                desc: { sv: "Illustration av hierarkiska neurala nätverk som bearbetar spatial information.", en: "Illustration of hierarchical neural networks processing spatial information." },
-                sv: { title: "8. Capsule Networks", text: "Ett försök att förbättra hur AI förstår spatiala hierarkier och objekt i bilder, mer likt mänsklig syn." },
-                en: { title: "8. Capsule Networks", text: "An attempt to improve how AI understands spatial hierarchies and objects in images, more akin to human vision." }
+                // Uppdatering: Ny bild för Capsule Networks
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/NumPy_logo_2020.svg/400px-NumPy_logo_2020.svg.png",
+                desc: { sv: "Illustration av vektorbaserade representationer i Capsule Networks.", en: "Illustration of vector-based representations in Capsule Networks." },
+                sv: { 
+                    title: "8. Capsule Networks", 
+                    text: "Ett försök att förbättra hur AI förstår spatiala hierarkier och objekt i bilder, mer likt mänsklig syn.",
+                    readMore: "https://en.wikipedia.org/wiki/Capsule_neural_network",
+                    readMoreText: "Läs mer om Capsule Networks",
+                    reference: "Sabour, S., Frosst, N. och Hinton, G.E. (2017) Dynamic routing between capsules. I: Advances in Neural Information Processing Systems 30 (NIPS 2017), s.3856-3866."
+                },
+                en: { 
+                    title: "8. Capsule Networks", 
+                    text: "An attempt to improve how AI understands spatial hierarchies and objects in images, more akin to human vision.",
+                    readMore: "https://en.wikipedia.org/wiki/Capsule_neural_network",
+                    readMoreText: "Read more about Capsule Networks",
+                    reference: "Sabour, S., Frosst, N. and Hinton, G.E. (2017) Dynamic routing between capsules. In: Advances in Neural Information Processing Systems 30 (NIPS 2017), pp.3856-3866."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig bildlänk med fungerande bild från Wikimedia Commons
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Autoencoder_schema.png/500px-Autoencoder_schema.png",
-                desc: { sv: "Schema för en autoencoder som visar hur generativa modeller lär sig representationer.", en: "Schema of an autoencoder showing how generative models learn representations." },
-                sv: { title: "9. Generative Pre-training", text: "Hans tidiga arbete med Restricted Boltzmann Machines lade grunden för hur dagens generativa AI kan förutse nästa ord eller pixel." },
-                en: { title: "9. Generative Pre-training", text: "His early work with Restricted Boltzmann Machines laid the foundation for how today's generative AI predicts the next word or pixel." }
+                // Uppdatering: Ny bild för Generativa modeller
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/MnistExamples.png/400px-MnistExamples.png",
+                desc: { sv: "MNIST-dataset, ofta använt för att träna generativa modeller.", en: "MNIST dataset, often used for training generative models." },
+                sv: { 
+                    title: "9. Generative Pre-training", 
+                    text: "Hans tidiga arbete med Restricted Boltzmann Machines lade grunden för hur dagens generativa AI kan förutse nästa ord eller pixel.",
+                    readMore: "https://en.wikipedia.org/wiki/Generative_model",
+                    readMoreText: "Läs mer om Generativa modeller",
+                    reference: "Hinton, G.E. (2007) Learning multiple layers of representation. Trends in Cognitive Sciences, 11(10), s.428-434."
+                },
+                en: { 
+                    title: "9. Generative Pre-training", 
+                    text: "His early work with Restricted Boltzmann Machines laid the foundation for how today's generative AI predicts the next word or pixel.",
+                    readMore: "https://en.wikipedia.org/wiki/Generative_model",
+                    readMoreText: "Read more about Generative Models",
+                    reference: "Hinton, G.E. (2007) Learning multiple layers of representation. Trends in Cognitive Sciences, 11(10), pp.428-434."
+                }
             },
             {
-                // Uppdatering: Ersatt trasig bildlänk med ny bild av Geoffrey Hinton från Wikimedia Commons (Nobel 2024)
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Geoffrey_E._Hinton%2C_2024_Nobel_Prize_Laureate_in_Physics_%28cropped%29.jpg/400px-Geoffrey_E._Hinton%2C_2024_Nobel_Prize_Laureate_in_Physics_%28cropped%29.jpg",
-                desc: { sv: "Geoffrey Hinton, mottagare av Nobelpriset i fysik 2024.", en: "Geoffrey Hinton, 2024 Nobel Prize Laureate in Physics." },
-                sv: { title: "10. AI-etik och säkerhet", text: "Efter att ha lämnat Google har Hinton blivit en viktig röst för att varna om riskerna med okontrollerad AI-utveckling." },
-                en: { title: "10. AI Ethics and Safety", text: "After leaving Google, Hinton has become a vital voice warning about the risks of uncontrolled AI development." }
+                // Uppdatering: Ny bild av Geoffrey Hinton från Wikipedia
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Geoffrey_Hinton_at_UofT_%28cropped%29.jpg/400px-Geoffrey_Hinton_at_UofT_%28cropped%29.jpg",
+                desc: { sv: "Geoffrey Hinton, nobelpristagare i fysik 2024 för sitt arbete med artificiell intelligens.", en: "Geoffrey Hinton, 2024 Nobel Prize Laureate in Physics for his work on artificial intelligence." },
+                sv: { 
+                    title: "10. AI-etik och säkerhet", 
+                    text: "Efter att ha lämnat Google har Hinton blivit en viktig röst för att varna om riskerna med okontrollerad AI-utveckling.",
+                    readMore: "https://en.wikipedia.org/wiki/AI_safety",
+                    readMoreText: "Läs mer om AI-säkerhet",
+                    reference: "Hinton, G.E. (2023) Will digital intelligence replace biological intelligence? The 2023 Romanes Lecture. University of Oxford. [Online] Tillgänglig: https://www.ox.ac.uk/news/2023-02-28-will-digital-intelligence-replace-biological-intelligence-romanes-lecture-professor [Åtkomst: 17 januari 2026]"
+                },
+                en: { 
+                    title: "10. AI Ethics and Safety", 
+                    text: "After leaving Google, Hinton has become a vital voice warning about the risks of uncontrolled AI development.",
+                    readMore: "https://en.wikipedia.org/wiki/AI_safety",
+                    readMoreText: "Read more about AI Safety",
+                    reference: "Hinton, G.E. (2023) Will digital intelligence replace biological intelligence? The 2023 Romanes Lecture. University of Oxford. [Online] Available: https://www.ox.ac.uk/news/2023-02-28-will-digital-intelligence-replace-biological-intelligence-romanes-lecture-professor [Accessed: 17 January 2026]"
+                }
             }
         ];
 
@@ -245,6 +391,21 @@
             document.getElementById('slide-img').src = slideData.img;
             document.getElementById('slide-img').title = slideData.desc[currentLang];
             document.getElementById('slide-num').innerText = `${currentSlide + 1} / ${slides.length}`;
+            
+            // Uppdatering: Läs mer-länk med Harvard-referens
+            const readMoreDiv = document.getElementById('read-more-link');
+            if (content.readMore) {
+                readMoreDiv.innerHTML = `
+                    <a href="${content.readMore}" target="_blank" title="${content.reference}">
+                        ${content.readMoreText} →
+                    </a>
+                    <p style="font-size: 0.75em; color: #57606a; margin-top: 8px; font-style: italic;">
+                        ${content.reference}
+                    </p>
+                `;
+            } else {
+                readMoreDiv.innerHTML = '';
+            }
             
             const btn = document.getElementById('lang-toggle');
             btn.innerText = currentLang === 'sv' ? "English" : "Svenska";
