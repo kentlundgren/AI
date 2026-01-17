@@ -414,8 +414,44 @@
                     readMoreText: "Read more about AI Safety",
                     reference: "Hinton, G.E. (2023) Will digital intelligence replace biological intelligence? The 2023 Romanes Lecture. University of Oxford. [Online] Available: https://www.ox.ac.uk/news/2023-02-28-will-digital-intelligence-replace-biological-intelligence-romanes-lecture-professor [Accessed: 17 January 2026]"
                 }
+            },
+            {
+                // BILD 11: Tom Yehs sammanfattning - Automatisk bildväxling
+                img: "TomYeh/framsida.jpg",
+                isSlideshow: true, // Markerar att denna slide har automatisk bildväxling
+                slideshowImages: [
+                    "TomYeh/framsida.jpg",
+                    "TomYeh/Backpropagation_1986.jpg",
+                    "TomYeh/Dimension_reduktion_2006.jpg",
+                    "TomYeh/AlexNet_2012.jpg",
+                    "TomYeh/Dropout_2014.jpg",
+                    "TomYeh/Layer_Norm_2015.jpg",
+                    "TomYeh/Distillation_2016.jpg"
+                ],
+                desc: { 
+                    sv: "Tom Yehs visuella sammanfattning av Hintons viktigaste publikationer.", 
+                    en: "Tom Yeh's visual summary of Hinton's most important publications." 
+                },
+                sv: { 
+                    title: "11. Bonus: Tom Yehs sammanfattning", 
+                    text: "Professor Tom Yeh har skapat en visuell tidslinje över Geoffrey Hintons mest inflytelserika publikationer. Bilderna växlar automatiskt.",
+                    readMore: "https://x.com/ProfTomYeh/status/2012223362211209462",
+                    readMoreText: "Se originalinlägget på X (Twitter)",
+                    reference: "Yeh, T. (2024) Visual timeline of Geoffrey Hinton's publications. [Twitter/X] Tillgänglig: https://x.com/ProfTomYeh/status/2012223362211209462 [Åtkomst: 17 januari 2026]"
+                },
+                en: { 
+                    title: "11. Bonus: Tom Yeh's Summary", 
+                    text: "Professor Tom Yeh created a visual timeline of Geoffrey Hinton's most influential publications. Images change automatically.",
+                    readMore: "https://x.com/ProfTomYeh/status/2012223362211209462",
+                    readMoreText: "See original post on X (Twitter)",
+                    reference: "Yeh, T. (2024) Visual timeline of Geoffrey Hinton's publications. [Twitter/X] Available: https://x.com/ProfTomYeh/status/2012223362211209462 [Accessed: 17 January 2026]"
+                }
             }
         ];
+        
+        // Tom Yehs bildväxlings-variabler
+        let tomYehInterval = null;
+        let tomYehImageIndex = 0;
 
         let currentSlide = 0;
         let currentLang = 'sv';
@@ -463,6 +499,40 @@
             
             const btn = document.getElementById('lang-toggle');
             btn.innerText = currentLang === 'sv' ? "English" : "Svenska";
+            
+            // Hantera Tom Yehs automatiska bildväxling (slide 11)
+            if (slideData.isSlideshow) {
+                startTomYehSlideshow(slideData.slideshowImages);
+            } else {
+                stopTomYehSlideshow();
+            }
+        }
+        
+        // UPPDATERING: Funktioner för Tom Yehs automatiska bildväxling
+        function startTomYehSlideshow(images) {
+            // Stoppa eventuell pågående slideshow
+            stopTomYehSlideshow();
+            
+            tomYehImageIndex = 0;
+            const imgElement = document.getElementById('slide-img');
+            
+            // Starta bildväxling var 3:e sekund
+            tomYehInterval = setInterval(() => {
+                tomYehImageIndex = (tomYehImageIndex + 1) % images.length;
+                imgElement.src = images[tomYehImageIndex];
+                
+                // Uppdatera bildnummer-indikator
+                const currentLangData = slides[currentSlide][currentLang];
+                document.getElementById('slide-num').innerText = 
+                    `${currentSlide + 1} / ${slides.length} (bild ${tomYehImageIndex + 1}/${images.length})`;
+            }, 3000); // Byt bild var 3:e sekund
+        }
+        
+        function stopTomYehSlideshow() {
+            if (tomYehInterval) {
+                clearInterval(tomYehInterval);
+                tomYehInterval = null;
+            }
         }
 
         function nextSlide() {
