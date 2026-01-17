@@ -222,11 +222,13 @@
     </div>
 
     <script>
-        // Bildlänkar, beskrivningar och referenser (Uppdaterat: 2026-01-17)
+        // Bildlänkar, beskrivningar och referenser (UPPDATERAT: 2026-01-17 - UNIKA BILDER)
+        // VIKTIGT: Varje slide har nu en UNIK bild som passar ämnet
         const slides = [
             {
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/500px-Colored_neural_network.svg.png",
-                desc: { sv: "Diagram över ett neuralt nätverk med noder och kopplingar.", en: "Diagram of a neural network with nodes and connections." },
+                // BILD 1: Backpropagation - Gradient descent visualisering
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Gradient_descent.svg/350px-Gradient_descent.svg.png",
+                desc: { sv: "Gradient descent - grunden för backpropagation.", en: "Gradient descent - the foundation of backpropagation." },
                 sv: { 
                     title: "1. Backpropagation", 
                     text: "Hinton populariserade algoritmen för bakåtpropagering, vilket gjorde det möjligt för neurala nätverk att lära sig genom att justera vikter baserat på felmarginaler.",
@@ -243,9 +245,9 @@
                 }
             },
             {
-                // Uppdatering: Fungerande bild för Boltzmann Machines
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Restricted_Boltzmann_machine.svg/400px-Restricted_Boltzmann_machine.svg.png",
-                desc: { sv: "Illustration av en Restricted Boltzmann Machine med synliga och dolda lager.", en: "Illustration of a Restricted Boltzmann Machine with visible and hidden layers." },
+                // BILD 2: Boltzmann Machines - Termodynamik/energi-baserat nätverk
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Boltzmann%27s-molecule.jpg/400px-Boltzmann%27s-molecule.jpg",
+                desc: { sv: "Ludwig Boltzmanns statistiska mekanik - inspiration för Boltzmann-maskiner.", en: "Ludwig Boltzmann's statistical mechanics - inspiration for Boltzmann machines." },
                 sv: { 
                     title: "2. Boltzmann-maskiner", 
                     text: "Han introducerade stokastiska neurala nätverk som kan lära sig interna representationer och lösa svåra kombinatoriska problem.",
@@ -262,8 +264,9 @@
                 }
             },
             {
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Artificial_neural_network.svg/500px-Artificial_neural_network.svg.png",
-                desc: { sv: "Många lager av neuroner som symboliserar djup inlärning.", en: "Multiple layers of neurons symbolizing deep learning." },
+                // BILD 3: Deep Learning - Djupt nätverk med många lager
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/400px-Colored_neural_network.svg.png",
+                desc: { sv: "Djupt neuralt nätverk med flera dolda lager.", en: "Deep neural network with multiple hidden layers." },
                 sv: { 
                     title: "3. Deep Learning Revolution", 
                     text: "Genom att förespråka lager av neurala nätverk (djup inlärning) banade han väg för de komplexa modeller vi ser idag, som GPT.",
@@ -280,9 +283,9 @@
                 }
             },
             {
-                // AlexNet - Konvolutionella neurala nätverk
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Comparison_image_neural_networks.svg/500px-Comparison_image_neural_networks.svg.png",
-                desc: { sv: "Illustration av konvolutionella neurala nätverk för bildigenkänning.", en: "Illustration of convolutional neural networks for image recognition." },
+                // BILD 4: AlexNet - Typisk CNN-arkitektur för bildigenkänning
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Typical_cnn.png/400px-Typical_cnn.png",
+                desc: { sv: "Typisk CNN-arkitektur som AlexNet bygger på.", en: "Typical CNN architecture that AlexNet builds upon." },
                 sv: { 
                     title: "4. AlexNet (2012)", 
                     text: "Hans team vann ImageNet-tävlingen med AlexNet, vilket bevisade att djupa neurala nätverk var överlägsna för bildigenkänning.",
@@ -299,9 +302,9 @@
                 }
             },
             {
-                // Uppdatering: Fungerande bild för Distribuerade representationer
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/400px-Colored_neural_network.svg.png",
-                desc: { sv: "Neuralt nätverk som visar distribuerade representationer över flera neuroner.", en: "Neural network showing distributed representations across multiple neurons." },
+                // BILD 5: Distribuerade representationer - Word2vec/embedding visualisering
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Word2vec_vectors.svg/400px-Word2vec_vectors.svg.png",
+                desc: { sv: "Word vectors - ett exempel på distribuerade representationer.", en: "Word vectors - an example of distributed representations." },
                 sv: { 
                     title: "5. Distribuerade representationer", 
                     text: "Konceptet att ett begrepp representeras av flera neuroner, vilket gör nätverken mer robusta och effektiva.",
@@ -318,9 +321,9 @@
                 }
             },
             {
-                // Uppdatering: Fungerande bild för Dropout
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Overfitting.svg/400px-Overfitting.svg.png",
-                desc: { sv: "Graf som visar överanpassning (overfitting) som Dropout förhindrar.", en: "Graph showing overfitting which Dropout prevents." },
+                // BILD 6: Dropout - Regulariseringskonceptet
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Kernel_Machine.svg/400px-Kernel_Machine.svg.png",
+                desc: { sv: "Neural nätverksstruktur - Dropout stänger av slumpmässiga neuroner.", en: "Neural network structure - Dropout turns off random neurons." },
                 sv: { 
                     title: "6. Dropout-regularisering", 
                     text: "En teknik för att förhindra överanpassning genom att slumpmässigt stänga av neuroner under träning.",
@@ -356,9 +359,9 @@
                 }
             },
             {
-                // Uppdatering: Korrekt bild för Capsule Networks (hierarkisk struktur)
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Artificial_neural_network.svg/400px-Artificial_neural_network.svg.png",
-                desc: { sv: "Hierarkiskt neuralt nätverk som illustrerar konceptet bakom Capsule Networks.", en: "Hierarchical neural network illustrating the concept behind Capsule Networks." },
+                // BILD 8: Capsule Networks - Visar objekt från olika vinklar (spatial hierarki)
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Projection_rendering.png/400px-Projection_rendering.png",
+                desc: { sv: "3D-rendering som illustrerar spatial förståelse - kärnan i Capsule Networks.", en: "3D rendering illustrating spatial understanding - the core of Capsule Networks." },
                 sv: { 
                     title: "8. Capsule Networks", 
                     text: "Ett försök att förbättra hur AI förstår spatiala hierarkier och objekt i bilder, mer likt mänsklig syn.",
@@ -375,9 +378,9 @@
                 }
             },
             {
-                // Uppdatering: Fungerande bild för Generativa modeller
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/MnistExamples.png/500px-MnistExamples.png",
-                desc: { sv: "MNIST handskrivna siffror - exempel på data för generativa AI-modeller.", en: "MNIST handwritten digits - example data for generative AI models." },
+                // BILD 9: Generative Pre-training - MNIST siffror som kan genereras
+                img: "https://upload.wikimedia.org/wikipedia/commons/2/27/MnistExamples.png",
+                desc: { sv: "MNIST handskrivna siffror - klassiskt dataset för generativ AI.", en: "MNIST handwritten digits - classic dataset for generative AI." },
                 sv: { 
                     title: "9. Generative Pre-training", 
                     text: "Hans tidiga arbete med Restricted Boltzmann Machines lade grunden för hur dagens generativa AI kan förutse nästa ord eller pixel.",
@@ -394,9 +397,9 @@
                 }
             },
             {
-                // Uppdatering: Fungerande bild av Geoffrey Hinton
-                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Geoffrey_Hinton_2019_%28cropped%29.jpg/400px-Geoffrey_Hinton_2019_%28cropped%29.jpg",
-                desc: { sv: "Geoffrey Hinton, nobelpristagare i fysik 2024 och pionjär inom AI.", en: "Geoffrey Hinton, 2024 Nobel Prize Laureate in Physics and AI pioneer." },
+                // BILD 10: Geoffrey Hinton - Nobelprisutdelningen
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Nobel_Prize.png/300px-Nobel_Prize.png",
+                desc: { sv: "Nobelpriset - Geoffrey Hinton fick fysikpriset 2024.", en: "The Nobel Prize - Geoffrey Hinton received the Physics Prize in 2024." },
                 sv: { 
                     title: "10. AI-etik och säkerhet", 
                     text: "Efter att ha lämnat Google har Hinton blivit en viktig röst för att varna om riskerna med okontrollerad AI-utveckling.",
