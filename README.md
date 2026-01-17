@@ -11,7 +11,7 @@ Detta repo innehåller olika AI-relaterade projekt och exempel.
 ### 🚀 Git & GitHub Guide
 En komplett, interaktiv guide som förklarar hur man skapar och hanterar detta AI-projekt med Git och GitHub. Perfekt för både nybörjare och de som vill förstå hur repository-strukturen med undermappar fungerar.
 
-**📖 [Läs guiden →](github.html)** | **🌐 [Live demo →](https://kentlundgren.github.io/AI/github.html)**
+**📄 [Källkod →](https://github.com/kentlundgren/AI/blob/main/github.html)** | **🌐 [Live demo →](https://kentlundgren.github.io/AI/github.html)**
 
 **Innehåll:**
 - Skapa AI-projektet från grunden
@@ -40,7 +40,8 @@ En interaktiv presentation som visar Geoffrey Hintons 10 viktigaste bidrag till 
 
 **Teknik:** HTML, CSS, JavaScript
 
-**📖 [Git-guide för undermapp 1 →](1/github1.html)** - Lär dig hur Git fungerar från en undermapp
+**📖 Git-guide för undermapp 1** - Lär dig hur Git fungerar från en undermapp  
+**📄 [Källkod →](https://github.com/kentlundgren/AI/blob/main/1/github1.html)** | **🌐 [Live demo →](https://kentlundgren.github.io/AI/1/github1.html)**
 
 ---
 

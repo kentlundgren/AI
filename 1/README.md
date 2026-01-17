@@ -57,7 +57,7 @@ Presentationen täcker Hintons 10 viktigaste bidrag:
 ### 🚀 Huvudguide - Git & GitHub från grunden
 En komplett guide som förklarar hur hela AI-projektet är strukturerat med Git och GitHub.
 
-**📖 [Läs huvudguiden →](../github.html)** | **🌐 [Live →](https://kentlundgren.github.io/AI/github.html)**
+**📄 [Källkod →](https://github.com/kentlundgren/AI/blob/main/github.html)** | **🌐 [Live demo →](https://kentlundgren.github.io/AI/github.html)**
 
 **Lär dig:**
 - Hur man skapar AI-projektet från början
@@ -70,7 +70,7 @@ En komplett guide som förklarar hur hela AI-projektet är strukturerat med Git 
 ### 📁 Undermapp-guide - Git från denna mapp
 En specialiserad guide som förklarar hur Git fungerar när du arbetar från en undermapp som denna (mapp "1").
 
-**📖 [Läs undermapp-guiden →](github1.html)** | **🌐 [Live →](https://kentlundgren.github.io/AI/1/github1.html)**
+**📄 [Källkod →](https://github.com/kentlundgren/AI/blob/main/1/github1.html)** | **🌐 [Live demo →](https://kentlundgren.github.io/AI/1/github1.html)**
 
 **Lär dig:**
 - Var .git/-mappen finns (inte i undermappar!)
