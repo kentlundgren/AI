@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Guide - Undermapp 1</title>
+    <link rel="stylesheet" href="styles-github1.css">
+</head>
+<body>
+    <header>
+        <h1>📁 Git Guide - Undermapp 1</h1>
+        <p class="subtitle">Perspektiv från en undermapp</p>
+        <nav class="top-nav">
+            <a href="../github.html">← Tillbaka till huvudguide</a>
+            <a href="index.html">🏠 Till mapp 1 startsida</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SEKTION 1: Var befinner vi oss? -->
+        <section class="card">
+            <h2>📍 Var befinner vi oss?</h2>
+            <div class="location-box">
+                <p><strong>Fullständig sökväg:</strong></p>
+                <code class="path">D:\VåraFiler_primära_på_SSD\Kent_dokument\Data\HTML\kentlundgren_se\program\AI\1\</code>
+                
+                <p style="margin-top: 20px;"><strong>I relation till Git:</strong></p>
+                <div class="structure">
+                    <span class="folder-root">AI/</span> ← Git repository (rot)<br>
+                    └── <span class="folder-current">1/</span> ← <strong>VI ÄR HÄR</strong> (undermapp)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;├── index.html<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;├── github1.html ← Denna fil<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;├── README.md<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;└── ...
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 2: Viktigt att förstå -->
+        <section class="card">
+            <h2>💡 Viktigt att förstå om undermappar</h2>
+            
+            <div class="info-box warning">
+                <h3>🚫 Denna mapp är INTE ett eget repository</h3>
+                <ul>
+                    <li>Det finns <strong>INGEN</strong> .git/-mapp här i mapp "1"</li>
+                    <li>.git/-mappen finns i <strong>AI/</strong> (en nivå upp)</li>
+                    <li>Allt Git-arbete sker i relation till AI-mappen</li>
+                </ul>
+            </div>
+
+            <div class="info-box success">
+                <h3>✅ Så här fungerar det</h3>
+                <ul>
+                    <li>Mapp "1" är en <strong>del av AI-repository</strong></li>
+                    <li>Alla filer här spåras av Git (om de lagts till)</li>
+                    <li>När du gör <code>git push</code> från AI/, skickas även filer från mapp "1"</li>
+                    <li>På GitHub ligger denna mapp under <code>github.com/username/AI/1/</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SEKTION 3: Arbeta från denna mapp -->
+        <section class="card">
+            <h2>🛠️ Arbeta med Git från mapp "1"</h2>
+            
+            <div class="workflow-choice">
+                <div class="choice-option">
+                    <h3>Alternativ A: Gå till rot-mappen (Rekommenderas)</h3>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode('codeA')">📋 Kopiera</button>
+                        <pre id="codeA"># Från mapp 1, gå upp till AI/
+cd ..
+
+# Nu kan du köra Git-kommandon
+git status
+git add .
+git commit -m "Uppdatera filer i mapp 1"
+git push</pre>
+                    </div>
+                    <p class="tip">👍 Detta är det vanligaste och enklaste sättet</p>
+                </div>
+
+                <div class="choice-option">
+                    <h3>Alternativ B: Arbeta direkt från mapp "1"</h3>
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode('codeB')">📋 Kopiera</button>
+                        <pre id="codeB"># Du är i mapp 1/
+# Git hittar automatiskt repository-roten
+
+# Redigera filer här i mapp 1
+# ...
+
+# Lägg till ändringar (relativ sökväg)
+git add .
+
+# Eller lägg till specifik fil
+git add index.html
+
+# Committa
+git commit -m "Uppdatera mapp 1"
+
+# Pusha
+git push</pre>
+                    </div>
+                    <p class="tip">ℹ️ Git hittar automatiskt .git/-mappen i AI/</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>🔍 Vad händer när du kör Git-kommandon från en undermapp?</h4>
+                <ol>
+                    <li>Git letar efter .git/-mappen</li>
+                    <li>Hittar den inte här, letar den i föräldramappar</li>
+                    <li>Hittar .git/ i AI/-mappen</li>
+                    <li>Använder AI/ som repository-rot</li>
+                    <li>Alla sökvägar blir relativa till AI/</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SEKTION 4: Praktiska exempel -->
+        <section class="card">
+            <h2>💼 Praktiska exempel från mapp "1"</h2>
+            
+            <div class="example">
+                <h3>Exempel 1: Uppdatera index.html i mapp 1</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('ex1')">📋 Kopiera</button>
+                    <pre id="ex1"># Du är i mapp: AI/1/
+
+# Redigera index.html (i din editor)
+# ...
+
+# Kontrollera status (Git ser att 1/index.html ändrats)
+git status
+
+# Lägg till
+git add index.html
+# ELLER från AI-mappen: git add 1/index.html
+
+# Committa
+git commit -m "Uppdatera index.html i mapp 1"
+
+# Skicka till GitHub
+git push</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Exempel 2: Skapa ny fil i mapp 1</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('ex2')">📋 Kopiera</button>
+                    <pre id="ex2"># Du är i mapp: AI/1/
+
+# Skapa ny fil
+New-Item -Path "test.html" -ItemType File
+
+# Lägg till innehåll...
+
+# Lägg till i Git
+git add test.html
+
+# Committa
+git commit -m "Lägg till test.html i mapp 1"
+
+# Push
+git push</pre>
+                </div>
+            </div>
+
+            <div class="example">
+                <h3>Exempel 3: Se vilka filer i mapp 1 som spåras av Git</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('ex3')">📋 Kopiera</button>
+                    <pre id="ex3"># Du kan vara i vilken mapp som helst
+
+# Lista alla filer i Git som är i mapp 1
+git ls-files | Select-String "^1/"
+
+# Eller se historik för mapp 1
+git log -- 1/</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 5: Visualisering -->
+        <section class="card">
+            <h2>🎨 Visualisering: Git-kommandon från undermapp</h2>
+            
+            <div class="viz-container">
+                <div class="viz-step">
+                    <div class="viz-icon">📝</div>
+                    <p><strong>1. Du redigerar</strong><br>filer i AI/1/</p>
+                </div>
+                <div class="viz-arrow">→</div>
+                <div class="viz-step">
+                    <div class="viz-icon">🔍</div>
+                    <p><strong>2. Git letar</strong><br>efter .git/ uppåt</p>
+                </div>
+                <div class="viz-arrow">→</div>
+                <div class="viz-step">
+                    <div class="viz-icon">✅</div>
+                    <p><strong>3. Hittar i AI/</strong><br>använder som rot</p>
+                </div>
+                <div class="viz-arrow">→</div>
+                <div class="viz-step">
+                    <div class="viz-icon">📦</div>
+                    <p><strong>4. Sökväg blir</strong><br>1/filnamn.html</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 6: GitHub Pages och mappar -->
+        <section class="card">
+            <h2>🌐 GitHub Pages och undermappar</h2>
+            
+            <div class="info-box">
+                <p>När du publicerar på GitHub Pages blir URL:en för denna mapp:</p>
+                <code class="url">https://username.github.io/AI/1/</code>
+                
+                <p style="margin-top: 15px;">Strukturen på GitHub speglar din lokala struktur:</p>
+                <div class="structure">
+                    github.com/username/AI/<br>
+                    ├── github.html → <code>username.github.io/AI/github.html</code><br>
+                    ├── 1/<br>
+                    │   ├── index.html → <code>username.github.io/AI/1/</code><br>
+                    │   └── github1.html → <code>username.github.io/AI/1/github1.html</code><br>
+                    └── 2/<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;└── index.html → <code>username.github.io/AI/2/</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 7: Interaktiv test -->
+        <section class="card">
+            <h2>🎮 Interaktiv test: Förstår du Git-strukturen?</h2>
+            
+            <div class="quiz">
+                <div class="quiz-question">
+                    <p><strong>Fråga 1:</strong> Var finns .git/-mappen?</p>
+                    <button onclick="checkAnswer(1, 'A')">A) I AI/1/</button>
+                    <button onclick="checkAnswer(1, 'B')">B) I AI/</button>
+                    <button onclick="checkAnswer(1, 'C')">C) I varje undermapp</button>
+                    <div id="answer1" class="answer"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Fråga 2:</strong> När du är i mapp "1" och kör <code>git status</code>, vad händer?</p>
+                    <button onclick="checkAnswer(2, 'A')">A) Fel - måste vara i AI/</button>
+                    <button onclick="checkAnswer(2, 'B')">B) Visar endast filer i mapp 1</button>
+                    <button onclick="checkAnswer(2, 'C')">C) Fungerar - visar alla ändringar i hela AI/</button>
+                    <div id="answer2" class="answer"></div>
+                </div>
+
+                <div class="quiz-question">
+                    <p><strong>Fråga 3:</strong> Du vill skapa mapp "2". Varifrån kör du <code>mkdir 2</code>?</p>
+                    <button onclick="checkAnswer(3, 'A')">A) Från mapp 1</button>
+                    <button onclick="checkAnswer(3, 'B')">B) Från AI/ (rot)</button>
+                    <button onclick="checkAnswer(3, 'C')">C) Spelar ingen roll</button>
+                    <div id="answer3" class="answer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 8: Snabbreferens -->
+        <section class="card">
+            <h2>⚡ Snabbreferens: Kommandon från mapp "1"</h2>
+            
+            <table class="command-table">
+                <thead>
+                    <tr>
+                        <th>Kommando</th>
+                        <th>Vad det gör</th>
+                        <th>Fungerar från 1/?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git status</code></td>
+                        <td>Visa status</td>
+                        <td>✅ Ja</td>
+                    </tr>
+                    <tr>
+                        <td><code>git add .</code></td>
+                        <td>Lägg till alla ändringar i nuvarande mapp</td>
+                        <td>✅ Ja (men bara filer i 1/)</td>
+                    </tr>
+                    <tr>
+                        <td><code>git commit -m "..."</code></td>
+                        <td>Committa ändringar</td>
+                        <td>✅ Ja</td>
+                    </tr>
+                    <tr>
+                        <td><code>git push</code></td>
+                        <td>Skicka till GitHub</td>
+                        <td>✅ Ja</td>
+                    </tr>
+                    <tr>
+                        <td><code>mkdir 2</code></td>
+                        <td>Skapa syster-mapp "2"</td>
+                        <td>⚠️ Nej, gå till AI/ först</td>
+                    </tr>
+                    <tr>
+                        <td><code>git init</code></td>
+                        <td>Initiera nytt repository</td>
+                        <td>❌ NEJ! Redan initierat i AI/</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>📚 <a href="../github.html">Tillbaka till huvudguiden</a> | <a href="index.html">Mapp 1 startsida</a></p>
+    </footer>
+
+    <script src="script-github1.js"></script>
+</body>
+</html>

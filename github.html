@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub Guide - AI Projekt</title>
+    <link rel="stylesheet" href="styles-github.css">
+</head>
+<body>
+    <header>
+        <h1>🚀 Git & GitHub Guide</h1>
+        <p class="subtitle">Hur man skapar och hanterar AI-projektet med undermappar</p>
+        <nav class="top-nav">
+            <a href="1/github1.html">→ Gå till undermapp 1 guide</a>
+            <a href="README.md">📖 README</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SEKTION 1: Översikt -->
+        <section class="card">
+            <h2>📚 Översikt: Git Repository-struktur</h2>
+            <div class="info-box">
+                <p><strong>Viktigt att förstå:</strong> Du har ETT Git repository för hela AI-projektet.</p>
+                <p>Undermapparna (1, 2, 3, osv.) är INTE separata repositories - de är bara mappar inom samma repository.</p>
+            </div>
+            
+            <div class="structure-diagram" id="structureDiagram">
+                <!-- Genereras av JavaScript -->
+            </div>
+        </section>
+
+        <!-- SEKTION 2: Steg-för-steg från början -->
+        <section class="card">
+            <h2>🎯 Steg 1: Skapa AI-projektet från början</h2>
+            
+            <div class="step">
+                <h3>1.1 Skapa mappen lokalt (PowerShell)</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('code1')">📋 Kopiera</button>
+                    <pre id="code1"># Navigera till där du vill skapa projektet
+cd "D:\VåraFiler_primära_på_SSD\Kent_dokument\Data\HTML\kentlundgren_se\program"
+
+# Skapa AI-mappen
+mkdir AI
+
+# Gå in i mappen
+cd AI</pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>1.2 Initiera Git repository</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('code2')">📋 Kopiera</button>
+                    <pre id="code2"># Initiera Git i AI-mappen
+git init
+
+# Skapa första filen
+New-Item -Path "README.md" -ItemType File
+
+# Lägg till och committa
+git add README.md
+git commit -m "Initial commit: Skapa AI projekt"</pre>
+                </div>
+                <div class="info-box success">
+                    <p>✅ Nu har du ett lokalt Git repository i AI-mappen!</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>1.3 Skapa .gitignore-fil</h3>
+                <p>En .gitignore-fil talar om för Git vilka filer som INTE ska spåras (t.ex. temporära filer, OS-filer).</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('code3')">📋 Kopiera</button>
+                    <pre id="code3"># Skapa .gitignore
+New-Item -Path ".gitignore" -ItemType File
+
+# Lägg till innehåll (öppna i editor och klistra in):
+# OS-filer
+.DS_Store
+Thumbs.db
+
+# Editor-filer
+.vscode/
+.idea/
+
+# Temporära filer
+*.log
+*.tmp
+
+# Lägg till i Git
+git add .gitignore
+git commit -m "Lägg till .gitignore"</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 3: Skapa GitHub repository -->
+        <section class="card">
+            <h2>🌐 Steg 2: Skapa GitHub repository (remote)</h2>
+            
+            <div class="step">
+                <h3>2.1 På GitHub.com</h3>
+                <ol>
+                    <li>Gå till <a href="https://github.com" target="_blank">github.com</a> och logga in</li>
+                    <li>Klicka på <strong>"+"</strong> uppe till höger → <strong>"New repository"</strong></li>
+                    <li>Fyll i:
+                        <ul>
+                            <li><strong>Repository name:</strong> <span class="input-field">AI</span></li>
+                            <li><strong>Description:</strong> <span class="input-field">AI-projekt med olika exempel och demonstrationer</span></li>
+                            <li><strong>Public</strong> eller <strong>Private</strong> (välj public för GitHub Pages)</li>
+                            <li><strong>VIKTIGT:</strong> Markera INTE "Initialize with README" (du har redan README lokalt)</li>
+                        </ul>
+                    </li>
+                    <li>Klicka <strong>"Create repository"</strong></li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h3>2.2 Länka lokalt repository till GitHub</h3>
+                <p>GitHub visar dessa kommandon efter att du skapat repository. Kopiera och kör dem i PowerShell:</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('code4')">📋 Kopiera</button>
+                    <pre id="code4"># Lägg till GitHub som "remote" (byt ut DITT-ANVÄNDARNAMN)
+git remote add origin https://github.com/DITT-ANVÄNDARNAMN/AI.git
+
+# Byt till main-branch (om du är på master)
+git branch -M main
+
+# Skicka upp till GitHub första gången
+git push -u origin main</pre>
+                </div>
+                <div class="info-box success">
+                    <p>✅ Nu är ditt lokala repository kopplat till GitHub!</p>
+                    <p><strong>Från och med nu:</strong> Använd bara <code>git push</code> för att skicka ändringar till GitHub.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 4: Skapa undermappar -->
+        <section class="card">
+            <h2>📁 Steg 3: Skapa undermappar (1, 2, 3, osv.)</h2>
+            
+            <div class="interactive-demo">
+                <h3>Interaktiv demo: Skapa undermapp</h3>
+                <div class="demo-controls">
+                    <label for="folderNumber">Mappnummer:</label>
+                    <input type="number" id="folderNumber" class="input-field" value="2" min="1" max="99">
+                    <button onclick="generateFolderCommands()" class="btn-primary">Generera kommandon</button>
+                </div>
+                <div id="generatedCommands" class="code-block" style="display:none;">
+                    <button class="copy-btn" onclick="copyCode('generatedCode')">📋 Kopiera</button>
+                    <pre id="generatedCode"></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <h3>Exempel: Skapa undermapp "2"</h3>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyCode('code5')">📋 Kopiera</button>
+                    <pre id="code5"># Skapa mappen "2"
+mkdir 2
+
+# Skapa filer i mappen
+cd 2
+New-Item -Path "index.html" -ItemType File
+New-Item -Path "README.md" -ItemType File
+cd ..
+
+# Lägg till i Git
+git add 2/
+git commit -m "Skapa undermapp 2 med grundfiler"
+
+# Skicka till GitHub
+git push</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Viktigt att förstå:</h4>
+                <ul>
+                    <li><strong>Git spårar filer, inte tomma mappar:</strong> Om mapp "2" är tom, syns den inte i Git. Du måste ha minst en fil i mappen.</li>
+                    <li><strong>Undermappar är del av samma repository:</strong> Du gör INTE <code>git init</code> i undermapparna.</li>
+                    <li><strong>Alla ändringar commitas från rot-mappen (AI):</strong> Oavsett vilken undermapp du ändrat i.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SEKTION 5: Dagligt arbetsflöde -->
+        <section class="card">
+            <h2>🔄 Steg 4: Dagligt arbetsflöde med Git & GitHub</h2>
+            
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Gör ändringar</h4>
+                        <p>Redigera filer i AI-mappen eller någon undermapp</p>
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Kontrollera status</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('code6')">📋</button>
+                            <pre id="code6">git status</pre>
+                        </div>
+                        <p>Visar vilka filer som ändrats</p>
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Lägg till ändringar</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('code7')">📋</button>
+                            <pre id="code7"># Lägg till specifik fil
+git add 2/index.html
+
+# ELLER lägg till alla ändringar
+git add .</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Commita</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('code8')">📋</button>
+                            <pre id="code8">git commit -m "Beskriv vad du ändrat"</pre>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="workflow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Skicka till GitHub</h4>
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode('code9')">📋</button>
+                            <pre id="code9">git push</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 6: Vanliga kommandon -->
+        <section class="card">
+            <h2>🛠️ Vanliga Git-kommandon</h2>
+            
+            <div class="commands-grid">
+                <div class="command-card">
+                    <h4>git status</h4>
+                    <p>Se vilka filer som ändrats</p>
+                    <button onclick="explainCommand('status')" class="btn-small">Förklaring</button>
+                </div>
+                
+                <div class="command-card">
+                    <h4>git add .</h4>
+                    <p>Lägg till alla ändringar</p>
+                    <button onclick="explainCommand('add')" class="btn-small">Förklaring</button>
+                </div>
+                
+                <div class="command-card">
+                    <h4>git commit -m "text"</h4>
+                    <p>Spara ändringar lokalt</p>
+                    <button onclick="explainCommand('commit')" class="btn-small">Förklaring</button>
+                </div>
+                
+                <div class="command-card">
+                    <h4>git push</h4>
+                    <p>Skicka till GitHub</p>
+                    <button onclick="explainCommand('push')" class="btn-small">Förklaring</button>
+                </div>
+                
+                <div class="command-card">
+                    <h4>git pull</h4>
+                    <p>Hämta från GitHub</p>
+                    <button onclick="explainCommand('pull')" class="btn-small">Förklaring</button>
+                </div>
+                
+                <div class="command-card">
+                    <h4>git log</h4>
+                    <p>Se historik</p>
+                    <button onclick="explainCommand('log')" class="btn-small">Förklaring</button>
+                </div>
+            </div>
+            
+            <div id="commandExplanation" class="info-box" style="display:none; margin-top: 20px;">
+                <!-- Fylls av JavaScript -->
+            </div>
+        </section>
+
+        <!-- SEKTION 7: Visualisering -->
+        <section class="card">
+            <h2>🎨 Visualisering: Hur Git & GitHub fungerar</h2>
+            
+            <div class="visualization" id="gitVisualization">
+                <div class="viz-local">
+                    <h4>💻 Lokalt (Din dator)</h4>
+                    <div class="viz-box">
+                        <p><strong>AI/</strong> (Working Directory)</p>
+                        <p>├── 1/</p>
+                        <p>├── 2/</p>
+                        <p>├── 3/</p>
+                        <p>└── .git/ (lokalt repository)</p>
+                    </div>
+                </div>
+                
+                <div class="viz-arrows">
+                    <div class="arrow-up">
+                        <span>git push ⬆️</span>
+                    </div>
+                    <div class="arrow-down">
+                        <span>⬇️ git pull</span>
+                    </div>
+                </div>
+                
+                <div class="viz-remote">
+                    <h4>🌐 GitHub (Remote)</h4>
+                    <div class="viz-box">
+                        <p><strong>github.com/username/AI</strong></p>
+                        <p>Speglar ditt lokala repository</p>
+                        <p>└── Alla undermappar inkluderade</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEKTION 8: Felsökning -->
+        <section class="card">
+            <h2>🔧 Vanliga problem och lösningar</h2>
+            
+            <details class="faq">
+                <summary>Problem: "remote origin already exists"</summary>
+                <div class="faq-content">
+                    <p><strong>Orsak:</strong> Du försöker lägga till en remote som redan finns.</p>
+                    <p><strong>Lösning:</strong></p>
+                    <div class="code-block">
+                        <pre># Ta bort befintlig remote
+git remote remove origin
+
+# Lägg till ny
+git remote add origin https://github.com/username/AI.git</pre>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="faq">
+                <summary>Problem: Undermapp syns inte på GitHub</summary>
+                <div class="faq-content">
+                    <p><strong>Orsak:</strong> Git spårar inte tomma mappar.</p>
+                    <p><strong>Lösning:</strong> Skapa minst en fil i mappen och committa.</p>
+                </div>
+            </details>
+            
+            <details class="faq">
+                <summary>Problem: "Your branch is behind"</summary>
+                <div class="faq-content">
+                    <p><strong>Orsak:</strong> GitHub har nyare versioner än din lokala.</p>
+                    <p><strong>Lösning:</strong></p>
+                    <div class="code-block">
+                        <pre>git pull</pre>
+                    </div>
+                </div>
+            </details>
+        </section>
+    </main>
+
+    <footer>
+        <p>Skapat av Kent Lundgren | <a href="https://github.com/kentlundgren/AI" target="_blank">GitHub Repository</a></p>
+    </footer>
+
+    <!-- Modal för kommando-förklaringar -->
+    <div id="modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="script-github.js"></script>
+</body>
+</html>

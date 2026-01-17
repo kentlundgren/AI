@@ -1,0 +1,404 @@
+/* ===================================
+   Git Guide - Undermapp 1 - Stilmall
+   Skapat: 2026-01-17
+   =================================== */
+
+/* Importera grundläggande stil (eller definiera här) */
+:root {
+    --primary-color: #6f42c1; /* Lila för undermapp */
+    --secondary-color: #0969da;
+    --background: #ffffff;
+    --surface: #f6f8fa;
+    --border: #d0d7de;
+    --text-primary: #24292f;
+    --text-secondary: #57606a;
+    --code-bg: #f6f8fa;
+    --warning: #fb8500;
+    --success: #2ea44f;
+    --error: #cf222e;
+    --input-bg: #fffacd; /* Gul bakgrund för input */
+    --shadow: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: var(--background);
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+    color: white;
+    padding: 40px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lg);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+header .subtitle {
+    font-size: 1.2rem;
+    opacity: 0.95;
+    margin-bottom: 20px;
+}
+
+.top-nav {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.top-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.top-nav a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Kort */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* Location box - speciell för denna sida */
+.location-box {
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.location-box .path {
+    display: block;
+    background: var(--code-bg);
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+.structure {
+    background: var(--code-bg);
+    padding: 15px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    line-height: 1.8;
+    margin-top: 10px;
+}
+
+.folder-root {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.folder-current {
+    color: var(--primary-color);
+    font-weight: bold;
+    background: #fff3cd;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* Info-boxar */
+.info-box {
+    background: #ddf4ff;
+    border-left: 4px solid var(--secondary-color);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+.info-box.success {
+    background: #dafbe1;
+    border-left-color: var(--success);
+}
+
+.info-box.warning {
+    background: #fff3cd;
+    border-left-color: var(--warning);
+}
+
+.info-box h3, .info-box h4 {
+    margin-bottom: 10px;
+}
+
+.info-box ul {
+    margin-left: 20px;
+}
+
+/* Workflow choice */
+.workflow-choice {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.choice-option {
+    background: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.choice-option h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.tip {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Kodblock */
+.code-block {
+    position: relative;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+.code-block pre {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    white-space: pre;
+    margin: 0;
+}
+
+.copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+}
+
+.copy-btn:hover {
+    background: #5a32a3;
+}
+
+/* Exempel */
+.example {
+    background: white;
+    border-left: 4px solid var(--primary-color);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 6px;
+}
+
+.example h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Visualisering */
+.viz-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+.viz-step {
+    text-align: center;
+    min-width: 120px;
+}
+
+.viz-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.viz-arrow {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+/* URL display */
+.url {
+    display: inline-block;
+    background: #e3f2fd;
+    color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 0.95rem;
+}
+
+/* Quiz */
+.quiz {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.quiz-question {
+    margin: 30px 0;
+    padding: 20px;
+    background: var(--surface);
+    border-radius: 6px;
+}
+
+.quiz-question p {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.quiz-question button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.3s;
+}
+
+.quiz-question button:hover {
+    background: var(--surface);
+    border-color: var(--primary-color);
+}
+
+.answer {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 6px;
+    display: none;
+}
+
+.answer.correct {
+    display: block;
+    background: #dafbe1;
+    border: 2px solid var(--success);
+}
+
+.answer.incorrect {
+    display: block;
+    background: #ffebe9;
+    border: 2px solid var(--error);
+}
+
+/* Tabell */
+.command-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background: white;
+}
+
+.command-table thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+.command-table th,
+.command-table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--border);
+}
+
+.command-table code {
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Consolas', monospace;
+}
+
+.command-table tbody tr:hover {
+    background: var(--surface);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+    border-top: 2px solid var(--border);
+    color: var(--text-secondary);
+}
+
+footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsiv design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .workflow-choice {
+        grid-template-columns: 1fr;
+    }
+    
+    .viz-container {
+        flex-direction: column;
+    }
+    
+    .viz-arrow {
+        transform: rotate(90deg);
+    }
+}
