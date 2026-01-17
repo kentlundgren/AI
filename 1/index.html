@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geoffrey Hinton - 10 Bidrag till AI</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --primary-color: #1a5f7a;
+            --accent-color: #159895;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #presentation-container {
+            width: 90%;
+            max-width: 900px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            text-align: center;
+            position: relative;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 250px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #eee;
+        }
+
+        #slide-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            cursor: help;
+        }
+
+        #slide-img:hover {
+            transform: scale(1.05);
+        }
+
+        .controls {
+            margin-top: auto;
+            display: flex;
+            gap: 15px;
+            padding-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--accent-color);
+        }
+
+        #lang-toggle {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #d97706;
+            font-size: 0.8em;
+        }
+
+        .slide-number {
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #94a3b8;
+        }
+
+        h2 { margin: 10px 0; color: var(--primary-color); }
+        p { margin: 0 20px; line-height: 1.5; font-size: 1.1em; }
+    </style>
+</head>
+<body>
+
+    <div id="presentation-container">
+        <button id="lang-toggle" onclick="toggleLanguage()">English</button>
+        
+        <div class="image-container">
+            <img id="slide-img" src="" alt="AI Illustration" title="">
+        </div>
+
+        <div id="slide-content">
+            <h2 id="slide-title">Laddar...</h2>
+            <p id="slide-text">Laddar...</p>
+        </div>
+
+        <div class="slide-number" id="slide-num">1 / 10</div>
+
+        <div class="controls">
+            <button onclick="prevSlide()">←</button>
+            <button onclick="nextSlide()">→</button>
+        </div>
+    </div>
+
+    <script>
+        // Bildlänkar och beskrivningar (Externa resurser)
+        const slides = [
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Colored_neural_network.svg/500px-Colored_neural_network.svg.png",
+                desc: { sv: "Diagram över ett neuralt nätverk med noder och kopplingar.", en: "Diagram of a neural network with nodes and connections." },
+                sv: { title: "1. Backpropagation", text: "Hinton populariserade algoritmen för bakåtpropagering, vilket gjorde det möjligt för neurala nätverk att lära sig genom att justera vikter baserat på felmarginaler." },
+                en: { title: "1. Backpropagation", text: "Hinton popularized the backpropagation algorithm, enabling neural networks to learn by adjusting weights based on error gradients." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Web_structure.svg/500px-Web_structure.svg.png",
+                desc: { sv: "Illustration av ett stokastiskt nätverk som liknar en Boltzmann-maskin.", en: "Illustration of a stochastic network resembling a Boltzmann Machine." },
+                sv: { title: "2. Boltzmann-maskiner", text: "Han introducerade stokastiska neurala nätverk som kan lära sig interna representationer och lösa svåra kombinatoriska problem." },
+                en: { title: "2. Boltzmann Machines", text: "He introduced stochastic neural networks capable of learning internal representations and solving complex combinatorial problems." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Artificial_neural_network.svg/500px-Artificial_neural_network.svg.png",
+                desc: { sv: "Många lager av neuroner som symboliserar djup inlärning.", en: "Multiple layers of neurons symbolizing deep learning." },
+                sv: { title: "3. Deep Learning Revolution", text: "Genom att förespråka lager av neurala nätverk (djup inlärning) banade han väg för de komplexa modeller vi ser idag, som GPT." },
+                en: { title: "3. Deep Learning Revolution", text: "By advocating for layers of neural networks (deep learning), he paved the way for the complex models we see today, like GPT." }
+            },
+            {
+                img: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*q6v7pU986Yv5S6C_8Q8GxA.png",
+                desc: { sv: "Den klassiska arkitekturen för AlexNet-modellen från 2012.", en: "The classic architecture of the AlexNet model from 2012." },
+                sv: { title: "4. AlexNet (2012)", text: "Hans team vann ImageNet-tävlingen med AlexNet, vilket bevisade att djupa neurala nätverk var överlägsna för bildigenkänning." },
+                en: { title: "4. AlexNet (2012)", text: "His team won the ImageNet competition with AlexNet, proving that deep neural networks were superior for image recognition." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Word2vec_training_visual.png/500px-Word2vec_training_visual.png",
+                desc: { sv: "Visualisering av hur begrepp klustras i ett distribuerat format.", en: "Visualization of how concepts are clustered in a distributed format." },
+                sv: { title: "5. Distribuerade representationer", text: "Konceptet att ett begrepp representeras av flera neuroner, vilket gör nätverken mer robusta och effektiva." },
+                en: { title: "5. Distributed Representations", text: "The concept that a single concept is represented across multiple neurons, making networks more robust and efficient." }
+            },
+            {
+                img: "https://miro.medium.com/v2/resize:fit:1200/1*iWQ0_C_g9_92736C_mD4kw.png",
+                desc: { sv: "Jämförelse mellan ett standardnätverk och ett nätverk med Dropout.", en: "Comparison between a standard network and a network using Dropout." },
+                sv: { title: "6. Dropout-regularisering", text: "En teknik för att förhindra överanpassning genom att slumpmässigt stänga av neuroner under träning." },
+                en: { title: "6. Dropout Regularization", text: "A technique to prevent overfitting by randomly dropping out units (neurons) during the training process." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Relu_activation_function.svg/400px-Relu_activation_function.svg.png",
+                desc: { sv: "Graf som visar ReLU-aktiveringsfunktionen.", en: "Graph showing the ReLU activation function." },
+                sv: { title: "7. Rectified Linear Units (ReLU)", text: "Hinton visade att ReLU-aktiveringsfunktioner underlättar träning av djupare nätverk jämfört med äldre metoder." },
+                en: { title: "7. Rectified Linear Units (ReLU)", text: "Hinton showed that ReLU activation functions make training deeper networks much easier compared to older methods." }
+            },
+            {
+                img: "https://miro.medium.com/v2/resize:fit:1400/1*26-sN_L6S9A8M5Fw8XvKpg.png",
+                desc: { sv: "Struktur för Capsule Networks som hanterar spatiala relationer.", en: "Structure for Capsule Networks handling spatial relationships." },
+                sv: { title: "8. Capsule Networks", text: "Ett försök att förbättra hur AI förstår spatiala hierarkier och objekt i bilder, mer likt mänsklig syn." },
+                en: { title: "8. Capsule Networks", text: "An attempt to improve how AI understands spatial hierarchies and objects in images, more akin to human vision." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Deep_Learning_Pretraining.png/500px-Deep_Learning_Pretraining.png",
+                desc: { sv: "Illustration av lager-för-lager förträning av en AI.", en: "Illustration of layer-by-layer pre-training of an AI." },
+                sv: { title: "9. Generative Pre-training", text: "Hans tidiga arbete med Restricted Boltzmann Machines lade grunden för hur dagens generativa AI kan förutse nästa ord eller pixel." },
+                en: { title: "9. Generative Pre-training", text: "His early work with Restricted Boltzmann Machines laid the foundation for how today's generative AI predicts the next word or pixel." }
+            },
+            {
+                img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Geoffrey_Hinton_at_the_University_of_Toronto.jpg/400px-Geoffrey_Hinton_at_the_University_of_Toronto.jpg",
+                desc: { sv: "Porträtt av Geoffrey Hinton.", en: "Portrait of Geoffrey Hinton." },
+                sv: { title: "10. AI-etik och säkerhet", text: "Efter att ha lämnat Google har Hinton blivit en viktig röst för att varna om riskerna med okontrollerad AI-utveckling." },
+                en: { title: "10. AI Ethics and Safety", text: "After leaving Google, Hinton has become a vital voice warning about the risks of uncontrolled AI development." }
+            }
+        ];
+
+        let currentSlide = 0;
+        let currentLang = 'sv';
+
+        function updateSlide() {
+            const slideData = slides[currentSlide];
+            const content = slideData[currentLang];
+            
+            document.getElementById('slide-title').innerText = content.title;
+            document.getElementById('slide-text').innerText = content.text;
+            document.getElementById('slide-img').src = slideData.img;
+            document.getElementById('slide-img').title = slideData.desc[currentLang];
+            document.getElementById('slide-num').innerText = `${currentSlide + 1} / ${slides.length}`;
+            
+            const btn = document.getElementById('lang-toggle');
+            btn.innerText = currentLang === 'sv' ? "English" : "Svenska";
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlide();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlide();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'sv' ? 'en' : 'sv';
+            updateSlide();
+        }
+
+        updateSlide();
+    </script>
+</body>
+</html>

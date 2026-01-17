@@ -1,0 +1,19 @@
+# OS-filer
+.DS_Store
+Thumbs.db
+
+# Editor-filer
+.vscode/
+.idea/
+*.swp
+
+# Temporära filer
+*.log
+*.tmp
+
+# Node modules (om du använder Node.js i framtiden)
+node_modules/
+
+# Build-filer
+dist/
+build/
