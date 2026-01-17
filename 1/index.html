@@ -142,6 +142,33 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
+        /* Uppdatering: Header för Geoffrey Hinton-presentationen */
+        .presentation-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .presentation-header h1 {
+            font-size: 1.3em;
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+        }
+
+        .presentation-header a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .presentation-header a:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
         .slide-number {
             margin-top: 10px;
             font-size: 0.85em;
@@ -166,6 +193,14 @@
             GitHub
         </a>
         <button id="lang-toggle" onclick="toggleLanguage()">English</button>
+        
+        <!-- Uppdatering: Header för presentationen -->
+        <div class="presentation-header">
+            <h1 id="presentation-title">Laddar...</h1>
+            <a href="https://sv.wikipedia.org/wiki/Geoffrey_Hinton" target="_blank" id="wiki-link">
+                📖 <span id="wiki-link-text">Läs mer om Geoffrey Hinton på Wikipedia</span>
+            </a>
+        </div>
         
         <div class="image-container">
             <img id="slide-img" src="" alt="AI Illustration" title="">
@@ -381,10 +416,26 @@
 
         let currentSlide = 0;
         let currentLang = 'sv';
+        
+        // Uppdatering: Tvåspråkiga texter för header
+        const headerTexts = {
+            sv: {
+                title: "Geoffrey Hintons största bidrag till AI",
+                wikiLink: "Läs mer om Geoffrey Hinton på Wikipedia"
+            },
+            en: {
+                title: "Geoffrey Hinton's Greatest Contributions to AI",
+                wikiLink: "Read more about Geoffrey Hinton on Wikipedia"
+            }
+        };
 
         function updateSlide() {
             const slideData = slides[currentSlide];
             const content = slideData[currentLang];
+            
+            // Uppdatering: Uppdatera header-texten
+            document.getElementById('presentation-title').innerText = headerTexts[currentLang].title;
+            document.getElementById('wiki-link-text').innerText = headerTexts[currentLang].wikiLink;
             
             document.getElementById('slide-title').innerText = content.title;
             document.getElementById('slide-text').innerText = content.text;
