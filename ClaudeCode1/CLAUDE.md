@@ -45,7 +45,8 @@ ClaudeCode1/
 ├── CLAUDE.md               # Denna fil - projektkoordinator
 ├── index.html              # Interaktiv guide till projektet
 ├── debatt.html             # Simulerad debatt mellan agenterna
-├── Danmark_Gronland_Rapport.md  # 25,000-ords analysrapport
+├── Danmark_Gronland_Rapport.md   # 25,000-ords analysrapport (Markdown)
+├── Danmark_Gronland_Rapport.html # Sammanvägd rapport med Harvard-referenser
 ├── ClaudeCodeAgenter1.html # Dokumentation av agentprocessen
 └── README.md               # Projektöversikt och teknisk förklaring
 ```

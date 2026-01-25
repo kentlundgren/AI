@@ -8,7 +8,8 @@ Detta projekt demonstrerar hur man använder **Claude Code** (Anthropics officie
 
 ### 🎯 Huvudresultat
 
-- **[Danmark-Grönland Rapport](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md)** - En 25 000 ord omfattande flerperspektivanalys
+- **[Danmark-Grönland Rapport (Markdown)](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md)** - En 25 000 ord omfattande flerperspektivanalys
+- **[Sammanvägd Rapport (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.html)** - Akademisk rapport med Harvard-referenser som kombinerar WordPress-artikel och agentdebatt
 - **[Perspektivdebatt](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html)** - Simulerad debatt mellan tre permanenta agenter
 - **[Agentdokumentation](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html)** - Visuell dokumentation av agentarbetet
 - **[Projektguide](https://kentlundgren.github.io/AI/ClaudeCode1/index.html)** - Interaktiv guide till projektet och agentanvändning
@@ -19,6 +20,7 @@ Detta projekt demonstrerar hur man använder **Claude Code** (Anthropics officie
 | Resurs | URL |
 |--------|-----|
 | **Live rapport (Markdown)** | [Danmark_Gronland_Rapport.md](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md) |
+| **Sammanvägd rapport (HTML)** | [Danmark_Gronland_Rapport.html](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.html) |
 | **Live debatt (HTML)** | [debatt.html](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html) |
 | **Live dokumentation (HTML)** | [ClaudeCodeAgenter1.html](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html) |
 | **Projektguide (HTML)** | [index.html](https://kentlundgren.github.io/AI/ClaudeCode1/index.html) |
@@ -823,6 +825,7 @@ const results = await Promise.all(
 
 ### Detta projekt
 - [Live Rapport (Markdown)](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md)
+- [Sammanvägd Rapport (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.html)
 - [Live Debatt (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html)
 - [Live Dokumentation (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html)
 - [Projektguide (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/index.html)
@@ -833,7 +836,8 @@ const results = await Promise.all(
 ## 🔗 Projektnavigation
 
 ### 📄 Dokumentation
-- [📄 Analysrapport](Danmark_Gronland_Rapport.md) - 25,000-ords flerperspektivanalys
+- [📄 Analysrapport (Markdown)](Danmark_Gronland_Rapport.md) - 25,000-ords flerperspektivanalys
+- [📊 Sammanvägd rapport (HTML)](Danmark_Gronland_Rapport.html) - Akademisk rapport med Harvard-referenser
 - [🤖 Agentdokumentation](ClaudeCodeAgenter1.html) - Teknisk dokumentation
 - [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator och arbetsflöden
 
