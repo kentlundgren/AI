@@ -2,6 +2,8 @@
 
 > **Dubbelt syfte:** Detta projekt dokumenterar Skypes historia OCH demonstrerar hur man arbetar med permanenta agenter i Claude Code.
 
+**🌐 [Se live-demo →](https://kentlundgren.github.io/AI/Skype/)**
+
 ---
 
 ## 📚 Om Projektet
