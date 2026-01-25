@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI - Projekt och Exempel | Kent Lundgren</title>
-    <meta name="description" content="En samling AI-relaterade projekt och demonstrationer med interaktiva guider för Git och GitHub.">
+    <meta name="description" content="En samling AI-relaterade projekt med Claude Code-agenter, interaktiva guider för Git och GitHub, och demonstrationer av AI-assisterad utveckling.">
     <link rel="stylesheet" href="styles-index.css">
 </head>
 <body>
@@ -12,10 +12,10 @@
     <header class="hero">
         <div class="hero-content">
             <h1 class="hero-title">🤖 AI - Projekt och Exempel</h1>
-            <p class="hero-subtitle">En samling interaktiva demonstrationer och guider om artificiell intelligens och utveckling</p>
+            <p class="hero-subtitle">Claude Code-agenter, AI-assisterad utveckling och interaktiva guider</p>
             <div class="hero-buttons">
                 <a href="#projects" class="btn btn-primary">Utforska Projekt</a>
-                <a href="github.html" class="btn btn-secondary">Git & GitHub Guide</a>
+                <a href="#ai-tools" class="btn btn-secondary">Cursor vs Claude Code</a>
                 <a href="https://github.com/kentlundgren/AI" target="_blank" class="btn btn-github">
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
@@ -31,19 +31,23 @@
         <div class="container">
             <h2 class="section-title">📚 Om detta projekt</h2>
             <p class="overview-text">
-                Detta repository samlar olika AI-relaterade projekt, demonstrationer och guider. 
-                Varje undermapp innehåller ett unikt projekt med komplett dokumentation och interaktiva exempel. 
-                Projektet fungerar även som en pedagogisk resurs för att lära sig Git, GitHub och webbutveckling.
+                Detta repository demonstrerar hur man använder <strong>Claude Code permanenta agenter</strong> för att skapa 
+                komplexa analyser med parallella AI-perspektiv. Projektet innehåller exempel på multiperspektivanalys, 
+                interaktiva guider för Git/GitHub, och dokumentation av arbetsflöden med AI-assisterad utveckling.
             </p>
             
             <div class="stats">
                 <div class="stat-card">
-                    <div class="stat-number">1+</div>
+                    <div class="stat-number">3</div>
                     <div class="stat-label">Aktiva Projekt</div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-number">7+</div>
+                    <div class="stat-label">AI-Agenter</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number">2</div>
-                    <div class="stat-label">Interaktiva Guider</div>
+                    <div class="stat-label">Git-guider</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">100%</div>
@@ -53,14 +57,110 @@
         </div>
     </section>
 
-    <!-- Projektstruktur -->
-    <section class="structure" id="structure">
+    <!-- Cursor vs Claude Code sektion -->
+    <section class="ai-tools" id="ai-tools">
         <div class="container">
-            <h2 class="section-title">🗂️ Projektstruktur</h2>
-            <p class="section-subtitle">Detta repository är organiserat med en huvudmapp och flera undermappar för olika projekt</p>
+            <h2 class="section-title">🔧 Cursor vs Claude Code CLI</h2>
+            <p class="section-subtitle">Två olika sätt att arbeta med AI-assisterad programmering</p>
             
-            <div class="folder-tree" id="folderTree">
-                <!-- Genereras av JavaScript -->
+            <div class="comparison-grid">
+                <!-- Cursor -->
+                <div class="tool-card cursor-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">🖥️</div>
+                        <h3>Cursor IDE</h3>
+                        <span class="tool-badge">Visuell</span>
+                    </div>
+                    <p class="tool-description">
+                        Fork av VS Code med <strong>inbyggd AI</strong>. Perfekt för daglig kodning med 
+                        inline suggestions och AI-chat integrerad i editorn.
+                    </p>
+                    <ul class="tool-features">
+                        <li>✅ AI integrerad i UI</li>
+                        <li>✅ Inline suggestions medan du skriver</li>
+                        <li>✅ AI kan direkt redigera filer</li>
+                        <li>✅ Cmd/Ctrl+K för AI-kommandon</li>
+                        <li>✅ Multi-file editing med AI</li>
+                        <li>⚠️ Prenumerationsbaserad (~$20/mån)</li>
+                    </ul>
+                    <div class="tool-usecase">
+                        <strong>Bäst för:</strong> Daglig kodning, snabb AI-hjälp, inline assistance
+                    </div>
+                </div>
+
+                <!-- Claude Code CLI -->
+                <div class="tool-card claude-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">⌨️</div>
+                        <h3>Claude Code CLI</h3>
+                        <span class="tool-badge">Terminal</span>
+                    </div>
+                    <p class="tool-description">
+                        Anthropics officiella <strong>terminalverktyg</strong>. Kraftfullt för komplexa uppgifter 
+                        med parallella AI-agenter och explicita arbetsflöden.
+                    </p>
+                    <ul class="tool-features">
+                        <li>✅ Parallella agenter (spawn)</li>
+                        <li>✅ Permanenta agenter (.claude/agents/)</li>
+                        <li>✅ CLAUDE.md projektkoordinator</li>
+                        <li>✅ Explicit agentkontroll</li>
+                        <li>✅ Open-source CLI</li>
+                        <li>⚠️ API-kostnad (pay-as-you-go)</li>
+                    </ul>
+                    <div class="tool-usecase">
+                        <strong>Bäst för:</strong> Komplexa analyser, multiperspektiv, agentbaserad produktion
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jämförelsetabell -->
+            <div class="comparison-table">
+                <h3>📊 Direktjämförelse</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>Cursor</th>
+                            <th>Claude Code CLI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AI-integration</td>
+                            <td>Inbyggd i UI</td>
+                            <td>CLI-baserad</td>
+                        </tr>
+                        <tr>
+                            <td>Parallella agenter</td>
+                            <td>Begränsat</td>
+                            <td>✅ Explicit stöd</td>
+                        </tr>
+                        <tr>
+                            <td>Permanenta agenter</td>
+                            <td>Nej</td>
+                            <td>✅ .claude/agents/</td>
+                        </tr>
+                        <tr>
+                            <td>CLAUDE.md-stöd</td>
+                            <td>Läser filen</td>
+                            <td>✅ Full hierarki</td>
+                        </tr>
+                        <tr>
+                            <td>Inline suggestions</td>
+                            <td>✅ Inbyggt</td>
+                            <td>Nej</td>
+                        </tr>
+                        <tr>
+                            <td>Modellväljare</td>
+                            <td>I UI (dropdown)</td>
+                            <td>settings.json</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="comparison-note">
+                <p>💡 <strong>Tips:</strong> Du kan använda båda! Cursor för daglig kodning och Claude Code CLI för komplexa agentbaserade uppgifter.</p>
             </div>
         </div>
     </section>
@@ -70,27 +170,84 @@
         <div class="container">
             <h2 class="section-title">🚀 Projekt & Guider</h2>
             
-            <!-- Git & GitHub Guide -->
+            <!-- ClaudeCode1: Danmark-Grönland -->
             <div class="project-card featured">
-                <div class="project-badge">Guide</div>
-                <div class="project-icon">📖</div>
-                <h3>Git & GitHub Guide</h3>
-                <p>En komplett, interaktiv guide som förklarar hur man skapar och hanterar detta AI-projekt med Git och GitHub från grunden. Perfekt för både nybörjare och de som vill förstå repository-strukturen.</p>
+                <div class="project-badge">Claude Code Agenter</div>
+                <div class="project-icon">🇩🇰🇬🇱🇸🇪</div>
+                <h3>Danmark-Grönland Perspektivanalys</h3>
+                <p>
+                    En omfattande flerperspektivanalys med <strong>3 permanenta AI-agenter</strong> som representerar 
+                    danskt, grönländskt och svenskt perspektiv. Demonstrerar parallell agentexekvering och 
+                    multiperspektivdebatter.
+                </p>
                 
                 <div class="project-features">
-                    <span class="feature">✨ Interaktiv</span>
-                    <span class="feature">📋 Kopierbar kod</span>
-                    <span class="feature">🎨 Visualiseringar</span>
-                    <span class="feature">🔧 Felsökning</span>
+                    <span class="feature">🤖 3 Agenter</span>
+                    <span class="feature">📊 25,000+ ord</span>
+                    <span class="feature">💬 Debatter</span>
+                    <span class="feature">📖 Harvard-ref</span>
+                </div>
+
+                <div class="agent-list">
+                    <span class="agent">🇩🇰 danish-perspective</span>
+                    <span class="agent">🟢 greenlandic-perspective</span>
+                    <span class="agent">🇸🇪 swedish-perspective</span>
                 </div>
                 
                 <div class="project-links">
-                    <a href="https://github.com/kentlundgren/AI/blob/main/github.html" class="link-btn" target="_blank">
-                        <span>📄</span> Källkod
+                    <a href="ClaudeCode1/" class="link-btn primary">
+                        <span>🌐</span> Projektguide
                     </a>
-                    <a href="https://kentlundgren.github.io/AI/github.html" class="link-btn primary" target="_blank">
-                        <span>🌐</span> Live Demo
+                    <a href="ClaudeCode1/debatt.html" class="link-btn">
+                        <span>💬</span> Debatt
                     </a>
+                    <a href="ClaudeCode1/Danmark_Gronland_Rapport.html" class="link-btn">
+                        <span>📄</span> Rapport
+                    </a>
+                    <a href="https://github.com/kentlundgren/AI/tree/main/ClaudeCode1" class="link-btn" target="_blank">
+                        <span>💻</span> GitHub
+                    </a>
+                </div>
+            </div>
+
+            <!-- Skype Historia -->
+            <div class="project-card featured">
+                <div class="project-badge">Claude Code Agenter</div>
+                <div class="project-icon">📞</div>
+                <h3>Skype Historia - Agent-demonstration</h3>
+                <p>
+                    Dokumenterar Skypes historia från skapande till nedläggning med <strong>4 specialiserade agenter</strong>. 
+                    Visar hur man strukturerar research-, analys- och innehållsproduktionsagenter.
+                </p>
+                
+                <div class="project-features">
+                    <span class="feature">🤖 4 Agenter</span>
+                    <span class="feature">🔍 Research</span>
+                    <span class="feature">📜 Historia</span>
+                    <span class="feature">✍️ Storytelling</span>
+                </div>
+
+                <div class="agent-list">
+                    <span class="agent">🔍 founder-researcher</span>
+                    <span class="agent">📜 tech-historian</span>
+                    <span class="agent">💬 quote-collector</span>
+                    <span class="agent">✍️ storyteller</span>
+                </div>
+                
+                <div class="project-links">
+                    <a href="Skype/" class="link-btn primary">
+                        <span>🌐</span> Projekt
+                    </a>
+                    <a href="Skype/README.md" class="link-btn">
+                        <span>📖</span> README
+                    </a>
+                    <a href="https://github.com/kentlundgren/AI/tree/main/Skype" class="link-btn" target="_blank">
+                        <span>💻</span> GitHub
+                    </a>
+                </div>
+                
+                <div class="project-status">
+                    <span class="status-badge">⏳ Research ej påbörjad</span>
                 </div>
             </div>
 
@@ -108,46 +265,124 @@
                 </div>
                 
                 <div class="project-links">
-                    <a href="https://github.com/kentlundgren/AI/tree/main/1" class="link-btn" target="_blank">
-                        <span>📁</span> Mapp
-                    </a>
-                    <a href="https://github.com/kentlundgren/AI/blob/main/1/README.md" class="link-btn" target="_blank">
-                        <span>📄</span> README
-                    </a>
-                    <a href="https://kentlundgren.github.io/AI/1/" class="link-btn primary" target="_blank">
+                    <a href="1/" class="link-btn primary">
                         <span>🌐</span> Live Demo
                     </a>
-                </div>
-                
-                <div class="project-extra">
-                    <a href="https://kentlundgren.github.io/AI/1/github1.html" class="extra-link" target="_blank">
-                        📖 Git-guide för undermapp →
+                    <a href="1/README.md" class="link-btn">
+                        <span>📖</span> README
+                    </a>
+                    <a href="1/github1.html" class="link-btn">
+                        <span>📚</span> Git-guide
                     </a>
                 </div>
             </div>
 
-            <!-- Kommande projekt 2 -->
-            <div class="project-card upcoming">
-                <div class="project-badge">Undermapp 2</div>
-                <div class="project-icon">🔮</div>
-                <h3>Kommande Projekt</h3>
-                <p>Nästa spännande AI-demonstration eller guide kommer snart! Håll utkik efter uppdateringar.</p>
+            <!-- Git & GitHub Guide -->
+            <div class="project-card">
+                <div class="project-badge">Guide</div>
+                <div class="project-icon">📖</div>
+                <h3>Git & GitHub Guide</h3>
+                <p>En komplett, interaktiv guide som förklarar hur man skapar och hanterar detta AI-projekt med Git och GitHub från grunden. Perfekt för både nybörjare och de som vill förstå repository-strukturen.</p>
                 
-                <div class="project-status">
-                    <span class="status-badge">🚧 Under planering</span>
+                <div class="project-features">
+                    <span class="feature">✨ Interaktiv</span>
+                    <span class="feature">📋 Kopierbar kod</span>
+                    <span class="feature">🎨 Visualiseringar</span>
+                    <span class="feature">🔧 Felsökning</span>
+                </div>
+                
+                <div class="project-links">
+                    <a href="github.html" class="link-btn primary">
+                        <span>🌐</span> Läs Guide
+                    </a>
+                    <a href="https://github.com/kentlundgren/AI/blob/main/github.html" class="link-btn" target="_blank">
+                        <span>📄</span> Källkod
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projektstruktur -->
+    <section class="structure" id="structure">
+        <div class="container">
+            <h2 class="section-title">🗂️ Projektstruktur</h2>
+            <p class="section-subtitle">Repository med övergripande CLAUDE.md och projektspecifika agenter</p>
+            
+            <div class="folder-tree" id="folderTree">
+                <pre style="background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-family: 'Consolas', monospace; font-size: 0.9rem;">
+AI/
+├── .claude/                      <span style="color: #6a9955;">← Globala inställningar</span>
+│   ├── settings.json             <span style="color: #6a9955;">← Modellval (Opus/Sonnet/Haiku)</span>
+│   └── README-modeller.md        <span style="color: #6a9955;">← Guide för modellval</span>
+├── CLAUDE.md                     <span style="color: #dcdcaa;">← 🌐 ÖVERGRIPANDE koordinator</span>
+├── index.html                    <span style="color: #6a9955;">← Denna sida</span>
+│
+├── ClaudeCode1/                  <span style="color: #569cd6;">← Danmark-Grönland projekt</span>
+│   ├── .claude/agents/
+│   │   ├── danish-perspective.md
+│   │   ├── greenlandic-perspective.md
+│   │   └── swedish-perspective.md
+│   ├── CLAUDE.md                 <span style="color: #dcdcaa;">← Lokal koordinator</span>
+│   ├── debatt.html
+│   └── Danmark_Gronland_Rapport.html
+│
+├── Skype/                        <span style="color: #569cd6;">← Skype Historia projekt</span>
+│   ├── .claude/agents/
+│   │   ├── founder-researcher.md
+│   │   ├── tech-historian.md
+│   │   ├── quote-collector.md
+│   │   └── storyteller.md
+│   └── CLAUDE.md                 <span style="color: #dcdcaa;">← Lokal koordinator</span>
+│
+└── 1/                            <span style="color: #569cd6;">← Geoffrey Hinton projekt</span>
+    └── index.html
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hur CLAUDE.md fungerar -->
+    <section class="claude-hierarchy">
+        <div class="container">
+            <h2 class="section-title">📋 Hur CLAUDE.md fungerar</h2>
+            <p class="section-subtitle">Hierarkisk laddning av projektinstruktioner</p>
+            
+            <div class="hierarchy-grid">
+                <div class="hierarchy-card">
+                    <div class="hierarchy-level">Nivå 1</div>
+                    <h3>🌐 Övergripande CLAUDE.md</h3>
+                    <p><code>AI/CLAUDE.md</code></p>
+                    <ul>
+                        <li>Best practices från Anthropic</li>
+                        <li>Agent-namnkonventioner</li>
+                        <li>Projektmallar</li>
+                        <li>Footer-standarder</li>
+                    </ul>
+                    <span class="hierarchy-note">Laddas alltid först</span>
+                </div>
+
+                <div class="hierarchy-arrow">→</div>
+
+                <div class="hierarchy-card">
+                    <div class="hierarchy-level">Nivå 2</div>
+                    <h3>📍 Lokal CLAUDE.md</h3>
+                    <p><code>AI/[projekt]/CLAUDE.md</code></p>
+                    <ul>
+                        <li>Projektspecifika mål</li>
+                        <li>Agentroller</li>
+                        <li>Arbetsflöden</li>
+                        <li>Källreferenser</li>
+                    </ul>
+                    <span class="hierarchy-note">Laddas on-demand</span>
                 </div>
             </div>
 
-            <!-- Kommande projekt 3 -->
-            <div class="project-card upcoming">
-                <div class="project-badge">Undermapp 3</div>
-                <div class="project-icon">✨</div>
-                <h3>Kommande Projekt</h3>
-                <p>Fler projekt på väg! Detta repository växer kontinuerligt med nya exempel och demonstrationer.</p>
-                
-                <div class="project-status">
-                    <span class="status-badge">🚧 Under planering</span>
-                </div>
+            <div class="hierarchy-benefit">
+                <p>
+                    <strong>Fördel:</strong> Standarder och best practices "ärvs" nedåt. 
+                    Nya projekt får automatiskt rätt struktur genom att följa övergripande CLAUDE.md.
+                </p>
             </div>
         </div>
     </section>
@@ -171,44 +406,16 @@
                 </div>
                 
                 <div class="guide-card">
-                    <h3>📖 README-filer</h3>
-                    <p>Varje nivå har sin egen README med specifik dokumentation för det området.</p>
-                    <a href="https://github.com/kentlundgren/AI/blob/main/README.md" class="guide-link" target="_blank">Huvud-README →</a>
+                    <h3>🤖 CLAUDE.md Guide</h3>
+                    <p>Hur man strukturerar projektkoordinatorer och agenter för Claude Code CLI.</p>
+                    <a href="CLAUDE.md" class="guide-link">Läs filen →</a>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Interaktiv demo-sektion -->
-    <section class="interactive">
-        <div class="container">
-            <h2 class="section-title">🎮 Interaktiv Mappnavigator</h2>
-            <p class="section-subtitle">Klicka på en mapp för att se vad den innehåller</p>
-            
-            <div class="folder-nav">
-                <div class="folder-item root" onclick="showFolderInfo('root')">
-                    <div class="folder-icon">📂</div>
-                    <div class="folder-name">AI/</div>
+                <div class="guide-card">
+                    <h3>⚙️ Modellguide</h3>
+                    <p>Välj rätt AI-modell (Opus/Sonnet/Haiku) baserat på uppgift och budget.</p>
+                    <a href=".claude/README-modeller.md" class="guide-link">Läs guiden →</a>
                 </div>
-                
-                <div class="folder-item" onclick="showFolderInfo('1')">
-                    <div class="folder-icon">📁</div>
-                    <div class="folder-name">1/</div>
-                </div>
-                
-                <div class="folder-item upcoming-folder" onclick="showFolderInfo('2')">
-                    <div class="folder-icon">📁</div>
-                    <div class="folder-name">2/</div>
-                </div>
-                
-                <div class="folder-item upcoming-folder" onclick="showFolderInfo('3')">
-                    <div class="folder-icon">📁</div>
-                    <div class="folder-name">3/</div>
-                </div>
-            </div>
-            
-            <div class="folder-info" id="folderInfo">
-                <!-- Genereras av JavaScript -->
             </div>
         </div>
     </section>
@@ -219,6 +426,18 @@
             <h2 class="section-title">⚙️ Teknologier & Verktyg</h2>
             
             <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">🤖</div>
+                    <h4>Claude Code</h4>
+                    <p>AI-agenter</p>
+                </div>
+
+                <div class="tech-item">
+                    <div class="tech-icon">🖥️</div>
+                    <h4>Cursor</h4>
+                    <p>AI-assisterad IDE</p>
+                </div>
+                
                 <div class="tech-item">
                     <div class="tech-icon">🌐</div>
                     <h4>HTML5</h4>
@@ -264,16 +483,16 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>Om Projektet</h4>
-                    <p>En samling AI-relaterade demonstrationer och pedagogiska exempel skapade av Kent Lundgren.</p>
+                    <p>En samling AI-projekt som demonstrerar Claude Code permanenta agenter och AI-assisterad utveckling.</p>
                 </div>
                 
                 <div class="footer-section">
                     <h4>Snabblänkar</h4>
                     <ul class="footer-links">
-                        <li><a href="README.md">README</a></li>
+                        <li><a href="CLAUDE.md">CLAUDE.md</a></li>
                         <li><a href="github.html">Git Guide</a></li>
-                        <li><a href="1/">Projekt 1</a></li>
-                        <li><a href="https://github.com/kentlundgren/AI" target="_blank">GitHub Repo</a></li>
+                        <li><a href="ClaudeCode1/">Danmark-Grönland</a></li>
+                        <li><a href="Skype/">Skype Historia</a></li>
                     </ul>
                 </div>
                 
@@ -281,6 +500,7 @@
                     <h4>Kontakt & Länkar</h4>
                     <ul class="footer-links">
                         <li><a href="https://github.com/kentlundgren" target="_blank">GitHub Profil</a></li>
+                        <li><a href="https://github.com/kentlundgren/AI" target="_blank">GitHub Repo</a></li>
                         <li><a href="https://kentlundgren.github.io/AI/" target="_blank">Live Site</a></li>
                     </ul>
                 </div>
@@ -288,7 +508,7 @@
             
             <div class="footer-bottom">
                 <p>&copy; 2026 Kent Lundgren | Open Source under MIT License</p>
-                <p class="made-with">Gjord med ❤️ och ☕</p>
+                <p class="made-with">Skapad med <strong>Cursor</strong> och <strong>Claude Code</strong> permanenta agenter</p>
             </div>
         </div>
     </footer>

@@ -672,6 +672,270 @@ body {
     }
 }
 
+/* ===================================
+   AI Tools Comparison Section
+   Uppdatering: 2026-01-25
+   =================================== */
+
+.ai-tools {
+    padding: 80px 20px;
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.tool-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 35px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--border);
+    transition: var(--transition);
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tool-card.cursor-card {
+    border-top: 4px solid var(--primary-color);
+}
+
+.tool-card.claude-card {
+    border-top: 4px solid var(--secondary-color);
+}
+
+.tool-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tool-icon {
+    font-size: 2.5rem;
+}
+
+.tool-header h3 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.tool-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.tool-description {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.tool-features {
+    list-style: none;
+    margin-bottom: 20px;
+}
+
+.tool-features li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.tool-features li:last-child {
+    border-bottom: none;
+}
+
+.tool-usecase {
+    background: var(--bg-light);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+/* Comparison Table */
+.comparison-table {
+    background: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    margin-top: 40px;
+    overflow-x: auto;
+}
+
+.comparison-table h3 {
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.comparison-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.comparison-table th {
+    background: var(--bg-light);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.comparison-table tr:hover {
+    background: var(--bg-light);
+}
+
+.comparison-note {
+    background: white;
+    border-left: 4px solid var(--success-color);
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.comparison-note p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+/* Agent List in Project Cards */
+.agent-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.agent {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* ===================================
+   CLAUDE.md Hierarchy Section
+   =================================== */
+
+.claude-hierarchy {
+    padding: 80px 20px;
+    background: white;
+}
+
+.hierarchy-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.hierarchy-card {
+    background: var(--bg-light);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 30px;
+    max-width: 350px;
+    position: relative;
+}
+
+.hierarchy-level {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.hierarchy-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.hierarchy-card p {
+    font-family: 'Courier New', monospace;
+    background: var(--dark);
+    color: #10b981;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+}
+
+.hierarchy-card ul {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.hierarchy-card li {
+    padding: 5px 0;
+    color: var(--text-secondary);
+    padding-left: 20px;
+    position: relative;
+}
+
+.hierarchy-card li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+}
+
+.hierarchy-note {
+    background: var(--accent-color);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.hierarchy-arrow {
+    font-size: 2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.hierarchy-benefit {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-left: 4px solid var(--success-color);
+    padding: 20px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    max-width: 800px;
+    margin: 30px auto 0;
+}
+
+.hierarchy-benefit p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
 /* Responsiv design */
 @media (max-width: 768px) {
     .hero-title {
@@ -704,5 +968,26 @@ body {
     .folder-tree {
         padding: 20px;
         font-size: 0.95rem;
+    }
+
+    /* Responsiv för nya sektioner */
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hierarchy-grid {
+        flex-direction: column;
+    }
+
+    .hierarchy-arrow {
+        transform: rotate(90deg);
+    }
+
+    .hierarchy-card {
+        max-width: 100%;
+    }
+
+    .agent-list {
+        justify-content: center;
     }
 }
