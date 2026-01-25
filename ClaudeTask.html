@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task-verktyget i Cursor - Multi-Agent Guide | Kent Lundgren</title>
+    <meta name="description" content="Lär dig använda Task-verktyget för multi-agent approach i Cursor. Jämförelse med Claude Code CLI och praktiska exempel.">
+    <link rel="stylesheet" href="styles-index.css">
+    <style>
+        /* Extra stilar för denna sida */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .code-block .comment { color: #6a9955; }
+        .code-block .keyword { color: #569cd6; }
+        .code-block .string { color: #ce9178; }
+        .code-block .function { color: #dcdcaa; }
+        
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+        .info-box.warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left-color: #f59e0b;
+        }
+        .info-box.success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            border-left-color: #10b981;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .concept-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        .concept-card:hover {
+            border-color: #2563eb;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+        }
+        .concept-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: #0f172a;
+        }
+        .concept-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #475569;
+        }
+        .concept-card li {
+            margin: 8px 0;
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #22c55e;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .prompt-example {
+            background: #1e293b;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: system-ui, sans-serif;
+            border-left: 4px solid #3b82f6;
+        }
+        .prompt-example p {
+            color: #ffffff;
+            margin: 10px 0;
+            line-height: 1.7;
+        }
+        .prompt-example .user-icon {
+            color: #4ade80;
+            font-weight: bold;
+        }
+        .prompt-example .ai-icon {
+            color: #60a5fa;
+            font-weight: bold;
+        }
+
+        .workflow-diagram {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        .workflow-diagram pre {
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            text-align: left;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero-sektion -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">🤖 Task-verktyget i Cursor</h1>
+            <p class="hero-subtitle">Lär dig använda multi-agent approach direkt i Cursor IDE</p>
+            <div class="hero-buttons">
+                <a href="#overview" class="btn btn-primary">Översikt</a>
+                <a href="#tutorial" class="btn btn-secondary">Handledning</a>
+                <a href="index.html" class="btn btn-github">← Tillbaka</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Översikt -->
+    <section class="overview" id="overview">
+        <div class="container">
+            <h2 class="section-title">📚 Vad är Task-verktyget?</h2>
+            
+            <p class="overview-text">
+                Task-verktyget är en <strong>inbyggd funktion i Cursor</strong> som låter AI:n skapa 
+                <strong>subagenter</strong> - självständiga AI-processer som kan arbeta parallellt med specifika uppgifter.
+                Det är samma koncept som Claude Code CLI använder, men integrerat direkt i Cursor IDE.
+            </p>
+
+            <div class="info-box">
+                <strong>💡 Nyckelinsikt:</strong> Du behöver inte göra något speciellt för att använda Task-verktyget. 
+                När du ber Cursor om en komplex uppgift kan AI:n automatiskt välja att använda subagenter. 
+                Men du kan också <em>explicit</em> be om det!
+            </div>
+        </div>
+    </section>
+
+    <!-- Jämförelse Cursor vs Claude Code -->
+    <section class="structure">
+        <div class="container">
+            <h2 class="section-title">🔄 Cursor vs Claude Code CLI</h2>
+            <p class="section-subtitle">Samma koncept, olika gränssnitt</p>
+
+            <div class="comparison-cards">
+                <div class="concept-card" style="border-top: 4px solid #2563eb;">
+                    <h4>🖥️ Cursor IDE (Task-verktyget)</h4>
+                    <ul>
+                        <li>✅ Integrerat i IDE:n</li>
+                        <li>✅ Automatisk agentanvändning</li>
+                        <li>✅ Visuell feedback i chatten</li>
+                        <li>✅ Ingen extra installation</li>
+                        <li>⚠️ Mindre explicit kontroll</li>
+                        <li>⚠️ Inga permanenta agenter</li>
+                    </ul>
+                </div>
+
+                <div class="concept-card" style="border-top: 4px solid #7c3aed;">
+                    <h4>⌨️ Claude Code CLI</h4>
+                    <ul>
+                        <li>✅ Explicit agentkontroll</li>
+                        <li>✅ Permanenta agenter (.claude/agents/)</li>
+                        <li>✅ CLAUDE.md koordinator</li>
+                        <li>✅ run_in_background: true</li>
+                        <li>⚠️ Kräver separat installation</li>
+                        <li>⚠️ Terminal-baserat</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-box success">
+                <strong>🎯 Slutsats:</strong> Båda använder samma underliggande koncept (subagenter), 
+                men Cursor gör det mer "automatiskt" medan Claude Code ger dig mer "explicit kontroll".
+            </div>
+        </div>
+    </section>
+
+    <!-- Hur Task fungerar tekniskt -->
+    <section class="projects">
+        <div class="container">
+            <h2 class="section-title">⚙️ Hur Task-verktyget fungerar</h2>
+
+            <div class="workflow-diagram">
+                <h3>Arbetsflöde</h3>
+                <pre>
+┌─────────────────────────────────────────────────────────────────┐
+│                        DIN FÖRFRÅGAN                             │
+│         "Analysera detta projekt från tre perspektiv"            │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    CURSOR (Huvudagent)                           │
+│              Analyserar uppgiften, planerar                       │
+└─────────────────────────────┬───────────────────────────────────┘
+                              │
+              ┌───────────────┼───────────────┐
+              ▼               ▼               ▼
+        ┌───────────┐   ┌───────────┐   ┌───────────┐
+        │  Task 1   │   │  Task 2   │   │  Task 3   │
+        │ Perspektiv│   │ Perspektiv│   │ Perspektiv│
+        │    A      │   │    B      │   │    C      │
+        └─────┬─────┘   └─────┬─────┘   └─────┬─────┘
+              │               │               │
+              └───────────────┼───────────────┘
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    CURSOR (Sammanställer)                        │
+│              Kombinerar resultat, presenterar                     │
+└─────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h3>Tekniska parametrar</h3>
+            
+            <div class="code-block">
+<span class="comment">// Så här ser ett Task-anrop ut internt i Cursor</span>
+Task({
+  <span class="keyword">description</span>: <span class="string">"Kort beskrivning (3-5 ord)"</span>,
+  <span class="keyword">prompt</span>: <span class="string">"Detaljerade instruktioner för subagenten..."</span>,
+  <span class="keyword">subagent_type</span>: <span class="string">"generalPurpose"</span> <span class="comment">// eller "explore"</span>,
+  <span class="keyword">model</span>: <span class="string">"fast"</span> <span class="comment">// valfritt: snabbare modell för enklare uppgifter</span>,
+  <span class="keyword">readonly</span>: <span class="function">true</span> <span class="comment">// valfritt: begränsa skrivåtkomst</span>
+})
+            </div>
+
+            <h3>Tillgängliga agenttyper</h3>
+            
+            <div class="comparison-cards">
+                <div class="concept-card">
+                    <h4>🔧 generalPurpose</h4>
+                    <ul>
+                        <li>Bred problemlösning</li>
+                        <li>Research och analys</li>
+                        <li>Kodgenerering</li>
+                        <li>Tillgång till alla verktyg</li>
+                    </ul>
+                </div>
+                <div class="concept-card">
+                    <h4>🔍 explore</h4>
+                    <ul>
+                        <li>Snabb kodbassökning</li>
+                        <li>Hitta filer och mönster</li>
+                        <li>Förstå projektstruktur</li>
+                        <li>Optimerad för läsning</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Handledning -->
+    <section class="guides" id="tutorial">
+        <div class="container">
+            <h2 class="section-title">🎓 Handledning: Kom igång med Multi-Agent</h2>
+            <p class="section-subtitle">Steg-för-steg guide för att använda Task-verktyget i Cursor</p>
+
+            <!-- Steg 1 -->
+            <div class="guide-card" style="margin-bottom: 30px;">
+                <h3><span class="step-number">1</span> Förstå när agenter används</h3>
+                <p>
+                    Cursor väljer <strong>automatiskt</strong> att använda subagenter när uppgiften är:
+                </p>
+                <ul>
+                    <li>Komplex och kräver flera steg</li>
+                    <li>Behöver research från flera källor</li>
+                    <li>Kan delas upp i parallella deluppgifter</li>
+                </ul>
+                
+                <div class="info-box warning">
+                    <strong>⚠️ Observera:</strong> Du ser inte alltid explicit att agenter används. 
+                    Cursor kan "tyst" delegera till subagenter i bakgrunden.
+                </div>
+            </div>
+
+            <!-- Steg 2 -->
+            <div class="guide-card" style="margin-bottom: 30px;">
+                <h3><span class="step-number">2</span> Be explicit om agenter</h3>
+                <p>
+                    Du kan <strong>explicit be</strong> Cursor att använda agenter genom att formulera din förfrågan rätt:
+                </p>
+                
+                <div class="prompt-example">
+                    <p><span class="user-icon">👤 Du:</span></p>
+                    <p>"Använd parallella agenter för att analysera detta projekt från tre perspektiv: 
+                    tekniskt, användarvänlighet och säkerhet. Låt varje agent fokusera på sitt område 
+                    och sammanställ sedan resultaten."</p>
+                </div>
+
+                <div class="prompt-example">
+                    <p><span class="ai-icon">🤖 Cursor:</span></p>
+                    <p>Jag startar tre parallella analyser...</p>
+                    <p style="color: #94a3b8; font-style: italic;">[Task 1: Teknisk analys startar...]</p>
+                    <p style="color: #94a3b8; font-style: italic;">[Task 2: UX-analys startar...]</p>
+                    <p style="color: #94a3b8; font-style: italic;">[Task 3: Säkerhetsanalys startar...]</p>
+                </div>
+            </div>
+
+            <!-- Steg 3 -->
+            <div class="guide-card" style="margin-bottom: 30px;">
+                <h3><span class="step-number">3</span> Effektiva promptformulering</h3>
+                <p>Nyckeln till bra agentanvändning är att formulera uppgiften så att den <em>naturligt delas upp</em>:</p>
+                
+                <div class="comparison-cards">
+                    <div class="concept-card" style="border-left: 4px solid #ef4444;">
+                        <h4>❌ Dålig formulering</h4>
+                        <p style="color: #475569;">"Berätta om AI"</p>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            → För vag, ingen naturlig uppdelning
+                        </p>
+                    </div>
+                    <div class="concept-card" style="border-left: 4px solid #22c55e;">
+                        <h4>✅ Bra formulering</h4>
+                        <p style="color: #475569;">"Analysera AI:s påverkan på utbildning från: 
+                        1) Lärarperspektiv, 2) Elevperspektiv, 3) Policyperspektiv"</p>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">
+                            → Tydlig uppdelning, parallella perspektiv
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steg 4 -->
+            <div class="guide-card" style="margin-bottom: 30px;">
+                <h3><span class="step-number">4</span> Exempel på multi-agent förfrågningar</h3>
+                
+                <h4>Exempel 1: Research</h4>
+                <div class="prompt-example">
+                    <p><span class="user-icon">👤</span> "Researcha fördelar och nackdelar med React, Vue och Angular. 
+                    Låt tre agenter fokusera på var sitt ramverk, sedan jämför."</p>
+                </div>
+
+                <h4>Exempel 2: Kodgranskning</h4>
+                <div class="prompt-example">
+                    <p><span class="user-icon">👤</span> "Granska denna kodbas med parallella agenter: 
+                    en för säkerhetsproblem, en för prestandaoptimering, en för kodkvalitet."</p>
+                </div>
+
+                <h4>Exempel 3: Dokumentation</h4>
+                <div class="prompt-example">
+                    <p><span class="user-icon">👤</span> "Skapa dokumentation för detta API med separata agenter för: 
+                    README, API-referens, och exempel/tutorials."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Jämförelse med Claude Code CLI -->
+    <section class="structure">
+        <div class="container">
+            <h2 class="section-title">📊 Detaljerad jämförelse</h2>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Funktion</th>
+                            <th>Cursor (Task)</th>
+                            <th>Claude Code CLI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Aktivering</strong></td>
+                            <td>Automatisk eller via prompt</td>
+                            <td>Explicit Task()-anrop</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parallell körning</strong></td>
+                            <td>✅ Ja (automatiskt)</td>
+                            <td>✅ Ja (run_in_background: true)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Permanenta agenter</strong></td>
+                            <td>❌ Nej</td>
+                            <td>✅ Ja (.claude/agents/)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CLAUDE.md stöd</strong></td>
+                            <td>✅ Läser filen</td>
+                            <td>✅ Full hierarki + # uppdatering</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synlighet</strong></td>
+                            <td>Delvis (visas i chatten)</td>
+                            <td>Full (temporära filer, IDs)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Återupptagning</strong></td>
+                            <td>❌ Nej</td>
+                            <td>✅ Ja (resume: agentId)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modellval per agent</strong></td>
+                            <td>✅ Ja (model: "fast")</td>
+                            <td>✅ Ja (model: "haiku")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo-sektion -->
+    <section class="projects">
+        <div class="container">
+            <div class="demo-section">
+                <h2>🧪 Prova själv!</h2>
+                <p>Kopiera någon av dessa prompts och testa i Cursor:</p>
+
+                <div class="code-block" style="background: #0f172a;">
+<span class="comment"># Prompt 1: Enkel multi-perspektiv analys</span>
+Analysera filen index.html från tre perspektiv med parallella agenter:
+1. Tillgänglighet (a11y)
+2. SEO-optimering  
+3. Prestanda
+
+Sammanställ rekommendationer efteråt.
+                </div>
+
+                <div class="code-block" style="background: #0f172a;">
+<span class="comment"># Prompt 2: Research med agenter</span>
+Använd explore-agenter för att kartlägga projektstrukturen:
+- En agent för att hitta alla HTML-filer
+- En agent för att hitta alla JavaScript-filer
+- En agent för att identifiera beroenden
+
+Ge mig en sammanfattning av arkitekturen.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Relaterade resurser -->
+    <section class="guides">
+        <div class="container">
+            <h2 class="section-title">📚 Relaterade resurser</h2>
+            
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <h3>🇩🇰🇬🇱 Danmark-Grönland Projekt</h3>
+                    <p>Se ett praktiskt exempel på multi-agent analys med 3 perspektivagenter.</p>
+                    <a href="ClaudeCode1/" class="guide-link">Se projektet →</a>
+                </div>
+
+                <div class="guide-card">
+                    <h3>📞 Skype Historia</h3>
+                    <p>Exempel på 4 specialiserade agenter för research och innehållsproduktion.</p>
+                    <a href="Skype/" class="guide-link">Se projektet →</a>
+                </div>
+
+                <div class="guide-card">
+                    <h3>📋 CLAUDE.md</h3>
+                    <p>Övergripande projektkoordinator med agentmallar och best practices.</p>
+                    <a href="CLAUDE.md" class="guide-link">Läs filen →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Om denna guide</h4>
+                    <p>En praktisk guide för att lära sig multi-agent approach i Cursor IDE.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Startsida</a></li>
+                        <li><a href="ClaudeCode1/">Danmark-Grönland</a></li>
+                        <li><a href="Skype/">Skype Historia</a></li>
+                        <li><a href="CLAUDE.md">CLAUDE.md</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Externa länkar</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/kentlundgren/AI" target="_blank">GitHub Repository</a></li>
+                        <li><a href="https://cursor.sh" target="_blank">Cursor IDE</a></li>
+                        <li><a href="https://docs.anthropic.com" target="_blank">Anthropic Docs</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Kent Lundgren | Open Source</p>
+                <p class="made-with">Skapad med <strong>Cursor</strong> och <strong>Claude</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll to top functionality
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
