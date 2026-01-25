@@ -408,6 +408,36 @@ Varje projekt ska ha en **index.html** som:
 - Navigation/innehållsförteckning
 - **Footer med projektnavigation** (se nedan)
 
+### Korsnavigering mellan README.md och index.html
+
+**VIKTIGT:** README.md och index.html ska ha tydliga länkar till varandra för enkel navigation:
+
+**I README.md** - Lägg till länk till live-demo tidigt i dokumentet (efter beskrivningen):
+```markdown
+# Projektnamn
+
+> Kort beskrivning
+
+**🌐 [Se live-demo →](https://username.github.io/repo/projekt/)**
+```
+
+**I index.html** - Lägg till länk till GitHub-repot i header-sektionen:
+```html
+<header>
+    <h1>Projektnamn</h1>
+    <p class="subtitle">Beskrivning</p>
+    <p style="margin-top: 1rem;">
+        <a href="https://github.com/username/repo/tree/main/projekt" target="_blank" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none;">
+            💻 Visa källkod på GitHub
+        </a>
+    </p>
+</header>
+```
+
+**Syfte:** Användare som besöker GitHub-repot ska enkelt kunna se resultatet live, och besökare på live-sidan ska kunna utforska källkoden.
+
 ---
 
 ## 🔗 Footer Navigation Standard
