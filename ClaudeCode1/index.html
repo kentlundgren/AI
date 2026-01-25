@@ -861,6 +861,247 @@ Vad tycker du om AI?
             </div>
         </div>
 
+        <!-- Claude Code Permanenta Agenter i detta projekt -->
+        <div class="section" style="background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%); border: 3px solid #4ECDC4;">
+            <h2 style="color: #4ECDC4;">🎯 Detta Projekts Permanenta Claude Code-Agenter</h2>
+
+            <div class="success-box">
+                <strong>✨ Nyhet!</strong> I detta projekt har vi nu skapat <strong>tre officiella Claude Code-agenter</strong> enligt Claude Code-specifikationen. Dessa ligger i <code>.claude/agents/</code> och är permanenta, versionshanterade agenter som kan användas direkt i Claude Code.
+            </div>
+
+            <h3>Skillnad: Exempel-agenter vs Officiella Claude Code-agenter</h3>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspekt</th>
+                        <th>Exempel-agenter (ovan)</th>
+                        <th>Claude Code-agenter (detta projekt)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="aspect">Plats</td>
+                        <td>AGENTER_O_TOOLS/*.md (exempel)</td>
+                        <td><code>.claude/agents/*.md</code> (officiell)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Format</td>
+                        <td>Fri Markdown-struktur</td>
+                        <td>YAML frontmatter + Markdown body</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Integration</td>
+                        <td>Manuell referens (@agentnamn)</td>
+                        <td>Automatisk detection av Claude Code</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Verktygsåtkomst</td>
+                        <td>Informell beskrivning</td>
+                        <td>Explicit tools-konfiguration</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Status</td>
+                        <td>Pedagogiska exempel</td>
+                        <td>Fungerande agenter i detta projekt</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>De Tre Claude Code-Agenterna</h3>
+
+            <div class="agent-grid">
+                <div class="agent-card permanent">
+                    <h3>
+                        🇩🇰 danish-perspective
+                        <span class="badge permanent">Claude Code Agent</span>
+                    </h3>
+                    <p><strong>Fil:</strong> <code>.claude/agents/danish-perspective.md</code></p>
+                    <p><strong>Beskrivning:</strong> Analyserar Danmark-Grönland från danskt perspektiv</p>
+                    <p><strong>Kompetenser:</strong></p>
+                    <ul class="feature-list">
+                        <li>Rigsfællesskabet och konstitutionell historia</li>
+                        <li>Dansk politik och bloktilskud</li>
+                        <li>Geopolitik och NATO-intressen</li>
+                        <li>Dansk public opinion</li>
+                        <li>Historisk kontext (1721-nutid)</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Verktyg:</strong> Read, Grep, Glob, Bash, WebSearch, WebFetch</p>
+                    <p><strong>Modell:</strong> Sonnet</p>
+                </div>
+
+                <div class="agent-card permanent">
+                    <h3>
+                        🟢⚪🔴 greenlandic-perspective
+                        <span class="badge permanent">Claude Code Agent</span>
+                    </h3>
+                    <p><strong>Fil:</strong> <code>.claude/agents/greenlandic-perspective.md</code></p>
+                    <p><strong>Beskrivning:</strong> Analyserar från grönländskt (Kalaallit) perspektiv</p>
+                    <p><strong>Kompetenser:</strong></p>
+                    <ul class="feature-list">
+                        <li>Inuit kultur och identitet</li>
+                        <li>Dekolonisering och självbestämmande</li>
+                        <li>Kalaallisut språkfrågor</li>
+                        <li>Ekonomiskt beroende vs. självständighet</li>
+                        <li>Sociala utmaningar och kolonialt trauma</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Verktyg:</strong> Read, Grep, Glob, Bash, WebSearch, WebFetch</p>
+                    <p><strong>Modell:</strong> Sonnet</p>
+                </div>
+
+                <div class="agent-card permanent">
+                    <h3>
+                        🇸🇪 swedish-perspective
+                        <span class="badge permanent">Claude Code Agent</span>
+                    </h3>
+                    <p><strong>Fil:</strong> <code>.claude/agents/swedish-perspective.md</code></p>
+                    <p><strong>Beskrivning:</strong> Analyserar från svenskt perspektiv med Sápmi-jämförelser</p>
+                    <p><strong>Kompetenser:</strong></p>
+                    <ul class="feature-list">
+                        <li>Nordiskt samarbete och kritik</li>
+                        <li>Jämförelse Grönland vs Sápmi</li>
+                        <li>Svensk arktisk politik</li>
+                        <li>Kritisk självreflektion (svensk dubbelmoral)</li>
+                        <li>Geopolitiska intressen</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Verktyg:</strong> Read, Grep, Glob, Bash, WebSearch, WebFetch</p>
+                    <p><strong>Modell:</strong> Sonnet</p>
+                </div>
+            </div>
+
+            <h3>Hur Dessa Agenter Fördjupar Analysen</h3>
+
+            <div class="grid-2">
+                <div>
+                    <h4>🔍 Djupare Perspektiv</h4>
+                    <div class="info-box">
+                        Till skillnad från de tillfälliga agenterna som skapades för den ursprungliga rapporten, har dessa permanenta agenter:
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li><strong>Dedikerade system prompts</strong> - Detaljerad förståelse för varje perspektiv</li>
+                            <li><strong>Specifika analyslinsser</strong> - Dansk pragmatism, grönländsk dekolonisering, svensk jämförelse</li>
+                            <li><strong>Återanvändbarhet</strong> - Kan användas för följdfrågor och fördjupning</li>
+                            <li><strong>Konsistens</strong> - Samma perspektiv varje gång</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>🎨 Nyanserade Analyser</h4>
+                    <div class="success-box">
+                        Varje agent bidrar med unikt värde:
+                        <ul style="margin-top: 10px; margin-left: 20px;">
+                            <li><strong>danish-perspective</strong>: Förklarar danska motiv och policy-resonemang</li>
+                            <li><strong>greenlandic-perspective</strong>: Centrerar grönländska röster och självbestämmande</li>
+                            <li><strong>swedish-perspective</strong>: Erbjuder kritisk extern granskning och nordiska paralleller</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Praktiska Användningsexempel</h3>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('claude-single')">Enskild Agent</button>
+                <button class="tab" onclick="showTab('claude-compare')">Jämförande Analys</button>
+                <button class="tab" onclick="showTab('claude-debate')">Simulerad Debatt</button>
+            </div>
+
+            <div id="claude-single" class="tab-content active">
+                <h4>Användning: Fördjupad analys från ett perspektiv</h4>
+                <div class="prompt-example">
+                    "Använd danish-perspective agenten för att analysera den danska bloktilskuddets politiska och ekonomiska motiveringar. Inkludera både historiska skäl och framtida implikationer om Grönland blir självständigt."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Identifierar att danish-perspective är relevant<br>
+                    2. Läser agentens system prompt och kompetenser<br>
+                    3. Delegerar uppgiften till agenten<br>
+                    4. Agenten analyserar från danskt perspektiv med:<br>
+                    &nbsp;&nbsp;• Historisk kontext (1721-nutid)<br>
+                    &nbsp;&nbsp;• Rigsfællesskabet-ramverk<br>
+                    &nbsp;&nbsp;• Ekonomiska resonemang<br>
+                    &nbsp;&nbsp;• Politiska debatter i Danmark<br>
+                    5. Returnerar djupgående dansk analys
+                </div>
+            </div>
+
+            <div id="claude-compare" class="tab-content">
+                <h4>Användning: Jämförande multiperspektivanalys</h4>
+                <div class="prompt-example">
+                    "Använd alla tre perspektiv-agenterna (danish-perspective, greenlandic-perspective, swedish-perspective) för att analysera frågan om Grönlands potentiella självständighet. Jämför deras olika synsätt och identifiera gemensamma teman och avgörande skillnader."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Spawnar danish-perspective → Danskt perspektiv på självständighet<br>
+                    2. Spawnar greenlandic-perspective → Grönländskt perspektiv<br>
+                    3. Spawnar swedish-perspective → Svenskt externt perspektiv<br>
+                    4. Jämför de tre analyserna:<br>
+                    &nbsp;&nbsp;• Dansk: Ekonomisk genomförbarhet, säkerhetsaspekter<br>
+                    &nbsp;&nbsp;• Grönländsk: Självbestämmanderätt, dekolonisering<br>
+                    &nbsp;&nbsp;• Svensk: Nordiska paralleller, geopolitisk stabilitet<br>
+                    5. Syntheserar insikter från alla tre perspektiv
+                </div>
+            </div>
+
+            <div id="claude-debate" class="tab-content">
+                <h4>Användning: Simulerad perspektiv-debatt</h4>
+                <div class="prompt-example">
+                    "Simulera en diskussion mellan de tre perspektiv-agenterna om gruvdrift i Grönland (sällsynta jordartsmetaller). Låt varje agent presentera sitt perspektiv på ekonomiska möjligheter vs. miljömässiga och kulturella risker."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude orkestrerar:</strong><br>
+                    1. <strong>danish-perspective</strong>: Ekonomiska utvecklingsmöjligheter, Arctic strategi, EU:s behov av rare earths<br>
+                    2. <strong>greenlandic-perspective</strong>: Miljöpåverkan på traditionella jaktmarker, vem kontrollerar resurserna?, kulturell vs. ekonomisk utveckling<br>
+                    3. <strong>swedish-perspective</strong>: Paralleller med gruvdrift i Sápmi, svensk företagsinvolvering, "grön kolonialism" risker<br>
+                    4. Claude sammanfattar spänningsfälten och avvägningarna
+                </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 30px;">
+                <strong>💡 Pro-tips för användning:</strong><br>
+                • <strong>Automatisk delegation</strong>: Claude Code identifierar automatiskt när dessa agenter är relevanta baserat på deras <code>description</code>-fält<br>
+                • <strong>Explicit användning</strong>: Du kan också be om specifik agent: "Använd danish-perspective för att..."<br>
+                • <strong>Sekventiell analys</strong>: Låt en agents output informera nästa: "Använd greenlandic-perspective för att svara på danish-perspectives argument..."<br>
+                • <strong>Resume capability</strong>: Du kan återuppta en agents analys: "Fortsätt den danska analysen och inkludera även..."
+            </div>
+
+            <h3>Filstruktur i Detta Projekt</h3>
+            <div class="file-structure">
+<span class="folder">ClaudeCode1/</span>
+├── <span class="folder">.claude/</span>
+│   └── <span class="folder">agents/</span>
+│       ├── <span class="file">danish-perspective.md</span>          ✅ Permanent Claude Code Agent
+│       ├── <span class="file">greenlandic-perspective.md</span>     ✅ Permanent Claude Code Agent
+│       └── <span class="file">swedish-perspective.md</span>         ✅ Permanent Claude Code Agent
+├── Danmark_Gronland_Rapport.md       (Original rapport från tillfälliga agenter)
+├── ClaudeCodeAgenter1.html            (Dokumentation av tillfälliga agenter)
+├── index.html                         (Denna guide)
+└── README.md                          (Projektöversikt)
+            </div>
+
+            <h3>Versionskontroll och Kollaboration</h3>
+            <div class="success-box">
+                <strong>✅ Fördelar med permanenta Claude Code-agenter:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Git-versionshanterade</strong>: Ändra och förbättra agenter över tid</li>
+                    <li><strong>Team-delning</strong>: Alla i projektet kan använda samma agenter</li>
+                    <li><strong>Dokumenterade</strong>: Agentfilerna beskriver sina egna kompetenser</li>
+                    <li><strong>Utbyggbara</strong>: Lägg till fler perspektiv (EU, USA, Kina, etc.)</li>
+                    <li><strong>Konsistenta</strong>: Samma analys-ramverk varje gång</li>
+                </ul>
+            </div>
+
+            <h3>Nästa Steg: Utvidga Analysen</h3>
+            <p>Med dessa tre permanenta agenter kan du nu:</p>
+            <ul class="feature-list" style="margin-top: 15px;">
+                <li>Ställa följdfrågor till den ursprungliga rapporten från specifika perspektiv</li>
+                <li>Analysera nya händelser (t.ex. geopolitiska utvecklingar) genom tre linsser</li>
+                <li>Jämföra hur olika perspektiv ser på samma fråga</li>
+                <li>Bygga ut med fler agenter (EU-perspektiv, USA-perspektiv, etc.)</li>
+                <li>Skapa specialiserade agenter (ekonom, miljöexpert, kulturanalytiker)</li>
+            </ul>
+        </div>
+
         <!-- Detaljerad jämförelse -->
         <div class="section">
             <h2>⚖️ Detaljerad jämförelse</h2>
