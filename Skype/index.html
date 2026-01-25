@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Agent Workflow: Skypes Historia som Fallstudie</title>
+    <style>
+        :root {
+            --primary: #00AFF0;
+            --primary-dark: #0078a8;
+            --accent: #764ba2;
+            --bg-light: #f8f9fa;
+            --bg-dark: #1a1a2e;
+            --text: #333;
+            --text-light: #666;
+            --success: #28a745;
+            --warning: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h3 {
+            color: var(--accent);
+            margin: 1.5rem 0 1rem;
+        }
+
+        h4 {
+            color: var(--text);
+            margin: 1rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Key concept box */
+        .key-concept {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .key-concept h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        /* Comparison table */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid;
+        }
+
+        .comparison-card.single {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+
+        .comparison-card.multi {
+            border-color: var(--success);
+            background: #f0fff4;
+        }
+
+        .comparison-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-card ul {
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .comparison-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Agent cards */
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .agent-card {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .agent-card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .agent-card-header .icon {
+            font-size: 1.5rem;
+        }
+
+        .agent-card-body {
+            padding: 1rem;
+        }
+
+        .agent-card .role {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Prompt boxes */
+        .prompt-box {
+            background: var(--bg-dark);
+            color: #00ff88;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .prompt-box::before {
+            content: "PROMPT";
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: #00ff88;
+            color: var(--bg-dark);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .prompt-box .comment {
+            color: #888;
+        }
+
+        /* Workflow diagram */
+        .workflow {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .workflow-step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 25px;
+            top: 50px;
+            height: calc(100% - 30px);
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-right: 1.5rem;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            margin-top: 0;
+        }
+
+        /* Results section */
+        .result-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--success);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .result-box h4 {
+            color: var(--success);
+            margin-top: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -24px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-item .year {
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        /* Blockquote */
+        blockquote {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+        }
+
+        blockquote cite {
+            display: block;
+            margin-top: 1rem;
+            font-style: normal;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        /* Advantages list */
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .advantage-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .advantage-item .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #dee2e6;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 0 8px 8px 8px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Info box */
+        .info-box {
+            background: #e7f5ff;
+            border: 1px solid #74c0fc;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .info-box .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            margin-top: 2rem;
+        }
+
+        footer h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-section h4 {
+            color: #4ECDC4;
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.9;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .workflow-step {
+                flex-direction: column;
+            }
+
+            .step-number {
+                margin-bottom: 1rem;
+            }
+
+            .workflow-step:not(:last-child)::after {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Multi-Agent Workflow i Claude Code</h1>
+    <p class="subtitle">En pedagogisk demonstration med Skypes historia som fallstudie</p>
+    <span class="badge">🤖 4 Specialiserade Agenter</span>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#introduktion">Introduktion</a></li>
+        <li><a href="#problemet">Problemet</a></li>
+        <li><a href="#losningen">Lösningen</a></li>
+        <li><a href="#agenterna">Agenterna</a></li>
+        <li><a href="#prompts">Prompts</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#resultat">Resultat</a></li>
+        <li><a href="#slutsats">Slutsats</a></li>
+    </ul>
+</nav>
+
+<main>
+
+<!-- ==================== INTRODUKTION ==================== -->
+<section id="introduktion">
+    <h2>📚 Introduktion</h2>
+
+    <p>Denna sida demonstrerar hur man kan använda <strong>flera specialiserade AI-agenter</strong> för att genomföra komplexa research- och skrivuppgifter. Istället för att ställa en enda, lång fråga till en AI-modell, delar vi upp arbetet mellan agenter med olika expertområden.</p>
+
+    <div class="key-concept">
+        <h3>🎯 Huvudpoäng</h3>
+        <p>Genom att låta specialiserade agenter arbeta parallellt med sina respektive expertområden får vi:</p>
+        <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+            <li><strong>Djupare analys</strong> - Varje agent fokuserar på sitt område</li>
+            <li><strong>Bättre källhantering</strong> - Separata agenter för citat och fakta</li>
+            <li><strong>Strukturerat resultat</strong> - Tydlig uppdelning av information</li>
+            <li><strong>Spårbarhet</strong> - Vi vet var varje del av informationen kommer ifrån</li>
+        </ul>
+    </div>
+
+    <p><strong>Fallstudie:</strong> Vi använder Skypes historia - från skapandet 2003 till nedläggningen 2025 - som exempel. Men metodiken kan appliceras på vilken komplex frågeställning som helst.</p>
+</section>
+
+<!-- ==================== PROBLEMET ==================== -->
+<section id="problemet">
+    <h2>❌ Problemet med En Enda Prompt</h2>
+
+    <p>Traditionellt ställer man en fråga till en AI-modell och får ett svar. Men detta har begränsningar:</p>
+
+    <div class="comparison">
+        <div class="comparison-card single">
+            <h4>❌ En prompt till en modell</h4>
+            <p><em>"Berätta allt om Skypes historia, grundarna, tekniken, och varför det lades ner. Inkludera citat."</em></p>
+            <ul>
+                <li>Ytlig täckning av många ämnen</li>
+                <li>Svårt att verifiera källorna</li>
+                <li>Ingen djupdykning i specifika områden</li>
+                <li>Citat kan vara oprecisa eller fabricerade</li>
+                <li>Svårt att iterera på specifika delar</li>
+                <li>Ingen specialisering per ämnesområde</li>
+            </ul>
+        </div>
+
+        <div class="comparison-card multi">
+            <h4>✅ Multi-agent approach</h4>
+            <p><em>Fyra specialister arbetar parallellt med sina expertområden</em></p>
+            <ul>
+                <li>Djup expertis per område</li>
+                <li>Dedikerad agent för källverifiering</li>
+                <li>Fokuserad research inom varje domän</li>
+                <li>Citat samlas och verifieras separat</li>
+                <li>Lätt att fördjupa specifika delar</li>
+                <li>Spårbar process med dokumenterade steg</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <span class="icon">💡</span>
+        <div>
+            <strong>Analogi:</strong> Det är som skillnaden mellan att fråga en generalist "berätta allt om medicin" jämfört med att konsultera en kardiolog, neurolog, och ortoped för sina respektive expertområden.
+        </div>
+    </div>
+</section>
+
+<!-- ==================== LÖSNINGEN ==================== -->
+<section id="losningen">
+    <h2>✅ Lösningen: Specialiserade Agenter</h2>
+
+    <p>I Claude Code kan vi definiera <strong>permanenta agenter</strong> - specialiserade AI-assistenter med specifika roller, instruktioner och verktyg. Dessa agenter finns som Markdown-filer i <code>.claude/agents/</code>-mappen.</p>
+
+    <h3>Fördelar med Multi-Agent Workflow</h3>
+
+    <div class="advantages">
+        <div class="advantage-item">
+            <span class="icon">🎯</span>
+            <div>
+                <strong>Fokuserad expertis</strong>
+                <p>Varje agent har djup kunskap inom sitt område</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <span class="icon">⚡</span>
+            <div>
+                <strong>Parallell bearbetning</strong>
+                <p>Agenter kan arbeta samtidigt med olika aspekter</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <span class="icon">🔍</span>
+            <div>
+                <strong>Bättre spårbarhet</strong>
+                <p>Vi vet exakt var varje information kommer ifrån</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <span class="icon">🔄</span>
+            <div>
+                <strong>Iterativ förbättring</strong>
+                <p>Lätt att fördjupa eller korrigera specifika delar</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <span class="icon">📊</span>
+            <div>
+                <strong>Strukturerat resultat</strong>
+                <p>Tydlig uppdelning mellan fakta, citat, analys</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <span class="icon">🛡️</span>
+            <div>
+                <strong>Kvalitetskontroll</strong>
+                <p>Separata agenter kan granska varandras arbete</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AGENTERNA ==================== -->
+<section id="agenterna">
+    <h2>🤖 De Fyra Agenterna</h2>
+
+    <p>För detta projekt använder vi fyra specialiserade agenter, var och en med ett tydligt ansvarsområde:</p>
+
+    <div class="agent-grid">
+        <div class="agent-card">
+            <div class="agent-card-header">
+                <span class="icon">🔍</span>
+                <strong>founder-researcher</strong>
+            </div>
+            <div class="agent-card-body">
+                <p class="role">Grundarforskare</p>
+                <p>Samlar biografisk information om Skypes grundare: Niklas Zennström, Janus Friis och det estniska utvecklarteamet.</p>
+                <p><strong>Fokus:</strong> Bakgrund, motivationer, roller, relationer</p>
+                <p><strong>Verktyg:</strong> WebSearch, WebFetch</p>
+            </div>
+        </div>
+
+        <div class="agent-card">
+            <div class="agent-card-header">
+                <span class="icon">📜</span>
+                <strong>tech-historian</strong>
+            </div>
+            <div class="agent-card-body">
+                <p class="role">Teknikhistoriker</p>
+                <p>Kartlägger Skypes tekniska utveckling, P2P-arkitekturen, och viktiga milstolpar genom åren.</p>
+                <p><strong>Fokus:</strong> Teknologi, innovation, produktutveckling</p>
+                <p><strong>Verktyg:</strong> WebSearch, WebFetch</p>
+            </div>
+        </div>
+
+        <div class="agent-card">
+            <div class="agent-card-header">
+                <span class="icon">💬</span>
+                <strong>quote-collector</strong>
+            </div>
+            <div class="agent-card-body">
+                <p class="role">Citatsamlare</p>
+                <p>Söker efter och verifierar citat från grundarna och nyckelpersoner. Dokumenterar källor noggrant.</p>
+                <p><strong>Fokus:</strong> Autentiska citat, källverifiering, kontext</p>
+                <p><strong>Verktyg:</strong> WebSearch, WebFetch</p>
+            </div>
+        </div>
+
+        <div class="agent-card">
+            <div class="agent-card-header">
+                <span class="icon">✍️</span>
+                <strong>storyteller</strong>
+            </div>
+            <div class="agent-card-body">
+                <p class="role">Berättare</p>
+                <p>Tar emot material från övriga agenter och väver samman det till en engagerande berättelse.</p>
+                <p><strong>Fokus:</strong> Narrativ, läsbarhet, struktur</p>
+                <p><strong>Verktyg:</strong> Write, Edit</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== PROMPTS ==================== -->
+<section id="prompts">
+    <h2>💻 Faktiska Prompts till Agenterna</h2>
+
+    <p>Här är de exakta prompts som skickades till varje agent. Notera hur varje prompt är <strong>fokuserad på agentens expertområde</strong> istället för att be om "allt".</p>
+
+    <h3>🔍 Prompt till founder-researcher</h3>
+    <div class="prompt-box">
+        <span class="comment"># Agent: founder-researcher</span><br>
+        <span class="comment"># Uppgift: Samla information om Skypes grundare</span><br><br>
+        Undersök och sammanställ information om Skypes grundare:<br><br>
+        1. <strong>Niklas Zennström</strong> (svensk)<br>
+        &nbsp;&nbsp;&nbsp;- Bakgrund och utbildning<br>
+        &nbsp;&nbsp;&nbsp;- Rollen i Kazaa innan Skype<br>
+        &nbsp;&nbsp;&nbsp;- Hans vision för Skype<br>
+        &nbsp;&nbsp;&nbsp;- Vad han gör idag (Atomico)<br><br>
+        2. <strong>Janus Friis</strong> (dansk)<br>
+        &nbsp;&nbsp;&nbsp;- Bakgrund och vägen till tech<br>
+        &nbsp;&nbsp;&nbsp;- Partnerskapet med Zennström<br>
+        &nbsp;&nbsp;&nbsp;- Hans roll i produktvisionen<br><br>
+        3. <strong>Estniska teamet</strong> (Ahti Heinla, Priit Kasesalu, Jaan Tallinn)<br>
+        &nbsp;&nbsp;&nbsp;- Deras tekniska bidrag<br>
+        &nbsp;&nbsp;&nbsp;- Varför just Estland?<br>
+        &nbsp;&nbsp;&nbsp;- Vad de gör idag<br><br>
+        Fokusera på verifierbara fakta. Markera osäker information.
+    </div>
+
+    <h3>📜 Prompt till tech-historian</h3>
+    <div class="prompt-box">
+        <span class="comment"># Agent: tech-historian</span><br>
+        <span class="comment"># Uppgift: Kartlägg teknisk utveckling och milstolpar</span><br><br>
+        Dokumentera Skypes tekniska historia:<br><br>
+        1. <strong>P2P-arkitekturen</strong><br>
+        &nbsp;&nbsp;&nbsp;- Hur fungerade den ursprungliga tekniken?<br>
+        &nbsp;&nbsp;&nbsp;- Koppling till Kazaa<br>
+        &nbsp;&nbsp;&nbsp;- Fördelar och nackdelar<br><br>
+        2. <strong>Milstolpar</strong><br>
+        &nbsp;&nbsp;&nbsp;- 2003: Lansering<br>
+        &nbsp;&nbsp;&nbsp;- 2005: eBay-köp<br>
+        &nbsp;&nbsp;&nbsp;- 2011: Microsoft-köp<br>
+        &nbsp;&nbsp;&nbsp;- 2025: Nedläggning<br><br>
+        3. <strong>Tekniska vändpunkter</strong><br>
+        &nbsp;&nbsp;&nbsp;- Övergång från P2P till centraliserad arkitektur<br>
+        &nbsp;&nbsp;&nbsp;- Konkurrens från Zoom, Teams<br><br>
+        Förklara tekniska begrepp på ett sätt allmänheten förstår.
+    </div>
+
+    <h3>💬 Prompt till quote-collector</h3>
+    <div class="prompt-box">
+        <span class="comment"># Agent: quote-collector</span><br>
+        <span class="comment"># Uppgift: Samla och verifiera citat från grundarna</span><br><br>
+        Sök efter autentiska citat från Skypes grundare:<br><br>
+        <strong>Prioriterade personer:</strong><br>
+        1. Niklas Zennström<br>
+        2. Janus Friis<br>
+        3. Jaan Tallinn<br><br>
+        <strong>Typer av citat att söka:</strong><br>
+        - Varför de startade Skype<br>
+        - Deras vision och mål<br>
+        - Reflektioner i efterhand<br>
+        - Om tekniken (P2P)<br>
+        - Om försäljningarna (eBay, Microsoft)<br><br>
+        <strong>Krav:</strong><br>
+        - Ange källa (publikation, datum)<br>
+        - Inkludera kontext<br>
+        - Markera om citatet är översatt<br>
+        - Verifiera i flera källor om möjligt
+    </div>
+
+    <h3>✍️ Prompt till storyteller</h3>
+    <div class="prompt-box">
+        <span class="comment"># Agent: storyteller</span><br>
+        <span class="comment"># Uppgift: Skriv den sammanfattande berättelsen</span><br><br>
+        Använd materialet från de andra agenterna för att skriva<br>
+        en engagerande berättelse om Skypes historia.<br><br>
+        <strong>Stil:</strong><br>
+        - Populärvetenskaplig, för allmänheten<br>
+        - Svenska<br>
+        - Berättande ton (inte rapportformat)<br>
+        - Korta stycken, aktiv form<br><br>
+        <strong>Struktur:</strong><br>
+        1. Fängslande öppning<br>
+        2. Grundarna och deras bakgrund<br>
+        3. Skapes födelse och uppgång<br>
+        4. Ägarbytena (eBay, Microsoft)<br>
+        5. Nedgång och nedläggning<br>
+        6. Arvet och lärdomar<br><br>
+        <strong>Inkludera:</strong><br>
+        - Citat från grundarna (från quote-collector)<br>
+        - Tekniska förklaringar (från tech-historian)<br>
+        - Personliga detaljer (från founder-researcher)
+    </div>
+
+    <div class="info-box">
+        <span class="icon">🔑</span>
+        <div>
+            <strong>Nyckelinsikt:</strong> Varje prompt är fokuserad och specifik. Istället för "berätta allt" ber vi varje agent om just det den är expert på. Detta ger djupare och mer tillförlitlig information.
+        </div>
+    </div>
+</section>
+
+<!-- ==================== WORKFLOW ==================== -->
+<section id="workflow">
+    <h2>🔄 Arbetsflödet Steg för Steg</h2>
+
+    <div class="workflow">
+        <div class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h4>Projektinitiering</h4>
+                <p>CLAUDE.md-filen läses och definierar projektets struktur, agenter och mål. Övergripande CLAUDE.md ger best practices, lokal CLAUDE.md specificerar Skype-projektet.</p>
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h4>Parallell Research (3 agenter samtidigt)</h4>
+                <p><strong>founder-researcher</strong>, <strong>tech-historian</strong> och <strong>quote-collector</strong> arbetar parallellt med sina respektive uppgifter. De söker information, verifierar fakta och strukturerar sina resultat.</p>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
+                    <span style="background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 15px;">🔍 Grundarinfo</span>
+                    <span style="background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 15px;">📜 Teknikhistoria</span>
+                    <span style="background: var(--primary); color: white; padding: 0.3rem 0.8rem; border-radius: 15px;">💬 Citat</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h4>Syntes och Sammanställning</h4>
+                <p>Resultaten från de tre research-agenterna samlas och granskas. Eventuella luckor eller motstridigheter identifieras.</p>
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h4>Produktion (storyteller)</h4>
+                <p><strong>storyteller</strong> tar emot allt material och skapar den slutgiltiga berättelsen. Citat vävs in, tekniska begrepp förklaras, och en narrativ struktur byggs upp.</p>
+            </div>
+        </div>
+
+        <div class="workflow-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+                <h4>Kvalitetskontroll och Publicering</h4>
+                <p>Slutresultatet granskas, eventuella korrigeringar görs, och innehållet publiceras.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== RESULTAT ==================== -->
+<section id="resultat">
+    <h2>📊 Resultat: Skypes Historia</h2>
+
+    <p><em>Följande innehåll producerades av agenterna baserat på ovanstående prompts:</em></p>
+
+    <!-- PLACEHOLDER FOR AGENT RESULTS -->
+    <div id="agent-results">
+
+        <h3>Grundarna: Visionärerna bakom Skype</h3>
+
+        <div class="result-box">
+            <h4>🔍 Från founder-researcher</h4>
+            <p><em>Resultat laddas in...</em></p>
+        </div>
+
+        <h3>Tekniken: Från P2P till Nedläggning</h3>
+
+        <div class="result-box">
+            <h4>📜 Från tech-historian</h4>
+            <p><em>Resultat laddas in...</em></p>
+        </div>
+
+        <h3>I Grundarnas Egna Ord</h3>
+
+        <div class="result-box">
+            <h4>💬 Från quote-collector</h4>
+            <p><em>Resultat laddas in...</em></p>
+        </div>
+
+        <h3>Den Samlade Berättelsen</h3>
+
+        <div class="result-box">
+            <h4>✍️ Från storyteller</h4>
+            <p><em>Resultat laddas in...</em></p>
+        </div>
+
+    </div>
+
+    <h3>Tidslinje: Skypes Resa</h3>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <span class="year">2003</span>
+            <p>Skype grundas av Niklas Zennström och Janus Friis. Estniska utvecklare bygger P2P-tekniken.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="year">2005</span>
+            <p>eBay köper Skype för 2,6 miljarder dollar.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="year">2009</span>
+            <p>Silver Lake-konsortiet köper majoritet från eBay.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="year">2011</span>
+            <p>Microsoft köper Skype för 8,5 miljarder dollar - den största förvärvet i Microsofts historia.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="year">2021</span>
+            <p>Skype for Business fasas ut till förmån för Microsoft Teams.</p>
+        </div>
+        <div class="timeline-item">
+            <span class="year">2025</span>
+            <p>Microsoft meddelar att Skype läggs ner i maj 2025 efter 22 år.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== SLUTSATS ==================== -->
+<section id="slutsats">
+    <h2>🎓 Slutsats: Varför Multi-Agent?</h2>
+
+    <p>Genom att jämföra en traditionell "en prompt"-approach med multi-agent workflow ser vi tydliga skillnader:</p>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+        <thead>
+            <tr style="background: var(--primary); color: white;">
+                <th style="padding: 1rem; text-align: left;">Aspekt</th>
+                <th style="padding: 1rem; text-align: left;">En Prompt</th>
+                <th style="padding: 1rem; text-align: left;">Multi-Agent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Djup</strong></td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Ytlig täckning</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Specialiserad djupdykning</td>
+            </tr>
+            <tr>
+                <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Citat</strong></td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Osäker verifiering</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Dedikerad agent för källkontroll</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Spårbarhet</strong></td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Svårt att veta varifrån info kommer</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Tydlig uppdelning per agent</td>
+            </tr>
+            <tr>
+                <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Iteration</strong></td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Måste köra om allt</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Kan fördjupa specifik del</td>
+            </tr>
+            <tr style="background: #f8f9fa;">
+                <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Komplexitet</strong></td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Enklare att sätta upp</td>
+                <td style="padding: 1rem; border: 1px solid #ddd;">Kräver struktur och planering</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="key-concept">
+        <h3>🎯 När ska man använda Multi-Agent?</h3>
+        <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+            <li><strong>Komplexa frågeställningar</strong> med flera dimensioner</li>
+            <li><strong>Krav på källverifiering</strong> och citat</li>
+            <li><strong>Längre texter</strong> som kräver struktur och djup</li>
+            <li><strong>Iterativa projekt</strong> där man vill kunna fördjupa delar</li>
+            <li><strong>Team-liknande arbete</strong> med olika expertområden</li>
+        </ul>
+    </div>
+
+    <h3>Lärdomar från detta projekt</h3>
+    <ol>
+        <li><strong>Definiera tydliga roller</strong> - Varje agent ska ha ett avgränsat ansvarsområde</li>
+        <li><strong>Separera fakta och citat</strong> - En dedikerad citatsamlare förbättrar kvaliteten</li>
+        <li><strong>Parallellt arbete</strong> - Research-agenter kan arbeta samtidigt</li>
+        <li><strong>Dokumentera prompts</strong> - Gör processen transparent och reproducerbar</li>
+        <li><strong>Använd hierarkisk CLAUDE.md</strong> - Övergripande best practices + lokal konfiguration</li>
+    </ol>
+</section>
+
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-section">
+            <h4>📄 Dokumentation</h4>
+            <p><a href="README.md">📖 README</a></p>
+            <p><a href="CLAUDE.md">📋 Lokal CLAUDE.md</a></p>
+        </div>
+
+        <div class="footer-section">
+            <h4>🤖 Agenter</h4>
+            <p><a href="https://github.com/kentlundgren/AI/blob/main/Skype/.claude/agents/founder-researcher.md" target="_blank">🔍 founder-researcher</a></p>
+            <p><a href="https://github.com/kentlundgren/AI/blob/main/Skype/.claude/agents/tech-historian.md" target="_blank">📜 tech-historian</a></p>
+            <p><a href="https://github.com/kentlundgren/AI/blob/main/Skype/.claude/agents/quote-collector.md" target="_blank">💬 quote-collector</a></p>
+            <p><a href="https://github.com/kentlundgren/AI/blob/main/Skype/.claude/agents/storyteller.md" target="_blank">✍️ storyteller</a></p>
+        </div>
+
+        <div class="footer-section">
+            <h4>🌐 Externa Länkar</h4>
+            <p><a href="https://github.com/kentlundgren/AI/blob/main/CLAUDE.md" target="_blank">📚 Övergripande CLAUDE.md</a></p>
+            <p><a href="https://github.com/kentlundgren/AI/tree/main/Skype" target="_blank">💻 GitHub Repository</a></p>
+            <p><a href="https://github.com/kentlundgren/AI/tree/main/ClaudeCode1" target="_blank">📊 ClaudeCode1 (relaterat projekt)</a></p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p><strong>Skapad med Claude Code permanenta agenter</strong></p>
+        <p>© 2026 - Pedagogisk demonstration av multi-agent workflow</p>
+    </div>
+</footer>
+
+</body>
+</html>
