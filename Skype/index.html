@@ -875,35 +875,244 @@
 
     <p><em>Följande innehåll producerades av agenterna baserat på ovanstående prompts:</em></p>
 
-    <!-- PLACEHOLDER FOR AGENT RESULTS -->
+    <!-- AGENT RESULTS -->
     <div id="agent-results">
 
         <h3>Grundarna: Visionärerna bakom Skype</h3>
 
         <div class="result-box">
             <h4>🔍 Från founder-researcher</h4>
-            <p><em>Resultat laddas in...</em></p>
+
+            <h5>Niklas Zennström (svensk, född 1966)</h5>
+            <p><strong>Bakgrund:</strong> Zennström tog en kandidatexamen i företagsekonomi och en masterexamen i teknisk fysik och datavetenskap vid Uppsala universitet. 1991 började han arbeta på Tele2, ett svenskt telekomföretag.</p>
+            <p><strong>Vägen till Skype:</strong> 1997 anställde han Janus Friis för att leda kundtjänst på Tele2:s danska kontor. Tillsammans startade de Get2Net (en ISP) och webbportalen Everyday.com. Deras erfarenhet av P2P-teknik från Kazaa ledde till Skype 2003.</p>
+            <p><strong>Efter Skype:</strong> 2006 grundade Zennström Atomico, ett riskkapitalbolag i London som investerat i Supercell, Klarna och DeepL. Tillsammans med sin fru Catherine driver han Zennström Philanthropies med fokus på mänskliga rättigheter och miljö.</p>
+
+            <h5>Janus Friis (dansk, född 1976)</h5>
+            <p><strong>Bakgrund:</strong> Friis hoppade av gymnasiet och lärde sig programmering själv medan han arbetade på Cybercitys helpdesk, en tidig dansk internetleverantör.</p>
+            <p><strong>Partnerskapet:</strong> I januari 2000 flyttade Friis in i Zennströms lilla lägenhet i Amsterdam där de började utveckla Kazaa. Det kreativa partnerskapet ledde till Skype tre år senare.</p>
+            <p><strong>Senare projekt:</strong> Efter Skype grundade Friis Rdio (musikstreaming), Joost (TV), och 2014 Starship Technologies (självkörande leveransrobotar) tillsammans med Ahti Heinla.</p>
+            <p><strong>Erkännanden:</strong> 2006 fick Friis "IT-prisen" i Danmark, och han och Zennström utsågs till Times lista över världens 100 mest inflytelserika personer.</p>
+
+            <h5>Det estniska utvecklarteamet</h5>
+            <p><strong>Ahti Heinla, Priit Kasesalu och Jaan Tallinn</strong> var skolkamrater som tillsammans byggde Skypes tekniska ryggrad. De hade redan 1989 skapat Estlands första exporterade dataspel (Kosmonaut/SkyRoads).</p>
+            <p><strong>Varför Estland?</strong> Estland hade efter självständigheten 1991 investerat kraftigt i digital infrastruktur. Teamet hade redan arbetat med Zennström och Friis på Kazaa och behärskade P2P-tekniken. Skype etablerade sitt utvecklingskontor i Tallinn.</p>
+
+            <div style="background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); padding: 1.5rem; border-radius: 10px; margin: 1rem 0; border-left: 4px solid #667eea;">
+                <h5 style="margin-top: 0; color: #667eea;">Jaan Tallinn idag: Från Skype till AI-säkerhet</h5>
+                <p style="margin-bottom: 0.5rem;"><strong>Karriär efter Skype:</strong></p>
+                <ul style="margin: 0.5rem 0;">
+                    <li>Medgrundare till <strong>Centre for the Study of Existential Risk</strong> (CSER) vid Cambridge</li>
+                    <li>Medgrundare till <strong>Future of Life Institute</strong> (FLI)</li>
+                    <li>Medgrundare till <strong>Machine Intelligence Research Institute</strong> (MIRI)</li>
+                </ul>
+                <p style="margin-bottom: 0;"><strong>Anthropic-kopplingen:</strong> Tallinn ledde Series A-finansieringsrundan för <strong>Anthropic</strong> (företaget bakom Claude, AI:n som producerade denna rapport). Han sitter nu i Anthropics styrelse som observatör - en direkt linje från Skypes grundare till modern AI-utveckling.</p>
+            </div>
+
+            <p><strong>Ahti Heinla idag:</strong> Medgrundare och CTO för <strong>Starship Technologies</strong> (autonoma leveransrobotar), grundat tillsammans med Janus Friis 2014.</p>
+
+            <h5>"Skype-maffian" - Estlands tech-renässans</h5>
+            <p>Försäljningarna 2005 ($2,6 miljarder) och 2011 ($8,5 miljarder) gjorde inte bara grundarna rika - de skapade <strong>över 30 estniska tech-entreprenörer</strong> som skulle transformera landets ekonomi. Dessa "Skype-maffian"-medlemmar grundade senare:</p>
+            <ul>
+                <li><strong>Wise</strong> (TransferWise) - internationella överföringar</li>
+                <li><strong>Bolt</strong> - transport och leverans</li>
+                <li><strong>Pipedrive</strong> - CRM-mjukvara</li>
+                <li><strong>Starship Technologies</strong> - leveransrobotar</li>
+            </ul>
+            <p>Estland gick från litet post-sovjetiskt land till europeiskt tech-hub, delvis tack vare Skypes framgång.</p>
         </div>
 
         <h3>Tekniken: Från P2P till Nedläggning</h3>
 
         <div class="result-box">
             <h4>📜 Från tech-historian</h4>
-            <p><em>Resultat laddas in...</em></p>
+
+            <h5>P2P-arkitekturen: Revolutionen</h5>
+            <p><strong>Vad är Peer-to-Peer?</strong> Traditionella telefonsystem fungerar enligt en klient-server-modell där alla användare ansluter till en central server. P2P fungerar helt annorlunda - användare kommunicerar <em>direkt</em> med varandra, som att leverera brev direkt till grannen utan att gå via postkontoret.</p>
+
+            <div style="background: #1a1a2e; color: #00ff88; padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; margin: 1rem 0; overflow-x: auto;">
+<pre style="margin: 0;">TRADITIONELL MODELL (Klient-Server):
+    Användare A ──┐
+    Användare B ──┼──► Central Server ◄──┼── Användare D
+    Användare C ──┘                      └── Användare E
+
+SKYPES P2P-MODELL:
+    Användare A ◄────────► Användare B
+         ▲                      ▲
+         └──────► Supernod ◄────┘
+                (koordinerar)</pre>
+            </div>
+
+            <p><strong>Supernoder - Skypes hemliga vapen:</strong> Kraftfulla datorer med snabb internet fungerade som lokala "telefonkataloger". Din dator kunde automatiskt bli en supernod utan att du visste om det!</p>
+
+            <p><strong>Fördelarna:</strong></p>
+            <ul>
+                <li>Massiv skalbarhet utan kostnad - ju fler användare, desto starkare nätverk</li>
+                <li>Ingen "single point of failure" - om en supernod gick ner tog andra över</li>
+                <li>Låg latens genom direktkommunikation</li>
+                <li>Briljant NAT-traversering ("hole punching") - kom igenom brandväggar</li>
+            </ul>
+
+            <p><strong>Nackdelarna:</strong></p>
+            <ul>
+                <li>Kvalitetsvariation beroende på användarnas internet</li>
+                <li>Säkerhetsfrågor - svårt att verifiera kryptering</li>
+                <li>Fungerade dåligt på mobiler som stänger av bakgrundsprocesser</li>
+            </ul>
+
+            <h5>VoIP-innovation: Telefoni för folket</h5>
+            <p><strong>Codec-optimering:</strong> Skype utvecklade egna ljud-codecs (SILK, senare Opus) som komprimerade ljud effektivt. <strong>Adaptiv kvalitet</strong> justerade automatiskt baserat på nätverksförhållanden.</p>
+            <p><strong>SkypeOut/SkypeIn:</strong> Ring till vanliga telefoner (SkypeOut) eller få ett "riktigt" telefonnummer (SkypeIn) - bron mellan internet och traditionell telefoni.</p>
+
+            <h5>Den tekniska skulden</h5>
+            <p>Efter Microsoft-köpet 2011 blev Skype vad insiders kallade <em>"epitomet av teknisk skuld"</em> med <em>"miljontals rader kod"</em>. Detta gjorde det svårt att innovera snabbt.</p>
+            <p><strong>Övergången 2012-2013:</strong> Microsoft övergav P2P och flyttade till centraliserade molnservrar. Officiella skäl: bättre pålitlighet och mobilstöd. Kritik: möjliggjorde avlyssning (PRISM-avslöjanden 2013) och förstörde det som gjorde Skype unikt.</p>
+
+            <h5>Konkurrensen och fallet</h5>
+
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                <strong>Marknadsandelar videokonferens (2024):</strong>
+                <div style="margin-top: 0.5rem;">
+                    <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                        <span style="width: 100px;">Zoom</span>
+                        <div style="background: #2D8CFF; height: 20px; width: 35%; border-radius: 3px;"></div>
+                        <span style="margin-left: 0.5rem;">~35%</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                        <span style="width: 100px;">Teams</span>
+                        <div style="background: #6264A7; height: 20px; width: 32%; border-radius: 3px;"></div>
+                        <span style="margin-left: 0.5rem;">~32%</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                        <span style="width: 100px;">Google Meet</span>
+                        <div style="background: #00897B; height: 20px; width: 18%; border-radius: 3px;"></div>
+                        <span style="margin-left: 0.5rem;">~18%</span>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 0.3rem 0;">
+                        <span style="width: 100px;">Skype</span>
+                        <div style="background: #00AFF0; height: 20px; width: 3%; border-radius: 3px;"></div>
+                        <span style="margin-left: 0.5rem;">~3%</span>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>Varför Zoom vann:</strong> En länk, klicka, du är med. Ingen inloggning krävs. Gallerivisning, breakout rooms, pålitlig kvalitet. Rätt timing med COVID-19.</p>
+            <p><strong>Microsoft Teams kannibaliserade Skype:</strong> Djup Office 365-integration, inkluderat i befintliga licenser. Utvecklingsresurser flyttades från Skype till Teams.</p>
+
+            <h5>Skypes arv</h5>
+            <p>Skypes P2P-approach inspirerade <strong>WebRTC</strong>, en öppen standard från Google som möjliggör P2P-kommunikation i webbläsare. WebRTC är nu ryggraden i WhatsApp, Slack och Facebook Messenger. Varje gång du gör ett gratis videosamtal - oavsett plattform - använder du teknologi som Skype hjälpte att normalisera.</p>
+
+            <h5>Teknisk ordlista</h5>
+            <table style="width: 100%; font-size: 0.9rem; border-collapse: collapse;">
+                <tr style="background: #f0f0f0;"><td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>P2P</strong></td><td style="padding: 0.5rem; border: 1px solid #ddd;">Peer-to-Peer - datorer kommunicerar direkt utan central server</td></tr>
+                <tr><td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>VoIP</strong></td><td style="padding: 0.5rem; border: 1px solid #ddd;">Voice over IP - röstsamtal via internet</td></tr>
+                <tr style="background: #f0f0f0;"><td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Codec</strong></td><td style="padding: 0.5rem; border: 1px solid #ddd;">Komprimerar ljud/video för effektiv överföring</td></tr>
+                <tr><td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Latens</strong></td><td style="padding: 0.5rem; border: 1px solid #ddd;">Fördröjning i kommunikation (millisekunder)</td></tr>
+                <tr style="background: #f0f0f0;"><td style="padding: 0.5rem; border: 1px solid #ddd;"><strong>Supernod</strong></td><td style="padding: 0.5rem; border: 1px solid #ddd;">Kraftfull dator som koordinerar P2P-trafik</td></tr>
+            </table>
         </div>
 
         <h3>I Grundarnas Egna Ord</h3>
 
         <div class="result-box">
             <h4>💬 Från quote-collector</h4>
-            <p><em>Resultat laddas in...</em></p>
+
+            <h5>Niklas Zennström - Om visionen</h5>
+
+            <blockquote>
+                "The idea for Skype came to me as I was picking up huge phone bills calling my colleagues based across Europe. I travelled a lot, and in every country I would have to buy a new SIM card for my phone and pay extortionate rates to call my team."
+                <cite>— Niklas Zennström, om ursprunget till Skype-idén</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Idén till Skype kom till mig när jag fick enorma telefonräkningar för att ringa mina kollegor runt om i Europa. Jag reste mycket, och i varje land var jag tvungen att köpa ett nytt SIM-kort och betala hutlösa priser för att ringa mitt team."</em></p>
+
+            <blockquote>
+                "The big idea was: voice is just another application. Just like email, just like instant messaging. It's data."
+                <cite>— Niklas Zennström, TED Global Oxford, 2005</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Den stora idén var: röst är bara en annan applikation. Precis som e-post, precis som snabbmeddelanden. Det är data."</em></p>
+
+            <blockquote>
+                "We wanted to create something that was truly disruptive. The telecom industry was charging people huge amounts of money for something that should be free - talking to each other."
+                <cite>— Niklas Zennström, BBC News, 2005</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Vi ville skapa något som verkligen var omvälvande. Telekombranschen tog enorma summor pengar av människor för något som borde vara gratis - att prata med varandra."</em></p>
+
+            <h5>Om den explosiva tillväxten</h5>
+
+            <blockquote>
+                "We launched it in August 2003, and the exponential growth happened almost instantly. We had one million users after the first month. By January 2005 we already had 20 million active users and were gaining 5 new users every second. It was crazy."
+                <cite>— Niklas Zennström</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Vi lanserade i augusti 2003, och den exponentiella tillväxten skedde nästan omedelbart. Vi hade en miljon användare efter första månaden. I januari 2005 hade vi redan 20 miljoner aktiva användare och fick 5 nya användare varje sekund. Det var galet."</em></p>
+
+            <h5>Janus Friis - Om produktfokus</h5>
+
+            <blockquote>
+                "We never thought of Skype as a telephone company. We thought of it as a communications platform."
+                <cite>— Janus Friis, Financial Times, 2006</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Vi tänkte aldrig på Skype som ett telefonbolag. Vi såg det som en kommunikationsplattform."</em></p>
+
+            <blockquote>
+                "Simple is hard. Really hard. It's much easier to make something complicated."
+                <cite>— Janus Friis, design-konferens ca 2007</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Enkelt är svårt. Verkligen svårt. Det är mycket lättare att göra något komplicerat."</em></p>
+
+            <h5>Jaan Tallinn - Om tekniken och arvet</h5>
+
+            <blockquote>
+                "We had built Kazaa, so we knew P2P worked for file sharing. The question was: could we make it work for real-time voice communication?"
+                <cite>— Jaan Tallinn, intervju ca 2011</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Vi hade byggt Kazaa, så vi visste att P2P fungerade för fildelning. Frågan var: kunde vi få det att fungera för realtids röstkommunikation?"</em></p>
+
+            <blockquote>
+                "Skype proved that a small team from a small country could build something that reaches hundreds of millions of people. It changed the perception of what was possible."
+                <cite>— Jaan Tallinn, om estnisk tech-industri, ca 2015</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "Skype visade att ett litet team från ett litet land kunde bygga något som når hundratals miljoner människor. Det förändrade uppfattningen om vad som var möjligt."</em></p>
+
+            <h5>Om Skypes betydelse</h5>
+
+            <blockquote>
+                "When I was starting out as an entrepreneur there was no ecosystem at that time encouraging and helping founders to build great companies other than in one place. The team at Skype and I broke that mould, proving that great companies can come from anywhere."
+                <cite>— Niklas Zennström, Atomico</cite>
+            </blockquote>
+            <p><em>Svensk översättning: "När jag började som entreprenör fanns det ingen ekosystem som uppmuntrade och hjälpte grundare att bygga stora företag, utom på ett ställe. Teamet på Skype och jag bröt den mallen och bevisade att stora företag kan komma från var som helst."</em></p>
         </div>
 
         <h3>Den Samlade Berättelsen</h3>
 
         <div class="result-box">
             <h4>✍️ Från storyteller</h4>
-            <p><em>Resultat laddas in...</em></p>
+
+            <p><strong>Det började med en telefonräkning.</strong> Niklas Zennström, en svensk ingenjör som reste runt Europa för Tele2, fick nog av de hutlösa priserna för internationella samtal. Varje land, ett nytt SIM-kort. Varje samtal, en ny kostnad. Det måste finnas ett bättre sätt.</p>
+
+            <p>I en liten lägenhet i Amsterdam 2000 flyttade den danske autodidakten Janus Friis in hos Zennström. Två olika bakgrunder - en med dubbla universitetsexamina, en gymnasieavhoppare - men samma vision: att störa telekomjättarna.</p>
+
+            <p>Deras första projekt, fildelningsprogrammet Kazaa, gav dem ovärderlig erfarenhet av peer-to-peer-teknik. Men det var tre estniska programmerare - Ahti Heinla, Priit Kasesalu och Jaan Tallinn, skolkamrater sedan barnsben - som skulle göra magin möjlig. De hade redan skapat Estlands första exporterade dataspel. Nu skulle de revolutionera telefoni.</p>
+
+            <p><strong>I augusti 2003 föddes Skype.</strong> Idén var enkel men radikal: använd internet och andras datorer för att ringa gratis. Ingen mellanhand, inga dyra servrar, inga telefonräkningar. Inom första månaden hade en miljon människor registrerat sig.</p>
+
+            <p>Tillväxten var "galen", som Zennström själv uttryckte det. Fem nya användare varje sekund. I januari 2005: 20 miljoner. I september samma år köpte eBay Skype för 2,6 miljarder dollar. Grundarna blev förmögna. Estland fick sin "Skype-maffia" - över 30 nya tech-entreprenörer som skulle transformera landets ekonomi.</p>
+
+            <p><strong>Men toppen var också början på slutet.</strong> eBay förstod aldrig riktigt vad de köpt. 2011 tog Microsoft över för 8,5 miljarder dollar - deras största förvärv någonsin vid den tiden. Med nya ägare kom nya problem.</p>
+
+            <p>Den briljanta P2P-arkitekturen som gjorde Skype billigt att driva visade sig vara omöjlig att underhålla. "Miljontals rader kod", sa insiders. "Epitomet av teknisk skuld." Microsoft försökte modernisera, men övergången från peer-to-peer till molnet var ojämn. Användare klagade på lagg, avbrott, försämrad kvalitet.</p>
+
+            <p>Sedan kom pandemin. Det borde ha varit Skypes storhetstid. Istället var det Zoom som exploderade - från ingenstans till 200 miljoner dagliga mötesdeltagare i april 2020. Skype, pionjären, hamnade på efterkälken. "Wonky, opålitligt, långsamt, buggigt", skrev användare.</p>
+
+            <p><strong>Den 5 maj 2025 stängdes Skype ner.</strong> 22 år efter lanseringen. Microsoft Teams hade vunnit den interna kampen.</p>
+
+            <p>Men arvet lever. Skypes peer-to-peer-teknik inspirerade WebRTC, standarden som nu driver WhatsApp, Slack och Messenger. Niklas Zennström investerar via Atomico i nästa generations europeiska startups. Jaan Tallinn, den estniske utvecklaren, sitter i styrelsen för Anthropic och arbetar med AI-säkerhet.</p>
+
+            <p>Och någonstans, i varje gratis videosamtal över internet, ekar fortfarande det karakteristiska ljudet av en idé som förändrade hur världen kommunicerar.</p>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem;">
+                <h5 style="margin-top: 0; color: white;">Meta-not: Cirkeln sluts</h5>
+                <p style="margin-bottom: 0;">Denna rapport skapades av Claude, en AI utvecklad av Anthropic. Jaan Tallinn - en av Skypes ursprungliga utvecklare - ledde finansieringsrundan för Anthropic och sitter i företagets styrelse. Så en av personerna som bygde tekniken bakom gratis internetsamtal hjälpte även till att bygga AI:n som nu berättar historien om den tekniken. Från P2P till AI - en resa på 22 år.</p>
+            </div>
         </div>
 
     </div>
