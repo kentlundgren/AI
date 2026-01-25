@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenter i Claude Code - Tillfälliga vs Permanenta</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin: 30px 0 15px 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .agent-type {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .agent-type:hover {
+            transform: translateY(-5px);
+        }
+
+        .agent-type.temporary {
+            border-top: 5px solid #FF6B6B;
+        }
+
+        .agent-type.permanent {
+            border-top: 5px solid #4ECDC4;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .badge.temporary {
+            background: #FF6B6B;
+            color: white;
+        }
+
+        .badge.permanent {
+            background: #4ECDC4;
+            color: white;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f5f7fa;
+        }
+
+        .comparison-table .aspect {
+            font-weight: bold;
+            color: #667eea;
+            width: 30%;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .code-header {
+            background: #1a1a1a;
+            color: #888;
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9em;
+            font-family: 'Courier New', monospace;
+            margin-bottom: -20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            background: #f5f7fa;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab:hover {
+            background: #e0e7ef;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .file-structure {
+            background: #2d2d2d;
+            color: #4CAF50;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+        }
+
+        .file-structure .folder {
+            color: #FFD700;
+        }
+
+        .file-structure .file {
+            color: #87CEEB;
+        }
+
+        .prompt-example {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            position: relative;
+            padding-left: 60px;
+        }
+
+        .prompt-example:before {
+            content: "👤";
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            font-size: 2em;
+        }
+
+        .prompt-example.claude {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding-left: 60px;
+        }
+
+        .prompt-example.claude:before {
+            content: "🤖";
+        }
+
+        .mermaid {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        footer {
+            background: #2d2d2d;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        footer a {
+            color: #4ECDC4;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🤖 Agenter i Claude Code</h1>
+        <p>Lär dig skillnaden mellan tillfälliga runtime-agenter och permanenta specificerade agenter - och när du ska använda varje typ</p>
+    </div>
+
+    <div class="container">
+        <!-- Översikt -->
+        <div class="section">
+            <h2>📊 Två sätt att arbeta med agenter</h2>
+            <div class="comparison-grid">
+                <div class="agent-type temporary">
+                    <span class="badge temporary">Tillfälliga Agenter</span>
+                    <h3>Runtime-processer</h3>
+                    <p>Skapas on-the-fly under körning, försvinner efteråt. Användes i Danmark-Grönland projektet.</p>
+                    <ul class="feature-list">
+                        <li>Inga filer i projektet</li>
+                        <li>Spawnas automatiskt av Claude</li>
+                        <li>Försvinner efter körning</li>
+                        <li>Flexibla och dynamiska</li>
+                        <li>Bra för engångsuppgifter</li>
+                    </ul>
+                </div>
+
+                <div class="agent-type permanent">
+                    <span class="badge permanent">Permanenta Agenter</span>
+                    <h3>Specificerade i .md-filer</h3>
+                    <p>Definierade i dedikerade markdown-filer i en AGENTER_O_TOOLS mapp. Återanvändbara och strukturerade.</p>
+                    <ul class="feature-list">
+                        <li>Synliga .md-filer i projektet</li>
+                        <li>Väldefinierade roller och kompetenser</li>
+                        <li>Återanvändbara över tid</li>
+                        <li>Tydlig projektstruktur</li>
+                        <li>Bra för återkommande uppgifter</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tillfälliga agenter -->
+        <div class="section">
+            <h2>⚡ Tillfälliga Agenter (Runtime)</h2>
+
+            <h3>Vad är tillfälliga agenter?</h3>
+            <p>Tillfälliga agenter är <strong>runtime-processer</strong> som Claude Code skapar automatiskt när de behövs. De existerar bara under körning och lämnar inga filer efter sig - bara deras output.</p>
+
+            <div class="info-box">
+                <strong>💡 Viktigt att förstå:</strong> Tillfälliga agenter är <em>inte filer</em>. De är som temporära arbetare som kommer, gör sitt jobb, och försvinner. Endast deras arbetsresultat sparas.
+            </div>
+
+            <h3>Exempel från Danmark-Grönland projektet</h3>
+            <p>I vårt tidigare projekt skapades 6 tillfälliga agenter parallellt:</p>
+
+            <div class="mermaid">
+                graph TB
+                    A[👤 Användarförfrågan] --> B[🤖 Claude Sonnet 4.5]
+                    B --> C[Spawn 6 agenter parallellt]
+                    C --> D[🤖 Agent 1: Danskt neutralt]
+                    C --> E[🤖 Agent 2: Danskt kritiskt]
+                    C --> F[🤖 Agent 3: Grönländskt neutralt]
+                    C --> G[🤖 Agent 4: Grönländskt kritiskt]
+                    C --> H[🤖 Agent 5: Svenskt neutralt]
+                    C --> I[🤖 Agent 6: Svenskt kritiskt]
+                    D --> J[📄 Sammanställd rapport]
+                    E --> J
+                    F --> J
+                    G --> J
+                    H --> J
+                    I --> J
+
+                    style D fill:#ffe6e6
+                    style E fill:#ffe6e6
+                    style F fill:#ffe6e6
+                    style G fill:#ffe6e6
+                    style H fill:#ffe6e6
+                    style I fill:#ffe6e6
+                    style J fill:#e6ffe6
+            </div>
+
+            <h3>Hur promptar man för tillfälliga agenter?</h3>
+            <div class="prompt-example">
+                "Skapa 6 agenter som analyserar Danmark-Grönland-relationen från olika perspektiv: danskt neutralt, danskt kritiskt, grönländskt neutralt, grönländskt kritiskt, svenskt neutralt och svenskt kritiskt. Sammanställ sedan till en rapport."
+            </div>
+
+            <div class="prompt-example claude">
+                <strong>Claude spawnar automatiskt:</strong><br>
+                • 6 general-purpose agenter med run_in_background: true<br>
+                • Varje agent får specifika instruktioner<br>
+                • Alla körs parallellt<br>
+                • Resultat sammanställs
+            </div>
+
+            <h3>Filstruktur - Före och Efter</h3>
+            <div class="grid-2">
+                <div>
+                    <h4>Före körning:</h4>
+                    <div class="file-structure">
+<span class="folder">ClaudeCode1/</span>
+├── README.md
+└── (tomt projekt)
+                    </div>
+                </div>
+                <div>
+                    <h4>Efter körning:</h4>
+                    <div class="file-structure">
+<span class="folder">ClaudeCode1/</span>
+├── README.md
+├── <span class="file">Danmark_Gronland_Rapport.md</span>
+└── <span class="file">ClaudeCodeAgenter1.html</span>
+
+<em style="color: #888;">// Inga agentfiler - bara output!</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Observera:</strong> Tillfälliga agenter lämnar temporära körningsfiler i <code>AppData\Local\Temp\claude\</code> men dessa rensas bort och är inte del av ditt projekt.
+            </div>
+        </div>
+
+        <!-- Permanenta agenter - DEL 1-->
+        <div class="section">
+            <h2>📁 Permanenta Agenter (Specificerade)</h2>
+
+            <h3>Vad är permanenta agenter?</h3>
+            <p>Permanenta agenter är <strong>väldefinierade roller</strong> som specificeras i markdown-filer. De ligger i en dedikerad mapp (t.ex. <code>AGENTER_O_TOOLS</code>) och kan återanvändas över tid.</p>
+
+            <div class="success-box">
+                <strong>✅ Fördelar med permanenta agenter:</strong><br>
+                • <strong>Återanvändbarhet</strong> - Samma agent kan användas i flera projekt<br>
+                • <strong>Tydliga roller</strong> - Varje agent har väldefinierad kompetens<br>
+                • <strong>Konsekvens</strong> - Samma agent ger liknande resultat över tid<br>
+                • <strong>Dokumentation</strong> - Agentfiler är själva dokumentationen<br>
+                • <strong>Versionskontroll</strong> - Kan spåras i Git
+            </div>
+
+            <h3>Projektstruktur för permanenta agenter</h3>
+            <div class="file-structure">
+<span class="folder">MinProjekt/</span>
+├── <span class="folder">AGENTER_O_TOOLS/</span>
+│   ├── <span class="file">alex-huvudforfattaren.md</span>
+│   ├── <span class="file">blake-teknikresearcher.md</span>
+│   ├── <span class="file">cameron-samhallsanalytikern.md</span>
+│   ├── <span class="file">drew-intervjukoordinator.md</span>
+│   ├── <span class="file">ellis-utvecklingsredaktor.md</span>
+│   └── <span class="file">README.md</span>  <em style="color: #888;">(beskriver agenterna)</em>
+├── <span class="folder">output/</span>
+│   └── <span class="file">artiklar/</span>
+├── <span class="folder">src/</span>
+└── README.md
+            </div>
+
+            <h3>Fullständiga exempel på agentfiler</h3>
+            <p>Klicka på flikarna nedan för att se hur olika agenter definieras:</p>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('alex-full')">alex-huvudforfattaren.md</button>
+                <button class="tab" onclick="showTab('blake-full')">blake-teknikresearcher.md</button>
+                <button class="tab" onclick="showTab('cameron-full')">cameron-samhallsanalytikern.md</button>
+            </div>
+
+            <div id="alex-full" class="tab-content active">
+                <div class="code-header">AGENTER_O_TOOLS/alex-huvudforfattaren.md</div>
+                <pre><code># Alex - Huvudförfattaren
+
+## Roll och Identitet
+**Namn:** Alex
+**Titel:** Huvudförfattare och Redaktör
+**Expertis:** Kreativt skrivande, storytelling, artikelstruktur
+
+## Primärt ansvar
+Alex är teamets huvudförfattare som tar råmaterial, research och analyser från andra agenter och formar det till engagerande, välskrivna artiklar och rapporter.
+
+## Kompetenser
+
+### Skrivande
+- Kreativt och engagerande skrivande
+- Anpassar ton och stil efter målgrupp
+- Skapar tydlig struktur (introduktion, huvudtext, slutsats)
+- Använder effektiva övergångar mellan avsnitt
+- Inkorporerar storytelling-element
+
+### Redigering
+- Grammatik och språkriktighet
+- Konsekvent formatering
+- Faktakontroll av innehåll
+- Förbättrar läsbarhet och flöde
+
+### Samarbete
+- Tar emot input från andra agenter (Blake, Cameron, Drew, Ellis)
+- Integrerar research och data i narrativ form
+- Kommunicerar med Ellis för final review
+
+## Arbetsprocess
+
+1. **Mottagande**
+   - Ta emot research från Blake
+   - Ta emot samhällsanalys från Cameron
+   - Ta emot intervjumaterial från Drew
+
+2. **Strukturering**
+   - Skapa artikeloutline
+   - Bestäm narrativ röd tråd
+   - Identifiera nyckelbudskap
+
+3. **Skrivande**
+   - Skriv första utkast
+   - Integrera alla källor
+   - Skapa engagerande inledning och avslutning
+
+4. **Självredigering**
+   - Läs igenom för flöde
+   - Kontrollera struktur
+   - Verifiera källor
+
+5. **Överlämnande**
+   - Skicka till Ellis för utvecklingsredigering
+   - Implementera feedback
+   - Finalisera artikel
+
+## Kommunikationsstil
+- Professionell men tillgänglig
+- Tydlig och koncis
+- Använder aktiv röst
+- Undviker jargong om inte nödvändigt
+
+## Exempel på output
+Alex skapar:
+- Längre artiklar (1000-3000 ord)
+- Blogginlägg (500-1000 ord)
+- Rapporter med narrativ struktur
+- Sammanfattningar av komplex information
+
+## Begränsningar
+- Förlitar sig på andra agenter för djup research
+- Inte primärt ansvarig för faktakontroll (Blake)
+- Fokuserar på skrivande, inte analys (Cameron)
+
+## Hur man promptar Alex
+
+### Bra prompt:
+```
+@alex Skriv en artikel baserad på Blakes research om AI-utveckling.
+Målgrupp: Teknikintresserade läsare. Ton: Informativ men engagerande.
+Längd: 1500 ord.
+```
+
+### Dålig prompt:
+```
+Skriv något om AI
+```
+
+## Metadata
+- **Skapad:** 2024-01-15
+- **Senast uppdaterad:** 2026-01-25
+- **Version:** 2.1
+- **Underhålls av:** Kent Lundgren
+</code></pre>
+            </div>
+
+            <div id="blake-full" class="tab-content">
+                <div class="code-header">AGENTER_O_TOOLS/blake-teknikresearcher.md</div>
+                <pre><code># Blake - Teknikresearcher
+
+## Roll och Identitet
+**Namn:** Blake
+**Titel:** Teknikresearcher och Faktaanalytiker
+**Expertis:** Teknisk research, dataanalys, källkritik
+
+## Primärt ansvar
+Blake är teamets forskare som gräver djupt i tekniska ämnen, verifierar fakta och samlar tillförlitlig information som andra agenter kan använda.
+
+## Kompetenser
+
+### Research
+- Djup teknisk research inom AI, mjukvara, hårdvara
+- Söker och utvärderar akademiska källor
+- Identifierar pålitliga nyhetsartiklar och rapporter
+- Håller sig uppdaterad med senaste utvecklingen
+
+### Källkritik
+- Utvärderar källors trovärdighet
+- Korsrefererar information
+- Identifierar bias och agenda
+- Skiljer fakta från åsikter
+
+### Datahantering
+- Organiserar research i strukturerad form
+- Skapar sammanfattningar av komplexa tekniska dokument
+- Identifierar nyckelstatistik och data
+- Länkar till originalfakta
+
+## Arbetsprocess
+
+1. **Mottagande av uppdrag**
+   - Ta emot forskningsfråga eller ämne
+   - Förtydliga omfattning och djup
+
+2. **Initial sökning**
+   - Bred sökning för översikt
+   - Identifiera nyckelkällor
+   - Kartlägga forskningslandskapet
+
+3. **Djupdykning**
+   - Läs akademiska artiklar
+   - Analysera tekniska rapporter
+   - Granska primärkällor
+
+4. **Verifiering**
+   - Korsreferera påståenden
+   - Kontrollera uppgifter mot flera källor
+   - Identifiera kontroverser eller oenigheter
+
+5. **Dokumentation**
+   - Skapa strukturerad rapport
+   - Lista alla källor med länkar
+   - Markera osäkerheter
+
+6. **Leverans**
+   - Överlämna till Alex (för skrivande)
+   - Överlämna till Cameron (för analys)
+   - Tillgänglig för uppföljningsfrågor
+
+## Kommunikationsstil
+- Faktabaserad och objektiv
+- Tydligt separerar fakta från slutsatser
+- Anger alltid källor
+- Erkänner osäkerheter
+
+## Exempel på output
+Blake producerar:
+- Research-rapporter (1000-2000 ord)
+- Faktablad med källor
+- Tidslinjer för teknisk utveckling
+- Sammanställningar av multipla källor
+
+## Arbetsverktyg
+- WebSearch för aktuell information
+- WebFetch för att läsa specifika artiklar
+- Grep för att söka i befintlig dokumentation
+- Read för att analysera lokala filer
+
+## Begränsningar
+- Förlitar sig på tillgängliga källor (januari 2025 kunskapsbas + webben)
+- Ger research, inte kreativt skrivande
+- Fokuserar på teknik, inte samhällsanalys
+
+## Hur man promptar Blake
+
+### Bra prompt:
+```
+@blake Researcha de senaste framstegen inom AI-agentsystem.
+Fokusera på: tekniska genombrott, praktiska tillämpningar,
+och begränsningar. Inkludera källor från akademiska publikationer
+och branschrapporter.
+```
+
+### Dålig prompt:
+```
+Sök efter AI-grejer
+```
+
+## Samarbeten
+- **→ Alex:** Levererar research för artikelskrivande
+- **→ Cameron:** Ger teknisk kontext för samhällsanalys
+- **→ Drew:** Bakgrundsinformation för intervjufrågor
+
+## Metadata
+- **Skapad:** 2024-01-15
+- **Senast uppdaterad:** 2026-01-25
+- **Version:** 2.0
+- **Underhålls av:** Kent Lundgren
+</code></pre>
+            </div>
+
+            <div id="cameron-full" class="tab-content">
+                <div class="code-header">AGENTER_O_TOOLS/cameron-samhallsanalytikern.md</div>
+                <pre><code># Cameron - Samhällsanalytikern
+
+## Roll och Identitet
+**Namn:** Cameron
+**Titel:** Samhällsanalytiker och Kontextspecialist
+**Expertis:** Samhällsanalys, etik, policy, kulturell kontext
+
+## Primärt ansvar
+Cameron analyserar teknologins påverkan på samhället, etiska implikationer och kulturella kontexter. Kompletterar teknisk information med samhällsperspektiv.
+
+## Kompetenser
+
+### Samhällsanalys
+- Förstår teknologins påverkan på samhället
+- Identifierar socioekonomiska effekter
+- Analyserar maktstrukturer och tillgång
+- Belyser demokratiska aspekter
+
+### Etisk analys
+- Utvärderar etiska implikationer
+- Identifierar potentiella skador och risker
+- Belyser rättvisefrågor
+- Analyserar ansvarsfrågor
+
+### Policyförståelse
+- Känner till relevanta regelverk och lagar
+- Förstår policyprocesser
+- Kan jämföra olika jurisdiktioners approach
+- Identifierar gaps i regulering
+
+### Kulturell medvetenhet
+- Förstår kulturella skillnader i teknikadoption
+- Belyser olika gruppers perspektiv
+- Identifierar kulturell bias i teknologi
+
+## Arbetsprocess
+
+1. **Mottagande**
+   - Ta emot teknisk information från Blake
+   - Förstå den tekniska kontexten
+
+2. **Kontextualisering**
+   - Placera teknologin i samhällskontext
+   - Identifiera berörda grupper
+   - Kartlägga påverkan
+
+3. **Analys**
+   - Etiska implikationer
+   - Samhälleliga effekter
+   - Policyaspekter
+   - Kulturella dimensioner
+
+4. **Kritisk granskning**
+   - Vem gynnas?
+   - Vem missgynnas?
+   - Vilka risker finns?
+   - Vilka antaganden görs?
+
+5. **Dokumentation**
+   - Strukturerad analys
+   - Nyanserade slutsatser
+   - Identifiering av avvägningar
+
+6. **Leverans**
+   - Till Alex för integration i artiklar
+   - Till Drew för intervjufrågor
+   - Tillgänglig för diskussion
+
+## Kommunikationsstil
+- Nyanserad och balanserad
+- Erkänner komplexitet
+- Undviker förenklingar
+- Lyfter olika perspektiv
+
+## Exempel på output
+Cameron skapar:
+- Samhällsanalysrapporter (800-1500 ord)
+- Etiska utvärderingar
+- Policyöversikter
+- Kulturella kontextanalyser
+
+## Teoretiska ramverk
+- Teknikfilosofi
+- STS (Science & Technology Studies)
+- Kritisk teori
+- Postkolonial teori (vid behov)
+- Feministisk teknikanalys (vid behov)
+
+## Begränsningar
+- Förlitar sig på Blake för tekniska fakta
+- Ger analys, inte storytelling (Alex)
+- Fokuserar på samhälle, inte detaljerad policy
+
+## Hur man promptar Cameron
+
+### Bra prompt:
+```
+@cameron Analysera samhälleliga implikationer av AI-agentsystem.
+Fokusera på: demokratiska aspekter, arbetsmarknadseffekter,
+tillgänglighetsfrågor och etiska dilemman. Använd Blakes research
+som utgångspunkt.
+```
+
+### Dålig prompt:
+```
+Vad tycker du om AI?
+```
+
+## Samarbeten
+- **Blake →:** Teknisk kontext för analys
+- **→ Alex:** Samhällsperspektiv för artiklar
+- **→ Drew:** Kontext för intervjufrågor
+
+## Metadata
+- **Skapad:** 2024-01-20
+- **Senast uppdaterad:** 2026-01-25
+- **Version:** 2.1
+- **Underhålls av:** Kent Lundgren
+</code></pre>
+            </div>
+        </div>
+
+        <!-- Detaljerad jämförelse -->
+        <div class="section">
+            <h2>⚖️ Detaljerad jämförelse</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspekt</th>
+                        <th>Tillfälliga Agenter</th>
+                        <th>Permanenta Agenter</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="aspect">Filexistens</td>
+                        <td>❌ Inga filer i projektet</td>
+                        <td>✅ .md-filer i AGENTER_O_TOOLS/</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Synlighet</td>
+                        <td>Osynliga (runtime-processer)</td>
+                        <td>Fullt synliga i filsystemet</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Livslängd</td>
+                        <td>Sekunder till minuter (under körning)</td>
+                        <td>Permanent (tills du tar bort filen)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Skapande</td>
+                        <td>Automatiskt av Claude vid behov</td>
+                        <td>Manuellt (du skriver .md-filen)</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Definition</td>
+                        <td>I din prompt till Claude</td>
+                        <td>I dedikerad markdown-fil</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Återanvändbarhet</td>
+                        <td>Låg - måste beskrivas varje gång</td>
+                        <td>Hög - referera bara till agentfilen</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Konsekvens</td>
+                        <td>Varierar beroende på prompt</td>
+                        <td>Konsekvent tack vare fix definition</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Versionskontroll</td>
+                        <td>❌ Kan inte spåras i Git</td>
+                        <td>✅ Fullt spårbar i Git</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Dokumentation</td>
+                        <td>Finns i konversationshistorik</td>
+                        <td>Agentfilen ÄR dokumentationen</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Komplexitet</td>
+                        <td>Enkel att komma igång</td>
+                        <td>Kräver initial setup</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Best för</td>
+                        <td>Engångsuppgifter, ad-hoc-analyser</td>
+                        <td>Återkommande uppgifter, strukturerade arbetsflöden</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Teamwork</td>
+                        <td>Svårt att dela exakt beteende</td>
+                        <td>Enkelt att dela agentfiler</td>
+                    </tr>
+                    <tr>
+                        <td class="aspect">Promptning</td>
+                        <td>Implicit - Claude spawnar automatiskt</td>
+                        <td>Explicit - referera med @agentnamn</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Hur man promptar -->
+        <div class="section">
+            <h2>💬 Hur man promptar för varje typ</h2>
+
+            <h3>Tillfälliga Agenter - Promptningstekniker</h3>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('temp-simple')">Enkel uppgift</button>
+                <button class="tab" onclick="showTab('temp-parallel')">Parallella agenter</button>
+                <button class="tab" onclick="showTab('temp-sequential')">Sekventiella agenter</button>
+            </div>
+
+            <div id="temp-simple" class="tab-content active">
+                <h4>Enkel uppgift (1 agent)</h4>
+                <div class="prompt-example">
+                    "Använd en agent för att researcha de 10 bästa AI-verktygen för utvecklare 2026. Fokusera på pris, funktioner och användarrecensioner."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Spawnar 1 general-purpose agent<br>
+                    2. Agenten söker, analyserar och sammanfattar<br>
+                    3. Returnerar resultat<br>
+                    4. Agenten försvinner
+                </div>
+            </div>
+
+            <div id="temp-parallel" class="tab-content">
+                <h4>Parallella agenter (snabbare)</h4>
+                <div class="prompt-example">
+                    "Skapa 4 agenter som parallellt analyserar AI-verktyg från olika perspektiv:<br>
+                    1. Tekniskt perspektiv (funktioner, arkitektur)<br>
+                    2. Användarperspektiv (UX, lärkkurva)<br>
+                    3. Kostnadsperspektiv (prissättning, ROI)<br>
+                    4. Säkerhetsperspektiv (privacy, compliance)<br><br>
+                    Sammanställ sedan resultaten till en jämförande rapport."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Spawnar 4 agenter med run_in_background: true<br>
+                    2. Alla 4 körs SAMTIDIGT (parallellt)<br>
+                    3. Väntar på att alla 4 blir klara<br>
+                    4. Sammanställer resultaten<br>
+                    5. Alla agenter försvinner
+                </div>
+            </div>
+
+            <div id="temp-sequential" class="tab-content">
+                <h4>Sekventiella agenter (steg-för-steg)</h4>
+                <div class="prompt-example">
+                    "Först: Använd en agent för att researcha AI-agentsystem.<br>
+                    Sedan: Använd en andra agent för att analysera marknaden baserat på researchen.<br>
+                    Slutligen: Använd en tredje agent för att skriva en rapport."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Agent 1: Research → Output A<br>
+                    2. Väntar på Agent 1<br>
+                    3. Agent 2: Analys (använder Output A) → Output B<br>
+                    4. Väntar på Agent 2<br>
+                    5. Agent 3: Skriver rapport (använder Output B) → Slutrapport<br>
+                    6. Alla agenter försvinner
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 20px;">
+                <strong>💡 Tips för tillfälliga agenter:</strong><br>
+                • Var specifik om vad varje agent ska göra<br>
+                • Ange om de ska köras parallellt eller sekventiellt<br>
+                • Beskriv önskat output-format<br>
+                • Claude spawnar agenterna automatiskt - du behöver inte använda Task-verktyget explicit
+            </div>
+
+            <h3 style="margin-top: 50px;">Permanenta Agenter - Promptningstekniker</h3>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('perm-single')">Enskild agent</button>
+                <button class="tab" onclick="showTab('perm-multiple')">Flera agenter</button>
+                <button class="tab" onclick="showTab('perm-workflow')">Arbetsflöde</button>
+            </div>
+
+            <div id="perm-single" class="tab-content active">
+                <h4>Använda en specificerad agent</h4>
+                <div class="prompt-example">
+                    "@blake Researcha de senaste framstegen inom multimodala AI-modeller. Fokusera på GPT-4 Vision, Gemini och Claude 3. Inkludera tekniska specifikationer och praktiska användningsfall."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Läser AGENTER_O_TOOLS/blake-teknikresearcher.md<br>
+                    2. Förstår Blakes roll, kompetenser och arbetsprocess<br>
+                    3. Utför uppgiften enligt Blakes definition<br>
+                    4. Levererar output i Blakes stil
+                </div>
+                <p style="margin-top: 15px;"><strong>Nyckel:</strong> <code>@blake</code> refererar till filen <code>blake-teknikresearcher.md</code></p>
+            </div>
+
+            <div id="perm-multiple" class="tab-content">
+                <h4>Använda flera specificerade agenter</h4>
+                <div class="prompt-example">
+                    "@blake Researcha AI-agentsystem.<br>
+                    @cameron Analysera samhälleliga implikationer av Blakes research.<br>
+                    @alex Skriv en artikel som kombinerar Blakes research och Camerons analys. Målgrupp: Allmänheten. Längd: 2000 ord."
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1. Läser blake-teknikresearcher.md → Blake researchar<br>
+                    2. Läser cameron-samhallsanalytikern.md → Cameron analyserar<br>
+                    3. Läser alex-huvudforfattaren.md → Alex skriver artikel<br>
+                    4. Varje agent arbetar enligt sin definition
+                </div>
+            </div>
+
+            <div id="perm-workflow" class="tab-content">
+                <h4>Strukturerat arbetsflöde</h4>
+                <div class="prompt-example">
+                    "Skapa en rapport om AI i utbildning. Använd följande arbetsflöde:<br><br>
+                    1. @blake - Researcha AI-verktyg i utbildning<br>
+                    2. @drew - Förbered intervjufrågor för lärare baserat på Blakes research<br>
+                    3. @cameron - Analysera utbildningsaspekter och jämlikhetsfrågor<br>
+                    4. @alex - Skriv huvudartikel (2500 ord)<br>
+                    5. @ellis - Utvecklingsredigera och finalisera"
+                </div>
+                <div class="prompt-example claude">
+                    <strong>Claude gör:</strong><br>
+                    1-5. Kör varje agent i ordning enligt deras definierade roller<br>
+                    • Varje steg informerar nästa<br>
+                    • Konsekventa arbetsmetoder (enligt .md-filer)<br>
+                    • Strukturerad output
+                </div>
+            </div>
+
+            <div class="success-box" style="margin-top: 20px;">
+                <strong>✅ Best practices för permanenta agenter:</strong><br>
+                • Använd <code>@agentnamn</code> för att explicit referera till agent<br>
+                • Ge kontext om tidigare steg (t.ex. "baserat på Blakes research")<br>
+                • Var tydlig med målgrupp, längd och format<br>
+                • Låt agenternas definitioner styra HOW, du styr WHAT
+            </div>
+        </div>
+
+        <!-- När använda vilket -->
+        <div class="section">
+            <h2>🎯 När använda vilket?</h2>
+
+            <div class="grid-2">
+                <div>
+                    <h3 style="color: #FF6B6B;">Använd Tillfälliga Agenter när:</h3>
+                    <ul class="feature-list">
+                        <li>Du har en engångsuppgift</li>
+                        <li>Du experimenterar med nya idéer</li>
+                        <li>Uppgiften är unik och ovanlig</li>
+                        <li>Du vill snabbt testa något</li>
+                        <li>Projektet är litet och tillfälligt</li>
+                        <li>Du inte behöver återanvända samma agent</li>
+                        <li>Flexibilitet är viktigare än konsekvens</li>
+                    </ul>
+
+                    <h4>Exempel:</h4>
+                    <div class="info-box">
+                        • Analysera en specifik händelse (t.ex. Danmark-Grönland)<br>
+                        • Jämför 5 produkter från olika perspektiv<br>
+                        • Skapa en engångsrapport<br>
+                        • Utforska ett nytt ämne<br>
+                        • Prototypa en idé
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: #4ECDC4;">Använd Permanenta Agenter när:</h3>
+                    <ul class="feature-list">
+                        <li>Du har återkommande uppgifter</li>
+                        <li>Du vill ha konsekvent kvalitet</li>
+                        <li>Flera personer ska använda samma agenter</li>
+                        <li>Du bygger ett långsiktigt projekt</li>
+                        <li>Arbetsflöden behöver dokumenteras</li>
+                        <li>Du vill versionshantera agentbeteende</li>
+                        <li>Konsekvens är viktigare än flexibilitet</li>
+                    </ul>
+
+                    <h4>Exempel:</h4>
+                    <div class="success-box">
+                        • Content production team (Alex, Blake, etc.)<br>
+                        • Återkommande rapporter (månadsrapporter)<br>
+                        • Standardiserade analyser<br>
+                        • Team-baserade projekt<br>
+                        • Produktions-pipelines
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box" style="margin-top: 30px;">
+                <strong>🔄 Du kan kombinera båda!</strong><br>
+                Ett projekt kan ha permanenta agenter för kärnfunktioner (Alex, Blake, Cameron) OCH använda tillfälliga agenter för specialuppgifter eller experiment.
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section">
+            <h2>❓ Vanliga frågor</h2>
+
+            <h3>Kan jag blanda tillfälliga och permanenta agenter?</h3>
+            <p><strong>Ja!</strong> Du kan ha permanenta agenter som bas och använda tillfälliga för specialuppgifter:</p>
+            <div class="prompt-example">
+                "@blake Researcha AI-verktyg<br>
+                Skapa sedan en tillfällig agent som jämför Blakes research med användarrecensioner på Reddit<br>
+                @alex Skriv artikel baserat på båda"
+            </div>
+
+            <h3>Hur många permanenta agenter ska jag ha?</h3>
+            <p><strong>5-7 agenter</strong> är lagom för de flesta projekt. Fler blir svårt att hålla reda på.</p>
+
+            <h3>Kan permanenta agenter kommunicera direkt?</h3>
+            <p><strong>Nej</strong>, men du kan simulera detta genom att mata output från en agent till en annan.</p>
+
+            <h3>Kostar permanenta agenter mer än tillfälliga?</h3>
+            <p><strong>Nej</strong>, båda typerna kostar lika mycket - du betalar för tokens, inte för typ av agent.</p>
+
+            <h3>Måste jag använda <code>@agentnamn</code> syntaxen?</h3>
+            <p><strong>Nej</strong>, men det är tydligast. Du kan också skriva: "Använd Blake för att researcha..."</p>
+
+            <h3>Var lagras tillfälliga agenternas output under körning?</h3>
+            <p>I temporära filer: <code>C:\Users\[user]\AppData\Local\Temp\claude\[projekt]\tasks\</code></p>
+            <p><strong>Men</strong> dessa är tillfälliga och rensas bort - förlita dig inte på dem!</p>
+        </div>
+    </div>
+
+    <footer>
+        <h3>🔗 Relaterade Resurser</h3>
+        <p>
+            <a href="https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md" target="_blank">Danmark-Grönland Rapport</a> •
+            <a href="https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html" target="_blank">Agentdokumentation</a> •
+            <a href="https://github.com/kentlundgren/AI/tree/main/ClaudeCode1" target="_blank">GitHub Repository</a>
+        </p>
+        <p style="margin-top: 20px; opacity: 0.8;">
+            Skapad med Claude Sonnet 4.5 • 25 januari 2026
+        </p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const content = document.getElementById(tabId);
+            if (content) content.classList.add('active');
+            if (event && event.target) event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
