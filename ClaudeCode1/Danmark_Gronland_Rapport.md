@@ -532,4 +532,20 @@ För vidare läsning rekommenderas:
 
 **Rapport sammanställd: Januari 2026**
 
+---
+
+## 🔗 Projektnavigation
+
+- [📘 Projektöversikt](index.html) - Interaktiv guide till projektet
+- [💬 Perspektivdebatt](debatt.html) - Simulerad debatt mellan perspektivagenter
+- [🤖 Agentdokumentation](ClaudeCodeAgenter1.html) - Teknisk dokumentation
+- [📖 README](README.md) - Projektöversikt och teknisk förklaring
+- [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator och arbetsflöden
+- [💻 GitHub](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1) - Källkod och versionshantering
+
+**Skapad med Claude Code och permanenta perspektivagenter:**
+- 🇩🇰 danish-perspective - Danskt perspektiv på Rigsfællesskabet
+- 🇬🇱 greenlandic-perspective - Grönländskt perspektiv på självbestämmande
+- 🇸🇪 swedish-perspective - Svenskt komparativt perspektiv
+
 *Denna rapport presenterar multipla perspektiv för att ge en nyanserad förståelse av Danmark-Grönland-relationen. Inga enskilda perspektiv bör ses som "den objektiva sanningen", utan tillsammans ger de en rikare bild av en komplex historisk och nutida relation.*

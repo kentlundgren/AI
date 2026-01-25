@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grönlands Framtid - Perspektivdebatt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .intro {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-bottom: 3px solid #4ECDC4;
+        }
+
+        .intro h2 {
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+
+        .debate-piece {
+            padding: 2.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            position: relative;
+        }
+
+        .debate-piece:last-of-type {
+            border-bottom: none;
+        }
+
+        .debate-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid;
+        }
+
+        .danish .debate-header {
+            border-bottom-color: #C60C30;
+        }
+
+        .greenlandic .debate-header {
+            border-bottom-color: #DC1F34;
+        }
+
+        .swedish .debate-header {
+            border-bottom-color: #006AA7;
+        }
+
+        .flag {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .perspective-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .perspective-label {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .danish .perspective-label {
+            background: #C60C30;
+        }
+
+        .greenlandic .perspective-label {
+            background: #DC1F34;
+        }
+
+        .swedish .perspective-label {
+            background: #006AA7;
+        }
+
+        .debate-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .debate-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .debate-content em {
+            color: #555;
+            font-style: italic;
+        }
+
+        .synthesis {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 2.5rem;
+            margin: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .synthesis h2 {
+            color: #d63031;
+            margin-bottom: 1.5rem;
+        }
+
+        .synthesis ul {
+            margin-left: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .synthesis li {
+            margin-bottom: 0.8rem;
+        }
+
+        .metadata {
+            background: #f8f9fa;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid #4ECDC4;
+        }
+
+        .metadata p {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        .tech-badge {
+            display: inline-block;
+            margin: 1rem 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+        }
+
+        footer h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .nav-section h4 {
+            color: #4ECDC4;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section p {
+            margin: 0.3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .debate-piece {
+                padding: 1.5rem;
+            }
+
+            .flag {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 Grönlands Framtid</h1>
+            <p>En simulerad debatt mellan tre perspektiv</p>
+            <p style="font-size: 0.9rem; margin-top: 1rem;">Bloktilskud • Ekonomisk utveckling • Framtida partnerskap</p>
+        </header>
+
+        <div class="intro">
+            <h2>📋 Om denna debatt</h2>
+            <p>
+                Denna debatt är genererad med <strong>Claude Code</strong> och tre permanenta perspektivagenter
+                som analyser Danmark-Grönland relationen från olika synvinklar:
+            </p>
+            <ul style="margin: 1rem 0 1rem 2rem; line-height: 2;">
+                <li>🇩🇰 <strong>danish-perspective</strong> - Danskt perspektiv på Rigsfællesskabet och historiskt ansvar</li>
+                <li>🟢⚪🔴 <strong>greenlandic-perspective</strong> - Grönländskt (Kalaallit) perspektiv på självbestämmande</li>
+                <li>🇸🇪 <strong>swedish-perspective</strong> - Svenskt komparativt perspektiv med Sápmi-paralleller</li>
+            </ul>
+            <p>
+                Debattämnet är: <strong>"Grönlands väg mot självständighet: Bloktilskud, ekonomisk utveckling och framtida partnerskap"</strong>
+            </p>
+            <p style="margin-top: 1rem; color: #666;">
+                <strong>Projektinformation:</strong> Detta projekt finns på
+                <a href="https://github.com/kentlundgren/AI/tree/main/ClaudeCode1" target="_blank" style="color: #4ECDC4;">GitHub</a>
+                och demonstrerar hur permanenta Claude Code-agenter kan användas för multiperspektivanalys.
+            </p>
+        </div>
+
+        <!-- Danish Perspective -->
+        <div class="debate-piece danish">
+            <div class="debate-header">
+                <div class="flag">🇩🇰</div>
+                <div class="perspective-info">
+                    <h3>Danskt Perspektiv</h3>
+                    <span class="perspective-label">danish-perspective</span>
+                </div>
+            </div>
+            <div class="debate-content">
+                <h4 style="color: #C60C30; margin-bottom: 1rem;">Grönlands framtid – ett gemensamt ansvar i en ny tid</h4>
+
+                <p>Det pågår just nu en omvandling i Arktis som få kunde förutse för bara tio år sedan. När vi i Danmark diskuterar Grönlands väg mot ökad självständighet måste vi göra det med både ödmjukhet för historien och realism om framtiden. Rigsfællesskabet – det konstitutionella ramverk som förenar Danmark, Grönland och Färöarna – står inför sin kanske största prövning.</p>
+
+                <p>Det danska bloktilskuddet på cirka 4 miljarder danska kronor årligen beskrivs ibland som ekonomisk kolonialism. Men från dansk synvinkel representerar det något helt annat: ett historiskt ansvar och en investering i Grönlands framtid. Vi erkänner öppet att perioden 1721-1953, då Grönland var danskt territorium under kolonialt styre, medförde kulturella skador och påtvingad modernisering. Bloktilskuddet är inte välgörenhet – det är en moralisk förpliktelse gentemot en befolkning vars självständighet vi en gång tog ifrån dem.</p>
+
+                <p>Men vi måste också tala om verkligheten: Bloktilskuddet utgör idag omkring 60 procent av Grönlands offentliga budget. Den grönländska ekonomin, med sin begränsade skatteintäktsbas och befolkning på endast 56 000 invånare, står inför enorma utmaningar. Klimatförändringarna öppnar visserligen nya möjligheter – sjöfart, mineraler, turism – men dessa är långsiktiga prospekt, inte akuta inkomstkällor. Dansk erfarenhet av att bygga välfärdssamhällen säger oss att ekonomisk självständighet kräver decennier av diversifierad utveckling.</p>
+
+                <p>Danmarks säkerhetspolitiska intressen i Grönland är legitima och öppna. Pituffik Space Base (tidigare Thule Air Base) är avgörande för NATO:s försvar av Nordatlanten och för radarövervakning av ballistiska robotar. Vi befinner oss i en tid då både Kina och Ryssland visar aggressivt intresse för Arktis, där glaciärernas smältande avslöjar både sjövägar och strategiska resurser. USA:s växande fokus på Grönland – illustrerat av de tidigare diskussionerna om köp av ön – visar att geopolitiken inte respekterar idealistiska självständighetsdrömmar.</p>
+
+                <p>Från danskt håll har vi alltid sagt: Grönlands självständighet är grönländarnas egen beslut. Men vi har också ett ansvar att ställa svåra frågor. Hur ska försvar finansieras? Vem garanterar säkerheten om Danmark lämnar? Vilken ställning får Grönland i internationella organisationer? Det finns en dansk oro – inte för att Grönland vill stå på egna ben, utan för att externa stormakter ska fylla det vakuum som uppstår.</p>
+
+                <p>Det här betyder inte att status quo är hållbar. Danmarks inställning har utvecklats dramatiskt sedan hjemmestyre infördes 1979 och Selvstyreloven kom 2009. Vi accepterar fullt ut att tiden för paternalistisk dansk övervakning är förbi. Men vi tror på att ett framtida partnerskap mellan Danmark och ett självständigt Grönland kan vara ömsesidigt fördelaktigt – ett slags nordisk modell för postkoloniala relationer.</p>
+
+                <p>Ett sådant partnerskap skulle kunna omfatta fortsatt ekonomiskt stöd under en övergångsperiod, samarbete kring försvar och utrikespolitik, fortsatta kulturella och utbildningsmässiga utbyten, och gemensam förvaltning av arktiska resurser. Många grönländare studerar fortfarande i Danmark; många danskar arbetar i Grönland. Dessa band är värda att bevara även när de formella konstitutionella banden förändras.</p>
+
+                <p>Danmark står vid en korsvägspunkt. Vi kan inte längre agera som överförmyndare, men vi kan inte heller bara försvinna och låta geopolitiska krafter forma Grönlands framtid. Vår uppgift är att stödja grönländsk kapacitetsuppbyggnad, investera i ekonomisk diversifiering och föra en ärlig dialog om vad självständighet verkligen innebär – både dess möjligheter och dess kostnader.</p>
+
+                <p>Grönlands väg mot självständighet är inte en dansk förlust, utan en naturlig utveckling av vår gemensamma historia. Men den måste bygga på ekonomisk realitet, inte enbart på politisk retorik. Danmarks roll är att vara en ansvarsfull partner i denna omvandling – varken hinder eller herre, utan en erfaren granne redo att stödja när tiden är rätt.</p>
+            </div>
+        </div>
+
+        <!-- Greenlandic Perspective -->
+        <div class="debate-piece greenlandic">
+            <div class="debate-header">
+                <div class="flag">🟢⚪🔴</div>
+                <div class="perspective-info">
+                    <h3>Grönländskt Perspektiv</h3>
+                    <span class="perspective-label">greenlandic-perspective</span>
+                </div>
+            </div>
+            <div class="debate-content">
+                <h4 style="color: #DC1F34; margin-bottom: 1rem;">Vores fremtid skal bygges på vores vilkår</h4>
+
+                <p>I over 300 år har Danmark styret Kalaallit Nunaat. I dag taler vi om "partnerskab" og "rigsfællesskab", men lad os være ærlige: Det bloktilskud, der udgør halvdelen af vores offentlige budget, er ikke dansk generøsitet – det er en reminder om det økonomiske afhængighedsforhold, som kolonialismen skabte.</p>
+
+                <p>Når danske politikere taler om, hvor "dyrt" Grønland er, glemmer de historien. De glemmer, hvordan det koloniale system ødelagde vores selvforsynende økonomi. De glemmer de tvungne flytninger, kulturel undertrykkelse, og årtiers politik designet til at gøre os afhængige. Bloktilskuddet er ikke en gave – det er en delvis kompensation for århundreders systematisk udnyttelse.</p>
+
+                <p>Men jeg vil ikke dvæle ved fortiden som offer. Vi er Kalaallit – vi har overlevet i Arktis i tusinder af år, vi overlevede kolonialismen, og vi vil bestemme vores egen fremtid.</p>
+
+                <p>Vejen mod selvstændighed handler ikke kun om økonomi, selv om det er den realitet vi må forholde os til. Det handler fundamentalt om ret til selvbestemmelse. FN anerkender os som et distinct folk med ret til at beslutte vores egen fremtid. Den ret kan ikke gøres betinget af danske økonomiske vurderinger.</p>
+
+                <p>Ja, bloktilskuddet er vigtigt for vores velfærd lige nu. Men lad os tale om hvorfor vi er økonomisk afhængige: Fordi Danmark i århundreder kontrollerede vores ressourcer, vores handel, vores udvikling. Vores fiskerisektor – som i dag er vores økonomiske fundament – blev først fuldt overdraget til grønlandsk kontrol med Selvstyre i 2009. Vores mineraler, vores sjældne jordarter, vores potentielle oliereserver – disse ressourcer kan være vejen til økonomisk uafhængighed, men kun hvis vi kontrollerer udviklingen selv.</p>
+
+                <p>Her er spørgsmålet ikke om, men hvordan. Skal vi udnytte vores ressourcer hurtigt for økonomisk frihed nu? Eller skal vi bevare vores miljø og kultur, selv om det betyder længere vej til uafhængighed? Dette er vores beslutning at tage – ikke Danmarks, ikke Kinas, ikke USAs.</p>
+
+                <p>Selvstændighed handler også dybt om kultur. Kalaallisut er vores hjerte. Hvert barn der lærer dansk før grønlandsk, hvert møde i Inatsisartut hvor dansk dominerer, hver gang vi må oversætte vores egen lovgivning fra dansk – det er kolonialismen der lever videre. Vores sprog er ikke bare kommunikation, det er vores verdensforståelse, vores forbindelse til land og hav, vores identitet.</p>
+
+                <p>Den yngre generation vokser op med stærkere grønlandsk identitet end nogen generation siden kolonitiden. Vi ser os ikke som "danskere i Arktis" – vi er Kalaallit. Klimaforandringer truer vores traditionelle levevis, men de åbner også nye økonomiske muligheder. Internationale aktører viser stigende interesse i Arktis. Dette er vores momentum.</p>
+
+                <p>Men vi er ikke naive. Vi har interne udfordringer – høje selvmordsrater, alkoholproblemer, boligkrise, uddannelsesgab. Disse er ikke argumenter mod uafhængighed, de er manifestationer af kolonial traume som vi må hele. Uafhængighed uden addressing disse problemer vil være hul.</p>
+
+                <p>Derfor må vejen fremad være både idealistisk og pragmatisk. Vi behøver ikke vælge mellem øjeblikkelig uafhængighed og evig afhængighed. Vi kan bygge gradvist: Styrke vores økonomi gennem bæredygtig udvikling af ressourcer, investere massivt i uddannelse på Kalaallisut, opbygge internationale partnerskaber på vores vilkår, fortsætte kulturel revitalisering.</p>
+
+                <p>Fremtidige partnerskaber – om det er med Danmark, andre nordiske lande, USA, Canada, eller Kina – må være baseret på lighed, ikke paternalisme. Vi er ikke børn der skal "guides" til modenhed. Vi er et folk der kæmper for den selvbestemmelse, som aldrig skulle være taget fra os.</p>
+
+                <p>Bloktilskuddet vil ikke vare evigt, og det skal det heller ikke. Men overgangsperioden må give os tid til at bygge reel økonomisk kapacitet, ikke tvinge os til umulige valg. Danmarks ansvar er at støtte vores vej mod selvstændighed – ikke at stille betingelser for vores grundlæggende ret.</p>
+
+                <p>Grønlands fremtid skal besluttes af grønlændere. Den dag vi står på egne ben økonomisk, vil det ikke være fordi Danmark "tillod" os frihed. Det vil være fordi vi aldrig stoppede med at kæmpe for den.</p>
+
+                <p><em>Inuit Nunaat. Vores land, vores fremtid, vores beslutning.</em></p>
+            </div>
+        </div>
+
+        <!-- Swedish Perspective -->
+        <div class="debate-piece swedish">
+            <div class="debate-header">
+                <div class="flag">🇸🇪</div>
+                <div class="perspective-info">
+                    <h3>Svenskt Perspektiv</h3>
+                    <span class="perspective-label">swedish-perspective</span>
+                </div>
+            </div>
+            <div class="debate-content">
+                <h4 style="color: #006AA7; margin-bottom: 1rem;">När Grönland tar steget mot självständighet – varför tiger Sverige?</h4>
+
+                <p>När debatten om Grönlands framtid intensifieras, med blocktilskud, ekonomisk utveckling och självständighet i centrum, är det anmärkningsvärt hur tyst det svenska samtalet förblir. Vi som så gärna betraktar oss som världens samvete när det gäller mänskliga rättigheter och kolonialismens övergrepp, tycks mista både röst och minne när det handlar om vår nordiska granne.</p>
+
+                <p>Grönlands väg mot självständighet handlar ytterst om avkolonisering. Det danska blocktilskudet – för närvarande omkring 3,9 miljarder kronor årligen – är inte välgörenhet utan en rest av kolonialt ansvar. När Danmark argumenterar för att Grönland "inte är redo" för ekonomisk självständighet, ekar samma paternalism som legitimerade kolonialismen från början. Frågan är inte om Grönland har råd att bli självständigt, utan om de har råd att fortsatt vara beroende.</p>
+
+                <p>Men innan vi svenskar pekar finger åt Danmark, bör vi titta på vår egen historia. När Grönland har ett eget parlament med lagstiftande makt, kontroll över naturresurser och en tydlig väg mot full självständighet, vad har vi erbjudit samerna? Sametinget är i grunden ett rådgivande organ utan reell makt över de traditionella samiska områdena. När gruvbolag vill exploatera malm i Gállok eller Kallak, hörs samiska röster – men beslutet fattas ändå i Stockholm.</p>
+
+                <p>Danmark gick längre än Sverige i att erkänna sitt koloniala arv, om än under internationellt tryck. Grönland avkoloniserades formellt från FN:s lista 1953, vilket var problematiskt, men lade ändå grunden för senare autonomi. Samerna gavs aldrig sådan internationell uppmärksamhet. Vi ratificerade ILO-konvention 169 först 2020 – efter decennier av motstånd – och implementeringen haltar fortfarande.</p>
+
+                <p>Det nordiska samarbetets roll i denna historia är djupt tvetydig. Nordiska rådet och Nordiska ministerrådet har fungerat som en bekväm tystnadens familjekrets. När Danmark integrerade Grönland 1953, nickade de nordiska grannarna godkännande. Den nordiska "familjen" skulle inte tvättas offentligt. Sverige, som kritiserade kolonialism från Sydafrika till Vietnam, teg om Danmarks relation till Grönland. Nordisk solidaritet blev viktigare än avkoloniseringsprinciper.</p>
+
+                <p>Samma tystnadskultur präglar svensk behandling av samiska rättigheter. Vi exporterar miljöpolitik och mänskliga rättigheter globalt, medan vi tillåter gruvprojekt på marker där renar betar sedan årtusenden. Grön kolonialism – att extrahera resurser för "grön teknologi" utan urfolkens samtycke – är lika problematisk i Sápmi som i Grönland.</p>
+
+                <p>Grönlands ekonomiska utveckling handlar om att diversifiera bortom dansk finansiering genom turism, fiske och mineraler. Men här finns en brutal parallell: Både Grönland och Sápmi riskerar bli råvarulager för andras klimatomställning. Svenska gruvföretag har uttryckt intresse för grönländska sällsynta jordartsmetaller. Vi vill ha mineralerna, men tar vi ansvar för konsekvenserna?</p>
+
+                <p>Det nordiska samarbetet måste reformeras om det ska bli relevant för Grönlands framtid. Ett självständigt Grönland skulle omförhandla sin relation till Nordiska rådet – kanske till och med välja att stå utanför. Det skulle tvinga oss att konfrontera obekväma sanningar: Är nordiskt samarbete byggt på jämlika relationer eller på koloniala strukturer vi föredrar att inte benämna?</p>
+
+                <p>Sverige har direkta geopolitiska intressen i Grönlands framtid. Vår NATO-medlemskap sedan 2024 gör arktisk säkerhet till svensk säkerhet. Nordliga sjöfartsleder, klimatforskning, försvarssamarbete – allt påverkas av Grönlands status. Ett stabilt, gradvis självständigt Grönland ligger i svenskt intresse. Men stabilitet får inte bli en täckmantel för att förlänga koloniala förhållanden.</p>
+
+                <p>Om Sverige ska ha moralisk trovärdighet i denna debatt måste vi börja hemma. Ge Sametinget verklig makt över samiska traditionella marker. Stoppa gruvprojekt utan fritt, informerat samtycke. Erkänn att kulturell autonomi utan territoriell kontroll är otillräcklig. Lär av Grönlands autonomimodell.</p>
+
+                <p>Grönlands väg mot självständighet utmanar hela den nordiska självbilden. Vi kan inte längre dölja koloniala strukturer bakom lagom konsensus och familjär tystnad. Frågan är om det nordiska samarbetet kan bli en kraft för avkolonisering, eller om det kommer att förbli ett hinder.</p>
+
+                <p>Sverige måste välja: Ska vi fortsätta vår tysta komplicity, eller har vi mod att stödja grönländsk självbestämmanderätt – även när det avslöjar vår egen hypocrisy gentemot samerna?</p>
+            </div>
+        </div>
+
+        <!-- Synthesis Section -->
+        <div class="synthesis">
+            <h2>🔍 Syntes: Gemensamma insikter och kvarstående meningsskiljaktigheter</h2>
+
+            <h3 style="margin-top: 1.5rem;">Gemensamt erkännande:</h3>
+            <ul>
+                <li><strong>Kolonialt arv:</strong> Alla tre perspektiv erkänner att nuvarande ekonomiska beroendeställning är resultatet av koloniala strukturer</li>
+                <li><strong>Självbestämmande som rättighet:</strong> Grönlands rätt att välja sin framtid är obestridlig, även om praktiska frågor återstår</li>
+                <li><strong>Bloktilskud som komplex realitet:</strong> Inte välgörenhet, inte bara kompensation, utan en temporär nödvändighet på vägen mot förändring</li>
+                <li><strong>Geopolitisk komplexitet:</strong> Arktiska stormaktsintressen är verkliga och måste hanteras oavsett konstitutionell status</li>
+            </ul>
+
+            <h3 style="margin-top: 1.5rem;">Kvarstående meningsskiljaktigheter:</h3>
+            <ul>
+                <li><strong>Timing:</strong> Danmark betonar "när ekonomin är redo", Grönland argumenterar för rätt oavsett ekonomi, Sverige kritiserar båda för att inte agera snabbare</li>
+                <li><strong>Partnerskapets natur:</strong> Danmark ser framtida samarbete, Grönland kräver jämlikhet utan paternalism, Sverige ifrågasätter om nordiskt samarbete kan reformeras</li>
+                <li><strong>Nordisk modellens relevans:</strong> Danmark tror på nordisk lösning, Grönland ser nordiskt samarbete som potentiellt hinder, Sverige erkänner sitt eget misslyckande med samer</li>
+                <li><strong>Ekonomisk utveckling:</strong> Olika syn på balansen mellan resursutveckling (för snabb ekonomisk frihet) och miljö/kultur (långsam men hållbar utveckling)</li>
+            </ul>
+
+            <h3 style="margin-top: 1.5rem;">Vad betyder detta?</h3>
+            <p>
+                Denna debatt visar att vägen mot grönländsk självständighet inte är enkel dikotomi mellan "förtryck" och "befrielse",
+                utan en komplex process där historiskt ansvar, ekonomisk realitet, kulturell revitalisering, geopolitik och
+                mänsklig rätt till självbestämmande måste balanseras. Det nordiska samarbetets framtid står också på spel –
+                kan det reformeras till en kraft för avkolonisering, eller kommer det fortsatt vara ett hinder?
+            </p>
+        </div>
+
+        <div class="metadata">
+            <h3 style="margin-bottom: 1rem;">📊 Teknisk information</h3>
+            <div class="tech-badge">🤖 Genererad med Claude Code</div>
+            <div class="tech-badge">🧠 Claude Sonnet 4.5</div>
+            <div class="tech-badge">📅 25 januari 2026</div>
+            <p style="margin-top: 1.5rem; line-height: 1.8;">
+                <strong>Permanenta agenter:</strong><br>
+                🇩🇰 danish-perspective • 🟢⚪🔴 greenlandic-perspective • 🇸🇪 swedish-perspective
+            </p>
+            <p style="margin-top: 1rem;">
+                Dessa agenter är definierade i <code>.claude/agents/</code> och kan återanvändas för vidare analyser.
+            </p>
+        </div>
+
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="nav-grid">
+                <div class="nav-section">
+                    <h4>📄 Dokumentation</h4>
+                    <p><a href="Danmark_Gronland_Rapport.md">📄 Analysrapport (25,000 ord)</a></p>
+                    <p><a href="ClaudeCodeAgenter1.html">🤖 Agentdokumentation</a></p>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="CLAUDE.md">📋 Projektkoordinator</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>💬 Interaktivt</h4>
+                    <p><a href="index.html">📘 Projektöversikt</a></p>
+                    <p><a href="debatt.html">💬 Denna debatt</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>🤖 Sub-Agenter</h4>
+                    <p><a href=".claude/agents/danish-perspective.md">🇩🇰 danish-perspective</a></p>
+                    <p><a href=".claude/agents/greenlandic-perspective.md">🟢⚪🔴 greenlandic-perspective</a></p>
+                    <p><a href=".claude/agents/swedish-perspective.md">🇸🇪 swedish-perspective</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/ClaudeCode1" target="_blank">💻 GitHub Repository</a></p>
+                    <p><a href="https://code.claude.com/docs" target="_blank">📚 Claude Code Docs</a></p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); opacity: 0.8;">
+                Skapad med <strong>Claude Code</strong> permanenta perspektivagenter<br>
+                © 2026 - AI-genererad debatt för utbildnings- och forskningssyfte
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

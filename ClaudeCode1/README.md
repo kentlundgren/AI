@@ -9,14 +9,19 @@ Detta projekt demonstrerar hur man använder **Claude Code** (Anthropics officie
 ### 🎯 Huvudresultat
 
 - **[Danmark-Grönland Rapport](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md)** - En 25 000 ord omfattande flerperspektivanalys
+- **[Perspektivdebatt](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html)** - Simulerad debatt mellan tre permanenta agenter
 - **[Agentdokumentation](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html)** - Visuell dokumentation av agentarbetet
+- **[Projektguide](https://kentlundgren.github.io/AI/ClaudeCode1/index.html)** - Interaktiv guide till projektet och agentanvändning
+- **[CLAUDE.md](CLAUDE.md)** - Projektkoordinator med arbetsflöden och agentinstruktioner
 
 ### 🔗 Länkar
 
 | Resurs | URL |
 |--------|-----|
 | **Live rapport (Markdown)** | [Danmark_Gronland_Rapport.md](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md) |
+| **Live debatt (HTML)** | [debatt.html](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html) |
 | **Live dokumentation (HTML)** | [ClaudeCodeAgenter1.html](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html) |
+| **Projektguide (HTML)** | [index.html](https://kentlundgren.github.io/AI/ClaudeCode1/index.html) |
 | **GitHub Repository** | [kentlundgren/AI/ClaudeCode1](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1) |
 
 ---
@@ -599,6 +604,105 @@ TaskOutput({
 
 ---
 
+## 🎯 Permanenta Claude Code-Agenter
+
+### Vad är permanenta agenter?
+
+Förutom tillfälliga runtime-agenter kan du skapa **permanenta agenter** som definieras i `.claude/agents/` mappen. Dessa agenter:
+- ✅ Är filer som versionshanteras i ditt projekt
+- ✅ Har YAML frontmatter med konfiguration
+- ✅ Kan användas direkt av Claude Code
+- ✅ Har specifika verktyg och modellval
+- ✅ Innehåller detaljerade system prompts
+
+### Permanenta agenter i detta projekt
+
+Detta projekt använder tre specialiserade perspektivagenter:
+
+#### 🇩🇰 danish-perspective
+```yaml
+---
+name: danish-perspective
+description: Danish perspective analyst for Denmark-Greenland relations
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
+model: sonnet
+permissionMode: default
+---
+```
+**Kompetenser:** Rigsfællesskabet, bloktilskud, dansk säkerhetspolitik, historisk kontext
+
+#### 🟢⚪🔴 greenlandic-perspective
+```yaml
+---
+name: greenlandic-perspective
+description: Greenlandic perspective analyst focusing on self-determination
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
+model: sonnet
+permissionMode: default
+---
+```
+**Kompetenser:** Inuit kultur, dekolonisering, Kalaallisut-revitalisering, självbestämmande
+
+#### 🇸🇪 swedish-perspective
+```yaml
+---
+name: swedish-perspective
+description: Swedish perspective with Sápmi parallels and Nordic critique
+tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
+model: sonnet
+permissionMode: default
+---
+```
+**Kompetenser:** Nordiskt samarbete, Sápmi-jämförelser, kritisk självreflektion, arktisk geopolitik
+
+### Hur permanenta agenter används
+
+**Automatisk delegering:**
+```
+"Analysera bloktilskud från olika perspektiv"
+→ Claude Code aktiverar relevanta perspektivagenter automatiskt
+```
+
+**Explicit användning:**
+```
+"Använd danish-perspective för att förklara Rigsfællesskabet"
+```
+
+**Multiperspektivanalys:**
+```
+"Låt alla tre perspektiv analysera Grönlands självständighet"
+```
+
+### CLAUDE.md - Projektkoordinator
+
+`CLAUDE.md` är en speciell fil som Claude Code automatiskt laddar vid konversationsstart. I detta projekt innehåller den:
+- 📋 Översikt över de tre perspektivagenterna
+- 🔧 Arbetsflöden för att skapa debatter
+- 📝 Kodstiluide och konventioner
+- 🔗 Navigation footer templates
+- 💡 Vanliga uppgifter och kommandon
+
+Se [CLAUDE.md](CLAUDE.md) för fullständig dokumentation.
+
+### Projektstruktur med permanenta agenter
+
+```
+ClaudeCode1/
+├── .claude/
+│   └── agents/              # Permanenta perspektivagenter
+│       ├── danish-perspective.md
+│       ├── greenlandic-perspective.md
+│       └── swedish-perspective.md
+├── CLAUDE.md               # Projektkoordinator
+├── index.html              # Interaktiv guide
+├── debatt.html             # Genererad debatt från agenter
+├── Danmark_Gronland_Rapport.md
+├── ClaudeCodeAgenter1.html
+└── README.md
+```
+
+---
+
 ## 🔬 Avancerade tekniker
 
 ### 1. Resumable Agents
@@ -719,8 +823,32 @@ const results = await Promise.all(
 
 ### Detta projekt
 - [Live Rapport (Markdown)](https://kentlundgren.github.io/AI/ClaudeCode1/Danmark_Gronland_Rapport.md)
+- [Live Debatt (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/debatt.html)
 - [Live Dokumentation (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/ClaudeCodeAgenter1.html)
+- [Projektguide (HTML)](https://kentlundgren.github.io/AI/ClaudeCode1/index.html)
 - [GitHub Repository](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1)
+
+---
+
+## 🔗 Projektnavigation
+
+### 📄 Dokumentation
+- [📄 Analysrapport](Danmark_Gronland_Rapport.md) - 25,000-ords flerperspektivanalys
+- [🤖 Agentdokumentation](ClaudeCodeAgenter1.html) - Teknisk dokumentation
+- [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator och arbetsflöden
+
+### 💬 Interaktivt
+- [📘 Projektöversikt](index.html) - Interaktiv guide till projektet
+- [💬 Perspektivdebatt](debatt.html) - Simulerad debatt mellan agenter
+
+### 🤖 Permanenta Agenter
+- [🇩🇰 danish-perspective](.claude/agents/danish-perspective.md)
+- [🟢⚪🔴 greenlandic-perspective](.claude/agents/greenlandic-perspective.md)
+- [🇸🇪 swedish-perspective](.claude/agents/swedish-perspective.md)
+
+### 🌐 Externa Länkar
+- [💻 GitHub Repository](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1)
+- [📚 Claude Code Documentation](https://code.claude.com/docs)
 
 ---
 
@@ -749,7 +877,10 @@ Detta projekt är skapat för utbildnings- och demonstrationssyfte.
 **Skapat:** 25 januari 2026
 **AI-modell:** Claude Sonnet 4.5 (claude-sonnet-4-5-20250929)
 **Verktyg:** Claude Code CLI i VS Code
+**Permanenta agenter:** danish-perspective, greenlandic-perspective, swedish-perspective
 
 ---
+
+*Skapad med Claude Code och permanenta perspektivagenter*
 
 *"Agenter är inte filer - de är temporära arbetare som kommer, gör sitt jobb, och går. Men deras arbete lever kvar."*
