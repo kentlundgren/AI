@@ -586,20 +586,27 @@
             }
         }
 
+        // Formatera nummer för CSV (utan tusentalsavgränsare)
+        function formatNumberForCSV(num) {
+            if (num === null || num === undefined) return '';
+            // Använd komma som decimaltecken (svensk standard)
+            return num.toString().replace('.', ',');
+        }
+
         // Exportera till CSV
         function exportToCSV() {
             let csv = 'Verksamhet;Utfall 2025;Budget 2025;Återstår\n';
 
             activityData.forEach(a => {
                 const aterstar = calculateAterstar(a.budget, a.utfall);
-                csv += `${a.name};${formatNumber(a.utfall)};${formatNumber(a.budget)};${formatNumber(aterstar)}\n`;
+                csv += `${a.name};${formatNumberForCSV(a.utfall)};${formatNumberForCSV(a.budget)};${formatNumberForCSV(aterstar)}\n`;
             });
 
             // Totalsumma
             const totalUtfall = activityData.reduce((sum, a) => sum + (a.utfall || 0), 0);
             const totalBudget = activityData.reduce((sum, a) => sum + (a.budget || 0), 0);
             const totalAterstar = calculateAterstar(totalBudget, totalUtfall);
-            csv += `Summa totalt;${formatNumber(totalUtfall)};${formatNumber(totalBudget)};${formatNumber(totalAterstar)}\n`;
+            csv += `Summa totalt;${formatNumberForCSV(totalUtfall)};${formatNumberForCSV(totalBudget)};${formatNumberForCSV(totalAterstar)}\n`;
 
             // Skapa nedladdningslänk
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
