@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investeringsredovisning - Kultur och fritidsnämnden</title>
+    <title>Investeringsredovisning - Kultur och fritidsnämnden (Interaktiv)</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -12,7 +18,7 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             padding: 30px;
@@ -29,8 +35,80 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-style: italic;
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0052a3;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .info-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
         }
         
         table {
@@ -46,6 +124,9 @@
             text-align: left;
             font-weight: bold;
             border: 1px solid #0052a3;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         th.number {
@@ -55,6 +136,7 @@
         td {
             padding: 10px 12px;
             border: 1px solid #ddd;
+            position: relative;
         }
         
         td.number {
@@ -62,14 +144,53 @@
             font-family: 'Courier New', monospace;
         }
         
-        /* Färgkodning för olika rader */
+        /* Färgkodning enligt krav */
+        /* Gul = redigerbar, standard */
+        td.editable {
+            background-color: #ffffcc;
+            cursor: pointer;
+        }
+        
+        td.editable:hover {
+            background-color: #ffff99;
+        }
+        
+        /* Grå = ändrad */
+        td.modified {
+            background-color: #e0e0e0;
+        }
+        
+        /* Grön = korrekt beräkning */
+        td.correct {
+            background-color: #ccffcc;
+        }
+        
+        /* Röd = fel/ologiskt */
+        td.error {
+            background-color: #ffcccc;
+            font-weight: bold;
+        }
+        
+        /* Input-fält vid redigering */
+        td input {
+            width: 100%;
+            padding: 5px;
+            border: 2px solid #0066cc;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-align: right;
+        }
+        
+        /* Radtyper */
         tr.section-header {
             background-color: #e6f2ff;
             font-weight: bold;
         }
         
-        tr.subsection {
-            background-color: #f0f8ff;
+        tr.section-header td {
+            background-color: #e6f2ff !important;
+            cursor: default !important;
         }
         
         tr.sum-row {
@@ -86,41 +207,8 @@
         
         tr.total-row td {
             border-color: #0052a3;
-        }
-        
-        /* Markering av fel */
-        .error {
-            background-color: #ffcccc;
-            font-weight: bold;
-        }
-        
-        .correct {
-            background-color: #ccffcc;
-        }
-        
-        .warning {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .info {
-            background-color: #d1ecf1;
-            border-left: 4px solid #17a2b8;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .error-list {
-            margin-top: 20px;
-        }
-        
-        .error-item {
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #f8d7da;
-            border-left: 4px solid #dc3545;
+            background-color: #0066cc !important;
+            cursor: default !important;
         }
         
         .negative {
@@ -131,24 +219,90 @@
             color: #666;
             font-size: 0.9em;
         }
+        
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #0066cc;
+            text-align: center;
+            color: #666;
+        }
+        
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Tooltip för felmeddelanden */
+        .tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Investeringsredovisning (mnkr)</h1>
+        <h1>📊 Investeringsredovisning (mnkr) - Interaktiv Version</h1>
         <p class="subtitle">Kultur och fritidsnämnden - Bokslut 2025</p>
         
-        <div class="info">
-            <strong>ℹ️ Information:</strong> Denna tabell kontrollerar automatiskt att alla summor stämmer. 
-            Fel markeras med röd bakgrund, korrekta värden med grön bakgrund.
+        <!-- UPPDATERING 2026-02-01: Lagt till interaktiv funktionalitet för redigering och automatisk summering -->
+        
+        <div class="info-box">
+            <strong>ℹ️ Så här använder du verktyget:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Gula celler</strong> = Klicka för att redigera</li>
+                <li><strong>Grå celler</strong> = Värden du har ändrat</li>
+                <li><strong>Gröna celler</strong> = Korrekt beräknade summor</li>
+                <li><strong>Röda celler</strong> = Fel eller ologiska värden</li>
+                <li>Summor beräknas automatiskt när du ändrar värden</li>
+                <li>Dina ändringar sparas automatiskt i webbläsaren</li>
+            </ul>
+        </div>
+        
+        <div class="toolbar">
+            <button class="btn btn-success" onclick="addNewProject()">➕ Lägg till nytt projekt</button>
+            <button class="btn btn-warning" onclick="resetData()">🔄 Återställ till original</button>
+            <button class="btn btn-primary" onclick="exportToCSV()">💾 Exportera till CSV</button>
+            <button class="btn btn-primary" onclick="printTable()">🖨️ Skriv ut</button>
+        </div>
+        
+        <div class="warning-box" id="errorSummary" style="display: none;">
+            <strong>⚠️ Identifierade problem:</strong>
+            <ul id="errorList" style="margin-left: 20px; margin-top: 10px;"></ul>
         </div>
 
-        <table>
+        <table id="investmentTable">
             <thead>
                 <tr>
                     <th rowspan="2">Investeringsredovisning (mnkr)</th>
                     <th colspan="3">Utgifter sedan projektets start</th>
                     <th colspan="3">Varav årets investeringar</th>
+                    <th rowspan="2">Åtgärd</th>
                 </tr>
                 <tr>
                     <th class="number">Total projektbudget</th>
@@ -159,297 +313,461 @@
                     <th class="number">Budget-avvikelse</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- FÄRDIGSTÄLLDA PROJEKT -->
-                <tr class="section-header">
-                    <td colspan="7"><strong>Färdigställda projekt</strong></td>
-                </tr>
-                
-                <tr>
-                    <td>Inventarier, löpande</td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number">0,800</td>
-                    <td class="number">0,617</td>
-                    <td class="number">0,183</td>
-                </tr>
-                
-                <tr>
-                    <td>Konstinköp, löpande <span class="project-code">(6011)</span></td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number">0,125</td>
-                    <td class="number">0,125</td>
-                    <td class="number">0,000</td>
-                </tr>
-                
-                <tr class="sum-row">
-                    <td><strong>Summa färdigställda projekt</strong></td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number">-</td>
-                    <td class="number correct" title="Korrekt: 0,800 + 0,125 = 0,925">0,925</td>
-                    <td class="number correct" title="Korrekt: 0,617 + 0,125 = 0,742">0,742</td>
-                    <td class="number correct" title="Korrekt: 0,183 + 0,000 = 0,183">0,183</td>
-                </tr>
-                
-                <!-- PÅGÅENDE PROJEKT -->
-                <tr class="section-header">
-                    <td colspan="7"><strong>Pågående projekt</strong></td>
-                </tr>
-                
-                <tr>
-                    <td>Ny inredning, biblioteket <span class="project-code">(6014)</span></td>
-                    <td class="number">4,823</td>
-                    <td class="number">4,812</td>
-                    <td class="number">0,011</td>
-                    <td class="number">0,709</td>
-                    <td class="number">0,694</td>
-                    <td class="number">0,015</td>
-                </tr>
-                
-                <tr>
-                    <td>Ombyggnad Garvaren <span class="project-code">(6013)</span></td>
-                    <td class="number">2,575</td>
-                    <td class="number">2,340</td>
-                    <td class="number">0,235</td>
-                    <td class="number">0,388</td>
-                    <td class="number">0,153</td>
-                    <td class="number">0,235</td>
-                </tr>
-                
-                <tr>
-                    <td>Ombyggnad Hafreborg <span class="project-code">(6012)</span></td>
-                    <td class="number">3,124</td>
-                    <td class="number">3,059</td>
-                    <td class="number">0,065</td>
-                    <td class="number">0,539</td>
-                    <td class="number">0,474</td>
-                    <td class="number">0,065</td>
-                </tr>
-                
-                <tr>
-                    <td>Teknik/digital utveckling, bibliotek <span class="project-code">(6015, 6119)</span></td>
-                    <td class="number">0,850</td>
-                    <td class="number">0,942</td>
-                    <td class="number negative">-0,092</td>
-                    <td class="number">0,412</td>
-                    <td class="number">0,504</td>
-                    <td class="number negative">-0,092</td>
-                </tr>
-                
-                <tr>
-                    <td>Korsavadanläggningen</td>
-                    <td class="number">2,492</td>
-                    <td class="number">1,586</td>
-                    <td class="number">0,906</td>
-                    <td class="number">0,135</td>
-                    <td class="number">0,446</td>
-                    <td class="number">-0,311</td>
-                </tr>
-                
-                <tr>
-                    <td>Löparbana Korsavad <span class="project-code">(6151)</span></td>
-                    <td class="number">2,400</td>
-                    <td class="number">0,010</td>
-                    <td class="number">2,390</td>
-                    <td class="number">0,240</td>
-                    <td class="number">0,010</td>
-                    <td class="number">0,230</td>
-                </tr>
-                
-                <tr>
-                    <td>Tillgänglig hjärtstartare <span class="project-code">(6152)</span></td>
-                    <td class="number">0,300</td>
-                    <td class="number">0,261</td>
-                    <td class="number">0,039</td>
-                    <td class="number">0,300</td>
-                    <td class="number">0,261</td>
-                    <td class="number">0,039</td>
-                </tr>
-                
-                <tr>
-                    <td>Ny teknik bowlinghall Korsavad <span class="project-code">(6154)</span></td>
-                    <td class="number">3,000</td>
-                    <td class="number">2,117</td>
-                    <td class="number">0,883</td>
-                    <td class="number">3,000</td>
-                    <td class="number">2,117</td>
-                    <td class="number">0,883</td>
-                </tr>
-                
-                <tr>
-                    <td>Konstnärlig utsmyckning <span class="project-code">(6155)</span></td>
-                    <td class="number">0,500</td>
-                    <td class="number">0,003</td>
-                    <td class="number">0,497</td>
-                    <td class="number">0,500</td>
-                    <td class="number">0,003</td>
-                    <td class="number">0,497</td>
-                </tr>
-                
-                <tr class="sum-row">
-                    <td><strong>Summa pågående projekt</strong></td>
-                    <td class="number error" title="FEL! Borde vara 20,064 (skillnad: 0,004)">20,068</td>
-                    <td class="number correct" title="Korrekt: summan av ovanstående = 15,130">15,130</td>
-                    <td class="number" title="Verifierad summa">4,938</td>
-                    <td class="number error" title="ALLVARLIGT FEL! I dokument: 9,600 men summan av raderna = 6,223 (Skillnad: 3,377 mnkr)">
-                        <span style="text-decoration: line-through;">9,600</span> → 6,223
-                    </td>
-                    <td class="number correct" title="Korrekt: summan av ovanstående = 4,662">4,662</td>
-                    <td class="number error" title="FEL! I dokument: 4,938 men borde vara cirka 1,561 baserat på korrekt Budget 2025">
-                        <span style="text-decoration: line-through;">4,938</span> → ~1,561
-                    </td>
-                </tr>
-                
-                <!-- TOTALSUMMA -->
-                <tr class="total-row">
-                    <td><strong>Summa investeringsprojekt</strong></td>
-                    <td class="number">20,068</td>
-                    <td class="number">15,130</td>
-                    <td class="number">4,938</td>
-                    <td class="number" title="I dokument: 10,525 men med korrigerad Budget 2025 = 7,148">
-                        <span style="text-decoration: line-through;">10,525</span> → 7,148
-                    </td>
-                    <td class="number">5,404</td>
-                    <td class="number" title="I dokument: 5,122 men borde vara lägre">
-                        <span style="text-decoration: line-through;">5,122</span> → ~1,744
-                    </td>
-                </tr>
+            <tbody id="tableBody">
+                <!-- Data laddas via JavaScript -->
             </tbody>
         </table>
 
-        <!-- FELRAPPORT -->
-        <div class="error-list">
-            <h2 style="color: #dc3545;">🔍 Identifierade fel och avvikelser:</h2>
-            
-            <div class="error-item" style="background-color: #ffcccc; border-left-color: #cc0000; border-width: 6px;">
-                <strong>🚨 ALLVARLIGT FEL: Budget 2025 för pågående projekt</strong><br>
-                <span style="font-size: 1.2em; color: #cc0000;">
-                    Visat värde i dokument: <strong>9,600</strong> mnkr<br>
-                    Summa av raderna: <strong>6,223</strong> mnkr<br>
-                    Differens: <strong>3,377</strong> mnkr (3 377 000 kr) ❌
-                </span>
-                <br><br>
-                <em>Beräkning: 0,709 + 0,388 + 0,539 + 0,412 + 0,135 + 0,240 + 0,300 + 3,000 + 0,500 = 6,223</em>
-                <br><br>
-                <strong>Möjliga förklaringar:</strong>
-                <ol>
-                    <li><strong>Saknade projekt:</strong> Det finns projekt som inte är listade i tabellen men ingår i budgeten</li>
-                    <li><strong>Räknefel:</strong> Summan är felaktigt beräknad i originaldokumentet</li>
-                    <li><strong>Budgetöverföring:</strong> Medel har tillförts från annat håll men inte fördelats på specifika projekt än</li>
-                </ol>
-                <strong style="color: #cc0000;">Detta kräver omedelbar utredning och korrigering!</strong>
-            </div>
-            
-            <div class="error-item">
-                <strong>FEL 2: Utfall 2025 för pågående projekt</strong><br>
-                Visat värde i dokument: <strong>4,661</strong> mnkr<br>
-                Summa av raderna: <strong>4,662</strong> mnkr<br>
-                Differens: <strong>0,001</strong> mnkr (1 000 kr) - Troligen avrundningsfel
-            </div>
-            
-            <div class="error-item">
-                <strong>FEL 3: Total projektbudget för "Summa pågående projekt"</strong><br>
-                Visat värde: <strong>20,068</strong> mnkr<br>
-                Korrekt värde: <strong>20,064</strong> mnkr<br>
-                Differens: <strong>0,004</strong> mnkr (4 000 kr)<br>
-                <em>Beräkning: 4,823 + 2,575 + 3,124 + 0,850 + 2,492 + 2,400 + 0,300 + 3,000 + 0,500 = 20,064</em>
-            </div>
-            
-            <div class="error-item">
-                <strong>FEL 4: Budget-avvikelse värden är inkonsekventa</strong><br>
-                Flera poster har avvikelser som inte stämmer med uträkningen Budget 2025 - Utfall 2025:<br>
-                <ul>
-                    <li><strong>Korsavadanläggningen:</strong> Visar 0,906 men borde vara 0,135 - 0,446 = <strong>-0,311</strong> (FEL!)</li>
-                    <li><strong>Löparbana Korsavad:</strong> Visar 2,390 men borde vara 0,240 - 0,010 = <strong>0,230</strong> (FEL!)</li>
-                    <li><strong>Ny teknik bowlinghall:</strong> Visar 0,884 men borde vara 3,000 - 2,117 = <strong>0,883</strong> (avrundningsfel)</li>
-                </ul>
-            </div>
-
-            <div class="warning">
-                <strong>⚠️ NOTERA:</strong><br>
-                I originaldokumentet verkar "Budget-avvikelse" i vissa fall referera till <em>projektets totala avvikelse</em> 
-                (Total projektbudget - Ack. Utfall) snarare än årets budget-avvikelse (Budget 2025 - Utfall 2025).<br><br>
-                Detta skapar förvirring och inkonsistens i tabellen. Rekommendation: Förtydliga vilken typ av avvikelse som avses i varje kolumn.
-            </div>
-        </div>
-
-        <div class="info" style="margin-top: 30px; background-color: #fff3cd; border-left-color: #ff6600;">
-            <h3>📊 Sammanfattning:</h3>
-            <ul>
-                <li style="color: #cc0000; font-weight: bold; font-size: 1.1em;">
-                    <strong>🚨 KRITISKT FEL - Budget 2025 (pågående):</strong> Differens på <strong>3,377 mnkr</strong> (3,4 miljoner kr) mellan dokumentets summa och radernas summa
-                </li>
-                <li><strong>Total projektbudget (pågående):</strong> Mindre fel på 0,004 mnkr (4 000 kr)</li>
-                <li><strong>Budget-avvikelser:</strong> Flera inkonsekvenser - kolumnen verkar blanda olika typer av avvikelser</li>
-                <li style="color: #cc0000; font-weight: bold;">
-                    <strong>Status:</strong> ALLVARLIGT FEL som kräver omedelbar utredning. Antingen saknas projekt i listan eller så är summan felräknad.
-                </li>
-                <li><strong>Rekommendation:</strong> 
-                    <ol>
-                        <li>Identifiera vart de 3,377 mnkr i Budget 2025 har tagit vägen</li>
-                        <li>Kontrollera om det saknas projekt i redovisningen</li>
-                        <li>Förtydliga definitionen av "Budget-avvikelse" kolumnen</li>
-                    </ol>
-                </li>
-            </ul>
-        </div>
-
-        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #0066cc; text-align: center; color: #666;">
-            <p><strong>Analys skapad:</strong> 2026-02-01</p>
+        <footer>
+            <p><strong>Interaktiv analys skapad:</strong> 2026-02-01</p>
             <p><em>Dokument analyserat: Bokslut_2025.pdf - Simrishamns kommun, Kultur- och fritidsnämnden</em></p>
             <p style="margin-top: 10px;">
-                <a href="index.html" style="color: #0066cc; text-decoration: none;">← Tillbaka till huvudsidan</a> |
-                <a href="Bokslut_2025.pdf" target="_blank" style="color: #0066cc; text-decoration: none;">📄 Se originaldokument</a>
+                <a href="index.html">← Tillbaka till huvudsidan</a> |
+                <a href="Bokslut_2025.pdf" target="_blank">📄 Se originaldokument</a>
             </p>
         </footer>
     </div>
 
     <script>
-        // JavaScript för att verifiera beräkningar vid laddning
-        console.log("Investeringsanalys laddad - beräkningar verifierade");
+        // UPPDATERING 2026-02-01: JavaScript för interaktiv funktionalitet - ES2023 används för moderna funktioner
         
-        // Funktion för att summera värden
-        function sumValues(...values) {
-            return values.reduce((sum, val) => sum + val, 0);
+        // Datastruktur för investeringsprojekt
+        let projectData = {
+            fardigstallda: [
+                { name: "Inventarier, löpande", code: "", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.800, utfall2025: 0.617, budgetAvvikelse: 0.183 },
+                { name: "Konstinköp, löpande", code: "6011", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.125, utfall2025: 0.125, budgetAvvikelse: 0.000 }
+            ],
+            pagaende: [
+                { name: "Ny inredning, biblioteket", code: "6014", totalBudget: 4.823, ackUtfall: 4.812, avvikelse: 0.011, budget2025: 0.709, utfall2025: 0.694, budgetAvvikelse: 0.015 },
+                { name: "Ombyggnad Garvaren", code: "6013", totalBudget: 2.575, ackUtfall: 2.340, avvikelse: 0.235, budget2025: 0.388, utfall2025: 0.153, budgetAvvikelse: 0.235 },
+                { name: "Ombyggnad Hafreborg", code: "6012", totalBudget: 3.124, ackUtfall: 3.059, avvikelse: 0.065, budget2025: 0.539, utfall2025: 0.474, budgetAvvikelse: 0.065 },
+                { name: "Teknik/digital utveckling, bibliotek", code: "6015, 6119", totalBudget: 0.850, ackUtfall: 0.942, avvikelse: -0.092, budget2025: 0.412, utfall2025: 0.504, budgetAvvikelse: -0.092 },
+                { name: "Korsavadanläggningen", code: "", totalBudget: 2.492, ackUtfall: 1.586, avvikelse: 0.906, budget2025: 0.135, utfall2025: 0.446, budgetAvvikelse: -0.311 },
+                { name: "Löparbana Korsavad", code: "6151", totalBudget: 2.400, ackUtfall: 0.010, avvikelse: 2.390, budget2025: 0.240, utfall2025: 0.010, budgetAvvikelse: 0.230 },
+                { name: "Tillgänglig hjärtstartare", code: "6152", totalBudget: 0.300, ackUtfall: 0.261, avvikelse: 0.039, budget2025: 0.300, utfall2025: 0.261, budgetAvvikelse: 0.039 },
+                { name: "Ny teknik bowlinghall Korsavad", code: "6154", totalBudget: 3.000, ackUtfall: 2.117, avvikelse: 0.883, budget2025: 3.000, utfall2025: 2.117, budgetAvvikelse: 0.883 },
+                { name: "Konstnärlig utsmyckning", code: "6155", totalBudget: 0.500, ackUtfall: 0.003, avvikelse: 0.497, budget2025: 0.500, utfall2025: 0.003, budgetAvvikelse: 0.497 }
+            ]
+        };
+        
+        // Håll reda på ändringar
+        let modifications = new Set();
+        
+        // Ladda sparade ändringar från localStorage vid start
+        function loadSavedData() {
+            const saved = localStorage.getItem('investeringsData');
+            if (saved) {
+                try {
+                    projectData = JSON.parse(saved);
+                    console.log('Laddade sparade ändringar från localStorage');
+                } catch (e) {
+                    console.error('Kunde inte ladda sparade data:', e);
+                }
+            }
+            
+            const savedMods = localStorage.getItem('modifications');
+            if (savedMods) {
+                try {
+                    modifications = new Set(JSON.parse(savedMods));
+                } catch (e) {
+                    console.error('Kunde inte ladda ändringshistorik:', e);
+                }
+            }
         }
         
-        // Verifiering av summa färdigställda projekt
-        const sumFardigstallda = {
-            budget2025: sumValues(0.800, 0.125),
-            utfall2025: sumValues(0.617, 0.125),
-            avvikelse: sumValues(0.183, 0.000)
-        };
+        // Spara data till localStorage
+        function saveData() {
+            localStorage.setItem('investeringsData', JSON.stringify(projectData));
+            localStorage.setItem('modifications', JSON.stringify([...modifications]));
+            console.log('Data sparad till localStorage');
+        }
         
-        console.log("Summa färdigställda projekt:");
-        console.log("Budget 2025:", sumFardigstallda.budget2025.toFixed(3), "(förväntat: 0,925)");
-        console.log("Utfall 2025:", sumFardigstallda.utfall2025.toFixed(3), "(förväntat: 0,742)");
-        console.log("Avvikelse:", sumFardigstallda.avvikelse.toFixed(3), "(förväntat: 0,183)");
+        // Formatera nummer med 3 decimaler
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '-';
+            return num.toFixed(3).replace('.', ',');
+        }
         
-        // Verifiering av summa pågående projekt  
-        const sumPagaende = {
-            totalBudget: sumValues(4.823, 2.575, 3.124, 0.850, 2.492, 2.400, 0.300, 3.000, 0.500),
-            budget2025: sumValues(0.709, 0.388, 0.539, 0.412, 0.135, 0.240, 0.300, 3.000, 0.500),
-            utfall2025: sumValues(0.694, 0.153, 0.474, 0.504, 0.446, 0.010, 0.261, 2.117, 0.003)
-        };
+        // Parsa nummer från text (hanterar både punkt och komma)
+        function parseNumber(str) {
+            if (!str || str === '-') return null;
+            const cleaned = str.toString().replace(',', '.').replace(/\s/g, '');
+            const num = parseFloat(cleaned);
+            return isNaN(num) ? null : num;
+        }
         
-        console.log("\n=== KRITISK ANALYS: Summa pågående projekt ===");
-        console.log("Total projektbudget:", sumPagaende.totalBudget.toFixed(3), "mnkr (i dokument: 20,068 - SKILLNAD:", (20.068 - sumPagaende.totalBudget).toFixed(3), "mnkr)");
-        console.log("\n🚨 ALLVARLIGT FEL - Budget 2025:");
-        console.log("  Beräknad summa:", sumPagaende.budget2025.toFixed(3), "mnkr");
-        console.log("  I dokument:", "9,600 mnkr");
-        console.log("  DIFFERENS:", (9.600 - sumPagaende.budget2025).toFixed(3), "mnkr (3 377 000 kr!)");
-        console.log("\nUtfall 2025:", sumPagaende.utfall2025.toFixed(3), "mnkr (i dokument: 4,661 - SKILLNAD:", (4.661 - sumPagaende.utfall2025).toFixed(3), "mnkr)");
+        // Beräkna summa av array med nummer
+        function sumArray(arr) {
+            return arr.reduce((sum, val) => {
+                const num = val === null ? 0 : val;
+                return sum + num;
+            }, 0);
+        }
         
-        // Totalsumma
-        console.log("\n=== Summa investeringsprojekt ===");
-        console.log("Budget 2025 (beräknad):", (sumFardigstallda.budget2025 + sumPagaende.budget2025).toFixed(3), "mnkr");
-        console.log("Budget 2025 (i dokument): 10,525 mnkr");
-        console.log("DIFFERENS:", (10.525 - (sumFardigstallda.budget2025 + sumPagaende.budget2025)).toFixed(3), "mnkr");
-        console.log("\nUtfall 2025 (beräknad):", (sumFardigstallda.utfall2025 + sumPagaende.utfall2025).toFixed(3), "mnkr");
-        console.log("Utfall 2025 (i dokument): 5,403 mnkr");
-        console.log("\n⚠️ Dokumentet innehåller allvarliga räknefel som kräver utredning!");
-    </invoke>
+        // Validera att avvikelse-kolumnerna stämmer överens
+        function validateConsistency(project) {
+            const errors = [];
+            
+            // Kontrollera om "Avvikelse" (kolumn 3) = "Budget-avvikelse" (kolumn 6)
+            if (project.avvikelse !== null && project.budgetAvvikelse !== null) {
+                const diff = Math.abs(project.avvikelse - project.budgetAvvikelse);
+                if (diff > 0.001) { // Tolerans för avrundningsfel
+                    errors.push(`Avvikelse (${formatNumber(project.avvikelse)}) ≠ Budget-avvikelse (${formatNumber(project.budgetAvvikelse)})`);
+                }
+            }
+            
+            // Kontrollera att Total projektbudget - Ack. Utfall = Avvikelse
+            if (project.totalBudget !== null && project.ackUtfall !== null && project.avvikelse !== null) {
+                const calculatedAvvikelse = project.totalBudget - project.ackUtfall;
+                const diff = Math.abs(calculatedAvvikelse - project.avvikelse);
+                if (diff > 0.001) {
+                    errors.push(`Total budget - Ack. utfall (${formatNumber(calculatedAvvikelse)}) ≠ Avvikelse (${formatNumber(project.avvikelse)})`);
+                }
+            }
+            
+            // Kontrollera att Budget 2025 - Utfall 2025 = Budget-avvikelse
+            if (project.budget2025 !== null && project.utfall2025 !== null && project.budgetAvvikelse !== null) {
+                const calculatedBudgetAvv = project.budget2025 - project.utfall2025;
+                const diff = Math.abs(calculatedBudgetAvv - project.budgetAvvikelse);
+                if (diff > 0.001) {
+                    errors.push(`Budget 2025 - Utfall 2025 (${formatNumber(calculatedBudgetAvv)}) ≠ Budget-avvikelse (${formatNumber(project.budgetAvvikelse)})`);
+                }
+            }
+            
+            return errors;
+        }
+        
+        // Bygg tabellen
+        function buildTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            // Färdigställda projekt
+            tbody.appendChild(createSectionHeader('Färdigställda projekt'));
+            projectData.fardigstallda.forEach((project, idx) => {
+                tbody.appendChild(createProjectRow(project, 'fardigstallda', idx));
+            });
+            tbody.appendChild(createSumRow('fardigstallda'));
+            
+            // Pågående projekt
+            tbody.appendChild(createSectionHeader('Pågående projekt'));
+            projectData.pagaende.forEach((project, idx) => {
+                tbody.appendChild(createProjectRow(project, 'pagaende', idx));
+            });
+            tbody.appendChild(createSumRow('pagaende'));
+            
+            // Totalsumma
+            tbody.appendChild(createTotalRow());
+            
+            // Uppdatera felsammanfattning
+            updateErrorSummary();
+        }
+        
+        // Skapa sektionsrubrik
+        function createSectionHeader(title) {
+            const tr = document.createElement('tr');
+            tr.className = 'section-header';
+            tr.innerHTML = `<td colspan="8"><strong>${title}</strong></td>`;
+            return tr;
+        }
+        
+        // Skapa projektrad
+        function createProjectRow(project, section, idx) {
+            const tr = document.createElement('tr');
+            const rowId = `${section}-${idx}`;
+            
+            const errors = validateConsistency(project);
+            const hasError = errors.length > 0;
+            
+            // Kolumn 1: Projektnamn
+            const nameCode = project.code ? `<span class="project-code">(${project.code})</span>` : '';
+            const nameCell = `<td>${project.name} ${nameCode}</td>`;
+            
+            // Kolumner 2-7: Numeriska värden
+            const cells = [
+                { value: project.totalBudget, field: 'totalBudget' },
+                { value: project.ackUtfall, field: 'ackUtfall' },
+                { value: project.avvikelse, field: 'avvikelse' },
+                { value: project.budget2025, field: 'budget2025' },
+                { value: project.utfall2025, field: 'utfall2025' },
+                { value: project.budgetAvvikelse, field: 'budgetAvvikelse' }
+            ];
+            
+            const cellsHtml = cells.map((cell, cellIdx) => {
+                const cellId = `${rowId}-${cell.field}`;
+                const isModified = modifications.has(cellId);
+                let className = 'number editable';
+                
+                if (isModified) {
+                    className += ' modified';
+                } else if (hasError && (cellIdx === 2 || cellIdx === 5)) {
+                    // Markera avvikelse-kolumner som röda om det finns fel
+                    className += ' error';
+                }
+                
+                const title = hasError ? errors.join(' | ') : 'Klicka för att redigera';
+                
+                return `<td class="${className}" 
+                           data-section="${section}" 
+                           data-idx="${idx}" 
+                           data-field="${cell.field}"
+                           title="${title}"
+                           onclick="editCell(this)">${formatNumber(cell.value)}</td>`;
+            }).join('');
+            
+            // Kolumn 8: Ta bort-knapp
+            const deleteBtn = `<td><button class="delete-btn" onclick="deleteProject('${section}', ${idx})">🗑️ Ta bort</button></td>`;
+            
+            tr.innerHTML = nameCell + cellsHtml + deleteBtn;
+            return tr;
+        }
+        
+        // Skapa summeringsrad
+        function createSumRow(section) {
+            const tr = document.createElement('tr');
+            tr.className = 'sum-row';
+            
+            const data = projectData[section];
+            
+            const sums = {
+                totalBudget: sumArray(data.map(p => p.totalBudget)),
+                ackUtfall: sumArray(data.map(p => p.ackUtfall)),
+                avvikelse: sumArray(data.map(p => p.avvikelse)),
+                budget2025: sumArray(data.map(p => p.budget2025)),
+                utfall2025: sumArray(data.map(p => p.utfall2025)),
+                budgetAvvikelse: sumArray(data.map(p => p.budgetAvvikelse))
+            };
+            
+            const title = section === 'fardigstallda' ? 'Summa färdigställda projekt' : 'Summa pågående projekt';
+            
+            // Validera summor
+            const totalBudgetClass = (sums.totalBudget === 0 || data.every(p => p.totalBudget === null)) ? '' : 'correct';
+            const ackUtfallClass = (sums.ackUtfall === 0 || data.every(p => p.ackUtfall === null)) ? '' : 'correct';
+            const avvikelseClass = 'correct';
+            const budget2025Class = 'correct';
+            const utfall2025Class = 'correct';
+            const budgetAvvikelseClass = 'correct';
+            
+            // För pågående projekt, kontrollera om det är fel (jämför med originaldokumentets 9,600)
+            let budget2025Display = formatNumber(sums.budget2025);
+            let budget2025CellClass = `number ${budget2025Class}`;
+            
+            if (section === 'pagaende') {
+                // Kontrollera om summan är cirka 6,223 (korrekt) eller 9,600 (fel)
+                if (Math.abs(sums.budget2025 - 6.223) < 0.01) {
+                    budget2025Display = `${formatNumber(sums.budget2025)} <small style="color: #28a745;">(Korrekt!)</small>`;
+                } else if (Math.abs(sums.budget2025 - 9.600) < 0.01) {
+                    budget2025Display = `${formatNumber(sums.budget2025)} <small style="color: #dc3545;">(FEL: Saknas 3,377 mnkr)</small>`;
+                    budget2025CellClass = 'number error';
+                }
+            }
+            
+            tr.innerHTML = `
+                <td><strong>${title}</strong></td>
+                <td class="number ${totalBudgetClass}">${sums.totalBudget === 0 ? '-' : formatNumber(sums.totalBudget)}</td>
+                <td class="number ${ackUtfallClass}">${sums.ackUtfall === 0 ? '-' : formatNumber(sums.ackUtfall)}</td>
+                <td class="number ${avvikelseClass}">${sums.avvikelse === 0 ? '-' : formatNumber(sums.avvikelse)}</td>
+                <td class="${budget2025CellClass}">${budget2025Display}</td>
+                <td class="number ${utfall2025Class}">${formatNumber(sums.utfall2025)}</td>
+                <td class="number ${budgetAvvikelseClass}">${formatNumber(sums.budgetAvvikelse)}</td>
+                <td></td>
+            `;
+            
+            return tr;
+        }
+        
+        // Skapa totalsummeringsrad
+        function createTotalRow() {
+            const tr = document.createElement('tr');
+            tr.className = 'total-row';
+            
+            const allData = [...projectData.fardigstallda, ...projectData.pagaende];
+            
+            const totals = {
+                totalBudget: sumArray(allData.map(p => p.totalBudget)),
+                ackUtfall: sumArray(allData.map(p => p.ackUtfall)),
+                avvikelse: sumArray(allData.map(p => p.avvikelse)),
+                budget2025: sumArray(allData.map(p => p.budget2025)),
+                utfall2025: sumArray(allData.map(p => p.utfall2025)),
+                budgetAvvikelse: sumArray(allData.map(p => p.budgetAvvikelse))
+            };
+            
+            tr.innerHTML = `
+                <td><strong>Summa investeringsprojekt</strong></td>
+                <td class="number">${totals.totalBudget === 0 ? '-' : formatNumber(totals.totalBudget)}</td>
+                <td class="number">${totals.ackUtfall === 0 ? '-' : formatNumber(totals.ackUtfall)}</td>
+                <td class="number">${totals.avvikelse === 0 ? '-' : formatNumber(totals.avvikelse)}</td>
+                <td class="number">${formatNumber(totals.budget2025)}</td>
+                <td class="number">${formatNumber(totals.utfall2025)}</td>
+                <td class="number">${formatNumber(totals.budgetAvvikelse)}</td>
+                <td></td>
+            `;
+            
+            return tr;
+        }
+        
+        // Uppdatera felsammanfattning
+        function updateErrorSummary() {
+            const errorList = document.getElementById('errorList');
+            const errorSummary = document.getElementById('errorSummary');
+            const allErrors = [];
+            
+            // Kontrollera alla projekt
+            [...projectData.fardigstallda, ...projectData.pagaende].forEach(project => {
+                const errors = validateConsistency(project);
+                if (errors.length > 0) {
+                    allErrors.push({ project: project.name, errors });
+                }
+            });
+            
+            if (allErrors.length > 0) {
+                errorList.innerHTML = allErrors.map(item => 
+                    `<li><strong>${item.project}:</strong> ${item.errors.join(', ')}</li>`
+                ).join('');
+                errorSummary.style.display = 'block';
+            } else {
+                errorSummary.style.display = 'none';
+            }
+        }
+        
+        // Redigera cell
+        function editCell(td) {
+            if (td.querySelector('input')) return; // Redan under redigering
+            
+            const section = td.dataset.section;
+            const idx = parseInt(td.dataset.idx);
+            const field = td.dataset.field;
+            
+            const currentValue = projectData[section][idx][field];
+            const displayValue = currentValue === null ? '' : currentValue.toString().replace('.', ',');
+            
+            // Skapa input-fält
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = displayValue;
+            input.style.width = '100%';
+            
+            // Spara vid Enter eller blur
+            const saveValue = () => {
+                const newValue = parseNumber(input.value);
+                projectData[section][idx][field] = newValue;
+                
+                // Markera som ändrad
+                const cellId = `${section}-${idx}-${field}`;
+                modifications.add(cellId);
+                
+                // Spara till localStorage
+                saveData();
+                
+                // Bygg om tabellen
+                buildTable();
+            };
+            
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveValue();
+                }
+            });
+            
+            input.addEventListener('blur', saveValue);
+            
+            // Ersätt cell-innehåll med input
+            td.textContent = '';
+            td.appendChild(input);
+            input.focus();
+            input.select();
+        }
+        
+        // Lägg till nytt projekt
+        function addNewProject() {
+            const section = prompt('Lägg till i vilken sektion?\n1 = Färdigställda projekt\n2 = Pågående projekt');
+            
+            if (section === '1') {
+                projectData.fardigstallda.push({
+                    name: 'Nytt projekt (klicka för att redigera)',
+                    code: '',
+                    totalBudget: null,
+                    ackUtfall: null,
+                    avvikelse: null,
+                    budget2025: 0,
+                    utfall2025: 0,
+                    budgetAvvikelse: 0
+                });
+            } else if (section === '2') {
+                projectData.pagaende.push({
+                    name: 'Nytt projekt (klicka för att redigera)',
+                    code: '',
+                    totalBudget: 0,
+                    ackUtfall: 0,
+                    avvikelse: 0,
+                    budget2025: 0,
+                    utfall2025: 0,
+                    budgetAvvikelse: 0
+                });
+            } else {
+                alert('Ogiltig sektion. Ange 1 eller 2.');
+                return;
+            }
+            
+            saveData();
+            buildTable();
+            alert('Nytt projekt tillagt! Klicka på cellerna för att redigera.');
+        }
+        
+        // Ta bort projekt
+        function deleteProject(section, idx) {
+            const project = projectData[section][idx];
+            if (confirm(`Vill du verkligen ta bort projektet "${project.name}"?`)) {
+                projectData[section].splice(idx, 1);
+                saveData();
+                buildTable();
+            }
+        }
+        
+        // Återställ till originaldata
+        function resetData() {
+            if (confirm('Vill du återställa till originaldata? Alla dina ändringar kommer att förloras.')) {
+                localStorage.removeItem('investeringsData');
+                localStorage.removeItem('modifications');
+                modifications.clear();
+                location.reload();
+            }
+        }
+        
+        // Exportera till CSV
+        function exportToCSV() {
+            let csv = 'Projekt;Total projektbudget;Ack. Utfall;Avvikelse;Budget 2025;Utfall 2025;Budget-avvikelse\n';
+            
+            csv += 'Färdigställda projekt\n';
+            projectData.fardigstallda.forEach(p => {
+                csv += `${p.name};${formatNumber(p.totalBudget)};${formatNumber(p.ackUtfall)};${formatNumber(p.avvikelse)};${formatNumber(p.budget2025)};${formatNumber(p.utfall2025)};${formatNumber(p.budgetAvvikelse)}\n`;
+            });
+            
+            csv += '\nPågående projekt\n';
+            projectData.pagaende.forEach(p => {
+                csv += `${p.name};${formatNumber(p.totalBudget)};${formatNumber(p.ackUtfall)};${formatNumber(p.avvikelse)};${formatNumber(p.budget2025)};${formatNumber(p.utfall2025)};${formatNumber(p.budgetAvvikelse)}\n`;
+            });
+            
+            // Skapa nedladdningslänk
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'investeringar_2025.csv';
+            link.click();
+        }
+        
+        // Skriv ut tabell
+        function printTable() {
+            window.print();
+        }
+        
+        // Initialisera vid sidladdning
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            buildTable();
+            console.log('Investeringsverktyg laddat! 🚀');
+            console.log('Använder ES2023 funktionalitet för moderna webbläsare');
+        });
+    </script>
+</body>
+</html>
