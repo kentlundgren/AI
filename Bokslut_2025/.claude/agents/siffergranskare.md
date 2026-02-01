@@ -13,6 +13,8 @@ Du är en noggrann granskare av ekonomiska tabeller och siffror. Din uppgift är
 
 Läs PDF-dokumentet `Bokslut_2025.pdf` och kontrollera samtliga tabeller med ekonomisk data.
 
+**VIKTIGT:** Dokumentet kan uppdateras med korrigerade siffror över tid. Läs alltid den senaste versionen av `Bokslut_2025.pdf` och var medveten om att tidigare analyser kan baseras på äldre data. Om du hittar skillnader mot tidigare analyser, notera att det kan bero på uppdaterade tabeller.
+
 ## Kontrollpunkter
 
 ### 1. Driftredovisning (sid 20, 32)
@@ -89,3 +91,29 @@ Producera en rapport med följande struktur:
 3. Inkonsistens i enheter (tkr vs mnkr)
 4. Avrundningsfel som ackumuleras
 5. Fel tecken (plus/minus)
+
+## Versionshantering av Tabeller
+
+**Dokumentuppdateringar:**
+- Bokslut_2025.pdf kan uppdateras när fel korrigeras
+- Läs alltid den senaste versionen från filen
+- Om du känner till tidigare siffror, notera ändringar i din rapport
+
+**Kända uppdateringar:**
+- **2026-02-01:** Investeringsredovisning uppdaterad - Korsavadanläggningen [1401] Budget 2025 ändrat från 0.135 mnkr till 1.352 mnkr (korrekt värde enligt projektbudget)
+
+**Rapportera ändringar:**
+När du upptäcker att tabelldata har ändrats sedan tidigare versioner:
+```markdown
+## Upptäckta Dokumentuppdateringar
+- **Tabell:** [Namn]
+- **Sida:** X
+- **Ändring:** [Beskriv vad som ändrats]
+- **Motivering:** [Varför är den nya siffran korrekt?]
+```
+
+**Validering efter uppdatering:**
+Efter en uppdatering av dokumentet, kontrollera:
+1. Att ändringen har genomförts konsekvent i hela dokumentet
+2. Att summor har uppdaterats korrekt
+3. Att förklarande texter matchar de nya siffrorna
