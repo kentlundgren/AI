@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bokslutsanalys 2025 - Claude Code Subagents</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .github-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+
+        h3 {
+            color: var(--secondary);
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .summary-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .summary-card.danger {
+            background: #fef2f2;
+            border-left: 4px solid var(--danger);
+        }
+
+        .summary-card.warning {
+            background: #fffbeb;
+            border-left: 4px solid var(--warning);
+        }
+
+        .summary-card.success {
+            background: #ecfdf5;
+            border-left: 4px solid var(--success);
+        }
+
+        .summary-card .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .summary-card.danger .number { color: var(--danger); }
+        .summary-card.warning .number { color: var(--warning); }
+        .summary-card.success .number { color: var(--success); }
+
+        .summary-card .label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light);
+        }
+
+        th {
+            background: var(--light);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #fafafa;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-danger { background: #fef2f2; color: var(--danger); }
+        .badge-warning { background: #fffbeb; color: var(--warning); }
+        .badge-success { background: #ecfdf5; color: var(--success); }
+
+        .agent-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .agent-icon {
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .agent-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .agent-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .file-list {
+            list-style: none;
+        }
+
+        .file-list li {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            background: var(--light);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .file-list a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+
+        .file-icon {
+            font-size: 1.2rem;
+        }
+
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .workflow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .footer-links a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .footer-note {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bokslutsanalys 2025</h1>
+        <p>Analys av Simrishamns kommuns Kultur- och fritidsnämnds årsbokslut med Claude Code Subagents</p>
+        <a href="https://github.com/kentlundgren/AI/tree/main/Bokslut_2025" target="_blank" class="github-link">
+            Se källkod på GitHub
+        </a>
+    </header>
+
+    <main>
+        <section>
+            <h2>Projektöversikt</h2>
+            <p>
+                Detta projekt demonstrerar hur <strong>Claude Code subagents</strong> kan användas för att analysera
+                och förbättra ett kommunalt årsbokslut. Två specialiserade AI-agenter har granskat dokumentet:
+            </p>
+
+            <div class="agent-card">
+                <span class="agent-icon">🔢</span>
+                <div class="agent-info">
+                    <h4>Siffergranskare</h4>
+                    <p>Kontrollräknar tabeller, verifierar summor och identifierar räknefel i ekonomiska redovisningar.</p>
+                </div>
+            </div>
+
+            <div class="agent-card">
+                <span class="agent-icon">📝</span>
+                <div class="agent-info">
+                    <h4>Språkgranskare</h4>
+                    <p>Granskar stavning, grammatik, meningsbyggnad och klarspråk enligt myndighetsspråkliga riktlinjer.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Resultatsammanfattning</h2>
+
+            <div class="summary-grid">
+                <div class="summary-card danger">
+                    <div class="number">2</div>
+                    <div class="label">Allvarliga räknefel</div>
+                </div>
+                <div class="summary-card warning">
+                    <div class="number">5</div>
+                    <div class="label">Mindre räknefel</div>
+                </div>
+                <div class="summary-card warning">
+                    <div class="number">59</div>
+                    <div class="label">Språkliga förbättringar</div>
+                </div>
+                <div class="summary-card success">
+                    <div class="number">36</div>
+                    <div class="label">Sidor granskade</div>
+                </div>
+            </div>
+
+            <h3>Allvarliga fel som hittades</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Problem</th>
+                        <th>Sida</th>
+                        <th>Differens</th>
+                        <th>Prioritet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Budget 2025 för pågående investeringar summerar fel</td>
+                        <td>21</td>
+                        <td><strong>3,377 mnkr</strong></td>
+                        <td><span class="badge badge-danger">Kritisk</span></td>
+                    </tr>
+                    <tr>
+                        <td>Totalsumma bidrag Allmän kultur är felaktig</td>
+                        <td>32-33</td>
+                        <td>20-26 tkr</td>
+                        <td><span class="badge badge-warning">Hög</span></td>
+                    </tr>
+                    <tr>
+                        <td>Stavfel i rubrik: "VERKSAMHETSUPPFOLJNNG"</td>
+                        <td>7</td>
+                        <td>-</td>
+                        <td><span class="badge badge-warning">Hög</span></td>
+                    </tr>
+                    <tr>
+                        <td>Saknad punkt skapar obegriplig mening</td>
+                        <td>4</td>
+                        <td>-</td>
+                        <td><span class="badge badge-warning">Hög</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Språkliga problem per kategori</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kategori</th>
+                        <th>Antal</th>
+                        <th>Exempel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Stavning och grammatik</td>
+                        <td>8</td>
+                        <td>"märkets" → "märks", saknade bindestreck</td>
+                    </tr>
+                    <tr>
+                        <td>Interpunktion</td>
+                        <td>12</td>
+                        <td>Saknade punkter, fel kommatering</td>
+                    </tr>
+                    <tr>
+                        <td>Långa meningar</td>
+                        <td>15</td>
+                        <td>Meningar över 35 ord som bör delas</td>
+                    </tr>
+                    <tr>
+                        <td>Klarspråk</td>
+                        <td>18</td>
+                        <td>"samhällelig resiliens" → "samhällets motståndskraft"</td>
+                    </tr>
+                    <tr>
+                        <td>Konsistens</td>
+                        <td>6</td>
+                        <td>Bénka-dí vs Benka Di (flera varianter)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Så fungerar Claude Code Subagents</h2>
+
+            <div class="workflow">
+                <div class="workflow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Definiera agenter</h4>
+                        <p>Skapa specialiserade agenter i <code>.claude/agents/</code> med unika kompetenser och instruktioner.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Anropa agenter</h4>
+                        <p>Använd Task-verktyget för att starta agenter parallellt eller sekventiellt.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Samla resultat</h4>
+                        <p>Agenterna producerar strukturerade rapporter som kan sammanställas.</p>
+                    </div>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Iterera</h4>
+                        <p>Kör agenterna igen med justerade instruktioner för fördjupad analys.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Projektfiler</h2>
+
+            <ul class="file-list">
+                <li>
+                    <span class="file-icon">📄</span>
+                    <a href="Bokslut_2025.pdf">Bokslut_2025.pdf</a> - Källdokument (årsbokslut)
+                </li>
+                <li>
+                    <span class="file-icon">📊</span>
+                    <a href="rapport-sifferanalys.md">rapport-sifferanalys.md</a> - Siffergranskningsrapport
+                </li>
+                <li>
+                    <span class="file-icon">📝</span>
+                    <a href="rapport-sprakanalys.md">rapport-sprakanalys.md</a> - Språkgranskningsrapport
+                </li>
+                <li>
+                    <span class="file-icon">⚙️</span>
+                    <a href="CLAUDE.md">CLAUDE.md</a> - Projektkoordinator
+                </li>
+                <li>
+                    <span class="file-icon">🤖</span>
+                    <a href=".claude/agents/siffergranskare.md">.claude/agents/siffergranskare.md</a> - Siffergranskare-agent
+                </li>
+                <li>
+                    <span class="file-icon">🤖</span>
+                    <a href=".claude/agents/sprakgranskare.md">.claude/agents/sprakgranskare.md</a> - Språkgranskare-agent
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Lärdomar och nästa steg</h2>
+
+            <h3>Vad fungerade bra</h3>
+            <ul>
+                <li>Parallell körning av agenter sparar tid</li>
+                <li>Specialiserade agenter ger djupare analys inom sitt område</li>
+                <li>Strukturerade rapportmallar gör resultaten jämförbara</li>
+                <li>PDF-läsning fungerar väl för både text och tabeller</li>
+            </ul>
+
+            <h3>Möjliga förbättringar</h3>
+            <ul>
+                <li>Lägga till en tredje agent för jämförelse med tidigare års bokslut</li>
+                <li>Automatisera generering av korrigeringsförslag</li>
+                <li>Skapa en agent som kontrollerar att måluppfyllelse stämmer med ekonomi</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Projektnavigation</h3>
+
+        <div class="footer-links">
+            <a href="Bokslut_2025.pdf">📄 Källdokument</a>
+            <a href="rapport-sifferanalys.md">📊 Sifferrapport</a>
+            <a href="rapport-sprakanalys.md">📝 Språkrapport</a>
+            <a href="CLAUDE.md">⚙️ CLAUDE.md</a>
+            <a href="https://github.com/kentlundgren/AI/tree/main/Bokslut_2025" target="_blank">💻 GitHub</a>
+        </div>
+
+        <div class="footer-note">
+            <p>Skapad med <strong>Claude Code</strong> subagents</p>
+            <p>Datum: 2026-02-01</p>
+        </div>
+    </footer>
+</body>
+</html>
