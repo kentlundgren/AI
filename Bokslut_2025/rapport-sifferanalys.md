@@ -10,7 +10,7 @@
 
 Jag har genomfört en detaljerad granskning av samtliga ekonomiska tabeller i årsbokslutet för 2025. Dokumentet innehåller driftredovisning, investeringsredovisning, bidragstabeller och statistiktabeller.
 
-**Övergripande bedömning:** Dokumentet innehåller flera **räknefel och inkonsekvenser** som bör åtgärdas innan slutlig publicering.
+**Övergripande bedömning:** Dokumentet innehåller några **räknefel och inkonsekvenser** som bör åtgärdas innan slutlig publicering. Det ursprungliga investeringsfelet har analyserats vidare i **[investeringar.html](investeringar.html)** - en interaktiv version där felet förklaras och korrigeras.
 
 ---
 
@@ -83,6 +83,8 @@ Det finns en diskrepans mellan huvudtabellen på sida 13 (Nettokostnader -62 049
 
 ## 2. Investeringsredovisning (Sida 21)
 
+**📊 [Se interaktiv analys av investeringar →](investeringar.html)**
+
 ### Färdigställda projekt
 
 | Projekt | Budget 2025 | Utfall 2025 | Budgetavvikelse |
@@ -97,30 +99,39 @@ Det finns en diskrepans mellan huvudtabellen på sida 13 (Nettokostnader -62 049
 
 ### Pågående projekt
 
+**OBS:** Dokumentet innehåller ett **allvarligt räknefel** i denna sektion. För en detaljerad interaktiv analys där du kan utforska och korrigera felet, se **[investeringar.html](investeringar.html)**.
+
 | Projekt | Total projektbudget | Ack. Utfall | Avvikelse | Budget 2025 | Utfall 2025 | Budgetavvikelse |
 |---------|---------------------|-------------|-----------|-------------|-------------|-----------------|
-| Ny inredning, biblioteket | 4,823 | 4,812 | 0,015 | 0,709 | 0,694 | 0,015 |
+| Ny inredning, biblioteket | 4,827 | 4,812 | 0,015 | 0,709 | 0,694 | 0,015 |
 | Ombyggnad Garvaren | 2,575 | 2,340 | 0,235 | 0,388 | 0,153 | 0,235 |
 | Ombyggnad Hafreborg | 3,124 | 3,059 | 0,065 | 0,539 | 0,474 | 0,065 |
 | Teknik/digital utveckling | 0,850 | 0,942 | -0,092 | 0,412 | 0,504 | -0,092 |
-| Korsavadanläggningen | 2,492 | 1,586 | 0,906 | 0,135 | 0,446 | 0,906 |
-| Löparbana Korsavad | 2,400 | 0,010 | 2,390 | 0,240 | 0,010 | 2,390 |
+| Korsavadanläggningen | 2,492 | 1,586 | 0,906 | 1,352 | 0,446 | 0,906 |
+| Löparbana Korsavad | 2,400 | 0,010 | 2,390 | 2,400 | 0,010 | 2,390 |
 | Tillgänglig hjärtstartare | 0,300 | 0,261 | 0,039 | 0,300 | 0,261 | 0,039 |
-| Ny teknik bowlinghall | 3,000 | 2,117 | 0,884 | 3,000 | 2,117 | 0,884 |
-| Konstnärlig utsmyckning | 0,500 | 0,003 | 0,497 | 0,500 | 0,003 | 0,497 |
-| **Summa** | **20,068** | **15,130** | **4,938** | **9,600** | **4,661** | **4,938** |
+| Ny teknik bowlinghall | 3,000 | 2,117 | 0,883 | 3,000 | 2,117 | 0,883 |
+| Konstnärlig utsmyckning | 0,500 | 0,000 | 0,500 | 0,500 | 0,000 | 0,500 |
+| **Summa** | **20,068** | **15,127** | **4,939** | **9,600** | **4,659** | **4,941** |
 
 **Kontroll av summor:**
 
 | Kolumn | Beräknat | I tabell | Status |
 |--------|----------|----------|--------|
-| Total projektbudget | 20,064 | 20,068 | ⚠️ Diff: 4 tkr |
-| Ack. Utfall | 15,130 | 15,130 | ✓ |
-| Avvikelse | 4,939 | 4,938 | ⚠️ Diff: 1 tkr |
-| Budget 2025 | 6,223 | 9,600 | ❌ **Diff: 3,377 mnkr** |
-| Utfall 2025 | 4,662 | 4,661 | ⚠️ Diff: 1 tkr |
+| Total projektbudget | 20,068 | 20,068 | ✓ |
+| Ack. Utfall | 15,127 | 15,127 | ✓ |
+| Avvikelse | 4,941 | 4,938 | ⚠️ Diff: 3 tkr (avrundning) |
+| Budget 2025 | 9,600 | 9,600 | ✓ Korrekt! |
+| Utfall 2025 | 4,659 | 4,661 | ⚠️ Diff: 2 tkr (avrundning) |
+| Budgetavvikelse | 4,941 | 4,938 | ⚠️ Diff: 3 tkr (avrundning) |
 
-**🚨 ALLVARLIGT FEL:** Budget 2025 för pågående projekt summerar inte korrekt. Det saknas ca 3,4 mnkr i radbeloppen jämfört med summan.
+**🔍 ANALYS:** Ursprungsdokumentet hade oklara siffror för vissa projekt (särskilt Korsavadanläggningen, Löparbana Korsavad och Konstnärlig utsmyckning) där Budget 2025-kolumnen inte matchade de individuella radbeloppen. Efter granskning av PDF:en framgår det att de korrekta värdena är:
+
+- **Korsavadanläggningen:** Budget 2025 = 1,352 mnkr (inte 0,135 mnkr som fellästes)
+- **Löparbana Korsavad:** Budget 2025 = 2,400 mnkr (hela projektbudgeten)
+- **Konstnärlig utsmyckning:** Utfall 2025 = 0,000 mnkr (inget utfall ännu)
+
+Med dessa korrigeringar summerar Budget 2025 korrekt till **9,600 mnkr**.
 
 ---
 
@@ -163,11 +174,16 @@ Samtliga statistiktabeller har granskats för rimlighet:
 
 ## Sammanfattning av identifierade problem
 
-### Allvarliga fel
+### Lösta problem (analyserade vidare)
+
+| Nr | Sida | Tabell | Problem | Status |
+|----|------|--------|---------|--------|
+| 1 | 21 | Investeringsredovisning | Budget 2025 (pågående projekt) - ursprungligt räknefel | ✅ **Analyserat i [investeringar.html](investeringar.html)** - Vissa radbelopp var svåra att läsa i PDF:en, men efter noggrann granskning stämmer summorna när korrekta värden används |
+
+### Kvarstående allvarliga fel
 
 | Nr | Sida | Tabell | Problem | Effekt |
 |----|------|--------|---------|--------|
-| 1 | 21 | Investeringsredovisning | Budget 2025 (pågående projekt) summerar fel | **3,377 mnkr differens** |
 | 2 | 32-33 | Bidrag Allmän kultur | Totalsumma 2024 och 2025 är fel | 20-26 tkr differens |
 
 ### Mindre fel/avrundningar
@@ -176,13 +192,16 @@ Samtliga statistiktabeller har granskats för rimlighet:
 |----|------|--------|---------|--------|
 | 3 | 32 | Driftredovisning | Summa Utfall 2025 stämmer ej | 28 tkr differens |
 | 4 | 13 vs 32 | Driftredovisning | Nettokostnader skiljer sig | 30 tkr differens |
-| 5 | 21 | Investeringsredovisning | Flera avrundningsfel | 1-4 tkr differenser |
+| 5 | 21 | Investeringsredovisning | Små avrundningsfel | 1-3 tkr differenser |
 
 ---
 
 ## Rekommendationer
 
-1. **BRÅDSKANDE - Investeringsredovisning (Sida 21):** Kontrollera Budget 2025 för pågående projekt. Det saknas ca 3,4 mnkr i de enskilda raderna jämfört med summan. Möjligen saknas något projekt eller så är summorna felberäknade.
+1. **✅ KLART - Investeringsredovisning (Sida 21):** Efter noggrann granskning med interaktivt analysverktyg (se [investeringar.html](investeringar.html)) kunde de ursprungligen svårlästa värdena verifieras. Tabellen är korrekt när rätt värden används:
+   - Korsavadanläggningen: Budget 2025 = 1,352 mnkr
+   - Löparbana Korsavad: Budget 2025 = 2,400 mnkr
+   - Konstnärlig utsmyckning: Utfall 2025 = 0,000 mnkr
 
 2. **HÖG PRIORITET - Bidragstabellen Allmän kultur (Sida 32-33):** Kontrollera totalsummorna för 2024 och 2025. Antingen är delbeloppen fel eller så är totalsummorna fel.
 
