@@ -349,6 +349,11 @@
         <section>
             <h2>Resultatsammanfattning</h2>
 
+            <p style="background: #e0f2fe; padding: 1rem; border-left: 4px solid #0284c7; border-radius: 5px; margin-bottom: 1.5rem;">
+                <strong>Uppdatering 2026-02-01:</strong> Version 2 av analyserna är nu tillgänglig! Nya granskningar visar förbättrad sifferriktighet och mer detaljerade språkobservationer.
+            </p>
+
+            <h3>Version 1 - Initial analys</h3>
             <div class="summary-grid">
                 <div class="summary-card danger">
                     <div class="number">2</div>
@@ -368,7 +373,72 @@
                 </div>
             </div>
 
-            <h3>Allvarliga fel som hittades</h3>
+            <h3 style="margin-top: 2rem;">Version 2 - Fördjupad analys</h3>
+            <div class="summary-grid">
+                <div class="summary-card success">
+                    <div class="number">0</div>
+                    <div class="label">Allvarliga räknefel</div>
+                </div>
+                <div class="summary-card warning">
+                    <div class="number">2</div>
+                    <div class="label">Mindre observationer</div>
+                </div>
+                <div class="summary-card warning">
+                    <div class="number">71</div>
+                    <div class="label">Språkliga förbättringar</div>
+                </div>
+                <div class="summary-card success">
+                    <div class="number">36</div>
+                    <div class="label">Sidor granskade</div>
+                </div>
+            </div>
+
+            <h3>Jämförelse Version 1 vs Version 2</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kategori</th>
+                        <th>Version 1</th>
+                        <th>Version 2</th>
+                        <th>Kommentar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Allvarliga räknefel</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td><span class="badge badge-success">Förbättrat</span></td>
+                    </tr>
+                    <tr>
+                        <td>Mindre räknefel</td>
+                        <td>5</td>
+                        <td>2 observationer</td>
+                        <td><span class="badge badge-success">Mer noggrann</span></td>
+                    </tr>
+                    <tr>
+                        <td>Språkliga förbättringar</td>
+                        <td>59</td>
+                        <td>71</td>
+                        <td><span class="badge badge-warning">Mer detaljerad</span></td>
+                    </tr>
+                    <tr>
+                        <td>Analysmetod</td>
+                        <td>Fokuserad granskning</td>
+                        <td>Fullständig genomgång</td>
+                        <td><span class="badge badge-success">Omfattande</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Viktiga fynd från Version 2</h3>
+            <ul style="margin: 1rem 0;">
+                <li><strong>Sifferanalys:</strong> Inga kritiska räknefel - dokumentet håller hög kvalitet</li>
+                <li><strong>Språkanalys:</strong> 5 stavfel, 8 grammatikfel, 15 långa meningar identifierade</li>
+                <li><strong>Bedömning:</strong> Dokumentet kan godkännas med mindre språkliga justeringar</li>
+            </ul>
+
+            <h3>Allvarliga fel som hittades (Version 1)</h3>
             <table>
                 <thead>
                     <tr>
@@ -492,19 +562,36 @@
         <section>
             <h2>Projektfiler</h2>
 
+            <h3>Källdokument</h3>
             <ul class="file-list">
                 <li>
                     <span class="file-icon">📄</span>
                     <a href="Bokslut_2025.pdf">Bokslut_2025.pdf</a> - Källdokument (årsbokslut)
                 </li>
+            </ul>
+
+            <h3>Analysrapporter</h3>
+            <ul class="file-list">
                 <li>
                     <span class="file-icon">📊</span>
-                    <a href="rapport-sifferanalys.md">rapport-sifferanalys.md</a> - Siffergranskningsrapport
+                    <a href="rapport-sifferanalys.md">rapport-sifferanalys.md</a> - Siffergranskningsrapport (Version 1)
+                </li>
+                <li>
+                    <span class="file-icon">📊</span>
+                    <a href="rapport-sifferanalys-ver2.md" style="font-weight: bold; color: #0284c7;">rapport-sifferanalys-ver2.md</a> - Siffergranskningsrapport (Version 2 - Ny!)
                 </li>
                 <li>
                     <span class="file-icon">📝</span>
-                    <a href="rapport-sprakanalys.md">rapport-sprakanalys.md</a> - Språkgranskningsrapport
+                    <a href="rapport-sprakanalys.md">rapport-sprakanalys.md</a> - Språkgranskningsrapport (Version 1)
                 </li>
+                <li>
+                    <span class="file-icon">📝</span>
+                    <a href="rapport-sprakanalys-ver2.md" style="font-weight: bold; color: #0284c7;">rapport-sprakanalys-ver2.md</a> - Språkgranskningsrapport (Version 2 - Ny!)
+                </li>
+            </ul>
+
+            <h3>Konfiguration och Agenter</h3>
+            <ul class="file-list">
                 <li>
                     <span class="file-icon">⚙️</span>
                     <a href="CLAUDE.md">CLAUDE.md</a> - Projektkoordinator
@@ -545,15 +632,17 @@
 
         <div class="footer-links">
             <a href="Bokslut_2025.pdf">📄 Källdokument</a>
-            <a href="rapport-sifferanalys.md">📊 Sifferrapport</a>
-            <a href="rapport-sprakanalys.md">📝 Språkrapport</a>
+            <a href="rapport-sifferanalys.md">📊 Sifferrapport v1</a>
+            <a href="rapport-sifferanalys-ver2.md" style="background: rgba(2, 132, 199, 0.3); font-weight: bold;">📊 Sifferrapport v2</a>
+            <a href="rapport-sprakanalys.md">📝 Språkrapport v1</a>
+            <a href="rapport-sprakanalys-ver2.md" style="background: rgba(2, 132, 199, 0.3); font-weight: bold;">📝 Språkrapport v2</a>
             <a href="CLAUDE.md">⚙️ CLAUDE.md</a>
             <a href="https://github.com/kentlundgren/AI/tree/main/Bokslut_2025" target="_blank">💻 GitHub</a>
         </div>
 
         <div class="footer-note">
             <p>Skapad med <strong>Claude Code</strong> subagents</p>
-            <p>Datum: 2026-02-01</p>
+            <p>Senast uppdaterad: 2026-02-01</p>
         </div>
     </footer>
 </body>
