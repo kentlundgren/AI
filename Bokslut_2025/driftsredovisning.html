@@ -261,7 +261,7 @@
                 <li><strong>Grå celler</strong> = Värden du har ändrat</li>
                 <li><strong>Gröna celler</strong> = Korrekt beräknade värden</li>
                 <li><strong>Röda celler</strong> = Fel eller ologiska värden</li>
-                <li>"Återstår"-kolumnen beräknas automatiskt (Budget - Utfall)</li>
+                <li>"Återstår"-kolumnen beräknas automatiskt (Utfall - Budget): Negativt = övertrassering, Positivt = överskott</li>
                 <li>Dina ändringar sparas automatiskt i webbläsaren</li>
             </ul>
         </div>
@@ -366,10 +366,11 @@
             return isNaN(num) ? null : num;
         }
 
-        // Beräkna återstår (Budget - Utfall)
+        // Beräkna återstår (Utfall - Budget)
+        // Negativt = övertrassering, Positivt = överskott
         function calculateAterstar(budget, utfall) {
             if (budget === null || utfall === null) return null;
-            return budget - utfall;
+            return utfall - budget;
         }
 
         // Validera verksamhet
@@ -445,8 +446,8 @@
             // Kolumn 4: Återstår (beräknas automatiskt)
             const aterstarClass = hasError ? 'number error' : 'number correct';
             const aterstarValue = formatNumber(aterstar);
-            const aterstarDisplay = aterstar < 0 ? `<span class="negative">${aterstarValue}</span>` : `<span class="positive">${aterstarValue}</span>`;
-            const aterstarTitle = hasError ? errors.join(' | ') : 'Automatiskt beräknad (Budget - Utfall)';
+            const aterstarDisplay = aterstar < 0 ? `<span class="negative">${aterstarValue}</span>` : aterstarValue;
+            const aterstarTitle = hasError ? errors.join(' | ') : 'Automatiskt beräknad (Utfall - Budget): Negativt = övertrassering, Positivt = överskott';
             const aterstarCell = `<td class="${aterstarClass}" title="${aterstarTitle}">${aterstarDisplay}</td>`;
 
             // Kolumn 5: Ta bort-knapp
