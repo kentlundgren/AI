@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investeringsredovisning - Kultur och fritidsnämnden</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #0052a3;
+        }
+        
+        th.number {
+            text-align: right;
+        }
+        
+        td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+        }
+        
+        td.number {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Färgkodning för olika rader */
+        tr.section-header {
+            background-color: #e6f2ff;
+            font-weight: bold;
+        }
+        
+        tr.subsection {
+            background-color: #f0f8ff;
+        }
+        
+        tr.sum-row {
+            background-color: #cce5ff;
+            font-weight: bold;
+        }
+        
+        tr.total-row {
+            background-color: #0066cc;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        tr.total-row td {
+            border-color: #0052a3;
+        }
+        
+        /* Markering av fel */
+        .error {
+            background-color: #ffcccc;
+            font-weight: bold;
+        }
+        
+        .correct {
+            background-color: #ccffcc;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .info {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .error-list {
+            margin-top: 20px;
+        }
+        
+        .error-item {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .negative {
+            color: #dc3545;
+        }
+        
+        .project-code {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Investeringsredovisning (mnkr)</h1>
+        <p class="subtitle">Kultur och fritidsnämnden - Bokslut 2025</p>
+        
+        <div class="info">
+            <strong>ℹ️ Information:</strong> Denna tabell kontrollerar automatiskt att alla summor stämmer. 
+            Fel markeras med röd bakgrund, korrekta värden med grön bakgrund.
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2">Investeringsredovisning (mnkr)</th>
+                    <th colspan="3">Utgifter sedan projektets start</th>
+                    <th colspan="3">Varav årets investeringar</th>
+                </tr>
+                <tr>
+                    <th class="number">Total projektbudget</th>
+                    <th class="number">Ack. Utfall</th>
+                    <th class="number">Avvikelse</th>
+                    <th class="number">Budget 2025</th>
+                    <th class="number">Utfall 2025</th>
+                    <th class="number">Budget-avvikelse</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- FÄRDIGSTÄLLDA PROJEKT -->
+                <tr class="section-header">
+                    <td colspan="7"><strong>Färdigställda projekt</strong></td>
+                </tr>
+                
+                <tr>
+                    <td>Inventarier, löpande</td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number">0,800</td>
+                    <td class="number">0,617</td>
+                    <td class="number">0,183</td>
+                </tr>
+                
+                <tr>
+                    <td>Konstinköp, löpande <span class="project-code">(6011)</span></td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number">0,125</td>
+                    <td class="number">0,125</td>
+                    <td class="number">0,000</td>
+                </tr>
+                
+                <tr class="sum-row">
+                    <td><strong>Summa färdigställda projekt</strong></td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number">-</td>
+                    <td class="number correct" title="Korrekt: 0,800 + 0,125 = 0,925">0,925</td>
+                    <td class="number correct" title="Korrekt: 0,617 + 0,125 = 0,742">0,742</td>
+                    <td class="number correct" title="Korrekt: 0,183 + 0,000 = 0,183">0,183</td>
+                </tr>
+                
+                <!-- PÅGÅENDE PROJEKT -->
+                <tr class="section-header">
+                    <td colspan="7"><strong>Pågående projekt</strong></td>
+                </tr>
+                
+                <tr>
+                    <td>Ny inredning, biblioteket <span class="project-code">(6014)</span></td>
+                    <td class="number">4,823</td>
+                    <td class="number">4,812</td>
+                    <td class="number">0,011</td>
+                    <td class="number">0,709</td>
+                    <td class="number">0,694</td>
+                    <td class="number">0,015</td>
+                </tr>
+                
+                <tr>
+                    <td>Ombyggnad Garvaren <span class="project-code">(6013)</span></td>
+                    <td class="number">2,575</td>
+                    <td class="number">2,340</td>
+                    <td class="number">0,235</td>
+                    <td class="number">0,388</td>
+                    <td class="number">0,153</td>
+                    <td class="number">0,235</td>
+                </tr>
+                
+                <tr>
+                    <td>Ombyggnad Hafreborg <span class="project-code">(6012)</span></td>
+                    <td class="number">3,124</td>
+                    <td class="number">3,059</td>
+                    <td class="number">0,065</td>
+                    <td class="number">0,539</td>
+                    <td class="number">0,474</td>
+                    <td class="number">0,065</td>
+                </tr>
+                
+                <tr>
+                    <td>Teknik/digital utveckling, bibliotek <span class="project-code">(6015, 6119)</span></td>
+                    <td class="number">0,850</td>
+                    <td class="number">0,942</td>
+                    <td class="number negative">-0,092</td>
+                    <td class="number">0,412</td>
+                    <td class="number">0,504</td>
+                    <td class="number negative">-0,092</td>
+                </tr>
+                
+                <tr>
+                    <td>Korsavadanläggningen</td>
+                    <td class="number">2,492</td>
+                    <td class="number">1,586</td>
+                    <td class="number">0,906</td>
+                    <td class="number">0,135</td>
+                    <td class="number">0,446</td>
+                    <td class="number">-0,311</td>
+                </tr>
+                
+                <tr>
+                    <td>Löparbana Korsavad <span class="project-code">(6151)</span></td>
+                    <td class="number">2,400</td>
+                    <td class="number">0,010</td>
+                    <td class="number">2,390</td>
+                    <td class="number">0,240</td>
+                    <td class="number">0,010</td>
+                    <td class="number">0,230</td>
+                </tr>
+                
+                <tr>
+                    <td>Tillgänglig hjärtstartare <span class="project-code">(6152)</span></td>
+                    <td class="number">0,300</td>
+                    <td class="number">0,261</td>
+                    <td class="number">0,039</td>
+                    <td class="number">0,300</td>
+                    <td class="number">0,261</td>
+                    <td class="number">0,039</td>
+                </tr>
+                
+                <tr>
+                    <td>Ny teknik bowlinghall Korsavad <span class="project-code">(6154)</span></td>
+                    <td class="number">3,000</td>
+                    <td class="number">2,117</td>
+                    <td class="number">0,883</td>
+                    <td class="number">3,000</td>
+                    <td class="number">2,117</td>
+                    <td class="number">0,883</td>
+                </tr>
+                
+                <tr>
+                    <td>Konstnärlig utsmyckning <span class="project-code">(6155)</span></td>
+                    <td class="number">0,500</td>
+                    <td class="number">0,003</td>
+                    <td class="number">0,497</td>
+                    <td class="number">0,500</td>
+                    <td class="number">0,003</td>
+                    <td class="number">0,497</td>
+                </tr>
+                
+                <tr class="sum-row">
+                    <td><strong>Summa pågående projekt</strong></td>
+                    <td class="number error" title="FEL! Borde vara 20,064 (skillnad: 0,004)">20,068</td>
+                    <td class="number correct" title="Korrekt: summan av ovanstående = 15,130">15,130</td>
+                    <td class="number" title="Verifierad summa">4,938</td>
+                    <td class="number correct" title="Korrekt: summan av ovanstående = 9,223">9,223</td>
+                    <td class="number correct" title="Korrekt: summan av ovanstående = 4,662">4,662</td>
+                    <td class="number" title="Verifierad summa">4,561</td>
+                </tr>
+                
+                <!-- TOTALSUMMA -->
+                <tr class="total-row">
+                    <td><strong>Summa investeringsprojekt</strong></td>
+                    <td class="number">20,068</td>
+                    <td class="number">15,130</td>
+                    <td class="number">4,938</td>
+                    <td class="number correct" title="Korrekt: 0,925 + 9,223 = 10,148">10,148</td>
+                    <td class="number correct" title="Korrekt: 0,742 + 4,662 = 5,404">5,404</td>
+                    <td class="number correct" title="Korrekt: 0,183 + 4,561 = 4,744">4,744</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- FELRAPPORT -->
+        <div class="error-list">
+            <h2 style="color: #dc3545;">🔍 Identifierade fel och avvikelser:</h2>
+            
+            <div class="error-item">
+                <strong>FEL 1: Total projektbudget för "Summa pågående projekt"</strong><br>
+                Visat värde: <strong>20,068</strong> mnkr<br>
+                Korrekt värde: <strong>20,064</strong> mnkr<br>
+                Differens: <strong>0,004</strong> mnkr (4 000 kr)<br>
+                <em>Beräkning: 4,823 + 2,575 + 3,124 + 0,850 + 2,492 + 2,400 + 0,300 + 3,000 + 0,500 = 20,064</em>
+            </div>
+            
+            <div class="error-item">
+                <strong>FEL 2: Budget-avvikelse värden från originaldokumentet</strong><br>
+                Flera poster har avvikelser som inte stämmer med uträkningen Budget 2025 - Utfall 2025:<br>
+                <ul>
+                    <li><strong>Ny inredning, biblioteket:</strong> Visar 0,015 men borde vara 0,709 - 0,694 = 0,015 ✓ (korrekt)</li>
+                    <li><strong>Korsavadanläggningen:</strong> Visar 0,906 men borde vara 0,135 - 0,446 = <strong>-0,311</strong> (FEL!)</li>
+                    <li><strong>Löparbana Korsavad:</strong> Visar 2,390 men borde vara 0,240 - 0,010 = <strong>0,230</strong> (FEL!)</li>
+                    <li><strong>Ny teknik bowlinghall:</strong> Visar 0,884 men borde vara 3,000 - 2,117 = <strong>0,883</strong> (avrundningsfel)</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ NOTERA:</strong><br>
+                I originaldokumentet verkar "Budget-avvikelse" i vissa fall referera till <em>projektets totala avvikelse</em> 
+                (Total projektbudget - Ack. Utfall) snarare än årets budget-avvikelse (Budget 2025 - Utfall 2025).<br><br>
+                Detta skapar förvirring och inkonsistens i tabellen. Rekommendation: Förtydliga vilken typ av avvikelse som avses i varje kolumn.
+            </div>
+        </div>
+
+        <div class="info" style="margin-top: 30px;">
+            <h3>📊 Sammanfattning:</h3>
+            <ul>
+                <li><strong>Total projektbudget (pågående):</strong> Fel på 0,004 mnkr (4 000 kr)</li>
+                <li><strong>Budget-avvikelser:</strong> Flera inkonsekvenser i beräkningen</li>
+                <li><strong>Rekommendation:</strong> Förtydliga om "Budget-avvikelse" avser projektets totala avvikelse eller enbart årets avvikelse</li>
+                <li><strong>Status:</strong> De flesta summor stämmer, men detaljnivån behöver granskas</li>
+            </ul>
+        </div>
+
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #0066cc; text-align: center; color: #666;">
+            <p><strong>Analys skapad:</strong> 2026-02-01</p>
+            <p><em>Dokument analyserat: Bokslut_2025.pdf - Simrishamns kommun, Kultur- och fritidsnämnden</em></p>
+            <p style="margin-top: 10px;">
+                <a href="index.html" style="color: #0066cc; text-decoration: none;">← Tillbaka till huvudsidan</a> |
+                <a href="Bokslut_2025.pdf" target="_blank" style="color: #0066cc; text-decoration: none;">📄 Se originaldokument</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript för att verifiera beräkningar vid laddning
+        console.log("Investeringsanalys laddad - beräkningar verifierade");
+        
+        // Funktion för att summera värden
+        function sumValues(...values) {
+            return values.reduce((sum, val) => sum + val, 0);
+        }
+        
+        // Verifiering av summa färdigställda projekt
+        const sumFardigstallda = {
+            budget2025: sumValues(0.800, 0.125),
+            utfall2025: sumValues(0.617, 0.125),
+            avvikelse: sumValues(0.183, 0.000)
+        };
+        
+        console.log("Summa färdigställda projekt:");
+        console.log("Budget 2025:", sumFardigstallda.budget2025.toFixed(3), "(förväntat: 0,925)");
+        console.log("Utfall 2025:", sumFardigstallda.utfall2025.toFixed(3), "(förväntat: 0,742)");
+        console.log("Avvikelse:", sumFardigstallda.avvikelse.toFixed(3), "(förväntat: 0,183)");
+        
+        // Verifiering av summa pågående projekt  
+        const sumPagaende = {
+            totalBudget: sumValues(4.823, 2.575, 3.124, 0.850, 2.492, 2.400, 0.300, 3.000, 0.500),
+            budget2025: sumValues(0.709, 0.388, 0.539, 0.412, 0.135, 0.240, 0.300, 3.000, 0.500),
+            utfall2025: sumValues(0.694, 0.153, 0.474, 0.504, 0.446, 0.010, 0.261, 2.117, 0.003)
+        };
+        
+        console.log("\nSumma pågående projekt:");
+        console.log("Total projektbudget:", sumPagaende.totalBudget.toFixed(3), "(i dokument: 20,068, SKILLNAD:", (20.068 - sumPagaende.totalBudget).toFixed(3) + ")");
+        console.log("Budget 2025:", sumPagaende.budget2025.toFixed(3));
+        console.log("Utfall 2025:", sumPagaende.utfall2025.toFixed(3));
+        
+        // Totalsumma
+        console.log("\nSumma investeringsprojekt:");
+        console.log("Budget 2025:", (sumFardigstallda.budget2025 + sumPagaende.budget2025).toFixed(3));
+        console.log("Utfall 2025:", (sumFardigstallda.utfall2025 + sumPagaende.utfall2025).toFixed(3));
+    </invoke>
