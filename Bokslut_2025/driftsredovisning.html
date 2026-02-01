@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driftredovisning - Kultur och fritidsnämnden (Interaktiv)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0052a3;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .info-box {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #0066cc;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #0052a3;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th.number {
+            text-align: right;
+        }
+
+        td {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        td.number {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Färgkodning enligt krav */
+        /* Gul = redigerbar, standard */
+        td.editable {
+            background-color: #ffffcc;
+            cursor: pointer;
+        }
+
+        td.editable:hover {
+            background-color: #ffff99;
+        }
+
+        /* Grå = ändrad */
+        td.modified {
+            background-color: #e0e0e0;
+        }
+
+        /* Grön = korrekt beräkning */
+        td.correct {
+            background-color: #ccffcc;
+        }
+
+        /* Röd = fel/ologiskt */
+        td.error {
+            background-color: #ffcccc;
+            font-weight: bold;
+        }
+
+        /* Input-fält vid redigering */
+        td input {
+            width: 100%;
+            padding: 5px;
+            border: 2px solid #0066cc;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            text-align: right;
+        }
+
+        /* Radtyper */
+        tr.total-row {
+            background-color: #0066cc;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        tr.total-row td {
+            border-color: #0052a3;
+            background-color: #0066cc !important;
+            cursor: default !important;
+        }
+
+        .negative {
+            color: #dc3545;
+        }
+
+        .positive {
+            color: #28a745;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #0066cc;
+            text-align: center;
+            color: #666;
+        }
+
+        footer a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Tooltip för felmeddelanden */
+        .tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Driftredovisning (tkr) - Interaktiv Version</h1>
+        <p class="subtitle">Kultur och fritidsnämnden - Bokslut 2025</p>
+
+        <div class="info-box">
+            <strong>ℹ️ Så här använder du verktyget:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Gula celler</strong> = Klicka för att redigera</li>
+                <li><strong>Grå celler</strong> = Värden du har ändrat</li>
+                <li><strong>Gröna celler</strong> = Korrekt beräknade värden</li>
+                <li><strong>Röda celler</strong> = Fel eller ologiska värden</li>
+                <li>"Återstår"-kolumnen beräknas automatiskt (Budget - Utfall)</li>
+                <li>Dina ändringar sparas automatiskt i webbläsaren</li>
+            </ul>
+        </div>
+
+        <div class="toolbar">
+            <button class="btn btn-success" onclick="addNewActivity()">➕ Lägg till ny verksamhet</button>
+            <button class="btn btn-warning" onclick="resetData()">🔄 Återställ till hårdkodade värden</button>
+            <button class="btn btn-primary" onclick="exportToCSV()">💾 Exportera till CSV</button>
+            <button class="btn btn-primary" onclick="printTable()">🖨️ Skriv ut</button>
+        </div>
+
+        <div class="warning-box" id="errorSummary" style="display: none;">
+            <strong>⚠️ Identifierade problem:</strong>
+            <ul id="errorList" style="margin-left: 20px; margin-top: 10px;"></ul>
+        </div>
+
+        <table id="driftTable">
+            <thead>
+                <tr>
+                    <th>Verksamheter (tkr)</th>
+                    <th class="number">Utfall 2025</th>
+                    <th class="number">Budget 2025</th>
+                    <th class="number">Återstår</th>
+                    <th>Åtgärd</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Data laddas via JavaScript -->
+            </tbody>
+        </table>
+
+        <footer>
+            <p><strong>Interaktiv analys skapad:</strong> 2026-02-01</p>
+            <p><em>Dokument analyserat: Bokslut_2025.pdf - Simrishamns kommun, Kultur- och fritidsnämnden</em></p>
+            <p style="margin-top: 10px;">
+                <a href="index.html">← Tillbaka till huvudsidan</a> |
+                <a href="Bokslut_2025.pdf" target="_blank">📄 Se originaldokument</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Datastruktur för driftredovisning
+        let activityData = [
+            { name: "Nämnd- och styrelseverksamhet", utfall: -698, budget: -679 },
+            { name: "Fysisk och teknisk planering", utfall: -602, budget: -373 },
+            { name: "Turistverksamhet", utfall: 2802, budget: 2803 },
+            { name: "Alkoholtillstånd", utfall: 1, budget: 0 },
+            { name: "Allmän fritidsverksamhet", utfall: -6279, budget: -6827 },
+            { name: "Stöd till studieorganisationer", utfall: -377, budget: -400 },
+            { name: "Allmän kulturverksamhet", utfall: -2564, budget: -2612 },
+            { name: "Museum/konsthall", utfall: -8417, budget: -8603 },
+            { name: "Bibliotek", utfall: -13123, budget: -13152 },
+            { name: "Idrotts- och fritidsanläggning", utfall: -24835, budget: -23885 },
+            { name: "Fritidsgårdsverksamhet", utfall: -5347, budget: -5386 },
+            { name: "Gem adm kultur och fritid", utfall: -2612, budget: -4005 }
+        ];
+
+        // Håll reda på ändringar
+        let modifications = new Set();
+
+        // Ladda sparade ändringar från localStorage vid start
+        function loadSavedData() {
+            const saved = localStorage.getItem('driftredovisningData');
+            if (saved) {
+                try {
+                    activityData = JSON.parse(saved);
+                    console.log('Laddade sparade ändringar från localStorage');
+                } catch (e) {
+                    console.error('Kunde inte ladda sparade data:', e);
+                }
+            }
+
+            const savedMods = localStorage.getItem('driftModifications');
+            if (savedMods) {
+                try {
+                    modifications = new Set(JSON.parse(savedMods));
+                } catch (e) {
+                    console.error('Kunde inte ladda ändringshistorik:', e);
+                }
+            }
+        }
+
+        // Spara data till localStorage
+        function saveData() {
+            localStorage.setItem('driftredovisningData', JSON.stringify(activityData));
+            localStorage.setItem('driftModifications', JSON.stringify([...modifications]));
+            console.log('Data sparad till localStorage');
+        }
+
+        // Formatera nummer med tusentalsavgränsare
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '-';
+            return num.toLocaleString('sv-SE');
+        }
+
+        // Parsa nummer från text
+        function parseNumber(str) {
+            if (!str || str === '-') return null;
+            const cleaned = str.toString().replace(/\s/g, '').replace(',', '.');
+            const num = parseFloat(cleaned);
+            return isNaN(num) ? null : num;
+        }
+
+        // Beräkna återstår (Budget - Utfall)
+        function calculateAterstar(budget, utfall) {
+            if (budget === null || utfall === null) return null;
+            return budget - utfall;
+        }
+
+        // Validera verksamhet
+        function validateActivity(activity) {
+            const errors = [];
+
+            // Kontrollera att återstår-beräkningen stämmer
+            const calculatedAterstar = calculateAterstar(activity.budget, activity.utfall);
+            if (calculatedAterstar !== null) {
+                const diff = Math.abs(calculatedAterstar - (activity.budget - activity.utfall));
+                if (diff > 0.01) {
+                    errors.push(`Återstår-beräkning stämmer inte: Budget - Utfall = ${formatNumber(calculatedAterstar)}`);
+                }
+            }
+
+            return errors;
+        }
+
+        // Bygg tabellen
+        function buildTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            // Lägg till alla verksamheter
+            activityData.forEach((activity, idx) => {
+                tbody.appendChild(createActivityRow(activity, idx));
+            });
+
+            // Lägg till totalsumma
+            tbody.appendChild(createTotalRow());
+
+            // Uppdatera felsammanfattning
+            updateErrorSummary();
+        }
+
+        // Skapa verksamhetsrad
+        function createActivityRow(activity, idx) {
+            const tr = document.createElement('tr');
+            const rowId = `activity-${idx}`;
+
+            const errors = validateActivity(activity);
+            const hasError = errors.length > 0;
+
+            const aterstar = calculateAterstar(activity.budget, activity.utfall);
+
+            // Kolumn 1: Verksamhetsnamn
+            const nameCell = `<td>${activity.name}</td>`;
+
+            // Kolumn 2: Utfall
+            const utfallId = `${rowId}-utfall`;
+            const utfallModified = modifications.has(utfallId);
+            const utfallClass = `number editable ${utfallModified ? 'modified' : ''}`;
+            const utfallValue = formatNumber(activity.utfall);
+            const utfallDisplay = activity.utfall < 0 ? `<span class="negative">${utfallValue}</span>` : utfallValue;
+            const utfallCell = `<td class="${utfallClass}"
+                                   data-idx="${idx}"
+                                   data-field="utfall"
+                                   title="Klicka för att redigera"
+                                   onclick="editCell(this)">${utfallDisplay}</td>`;
+
+            // Kolumn 3: Budget
+            const budgetId = `${rowId}-budget`;
+            const budgetModified = modifications.has(budgetId);
+            const budgetClass = `number editable ${budgetModified ? 'modified' : ''}`;
+            const budgetValue = formatNumber(activity.budget);
+            const budgetDisplay = activity.budget < 0 ? `<span class="negative">${budgetValue}</span>` : budgetValue;
+            const budgetCell = `<td class="${budgetClass}"
+                                   data-idx="${idx}"
+                                   data-field="budget"
+                                   title="Klicka för att redigera"
+                                   onclick="editCell(this)">${budgetDisplay}</td>`;
+
+            // Kolumn 4: Återstår (beräknas automatiskt)
+            const aterstarClass = hasError ? 'number error' : 'number correct';
+            const aterstarValue = formatNumber(aterstar);
+            const aterstarDisplay = aterstar < 0 ? `<span class="negative">${aterstarValue}</span>` : `<span class="positive">${aterstarValue}</span>`;
+            const aterstarTitle = hasError ? errors.join(' | ') : 'Automatiskt beräknad (Budget - Utfall)';
+            const aterstarCell = `<td class="${aterstarClass}" title="${aterstarTitle}">${aterstarDisplay}</td>`;
+
+            // Kolumn 5: Ta bort-knapp
+            const deleteBtn = `<td><button class="delete-btn" onclick="deleteActivity(${idx})">🗑️ Ta bort</button></td>`;
+
+            tr.innerHTML = nameCell + utfallCell + budgetCell + aterstarCell + deleteBtn;
+            return tr;
+        }
+
+        // Skapa totalsummeringsrad
+        function createTotalRow() {
+            const tr = document.createElement('tr');
+            tr.className = 'total-row';
+
+            const totalUtfall = activityData.reduce((sum, a) => sum + (a.utfall || 0), 0);
+            const totalBudget = activityData.reduce((sum, a) => sum + (a.budget || 0), 0);
+            const totalAterstar = calculateAterstar(totalBudget, totalUtfall);
+
+            tr.innerHTML = `
+                <td><strong>Summa totalt</strong></td>
+                <td class="number">${formatNumber(totalUtfall)}</td>
+                <td class="number">${formatNumber(totalBudget)}</td>
+                <td class="number">${formatNumber(totalAterstar)}</td>
+                <td></td>
+            `;
+
+            return tr;
+        }
+
+        // Uppdatera felsammanfattning
+        function updateErrorSummary() {
+            const errorList = document.getElementById('errorList');
+            const errorSummary = document.getElementById('errorSummary');
+            const allErrors = [];
+
+            // Kontrollera alla verksamheter
+            activityData.forEach(activity => {
+                const errors = validateActivity(activity);
+                if (errors.length > 0) {
+                    allErrors.push({ activity: activity.name, errors });
+                }
+            });
+
+            if (allErrors.length > 0) {
+                errorList.innerHTML = allErrors.map(item =>
+                    `<li><strong>${item.activity}:</strong> ${item.errors.join(', ')}</li>`
+                ).join('');
+                errorSummary.style.display = 'block';
+            } else {
+                errorSummary.style.display = 'none';
+            }
+        }
+
+        // Redigera cell
+        function editCell(td) {
+            if (td.querySelector('input')) return; // Redan under redigering
+
+            const idx = parseInt(td.dataset.idx);
+            const field = td.dataset.field;
+
+            const currentValue = activityData[idx][field];
+            const displayValue = currentValue === null ? '' : currentValue.toString();
+
+            // Skapa input-fält
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = displayValue;
+            input.style.width = '100%';
+
+            // Spara vid Enter eller blur
+            const saveValue = () => {
+                const newValue = parseNumber(input.value);
+                activityData[idx][field] = newValue;
+
+                // Markera som ändrad
+                const cellId = `activity-${idx}-${field}`;
+                modifications.add(cellId);
+
+                // Spara till localStorage
+                saveData();
+
+                // Bygg om tabellen
+                buildTable();
+            };
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveValue();
+                }
+            });
+
+            input.addEventListener('blur', saveValue);
+
+            // Ersätt cell-innehåll med input
+            td.textContent = '';
+            td.appendChild(input);
+            input.focus();
+            input.select();
+        }
+
+        // Lägg till ny verksamhet
+        function addNewActivity() {
+            activityData.push({
+                name: 'Ny verksamhet (klicka för att redigera)',
+                utfall: 0,
+                budget: 0
+            });
+
+            saveData();
+            buildTable();
+            alert('Ny verksamhet tillagd! Klicka på cellerna för att redigera.');
+        }
+
+        // Ta bort verksamhet
+        function deleteActivity(idx) {
+            const activity = activityData[idx];
+            if (confirm(`Vill du verkligen ta bort verksamheten "${activity.name}"?`)) {
+                activityData.splice(idx, 1);
+                saveData();
+                buildTable();
+            }
+        }
+
+        // Återställ till hårdkodade värden
+        function resetData() {
+            if (confirm('Vill du återställa till de hårdkodade värdena från JavaScript?\n\nAlla dina ändringar kommer att förloras och alla grå markeringar (ändringar) kommer att tas bort.')) {
+                // Rensa localStorage
+                localStorage.removeItem('driftredovisningData');
+                localStorage.removeItem('driftModifications');
+
+                // Rensa ändringshistorik
+                modifications.clear();
+
+                // Ladda om sidan för att återställa till hårdkodade värden
+                location.reload();
+            }
+        }
+
+        // Exportera till CSV
+        function exportToCSV() {
+            let csv = 'Verksamhet;Utfall 2025;Budget 2025;Återstår\n';
+
+            activityData.forEach(a => {
+                const aterstar = calculateAterstar(a.budget, a.utfall);
+                csv += `${a.name};${formatNumber(a.utfall)};${formatNumber(a.budget)};${formatNumber(aterstar)}\n`;
+            });
+
+            // Totalsumma
+            const totalUtfall = activityData.reduce((sum, a) => sum + (a.utfall || 0), 0);
+            const totalBudget = activityData.reduce((sum, a) => sum + (a.budget || 0), 0);
+            const totalAterstar = calculateAterstar(totalBudget, totalUtfall);
+            csv += `Summa totalt;${formatNumber(totalUtfall)};${formatNumber(totalBudget)};${formatNumber(totalAterstar)}\n`;
+
+            // Skapa nedladdningslänk
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'driftredovisning_2025.csv';
+            link.click();
+        }
+
+        // Skriv ut tabell
+        function printTable() {
+            window.print();
+        }
+
+        // Initialisera vid sidladdning
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            buildTable();
+            console.log('Driftredovisningsverktyg laddat! 🚀');
+        });
+    </script>
+</body>
+</html>
