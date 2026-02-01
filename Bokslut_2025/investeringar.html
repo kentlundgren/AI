@@ -295,9 +295,13 @@
                     <td class="number error" title="FEL! Borde vara 20,064 (skillnad: 0,004)">20,068</td>
                     <td class="number correct" title="Korrekt: summan av ovanstående = 15,130">15,130</td>
                     <td class="number" title="Verifierad summa">4,938</td>
-                    <td class="number correct" title="Korrekt: summan av ovanstående = 9,223">9,223</td>
+                    <td class="number error" title="ALLVARLIGT FEL! I dokument: 9,600 men summan av raderna = 6,223 (Skillnad: 3,377 mnkr)">
+                        <span style="text-decoration: line-through;">9,600</span> → 6,223
+                    </td>
                     <td class="number correct" title="Korrekt: summan av ovanstående = 4,662">4,662</td>
-                    <td class="number" title="Verifierad summa">4,561</td>
+                    <td class="number error" title="FEL! I dokument: 4,938 men borde vara cirka 1,561 baserat på korrekt Budget 2025">
+                        <span style="text-decoration: line-through;">4,938</span> → ~1,561
+                    </td>
                 </tr>
                 
                 <!-- TOTALSUMMA -->
@@ -306,9 +310,13 @@
                     <td class="number">20,068</td>
                     <td class="number">15,130</td>
                     <td class="number">4,938</td>
-                    <td class="number correct" title="Korrekt: 0,925 + 9,223 = 10,148">10,148</td>
-                    <td class="number correct" title="Korrekt: 0,742 + 4,662 = 5,404">5,404</td>
-                    <td class="number correct" title="Korrekt: 0,183 + 4,561 = 4,744">4,744</td>
+                    <td class="number" title="I dokument: 10,525 men med korrigerad Budget 2025 = 7,148">
+                        <span style="text-decoration: line-through;">10,525</span> → 7,148
+                    </td>
+                    <td class="number">5,404</td>
+                    <td class="number" title="I dokument: 5,122 men borde vara lägre">
+                        <span style="text-decoration: line-through;">5,122</span> → ~1,744
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -317,8 +325,34 @@
         <div class="error-list">
             <h2 style="color: #dc3545;">🔍 Identifierade fel och avvikelser:</h2>
             
+            <div class="error-item" style="background-color: #ffcccc; border-left-color: #cc0000; border-width: 6px;">
+                <strong>🚨 ALLVARLIGT FEL: Budget 2025 för pågående projekt</strong><br>
+                <span style="font-size: 1.2em; color: #cc0000;">
+                    Visat värde i dokument: <strong>9,600</strong> mnkr<br>
+                    Summa av raderna: <strong>6,223</strong> mnkr<br>
+                    Differens: <strong>3,377</strong> mnkr (3 377 000 kr) ❌
+                </span>
+                <br><br>
+                <em>Beräkning: 0,709 + 0,388 + 0,539 + 0,412 + 0,135 + 0,240 + 0,300 + 3,000 + 0,500 = 6,223</em>
+                <br><br>
+                <strong>Möjliga förklaringar:</strong>
+                <ol>
+                    <li><strong>Saknade projekt:</strong> Det finns projekt som inte är listade i tabellen men ingår i budgeten</li>
+                    <li><strong>Räknefel:</strong> Summan är felaktigt beräknad i originaldokumentet</li>
+                    <li><strong>Budgetöverföring:</strong> Medel har tillförts från annat håll men inte fördelats på specifika projekt än</li>
+                </ol>
+                <strong style="color: #cc0000;">Detta kräver omedelbar utredning och korrigering!</strong>
+            </div>
+            
             <div class="error-item">
-                <strong>FEL 1: Total projektbudget för "Summa pågående projekt"</strong><br>
+                <strong>FEL 2: Utfall 2025 för pågående projekt</strong><br>
+                Visat värde i dokument: <strong>4,661</strong> mnkr<br>
+                Summa av raderna: <strong>4,662</strong> mnkr<br>
+                Differens: <strong>0,001</strong> mnkr (1 000 kr) - Troligen avrundningsfel
+            </div>
+            
+            <div class="error-item">
+                <strong>FEL 3: Total projektbudget för "Summa pågående projekt"</strong><br>
                 Visat värde: <strong>20,068</strong> mnkr<br>
                 Korrekt värde: <strong>20,064</strong> mnkr<br>
                 Differens: <strong>0,004</strong> mnkr (4 000 kr)<br>
@@ -326,10 +360,9 @@
             </div>
             
             <div class="error-item">
-                <strong>FEL 2: Budget-avvikelse värden från originaldokumentet</strong><br>
+                <strong>FEL 4: Budget-avvikelse värden är inkonsekventa</strong><br>
                 Flera poster har avvikelser som inte stämmer med uträkningen Budget 2025 - Utfall 2025:<br>
                 <ul>
-                    <li><strong>Ny inredning, biblioteket:</strong> Visar 0,015 men borde vara 0,709 - 0,694 = 0,015 ✓ (korrekt)</li>
                     <li><strong>Korsavadanläggningen:</strong> Visar 0,906 men borde vara 0,135 - 0,446 = <strong>-0,311</strong> (FEL!)</li>
                     <li><strong>Löparbana Korsavad:</strong> Visar 2,390 men borde vara 0,240 - 0,010 = <strong>0,230</strong> (FEL!)</li>
                     <li><strong>Ny teknik bowlinghall:</strong> Visar 0,884 men borde vara 3,000 - 2,117 = <strong>0,883</strong> (avrundningsfel)</li>
@@ -344,13 +377,24 @@
             </div>
         </div>
 
-        <div class="info" style="margin-top: 30px;">
+        <div class="info" style="margin-top: 30px; background-color: #fff3cd; border-left-color: #ff6600;">
             <h3>📊 Sammanfattning:</h3>
             <ul>
-                <li><strong>Total projektbudget (pågående):</strong> Fel på 0,004 mnkr (4 000 kr)</li>
-                <li><strong>Budget-avvikelser:</strong> Flera inkonsekvenser i beräkningen</li>
-                <li><strong>Rekommendation:</strong> Förtydliga om "Budget-avvikelse" avser projektets totala avvikelse eller enbart årets avvikelse</li>
-                <li><strong>Status:</strong> De flesta summor stämmer, men detaljnivån behöver granskas</li>
+                <li style="color: #cc0000; font-weight: bold; font-size: 1.1em;">
+                    <strong>🚨 KRITISKT FEL - Budget 2025 (pågående):</strong> Differens på <strong>3,377 mnkr</strong> (3,4 miljoner kr) mellan dokumentets summa och radernas summa
+                </li>
+                <li><strong>Total projektbudget (pågående):</strong> Mindre fel på 0,004 mnkr (4 000 kr)</li>
+                <li><strong>Budget-avvikelser:</strong> Flera inkonsekvenser - kolumnen verkar blanda olika typer av avvikelser</li>
+                <li style="color: #cc0000; font-weight: bold;">
+                    <strong>Status:</strong> ALLVARLIGT FEL som kräver omedelbar utredning. Antingen saknas projekt i listan eller så är summan felräknad.
+                </li>
+                <li><strong>Rekommendation:</strong> 
+                    <ol>
+                        <li>Identifiera vart de 3,377 mnkr i Budget 2025 har tagit vägen</li>
+                        <li>Kontrollera om det saknas projekt i redovisningen</li>
+                        <li>Förtydliga definitionen av "Budget-avvikelse" kolumnen</li>
+                    </ol>
+                </li>
             </ul>
         </div>
 
@@ -392,13 +436,20 @@
             utfall2025: sumValues(0.694, 0.153, 0.474, 0.504, 0.446, 0.010, 0.261, 2.117, 0.003)
         };
         
-        console.log("\nSumma pågående projekt:");
-        console.log("Total projektbudget:", sumPagaende.totalBudget.toFixed(3), "(i dokument: 20,068, SKILLNAD:", (20.068 - sumPagaende.totalBudget).toFixed(3) + ")");
-        console.log("Budget 2025:", sumPagaende.budget2025.toFixed(3));
-        console.log("Utfall 2025:", sumPagaende.utfall2025.toFixed(3));
+        console.log("\n=== KRITISK ANALYS: Summa pågående projekt ===");
+        console.log("Total projektbudget:", sumPagaende.totalBudget.toFixed(3), "mnkr (i dokument: 20,068 - SKILLNAD:", (20.068 - sumPagaende.totalBudget).toFixed(3), "mnkr)");
+        console.log("\n🚨 ALLVARLIGT FEL - Budget 2025:");
+        console.log("  Beräknad summa:", sumPagaende.budget2025.toFixed(3), "mnkr");
+        console.log("  I dokument:", "9,600 mnkr");
+        console.log("  DIFFERENS:", (9.600 - sumPagaende.budget2025).toFixed(3), "mnkr (3 377 000 kr!)");
+        console.log("\nUtfall 2025:", sumPagaende.utfall2025.toFixed(3), "mnkr (i dokument: 4,661 - SKILLNAD:", (4.661 - sumPagaende.utfall2025).toFixed(3), "mnkr)");
         
         // Totalsumma
-        console.log("\nSumma investeringsprojekt:");
-        console.log("Budget 2025:", (sumFardigstallda.budget2025 + sumPagaende.budget2025).toFixed(3));
-        console.log("Utfall 2025:", (sumFardigstallda.utfall2025 + sumPagaende.utfall2025).toFixed(3));
+        console.log("\n=== Summa investeringsprojekt ===");
+        console.log("Budget 2025 (beräknad):", (sumFardigstallda.budget2025 + sumPagaende.budget2025).toFixed(3), "mnkr");
+        console.log("Budget 2025 (i dokument): 10,525 mnkr");
+        console.log("DIFFERENS:", (10.525 - (sumFardigstallda.budget2025 + sumPagaende.budget2025)).toFixed(3), "mnkr");
+        console.log("\nUtfall 2025 (beräknad):", (sumFardigstallda.utfall2025 + sumPagaende.utfall2025).toFixed(3), "mnkr");
+        console.log("Utfall 2025 (i dokument): 5,403 mnkr");
+        console.log("\n⚠️ Dokumentet innehåller allvarliga räknefel som kräver utredning!");
     </invoke>
