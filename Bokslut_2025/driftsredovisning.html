@@ -380,9 +380,9 @@
             // Kontrollera att återstår-beräkningen stämmer
             const calculatedAterstar = calculateAterstar(activity.budget, activity.utfall);
             if (calculatedAterstar !== null) {
-                const diff = Math.abs(calculatedAterstar - (activity.budget - activity.utfall));
+                const diff = Math.abs(calculatedAterstar - (activity.utfall - activity.budget));
                 if (diff > 0.01) {
-                    errors.push(`Återstår-beräkning stämmer inte: Budget - Utfall = ${formatNumber(calculatedAterstar)}`);
+                    errors.push(`Återstår-beräkning stämmer inte: Utfall - Budget = ${formatNumber(calculatedAterstar)}`);
                 }
             }
 
