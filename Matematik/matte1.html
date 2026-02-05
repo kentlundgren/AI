@@ -785,7 +785,7 @@ x = 5</div>
         <div class="content-card" style="border-top: 5px solid #ff9800;">
             <h2>📊 Uppgift 2: Logaritmer och Förenkling</h2>
             <p>
-                Nu testar vi <strong>MathJax</strong> med en mer avancerad uppgift!
+                Nu testar vi <strong>MathJax</strong> med logaritmuppgifter!
                 Observera hur formlerna renderas professionellt.
             </p>
 
@@ -793,6 +793,7 @@ x = 5</div>
             <ul>
                 <li>Förstå logaritmiska uttryck</li>
                 <li>Förenkla uttryck med logaritmer</li>
+                <li><strong>Skilja mellan lg(x²) och (lg(x))²</strong> - MYCKET VIKTIGT! ⚠️</li>
                 <li>Använda substitution för att lösa logaritmekvationer</li>
                 <li>Identifiera olika lösningsmetoder</li>
             </ul>
@@ -801,10 +802,163 @@ x = 5</div>
             <ul>
                 <li>Vad en logaritm är: \(\lg(x) = \log_{10}(x)\)</li>
                 <li>Logaritmlagen: \(\lg(a) + \lg(b) = \lg(ab)\)</li>
-                <li>Potenslagen: \(n\lg(a) = \lg(a^n)\)</li>
+                <li>Potenslagen: \(n\lg(a) = \lg(a^n)\) och \(\lg(a^n) = n\lg(a)\)</li>
                 <li>Kvadratiska ekvationer</li>
             </ul>
         </div>
+
+        <!-- VIKTIG DISTINKTION -->
+        <div class="content-card" style="border-left: 5px solid #ff5722;">
+            <h2>⚠️ VIKTIGT: lg(x²) vs (lg(x))²</h2>
+            <p>
+                Innan vi börjar måste vi förstå en <strong>kritisk skillnad</strong> i notation som ofta förvirrar elever!
+            </p>
+
+            <div class="step">
+                <h4>📖 lg(x²) - Logaritmen AV x²</h4>
+                <p>
+                    Här är <strong>x² inuti logaritmen</strong>. Vi tar logaritmen av ett tal som är upphöjt till 2.
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0;">
+                    $$\lg(x^2) = \lg(\underbrace{x \cdot x}_{\text{x²}})$$
+                </p>
+                <p>
+                    <strong>Potenslagen säger:</strong> \(\lg(x^2) = 2\lg(x)\)
+                </p>
+                <div class="calculation">Exempel:
+lg(100²) = lg(10000) = 4
+Eller med potenslagen:
+lg(100²) = 2·lg(100) = 2·2 = 4 ✓</div>
+                <p>
+                    <strong>Analogi:</strong> "Priset på 5 äpplen" = 5 × (priset på ett äpple)
+                </p>
+            </div>
+
+            <div class="step">
+                <h4>📖 (lg(x))² - Kvadraten AV logaritmen</h4>
+                <p>
+                    Här tar vi <strong>hela logaritmen och upphöjer den till 2</strong>. Vi beräknar logaritmen först, sedan kvadrerar resultatet.
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0;">
+                    $$(\lg(x))^2 = \lg(x) \cdot \lg(x)$$
+                </p>
+                <p>
+                    <strong>INGEN logaritmlag kan förenkla detta!</strong> Det är ett helt annat uttryck.
+                </p>
+                <div class="calculation">Exempel:
+(lg(100))² = (2)² = 4
+
+JÄMFÖR med lg(100²):
+lg(100²) = lg(10000) = 4
+
+I detta fall samma resultat, men det är en slump!</div>
+                <p>
+                    <strong>Analogi:</strong> "Priset × Priset" ≠ "Priset på (äpple × äpple)"
+                </p>
+            </div>
+
+            <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                <h4 style="color: #856404; margin-top: 0;">🎯 Sammanfattning av skillnaden</h4>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <tr style="background: #ffc107; color: white;">
+                        <th style="padding: 0.8rem; text-align: left;">Notation</th>
+                        <th style="padding: 0.8rem; text-align: left;">Betydelse</th>
+                        <th style="padding: 0.8rem; text-align: left;">Förenkling</th>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\(\lg(x^2)\)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Logaritmen av x²</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\(= 2\lg(x)\) (potenslagen)</td>
+                    </tr>
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\((\lg(x))^2\)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Kvadraten av lg(x)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Kan EJ förenklas med logaritm lagar</td>
+                    </tr>
+                </table>
+
+                <p style="margin-top: 1rem; font-weight: bold; color: #856404;">
+                    📝 Minnesregel: Är exponenten INUTI eller UTANFÖR logaritmen?
+                </p>
+            </div>
+        </div>
+
+        <!-- UPPGIFT 2A: ENKLARE VERSION -->
+        <div class="content-card" style="border-left: 5px solid #4caf50;">
+            <h2>📝 Uppgift 2A: Förenkling med lg(x²)</h2>
+            <p>
+                Låt oss börja med den <strong>enklare varianten</strong> där potenslagen kan användas direkt.
+            </p>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong> Förenkla uttrycket
+                $$2\lg(x) - 0.5\lg(x^2)$$
+            </div>
+
+            <button class="toggle-btn" onclick="toggleSolution2a()">
+                Visa/Dölj Lösning
+            </button>
+
+            <div id="solution-content-2a" class="solution-content hidden">
+                <div class="step">
+                    <h4>Steg 1: Identifiera strukturen</h4>
+                    <p>
+                        Vi har \(\lg(x^2)\) - exponenten 2 är <strong>INUTI</strong> logaritmen.
+                        Detta betyder att vi kan använda <strong>potenslagen</strong>!
+                    </p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$\lg(x^2) = 2\lg(x)$$
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h4>Steg 2: Applicera potenslagen</h4>
+                    <p>
+                        Byt ut \(\lg(x^2)\) mot \(2\lg(x)\):
+                    </p>
+                    <div class="calculation">2lg(x) - 0.5lg(x²)
+= 2lg(x) - 0.5·2lg(x)
+= 2lg(x) - 1.0lg(x)
+= 2lg(x) - lg(x)</div>
+                </div>
+
+                <div class="step">
+                    <h4>Steg 3: Förenkla</h4>
+                    <p>
+                        Subtrahera termerna:
+                    </p>
+                    <div class="calculation">= 2lg(x) - lg(x)
+= lg(x)</div>
+                </div>
+
+                <div class="conclusion">
+                    <h4>✅ Slutsats</h4>
+                    <p class="answer">$$2\lg(x) - 0.5\lg(x^2) = \lg(x)$$</p>
+                    <p style="margin-top: 1rem;">
+                        Uttrycket förenklas till bara <strong>lg(x)</strong>! Mycket enkelt när vi använder potenslagen korrekt.
+                    </p>
+                </div>
+
+                <div class="verification">
+                    <h4>🔍 Kontroll med konkret exempel</h4>
+                    <p>Låt oss testa med \(x = 100\):</p>
+                    <div class="calculation">Vänsterled:
+2lg(100) - 0.5lg(100²)
+= 2·2 - 0.5·lg(10000)
+= 4 - 0.5·4
+= 4 - 2
+= 2
+
+Högerled:
+lg(100) = 2
+
+2 = 2 ✓ Det stämmer!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPPGIFT 2B: SVÅRARE VERSION -->
+        <div class="content-card" style="border-left: 5px solid #9c27b0;">
 
         <!-- QUIZ SEKTION LOGARITMER -->
         <div class="content-card">
