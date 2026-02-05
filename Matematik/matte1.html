@@ -1046,6 +1046,49 @@ x = 5</div>
                         <li>Logaritmer kan behandlas som "vanliga" variabler med substitution</li>
                     </ul>
                 </div>
+
+                <!-- VISUALISERING -->
+                <div class="step">
+                    <h4>📊 Visualisering: Grafer av Funktionen</h4>
+                    <p>
+                        Låt oss visualisera funktionen på två sätt: både med \(f(x) = 2\lg(x) - 0.5(\lg(x))^2\)
+                        och den förenklade parabeln \(g(t) = 2t - 0.5t^2\) där \(t = \lg(x)\).
+                    </p>
+
+                    <!-- Graf 1: f(x) = 2lg(x) - 0.5(lg(x))² -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h5 style="color: #667eea; text-align: center; margin-bottom: 1rem;">
+                            Graf 1: \(f(x) = 2\lg(x) - 0.5(\lg(x))^2\)
+                        </h5>
+                        <canvas id="graph1" width="800" height="400" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; color: #666;">
+                            <strong>Notera:</strong> Grafen visar hur funktionen beter sig för olika \(x\)-värden.
+                            Röd punkt = nollställen, grön punkt = maximum.
+                        </p>
+                    </div>
+
+                    <!-- Graf 2: g(t) = 2t - 0.5t² (parabeln) -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h5 style="color: #764ba2; text-align: center; margin-bottom: 1rem;">
+                            Graf 2: \(g(t) = 2t - 0.5t^2\) där \(t = \lg(x)\)
+                        </h5>
+                        <canvas id="graph2" width="800" height="400" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; color: #666;">
+                            <strong>Insikt:</strong> Efter substitution \(t = \lg(x)\) ser vi tydligt att det är en parabel!
+                            Nollställen vid \(t=0\) och \(t=4\), maximum vid \(t=2\).
+                        </p>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 1rem; border-radius: 5px; border-left: 4px solid #2196f3; margin-top: 1.5rem;">
+                        <strong>🔍 Jämförelse mellan graferna:</strong>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li><strong>Graf 1</strong> visar den "verkliga" funktionen med \(x\) på x-axeln (logaritmisk skala)</li>
+                            <li><strong>Graf 2</strong> visar parabeln efter substitution med \(t = \lg(x)\) på x-axeln (linjär skala)</li>
+                            <li>Båda graferna har <strong>samma y-värden</strong> - skillnaden är bara hur x-axeln skalas!</li>
+                            <li>Graf 2 gör det lättare att <strong>se strukturen</strong> (en vanlig parabel)</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
