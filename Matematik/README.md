@@ -1,0 +1,314 @@
+# Matematik - Interaktiva Gymnasieövningar
+
+> Pedagogiskt matematikprojekt med permanenta Claude Code-agenter för svensk gymnasieskola
+
+**🌐 [Se live-demo →](https://kentlundgren.github.io/AI/Matematik/)**
+
+---
+
+## 📚 Projektöversikt
+
+Detta är ett **dubbelt lärandeprojekt** som kombinerar:
+
+1. **Matematikpedagogik** - Interaktiva webbaserade övningar för Matematik 1-5
+2. **Claude Code Desktop** - Lärande om Git, GitHub, permanenta agenter och versionhantering
+
+Projektet demonstrerar hur man kan använda **Claude Code permanenta agenter** för att skapa pedagogiskt innehåll med konsekvent kvalitet och struktur.
+
+---
+
+## 🎯 Huvudresultat
+
+### För Elever
+- ✅ Interaktiva matematikövningar för gymnasiet (Matte 1-5)
+- ✅ Quiz-frågor som aktiverar förkunskaper innan övning
+- ✅ Steg-för-steg lösningar med fullständig förklaring
+- ✅ Förklaringar av både rätt och felaktiga svar
+- ✅ Responsiv design för mobil och desktop
+
+### För Utvecklare
+- ✅ Exempel på Claude Code desktop workflow
+- ✅ Permanenta agenter med tydliga roller
+- ✅ Git branch-hantering och GitHub Pages publicering
+- ✅ Strukturerad projektkoordinering med lokal CLAUDE.md
+
+---
+
+## 🤖 Permanenta Agenter
+
+Projektet använder tre specialiserade agenter i `.claude/agents/`:
+
+| Agent | Beskrivning | Primär Uppgift |
+|-------|-------------|----------------|
+| 🎓 **math-tutor** | Pedagogisk förklaring | Förklarar koncept, skapar quiz-frågor |
+| 🔧 **problem-solver** | Systematisk problemlösning | Steg-för-steg lösningar, verifiering |
+| 📝 **exercise-creator** | Övningsdesign | Skapar kompletta övningar med HTML |
+
+**Agentsamarbete:**
+```
+exercise-creator  →  Skapar övningsstruktur och quiz
+        ↓
+problem-solver    →  Genererar steg-för-steg lösning
+        ↓
+math-tutor        →  Granskar pedagogisk kvalitet
+```
+
+---
+
+## 📁 Projektstruktur
+
+```
+Matematik/
+├── .claude/
+│   └── agents/
+│       ├── math-tutor.md              # 🎓 Pedagogisk förklaring
+│       ├── problem-solver.md          # 🔧 Steg-för-steg lösningar
+│       └── exercise-creator.md        # 📝 Övningsdesign
+├── CLAUDE.md                          # Projektkoordinator (läses av Claude)
+├── README.md                          # Denna fil (teknisk dokumentation)
+├── index.html                         # Pedagogisk genomgång (GitHub Pages landning)
+├── matematikunderkatalog.html         # Guide för att skapa strukturen
+├── matte1.html                        # Matematik 1 övningar
+├── matte2.html                        # Matematik 2 övningar
+├── matte3.html                        # Matematik 3 övningar
+├── matte4.html                        # Matematik 4 övningar
+└── matte5.html                        # Matematik 5 övningar
+```
+
+---
+
+## 🔗 Länkar
+
+| Resurs | URL |
+|--------|-----|
+| **Live demo** | https://kentlundgren.github.io/AI/Matematik/ |
+| **GitHub Repo** | https://github.com/kentlundgren/AI/tree/main/Matematik |
+| **Överliggande CLAUDE.md** | [../CLAUDE.md](../CLAUDE.md) |
+| **Lokal CLAUDE.md** | [CLAUDE.md](CLAUDE.md) |
+
+---
+
+## 🎨 Pedagogisk Design
+
+Varje övningsfil (matte1.html, matte2.html, etc.) följer samma struktur:
+
+### 1. Quiz-sektion (Förberedelse)
+**Fråga 1:** Förkunskapskontroll
+- Testar om eleven har nödvändiga grundkunskaper
+- 4 svarsalternativ
+- Förklaringar för rätt och fel svar
+
+**Fråga 2:** Strategiplanering
+- Hjälper eleven välja rätt lösningsmetod
+- 4 svarsalternativ
+- Pedagogiska förklaringar
+
+### 2. Huvudproblem
+- Tydlig problemformulering
+- Relevant kontext (när tillämpligt)
+
+### 3. Steg-för-Steg Lösning
+```
+1. Förstå problemet    → Vad är givet? Vad söker vi?
+2. Planera lösningen   → Vilken metod ska vi använda?
+3. Genomföra lösningen → Alla steg visas explicit
+4. Kontrollera         → Verifiera resultatet
+5. Slutsats            → Sammanfatta och tolka
+```
+
+### 4. Fördjupning (Frivillig)
+- Svårare varianter
+- Tillämpningar
+- Koppling till verkliga situationer
+
+---
+
+## 🚀 Hur Man Använder Detta Projekt
+
+### Som Elev
+
+1. **Besök GitHub Pages:** https://kentlundgren.github.io/AI/Matematik/
+2. **Välj kursnivå:** matte1.html, matte2.html, osv.
+3. **Svara på quiz-frågor** innan du läser lösningen
+4. **Studera steg-för-steg lösningen** i egen takt
+5. **Försök fördjupningsuppgiften** om du vill ha utmaning
+
+### Som Utvecklare (Lär dig Claude Code Desktop)
+
+1. **Klona repot:**
+   ```bash
+   git clone https://github.com/kentlundgren/AI.git
+   cd AI/Matematik
+   ```
+
+2. **Utforska agenterna:**
+   ```bash
+   cat .claude/agents/math-tutor.md
+   cat .claude/agents/problem-solver.md
+   cat .claude/agents/exercise-creator.md
+   ```
+
+3. **Läs projektkoordinatorn:**
+   ```bash
+   cat CLAUDE.md
+   ```
+
+4. **Skapa ny övning med Claude Code:**
+   ```
+   "Använd exercise-creator för att skapa en övning om [ämne] för Matte [X]"
+   ```
+
+5. **Testa lokalt:**
+   ```bash
+   python3 -m http.server 8000
+   # Besök http://localhost:8000
+   ```
+
+---
+
+## 🛠️ Teknisk Stack
+
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript
+- **Matematisk notation:** Unicode, eventuellt MathML/LaTeX
+- **Versionhantering:** Git
+- **Hosting:** GitHub Pages
+- **Utvecklingsverktyg:** Claude Code Desktop (med permanenta agenter)
+
+---
+
+## 📖 Läroplan (Svensk Gymnasieskola)
+
+| Kurs | Poäng | Huvudområden |
+|------|-------|--------------|
+| **Matematik 1** | 100p | Algebra, funktioner, geometri, statistik |
+| **Matematik 2** | 100p | Logaritmer, trigonometri, derivata, integraler |
+| **Matematik 3** | 100p | Polynom, trigonometri (fördjupning), komplexa tal |
+| **Matematik 4** | 100p | Linjär algebra, vektorer, matriser, geometri 3D |
+| **Matematik 5** | 100p | Analys, differentialekvationer, serier |
+
+---
+
+## 🔧 Claude Code Desktop Workflow
+
+### Branch-Hantering
+
+Projektet använder Git branches enligt Claude Code-konventionen:
+
+```bash
+# Huvudbranch (publicerad)
+main
+
+# Development branches (automatiskt skapade av Claude Code)
+claude/learn-claude-code-desktop-gBnkk
+claude/math-problem-tutor-KwJRN
+```
+
+**Viktigt:** Claude Code desktop skapar automatiskt branches med prefix `claude/` för varje session.
+
+### Arbetsflöde
+
+1. **Utveckling** på `claude/` branch
+2. **Commit** ändringar lokalt
+3. **Push** till remote (automatiskt via Claude Code proxy)
+4. **Merge** till `main` när klar
+5. **GitHub Pages** uppdateras automatiskt från `main`
+
+---
+
+## 📊 Projektmål och Status
+
+### Fas 1: Setup ✅
+- [x] Skapa projektstruktur
+- [x] Definiera permanenta agenter
+- [x] Skapa CLAUDE.md (lokal + överliggande)
+- [x] Skapa README.md
+
+### Fas 2: Innehållsproduktion 🔄
+- [ ] Skapa index.html (pedagogisk genomgång)
+- [ ] Skapa matte1.html (exempel med quiz)
+- [ ] Skapa matte2.html
+- [ ] Skapa matte3.html
+- [ ] Skapa matte4.html
+- [ ] Skapa matte5.html
+
+### Fas 3: Publicering 📅
+- [ ] Merge till main branch
+- [ ] Aktivera GitHub Pages
+- [ ] Verifiera alla länkar
+- [ ] Testa responsiv design
+
+---
+
+## 🎓 Lärdomar (Claude Code Desktop)
+
+### Viktiga Insikter
+
+1. **Environment ≠ Katalog**
+   - Claude Code "environments" (konversationer) skapar Git-branches
+   - **INTE** separata kataloger automatiskt
+   - Du måste **explicit skapa** projektkataloger (som `Matematik/`)
+
+2. **Git Remote Proxy**
+   - Claude Code desktop använder lokal proxy: `http://local_proxy@127.0.0.1:38440/git/`
+   - Detta synkroniserar automatiskt med GitHub
+   - Ingen manuell git-konfiguration behövs
+
+3. **CLAUDE.md Hierarki**
+   - **Överliggande** (`/AI/CLAUDE.md`): Generella best practices
+   - **Lokal** (`/AI/Matematik/CLAUDE.md`): Projektspecifika instruktioner
+   - Claude läser båda och kombinerar kontext
+
+4. **Permanenta Agenter**
+   - Definieras i `.claude/agents/*.md`
+   - Använd **beskrivande namn** (math-tutor, inte agent1)
+   - Tydliga roller och ansvarsområden
+
+---
+
+## 🔗 Projektnavigation
+
+### 📄 Dokumentation
+- [📖 README](README.md) - Denna fil
+- [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator
+- [🌐 index.html](index.html) - Pedagogisk genomgång
+- [🛠️ matematikunderkatalog.html](matematikunderkatalog.html) - Setup-guide
+
+### 🤖 Agenter
+- [🎓 math-tutor](.claude/agents/math-tutor.md)
+- [🔧 problem-solver](.claude/agents/problem-solver.md)
+- [📝 exercise-creator](.claude/agents/exercise-creator.md)
+
+### 📚 Övningar
+- [Matematik 1](matte1.html) *(kommer snart)*
+- [Matematik 2](matte2.html) *(kommer snart)*
+- [Matematik 3](matte3.html) *(kommer snart)*
+- [Matematik 4](matte4.html) *(kommer snart)*
+- [Matematik 5](matte5.html) *(kommer snart)*
+
+### 🌐 Externa Länkar
+- [💻 GitHub Repository](https://github.com/kentlundgren/AI/tree/main/Matematik)
+- [📘 Överliggande CLAUDE.md](../CLAUDE.md)
+- [🏠 AI Repository Root](https://github.com/kentlundgren/AI/)
+
+---
+
+## 🤝 Bidrag
+
+Detta är ett personligt lärandeprojekt, men feedback är välkommet!
+
+**Kontakt:** Via GitHub Issues på https://github.com/kentlundgren/AI/issues
+
+---
+
+## 📜 Licens
+
+Detta projekt är öppen källkod för utbildningssyfte.
+
+---
+
+**Skapad med Claude Code permanenta agenter**
+© 2026 - Matematik Gymnasiet Interaktiva Övningar
+
+**Teknisk Stack:** HTML5, CSS3, JavaScript, Claude Code Desktop
+**Agenter:** math-tutor, problem-solver, exercise-creator
+**Publicering:** GitHub Pages

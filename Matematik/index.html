@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik Gymnasiet - Interaktiva Övningar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        header .github-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        header .github-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-card p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .content-card ul, .content-card ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card li {
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: #667eea;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .course-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .course-card h3 {
+            color: white;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+
+        .course-card p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .agent-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .agent-card {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .agent-card h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .agent-card .role {
+            color: #764ba2;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background: #f5f7fa;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .tech-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        footer h3 {
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .nav-section h4 {
+            color: #4ECDC4;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section p {
+            margin: 0.3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .course-grid, .agent-grid, .nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Matematik Gymnasiet</h1>
+            <p class="subtitle">Interaktiva övningar med steg-för-steg lösningar</p>
+            <p style="opacity: 0.8; margin-top: 1rem;">
+                Svensk gymnasiematematik (Matte 1-5) | Skapad med Claude Code permanenta agenter
+            </p>
+            <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank" class="github-link">
+                💻 Visa källkod på GitHub
+            </a>
+        </header>
+
+        <!-- INTRODUKTION -->
+        <div class="content-card">
+            <h2>🎯 Välkommen till Matematik Gymnasiet</h2>
+            <p>
+                Detta är ett <strong>dubbelt lärandeprojekt</strong> som kombinerar matematikundervisning
+                med teknisk utveckling. Här kan du:
+            </p>
+            <ul>
+                <li><strong>Öva matematik</strong> för svensk gymnasieskola (Matte 1-5)</li>
+                <li><strong>Lära dig</strong> hur interaktiva övningar designas pedagogiskt</li>
+                <li><strong>Utforska</strong> hur Claude Code desktop fungerar med permanenta agenter</li>
+                <li><strong>Förstå</strong> Git, GitHub och versionhantering i praktiken</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>💡 Vad är speciellt med dessa övningar?</strong>
+                <p>
+                    Varje övning börjar med <strong>quiz-frågor</strong> som hjälper dig aktivera
+                    förkunskaper och planera lösningsstrategier. Du får sedan se
+                    <strong>steg-för-steg lösningar</strong> där varje steg förklaras tydligt.
+                    Och viktigast: när du svarar fel på quiz-frågor får du veta
+                    <strong>VARFÖR ditt svar var fel</strong> - inte bara det rätta svaret.
+                </p>
+            </div>
+        </div>
+
+        <!-- MATEMATIK KURSER -->
+        <div class="content-card">
+            <h2>📚 Välj Din Kurs</h2>
+            <p>
+                Klicka på en kurs nedan för att komma igång med övningar.
+                Varje kurs innehåller quiz-frågor och steg-för-steg lösningar anpassade för nivån.
+            </p>
+
+            <div class="course-grid">
+                <a href="matte1.html" class="course-card">
+                    <h3>Matematik 1</h3>
+                    <p>Algebra, funktioner, geometri</p>
+                </a>
+                <a href="matte2.html" class="course-card">
+                    <h3>Matematik 2</h3>
+                    <p>Logaritmer, trigonometri, derivata</p>
+                </a>
+                <a href="matte3.html" class="course-card">
+                    <h3>Matematik 3</h3>
+                    <p>Polynom, komplexa tal</p>
+                </a>
+                <a href="matte4.html" class="course-card">
+                    <h3>Matematik 4</h3>
+                    <p>Vektorer, matriser, 3D-geometri</p>
+                </a>
+                <a href="matte5.html" class="course-card">
+                    <h3>Matematik 5</h3>
+                    <p>Differentialekvationer, serier</p>
+                </a>
+            </div>
+
+            <p style="margin-top: 1.5rem; font-style: italic; color: #666;">
+                <strong>OBS:</strong> Övningar läggs till successivt. Börja med Matematik 1 för att se exempel!
+            </p>
+        </div>
+
+        <!-- PEDAGOGISK METOD -->
+        <div class="content-card">
+            <h2>🎓 Hur Övningarna Fungerar</h2>
+
+            <h3>1. Quiz-sektion (Förberedelse)</h3>
+            <p>
+                Innan du börjar med huvuduppgiften svarar du på <strong>1-2 quiz-frågor</strong>
+                med 4 svarsalternativ vardera. Dessa frågor hjälper dig:
+            </p>
+            <ul>
+                <li><strong>Fråga 1 - Förkunskapskontroll:</strong> Testar om du har grundkunskaperna</li>
+                <li><strong>Fråga 2 - Strategiplanering:</strong> Hjälper dig välja rätt lösningsmetod</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>🔍 Pedagogisk poäng:</strong>
+                <p>
+                    När du svarar på quiz-frågorna får du <strong>fullständiga förklaringar</strong>:
+                </p>
+                <ul>
+                    <li>✅ <strong>Rätt svar:</strong> Varför det är korrekt</li>
+                    <li>❌ <strong>Fel svar:</strong> Vilket missförstånd varje fel alternativ representerar</li>
+                </ul>
+                <p>
+                    Detta hjälper dig förstå inte bara VADDDDDD som är rätt, utan <strong>VARFÖR</strong> andra
+                    svar är felaktiga - vilket ofta är den bästa lärdomen!
+                </p>
+            </div>
+
+            <h3>2. Huvudproblem</h3>
+            <p>
+                Efter quiz-frågorna möter du själva uppgiften. Den är utformad för att vara:
+            </p>
+            <ul>
+                <li><strong>Tydlig</strong> - Du vet exakt vad som efterfrågas</li>
+                <li><strong>Relevant</strong> - Kopplar till verkliga situationer när det är möjligt</li>
+                <li><strong>Lämplig svårighet</strong> - Utmanande men lösbar med rätt metod</li>
+            </ul>
+
+            <h3>3. Steg-för-Steg Lösning</h3>
+            <p>
+                Lösningen följer alltid samma struktur:
+            </p>
+            <ol>
+                <li><strong>Förstå problemet</strong> - Vad är givet? Vad ska vi hitta?</li>
+                <li><strong>Planera lösningen</strong> - Vilken metod/formel ska vi använda?</li>
+                <li><strong>Genomföra lösningen</strong> - Alla steg visas explicit, inga "magiska hopp"</li>
+                <li><strong>Kontrollera resultatet</strong> - Är svaret rimligt? Kan vi verifiera?</li>
+                <li><strong>Slutsats</strong> - Sammanfattning med enheter och tolkning</li>
+            </ol>
+
+            <h3>4. Fördjupning (Frivillig)</h3>
+            <p>
+                Om du vill ha extra utmaning finns ofta en fördjupningsuppgift som:
+            </p>
+            <ul>
+                <li>Är svårare än grunduppgiften</li>
+                <li>Kräver kreativt tänkande</li>
+                <li>Kopplar till verkliga tillämpningar</li>
+            </ul>
+        </div>
+
+        <!-- TEKNISK GENOMGÅNG -->
+        <div class="content-card">
+            <h2>🤖 Så Skapades Detta Projekt (Claude Code Desktop)</h2>
+            <p>
+                Detta projekt är inte bara ett matematikverktyg - det är också en demonstration av
+                <strong>Claude Code permanenta agenter</strong> och hur man strukturerar ett projekt
+                för versionhantering med Git och GitHub.
+            </p>
+
+            <h3>Permanenta Agenter - Specialiserade AI-Assistenter</h3>
+            <p>
+                Projektet använder <strong>tre permanenta agenter</strong>, var och en med sin specifika roll:
+            </p>
+
+            <div class="agent-grid">
+                <div class="agent-card">
+                    <h4>🎓 math-tutor</h4>
+                    <p class="role">Pedagogisk Förklaring</p>
+                    <p>
+                        Förklarar matematiska koncept på ett begripligt sätt. Skapar quiz-frågor
+                        med pedagogiska förklaringar av både rätt och fel svar.
+                    </p>
+                </div>
+
+                <div class="agent-card">
+                    <h4>🔧 problem-solver</h4>
+                    <p class="role">Systematisk Problemlösning</p>
+                    <p>
+                        Löser matematikproblem steg-för-steg enligt strukturen: Förstå → Planera →
+                        Genomföra → Kontrollera → Slutsats. Visar alla mellansteg.
+                    </p>
+                </div>
+
+                <div class="agent-card">
+                    <h4>📝 exercise-creator</h4>
+                    <p class="role">Övningsdesign</p>
+                    <p>
+                        Designar kompletta övningar med quiz-frågor, huvudproblem och fördjupning.
+                        Anpassar svårighetsgrad för olika kursnivåer.
+                    </p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <strong>🔗 Agentsamarbete:</strong>
+                <p>Agenterna arbetar tillsammans för att skapa övningar:</p>
+                <ol>
+                    <li><strong>exercise-creator</strong> skapar övningsstrukturen och quiz-frågor</li>
+                    <li><strong>problem-solver</strong> genererar steg-för-steg lösningen</li>
+                    <li><strong>math-tutor</strong> granskar pedagogisk kvalitet</li>
+                </ol>
+            </div>
+
+            <h3>Projektstruktur och Git-Hantering</h3>
+            <p>
+                Projektet visar hur man arbetar med <strong>Claude Code desktop</strong> och
+                <strong>Git branch-hantering</strong>:
+            </p>
+
+            <pre>Matematik/
+├── .claude/agents/          # Permanenta agenter
+│   ├── math-tutor.md
+│   ├── problem-solver.md
+│   └── exercise-creator.md
+├── CLAUDE.md                # Projektkoordinator (läses av Claude)
+├── README.md                # Teknisk dokumentation
+├── index.html               # Denna sida
+├── matte1.html              # Matematik 1 övningar
+├── matte2.html              # Matematik 2 övningar
+└── ...</pre>
+
+            <h3>CLAUDE.md - Projektkoordinatorn</h3>
+            <p>
+                <code>CLAUDE.md</code> är en speciell fil som Claude Code automatiskt läser när
+                projektet startas. Den innehåller:
+            </p>
+            <ul>
+                <li>Projektmål och pedagogiska principer</li>
+                <li>Beskrivningar av permanenta agenter och deras roller</li>
+                <li>Vanliga kommandon och arbetsflöden</li>
+                <li>Läroplansinformation för svensk gymnasieskola</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>📚 Hierarki av CLAUDE.md filer:</strong>
+                <ul>
+                    <li><strong>Överliggande</strong> (<code>/AI/CLAUDE.md</code>): Generella best practices</li>
+                    <li><strong>Lokal</strong> (<code>/AI/Matematik/CLAUDE.md</code>): Projektspecifika instruktioner</li>
+                </ul>
+                <p>Claude läser båda och kombinerar kontexten för optimal förståelse.</p>
+            </div>
+
+            <h3>Teknisk Stack</h3>
+            <div class="tech-stack">
+                <span class="tech-badge">HTML5</span>
+                <span class="tech-badge">CSS3</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">Git</span>
+                <span class="tech-badge">GitHub Pages</span>
+                <span class="tech-badge">Claude Code Desktop</span>
+            </div>
+        </div>
+
+        <!-- LÄRPROCESS -->
+        <div class="content-card">
+            <h2>🚀 Lärdomar från Projektet</h2>
+
+            <h3>För Elever: Matematik</h3>
+            <ul>
+                <li><strong>Förberedelse är nyckeln:</strong> Quiz-frågor aktiverar dina förkunskaper</li>
+                <li><strong>Förstå misstag:</strong> Lär av FEL svar, inte bara rätt svar</li>
+                <li><strong>Systematik:</strong> Följ strukturen Förstå → Planera → Genomföra → Kontrollera</li>
+                <li><strong>Verifiera alltid:</strong> Kontrollera ditt svar genom att sätta in i ursprungsekvationen</li>
+            </ul>
+
+            <h3>För Utvecklare: Claude Code Desktop</h3>
+            <ol>
+                <li>
+                    <strong>Environment ≠ Katalog:</strong>
+                    Claude Code "environments" skapar Git-branches, inte kataloger.
+                    Du måste explicit skapa projektkataloger (som <code>Matematik/</code>).
+                </li>
+                <li>
+                    <strong>Git Remote Proxy:</strong>
+                    Claude Code desktop använder en lokal proxy som automatiskt synkroniserar med GitHub.
+                </li>
+                <li>
+                    <strong>CLAUDE.md Hierarki:</strong>
+                    Kombinera överliggande och lokal <code>CLAUDE.md</code> för optimal kontext.
+                </li>
+                <li>
+                    <strong>Permanenta Agenter:</strong>
+                    Använd beskrivande namn (math-tutor, inte agent1) med tydliga roller.
+                </li>
+                <li>
+                    <strong>Branching:</strong>
+                    Development sker på <code>claude/</code> branches, merge till <code>main</code> för publicering.
+                </li>
+            </ol>
+
+            <div class="highlight-box">
+                <strong>📖 Vill du lära dig mer?</strong>
+                <p>
+                    Läs <a href="matematikunderkatalog.html" style="color: #667eea; font-weight: bold;">matematikunderkatalog.html</a>
+                    för en steg-för-steg guide om hur denna projektstruktur skapades!
+                </p>
+            </div>
+        </div>
+
+        <!-- NÄSTA STEG -->
+        <div class="content-card">
+            <h2>📍 Nästa Steg</h2>
+
+            <h3>För Elever:</h3>
+            <ol>
+                <li>Välj en kurs ovan (börja med <a href="matte1.html" style="color: #667eea;">Matematik 1</a>)</li>
+                <li>Läs problemet noggrant</li>
+                <li>Svara på quiz-frågorna (gissa inte bara - tänk igenom!)</li>
+                <li>Studera förklaringarna av rätt och fel svar</li>
+                <li>Försök lösa huvudproblemet själv först</li>
+                <li>Jämför med steg-för-steg lösningen</li>
+                <li>Testa fördjupningsuppgiften om du vill ha utmaning</li>
+            </ol>
+
+            <h3>För Utvecklare:</h3>
+            <ol>
+                <li>Klona repositoryt: <code>git clone https://github.com/kentlundgren/AI.git</code></li>
+                <li>Utforska agenterna i <code>.claude/agents/</code></li>
+                <li>Läs <code>CLAUDE.md</code> för projektkoordination</li>
+                <li>Läs <a href="matematikunderkatalog.html" style="color: #667eea;">matematikunderkatalog.html</a> för setup-guide</li>
+                <li>Experimentera med att skapa egna övningar med agenterna</li>
+            </ol>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="nav-grid">
+                <div class="nav-section">
+                    <h4>📄 Dokumentation</h4>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="CLAUDE.md">📋 CLAUDE.md</a></p>
+                    <p><a href="matematikunderkatalog.html">🛠️ Setup-Guide</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>📚 Kurser</h4>
+                    <p><a href="matte1.html">Matematik 1</a></p>
+                    <p><a href="matte2.html">Matematik 2</a></p>
+                    <p><a href="matte3.html">Matematik 3</a></p>
+                    <p><a href="matte4.html">Matematik 4</a></p>
+                    <p><a href="matte5.html">Matematik 5</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>🤖 Agenter</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 math-tutor</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 problem-solver</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 exercise-creator</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4>🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub Repository</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI" target="_blank">🏠 AI Repository Root</a></p>
+                    <p><a href="../CLAUDE.md">📘 Överliggande CLAUDE.md</a></p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); opacity: 0.8; text-align: center;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Matematik Gymnasiet Interaktiva Övningar<br>
+                <strong>Agenter:</strong> math-tutor, problem-solver, exercise-creator
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

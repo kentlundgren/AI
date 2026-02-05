@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik 1 - Linjära Ekvationer | Matematik Gymnasiet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .level {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        header .nav-links {
+            margin-top: 1rem;
+        }
+
+        header .nav-links a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        header .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .content-card p, .content-card li {
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-card ul {
+            margin-left: 2rem;
+        }
+
+        .quiz-question {
+            background: #f5f7fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .quiz-question h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+
+        .options {
+            margin: 1.5rem 0;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 0.8rem 0;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover {
+            background: #f0f0f0;
+            transform: translateX(5px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .feedback h4 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .feedback ul {
+            margin-left: 1.5rem;
+        }
+
+        .feedback li {
+            margin-bottom: 0.8rem;
+        }
+
+        .correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+
+        .incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+
+        .problem-statement {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #764ba2;
+            margin: 1.5rem 0;
+            font-size: 1.15rem;
+        }
+
+        .solution-section {
+            margin-top: 2rem;
+        }
+
+        .toggle-btn {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 1rem auto;
+        }
+
+        .toggle-btn:hover {
+            background: #764ba2;
+        }
+
+        .solution-content {
+            margin-top: 1.5rem;
+        }
+
+        .solution-content.hidden {
+            display: none;
+        }
+
+        .step {
+            background: #f5f7fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .step h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .calculation {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem 1.5rem;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .verification {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .conclusion .answer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        footer h3 {
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .nav-section p {
+            margin: 0.3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            header .nav-links a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Linjära Ekvationer</h1>
+            <p class="level">Matematik 1 | Grundläggande Algebra</p>
+            <div class="nav-links">
+                <a href="index.html">← Startsidan</a>
+                <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">GitHub</a>
+            </div>
+        </header>
+
+        <!-- LÄRANDEMÅL -->
+        <div class="content-card">
+            <h2>🎯 Lärandemål</h2>
+            <p>Efter denna övning ska du kunna:</p>
+            <ul>
+                <li>Förstå vad en linjär ekvation är</li>
+                <li>Isolera variabeln genom att flytta termer</li>
+                <li>Använda motsatta operationer för att lösa ekvationer</li>
+                <li>Kontrollera ditt svar genom att sätta in i ursprungsekvationen</li>
+            </ul>
+
+            <h3>Förkunskaper</h3>
+            <p>Du bör känna till:</p>
+            <ul>
+                <li>Räkneoperation (addition, subtraktion, multiplikation, division)</li>
+                <li>Vad en variabel (t.ex. x) är</li>
+                <li>Att samma operation kan göras på båda sidor av likhetstecknet</li>
+            </ul>
+        </div>
+
+        <!-- QUIZ SEKTION -->
+        <div class="content-card">
+            <h2>💡 Förberedande Quiz</h2>
+            <p>Innan vi börjar med huvuduppgiften, låt oss aktivera dina förkunskaper!</p>
+
+            <!-- QUIZ FRÅGA 1 -->
+            <div class="quiz-question">
+                <h3>Fråga 1: Vad betyder det att "isolera x"?</h3>
+                <p>När vi löser ekvationen 2x + 5 = 13, vad betyder det att "isolera x"?</p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                        A) Att x ska stå ensamt på ena sidan av likhetstecknet
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                        B) Att multiplicera båda sidor med x
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                        C) Att ta bort x från ekvationen
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                        D) Att sätta x = 0
+                    </button>
+                </div>
+
+                <div id="feedback1" class="feedback hidden"></div>
+            </div>
+
+            <!-- QUIZ FRÅGA 2 -->
+            <div class="quiz-question">
+                <h3>Fråga 2: Vilken operation ska vi göra först?</h3>
+                <p>För att lösa ekvationen 3x - 7 = 11, vilket steg ska vi göra först?</p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                        A) Dividera båda sidor med 3
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                        B) Addera 7 till båda sidor
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                        C) Subtrahera 11 från båda sidor
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                        D) Multiplicera båda sidor med x
+                    </button>
+                </div>
+
+                <div id="feedback2" class="feedback hidden"></div>
+            </div>
+        </div>
+
+        <!-- HUVUDPROBLEM -->
+        <div class="content-card">
+            <h2>📝 Huvuduppgift</h2>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong> Lös ekvationen <strong>4x + 9 = 29</strong>
+                <br><br>
+                <em>Kontext:</em> Du har sparat pengar under fyra veckor. Varje vecka sparade du
+                lika mycket (x kronor) och dessutom fick du 9 kronor i födelsedagspresent.
+                Nu har du totalt 29 kronor. Hur mycket sparade du per vecka?
+            </div>
+
+            <p style="margin-top: 1.5rem;">
+                <strong>Tips:</strong> Svara på quiz-frågorna ovan om du inte redan gjort det.
+                Tänk igenom problemet själv först innan du tittar på lösningen!
+            </p>
+        </div>
+
+        <!-- LÖSNING -->
+        <div class="content-card">
+            <h2>🔍 Steg-för-Steg Lösning</h2>
+
+            <button class="toggle-btn" onclick="toggleSolution()">
+                Visa/Dölj Lösning
+            </button>
+
+            <div id="solution-content" class="solution-content hidden">
+
+                <!-- STEG 1: FÖRSTÅ -->
+                <div class="step">
+                    <h4>1. Förstå Problemet</h4>
+                    <ul>
+                        <li><strong>Givet:</strong> Ekvationen 4x + 9 = 29</li>
+                        <li><strong>Mål:</strong> Hitta värdet på x</li>
+                        <li><strong>Villkor:</strong> x ska vara ett tal som gör ekvationen sann</li>
+                    </ul>
+                    <p>
+                        <strong>Tolkning:</strong> Vi sparar x kronor per vecka i 4 veckor (4x),
+                        plus en engångspresent på 9 kronor, vilket ger totalt 29 kronor.
+                    </p>
+                </div>
+
+                <!-- STEG 2: PLANERA -->
+                <div class="step">
+                    <h4>2. Planera Lösningen</h4>
+                    <p>
+                        <strong>Strategi:</strong> Isolera x genom att:
+                    </p>
+                    <ol>
+                        <li>Flytta konstanten (9) till höger sida genom subtraktion</li>
+                        <li>Dividera båda sidor med koefficienten framför x (4)</li>
+                    </ol>
+                    <p>
+                        <strong>Verktyg:</strong> Motsatta operationer (subtraktion tar bort addition,
+                        division tar bort multiplikation)
+                    </p>
+                </div>
+
+                <!-- STEG 3: GENOMFÖRA -->
+                <div class="step">
+                    <h4>3. Genomföra Lösningen</h4>
+
+                    <p><strong>Steg 3a:</strong> Subtrahera 9 från båda sidor</p>
+                    <div class="calculation">4x + 9 = 29
+4x + 9 - 9 = 29 - 9
+4x = 20</div>
+                    <p><em>Förklaring:</em> Vi tar bort +9 från vänster sida genom att subtrahera 9 från båda sidor.</p>
+
+                    <p style="margin-top: 1.5rem;"><strong>Steg 3b:</strong> Dividera båda sidor med 4</p>
+                    <div class="calculation">4x = 20
+4x/4 = 20/4
+x = 5</div>
+                    <p><em>Förklaring:</em> Vi tar bort multiplikationen med 4 genom att dividera båda sidor med 4.</p>
+                </div>
+
+                <!-- STEG 4: KONTROLLERA -->
+                <div class="step">
+                    <h4>4. Kontrollera Resultatet</h4>
+
+                    <p>Sätt in x = 5 i ursprungsekvationen:</p>
+                    <div class="calculation">4x + 9 = 29
+4(5) + 9 = 29
+20 + 9 = 29
+29 = 29 ✓</div>
+
+                    <div class="verification">
+                        <strong>✅ Verifierat!</strong> Vänsterled = Högerled, så x = 5 är korrekt!
+                    </div>
+
+                    <p><strong>Rimlighetstest:</strong> Är svaret rimligt?</p>
+                    <p>
+                        Ja! Om vi sparar 5 kronor per vecka i 4 veckor får vi 20 kronor.
+                        Plus 9 kronor i present blir det 29 kronor totalt. Det stämmer!
+                    </p>
+                </div>
+
+                <!-- STEG 5: SLUTSATS -->
+                <div class="conclusion">
+                    <h4>5. Slutsats</h4>
+                    <p class="answer">x = 5</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Tolkning:</strong> Du sparade <strong>5 kronor per vecka</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- FÖRDJUPNING -->
+        <div class="content-card">
+            <h2>🚀 Fördjupning (Frivillig)</h2>
+            <p>Redo för en lite svårare variant?</p>
+
+            <div class="problem-statement">
+                <strong>Utmaning:</strong> Lös ekvationen <strong>7x - 12 = 2x + 18</strong>
+                <br><br>
+                <em>Hint:</em> Här har vi x på båda sidor! Du måste samla alla x-termer på ena sidan
+                och alla konstanter på andra sidan.
+            </div>
+
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; color: #667eea; font-weight: bold;">
+                    Visa lösningshjälp (klicka här)
+                </summary>
+                <div style="margin-top: 1rem; padding: 1rem; background: #f5f7fa; border-radius: 5px;">
+                    <p><strong>Steg 1:</strong> Subtrahera 2x från båda sidor för att samla x-termer</p>
+                    <p><strong>Steg 2:</strong> Addera 12 till båda sidor för att samla konstanter</p>
+                    <p><strong>Steg 3:</strong> Dividera med koefficienten framför x</p>
+                    <p><strong>Steg 4:</strong> Kontrollera genom att sätta in ditt svar!</p>
+                    <p style="margin-top: 1rem;"><em>Svar: x = 6</em></p>
+                </div>
+            </details>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="nav-grid">
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📄 Dokumentation</h4>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="CLAUDE.md">📋 CLAUDE.md</a></p>
+                    <p><a href="index.html">🏠 Startsidan</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📚 Andra Kurser</h4>
+                    <p><a href="matte1.html">Matematik 1</a> (du är här)</p>
+                    <p><a href="matte2.html">Matematik 2</a></p>
+                    <p><a href="matte3.html">Matematik 3</a></p>
+                    <p><a href="matte4.html">Matematik 4</a></p>
+                    <p><a href="matte5.html">Matematik 5</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🤖 Agenter</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 math-tutor</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 problem-solver</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 exercise-creator</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub</a></p>
+                    <p><a href="matematikunderkatalog.html">🛠️ Setup-Guide</a></p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); opacity: 0.8; text-align: center;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Matematik Gymnasiet
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Quiz feedback data
+        const quizData = {
+            1: {
+                correct: 'A',
+                feedback: {
+                    'A': {
+                        correct: true,
+                        text: `<h4>✅ RÄTT SVAR!</h4>
+                               <p>Ja, att "isolera x" betyder att få x att stå ensamt på ena sidan av likhetstecknet.</p>
+                               <p><strong>Exempel:</strong> Från 2x + 5 = 13 vill vi komma till x = [något tal]</p>
+                               <p>Detta gör vi genom att systematiskt ta bort allt som finns runt x genom motsatta operationer.</p>`
+                    },
+                    'B': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Att multiplicera båda sidor med x skulle göra ekvationen mer komplicerad, inte enklare.</p>
+                               <p>Om vi hade 2x + 5 = 13 och multiplicerade med x skulle vi få 2x² + 5x = 13x, vilket är mycket svårare att lösa!</p>
+                               <p><strong>Rätt svar är A:</strong> Isolera x betyder att x ska stå ensamt på ena sidan.</p>`
+                    },
+                    'C': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Vi vill INTE ta bort x - vi vill ju hitta värdet på x!</p>
+                               <p>Om vi tar bort x från ekvationen har vi inget kvar att lösa för.</p>
+                               <p><strong>Rätt svar är A:</strong> Isolera x betyder att x ska stå ensamt på ena sidan så vi kan se vad x är lika med.</p>`
+                    },
+                    'D': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Att sätta x = 0 är att GISSA ett svar, inte att isolera x.</p>
+                               <p>Dessutom är x = 0 ofta inte rätt svar. I ekvationen 2x + 5 = 13 kan vi testa: 2(0) + 5 = 5 ≠ 13</p>
+                               <p><strong>Rätt svar är A:</strong> Isolera x betyder att få x ensamt på ena sidan genom systematiska operationer.</p>`
+                    }
+                }
+            },
+            2: {
+                correct: 'B',
+                feedback: {
+                    'A': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Om vi dividerar först får vi (3x - 7)/3 = 11/3, vilket ger x - 7/3 = 11/3.</p>
+                               <p>Detta är mer komplicerat eftersom vi nu har bråk att hantera!</p>
+                               <p><strong>Rätt svar är B:</strong> Vi ska först addera 7 till båda sidor för att ta bort -7 från vänster sida.</p>
+                               <p><strong>Generell regel:</strong> Ta bort adderade/subtraherade termer FÖRST, sedan multiplikation/division.</p>`
+                    },
+                    'B': {
+                        correct: true,
+                        text: `<h4>✅ RÄTT SVAR!</h4>
+                               <p>Ja, vi ska först addera 7 till båda sidor!</p>
+                               <div style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: 5px; margin: 1rem 0; font-family: monospace;">
+3x - 7 = 11
+3x - 7 + 7 = 11 + 7
+3x = 18</div>
+                               <p><strong>Varför detta steg först?</strong> Vi vill isolera termen med x (3x). Det gör vi genom att först ta bort konstanten (-7).</p>
+                               <p><strong>Nästa steg:</strong> Sedan dividerar vi båda sidor med 3 för att få x = 6.</p>
+                               <p><strong>Minnesregel:</strong> Arbeta "utifrån och in" - ta bort addition/subtraktion först, sedan multiplikation/division.</p>`
+                    },
+                    'C': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Om vi subtraherar 11 från båda sidor får vi 3x - 7 - 11 = 0, alltså 3x - 18 = 0.</p>
+                               <p>Detta fungerar också (vi kan sedan addera 18 och dividera med 3), men det är ett ONÖDIGT extra steg.</p>
+                               <p><strong>Rätt svar är B:</strong> Enklare är att addera 7 direkt, vilket ger 3x = 18, och sedan dividera med 3.</p>
+                               <p><strong>Princip:</strong> Välj alltid den enklaste vägen - flytta konstanter till höger sida genom motsatt operation.</p>`
+                    },
+                    'D': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Det finns inget x på höger sida att multiplicera med!</p>
+                               <p>Om vi försöker får vi 3x·x - 7·x = 11·x, alltså 3x² - 7x = 11x, vilket är en kvadratisk ekvation - mycket svårare!</p>
+                               <p><strong>Rätt svar är B:</strong> Addera 7 till båda sidor. Vi multiplicerar bara med x om vi behöver ta bort en division.</p>
+                               <p><strong>Exempel när multiplikation används:</strong> I ekvationen x/3 = 5 multiplicerar vi med 3 för att få x = 15.</p>`
+                    }
+                }
+            }
+        };
+
+        let answeredQuestions = {1: false, 2: false};
+
+        function checkAnswer(questionNum, selectedAnswer) {
+            // Disable all buttons for this question
+            const buttons = document.querySelectorAll(`#feedback${questionNum}`).parentNode.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Get feedback element
+            const feedbackElement = document.getElementById(`feedback${questionNum}`);
+            const data = quizData[questionNum];
+            const isCorrect = selectedAnswer === data.correct;
+
+            // Show feedback
+            feedbackElement.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackElement.innerHTML = data.feedback[selectedAnswer].text;
+
+            // Mark as answered
+            answeredQuestions[questionNum] = true;
+        }
+
+        function toggleSolution() {
+            const solution = document.getElementById('solution-content');
+            solution.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
