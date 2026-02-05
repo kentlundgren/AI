@@ -668,6 +668,351 @@ permissionMode: default
             </div>
         </div>
 
+        <!-- ARBETA MED OLIKA VERKTYG -->
+        <div class="content-card">
+            <h2>🔄 Arbeta med Olika Verktyg: Claude Code Desktop, Cursor och Git</h2>
+
+            <h3>Översikt: Tre Sätt att Arbeta</h3>
+
+            <div class="info-box">
+                <strong>💡 Nyckelinsikt:</strong>
+                <p>Du kan arbeta med projektet på tre olika sätt beroende på uppgift:</p>
+                <ul>
+                    <li><strong>Claude Code Desktop</strong> - Webbgränssnitt för AI-assisterad utveckling</li>
+                    <li><strong>Claude Code i Cursor</strong> - AI-integration i IDE (detta verktyg!)</li>
+                    <li><strong>"Bara" Cursor</strong> - Standard IDE utan AI-assistans</li>
+                </ul>
+            </div>
+
+            <h3>1️⃣ Claude Code Desktop</h3>
+
+            <div class="step">
+                <h4>Vad Det Är</h4>
+                <p>
+                    Ett <strong>webbgränssnitt</strong> (https://claude.ai/code) där du chattar med Claude
+                    som kör kommandon och skapar filer åt dig.
+                </p>
+
+                <h4>Styrkor</h4>
+                <ul>
+                    <li>✅ <strong>Snabb setup:</strong> Ingen installation, fungerar direkt i webbläsaren</li>
+                    <li>✅ <strong>Automatisk Git-hantering:</strong> Claude sköter commits och pushes</li>
+                    <li>✅ <strong>Environment-baserat:</strong> Skapar automatiskt Git-branches</li>
+                    <li>✅ <strong>Bra för prototyping:</strong> Snabbt testa idéer</li>
+                </ul>
+
+                <h4>Svagheter</h4>
+                <ul>
+                    <li>❌ <strong>Ingen visuell editor:</strong> Du ser inte filerna direkt</li>
+                    <li>❌ <strong>Begränsad kontroll:</strong> Svårt att göra finkorrigeringar</li>
+                    <li>❌ <strong>Branch-format:</strong> Måste använda <code>claude/</code> prefix</li>
+                    <li>❌ <strong>Ingen syntax highlighting:</strong> Svårt att granska kod</li>
+                </ul>
+
+                <h4>Best Practice: Användningsfall</h4>
+                <div class="success-box">
+                    <strong>Använd Claude Code Desktop för:</strong>
+                    <ul>
+                        <li>🚀 <strong>Initial projektsetup</strong> (skapa struktur, agenter, initial innehåll)</li>
+                        <li>📝 <strong>Skapa nya övningsfiler</strong> (matte2.html, matte3.html)</li>
+                        <li>🤖 <strong>Testa permanenta agenter</strong> (exercise-creator, problem-solver)</li>
+                        <li>🔬 <strong>Experimentera med nya idéer</strong> (utan att röra huvudprojektet)</li>
+                    </ul>
+                </div>
+
+                <h4>Workflow</h4>
+                <div class="command-box">1. Öppna https://claude.ai/code
+2. Skapa nytt environment (t.ex. "Add Matte 2 Exercise")
+3. Claude skapar branch: claude/add-matte-2-exercise-XyZ12
+4. Be Claude: "Skapa matte2.html med exponentialfunktioner"
+5. Claude skapar fil, committar, pushar till branchen
+6. Granska på GitHub och merga till main</div>
+
+                <h4>Git-Hantering</h4>
+                <p><strong>Branch-format:</strong> <code>claude/[beskrivning]-[session-id]</code></p>
+
+                <div class="highlight-box">
+                    <strong>⚠️ VIKTIGT: Rensa upp branches</strong>
+                    <p>Claude Code Desktop skapar många branches. Efter att du mergat till main, ta bort dem:</p>
+                    <div class="command-box"># Lista remote branches
+git branch -r
+
+# Ta bort en remote branch
+git push origin --delete claude/branch-name
+
+# Ta bort lokal tracking-branch
+git branch -d claude/branch-name</div>
+                </div>
+            </div>
+
+            <h3>2️⃣ Claude Code i Cursor (Detta Verktyg!)</h3>
+
+            <div class="step">
+                <h4>Vad Det Är</h4>
+                <p>
+                    En <strong>AI-integration i Cursor IDE</strong> där Claude arbetar direkt i din editor.
+                    Du ser alla filer, kan redigera manuellt, och har full kontroll.
+                </p>
+
+                <h4>Styrkor</h4>
+                <ul>
+                    <li>✅ <strong>Visuell editor:</strong> Du ser alla filer i sidopanel</li>
+                    <li>✅ <strong>Full kontroll:</strong> Redigera manuellt när som helst</li>
+                    <li>✅ <strong>Syntax highlighting:</strong> Lätt att granska kod</li>
+                    <li>✅ <strong>Git-integration:</strong> Standard Git-workflow (inte Claude-specifikt)</li>
+                    <li>✅ <strong>Flexibelt branch-namn:</strong> Använd vilka branch-namn du vill</li>
+                    <li>✅ <strong>Permanenta agenter:</strong> Läser <code>.claude/agents/</code> automatiskt</li>
+                    <li>✅ <strong>Läser CLAUDE.md:</strong> Förstår projektkontext</li>
+                </ul>
+
+                <h4>Svagheter</h4>
+                <ul>
+                    <li>❌ <strong>Kräver installation:</strong> Måste ha Cursor IDE installerat</li>
+                    <li>❌ <strong>Manuell Git-hantering:</strong> Du måste commit/push själv (eller be Claude)</li>
+                </ul>
+
+                <h4>Best Practice: Användningsfall</h4>
+                <div class="success-box">
+                    <strong>Använd Claude Code i Cursor för:</strong>
+                    <ul>
+                        <li>✏️ <strong>Uppdatera befintliga filer</strong> (lägg till uppgifter i matte1.html)</li>
+                        <li>🐛 <strong>Bugfixar</strong> (korrigera fel i quiz-frågor, MathJax-problem)</li>
+                        <li>🎨 <strong>Styling och design</strong> (justera CSS, responsiv design)</li>
+                        <li>📄 <strong>Dokumentation</strong> (uppdatera README.md, CLAUDE.md)</li>
+                        <li>🔍 <strong>Granska och förfina</strong> (läsa genom kod, förbättra struktur)</li>
+                    </ul>
+                </div>
+
+                <h4>Workflow</h4>
+                <div class="command-box">1. Öppna Matematik-mappen i Cursor
+2. Checka ut main eller skapa ny branch
+3. Be Claude: "Lägg till en kvadratrotsuppgift i matte1.html"
+4. Claude uppdaterar filen (du ser ändringarna live!)
+5. Granska i editorn
+6. Commit själv eller be Claude: "Commita ändringarna"
+7. Push: git push origin [branch-name]
+8. Skapa PR och merga</div>
+
+                <h4>Git-Hantering</h4>
+                <p><strong>Flexibelt branch-namn:</strong> Du kan använda vilket namn du vill!</p>
+
+                <div class="command-box"># Standard Git-workflow (INTE Claude-specifikt)
+git checkout -b feature/add-square-root-exercise
+git add Matematik/matte1.html
+git commit -m "Add square root exercise"
+git push origin feature/add-square-root-exercise
+
+# Eller: Arbeta direkt på main (för små ändringar)
+git checkout main
+git add .
+git commit -m "Fix typo in matte1.html"
+git push origin main</div>
+            </div>
+
+            <h3>3️⃣ "Bara" Cursor (Utan AI)</h3>
+
+            <div class="step">
+                <h4>Vad Det Är</h4>
+                <p>
+                    Använd Cursor som en <strong>standard IDE</strong> utan AI-assistans.
+                    Du skriver all kod själv, editerar filer manuellt.
+                </p>
+
+                <h4>Styrkor</h4>
+                <ul>
+                    <li>✅ <strong>Full kontroll:</strong> Du bestämmer exakt vad som skrivs</li>
+                    <li>✅ <strong>Lärande:</strong> Förstår koden på djupet</li>
+                    <li>✅ <strong>Snabbt för små ändringar:</strong> Ingen AI-latency</li>
+                </ul>
+
+                <h4>Svagheter</h4>
+                <ul>
+                    <li>❌ <strong>Långsammare:</strong> Måste skriva allt själv</li>
+                    <li>❌ <strong>Ingen AI-guidning:</strong> Inga förslag eller feedback</li>
+                </ul>
+
+                <h4>Best Practice: Användningsfall</h4>
+                <div class="success-box">
+                    <strong>Använd "Bara" Cursor för:</strong>
+                    <ul>
+                        <li>✏️ <strong>Små textändringar</strong> (stavfel, formatering)</li>
+                        <li>🔗 <strong>Uppdatera länkar</strong> (när du känner dig säker)</li>
+                        <li>🎨 <strong>Tweaka CSS</strong> (små justeringar av färger, spacing)</li>
+                        <li>📖 <strong>Läsa och studera</strong> (förstå hur koden fungerar)</li>
+                    </ul>
+                </div>
+
+                <h4>Workflow</h4>
+                <div class="command-box">1. Öppna Matematik-mappen i Cursor
+2. Stäng av AI-assistans (eller ignorera den)
+3. Redigera filer manuellt
+4. Commit och push via terminal eller Git-panel</div>
+            </div>
+
+            <h3>🎯 Rekommenderad Hybrid-Strategi</h3>
+
+            <div class="success-box">
+                <strong>💡 Best Practice: Kombinera Alla Tre!</strong>
+
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <thead>
+                        <tr style="background: #4caf50; color: white;">
+                            <th style="padding: 0.8rem; text-align: left; border: 1px solid #ddd;">Uppgift</th>
+                            <th style="padding: 0.8rem; text-align: left; border: 1px solid #ddd;">Verktyg</th>
+                            <th style="padding: 0.8rem; text-align: left; border: 1px solid #ddd;">Varför</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Skapa ny övningsfil (matte2.html)</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Claude Code Desktop</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Snabb prototyping, exercise-creator agent</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Lägg till uppgift i befintlig fil</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Claude Code i Cursor</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Visuell editor, granska ändringar live</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Fixa stavfel</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>"Bara" Cursor</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Snabbast, ingen overhead</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Uppdatera styling (CSS)</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Claude Code i Cursor</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">AI kan föreslå färgscheman, responsiv design</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Testa ny funktion</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Claude Code Desktop</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Experimentera på separata branches</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">Dokumentera kod</td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;"><strong>Claude Code i Cursor</strong></td>
+                            <td style="padding: 0.8rem; border: 1px solid #ddd;">AI genererar bra kommentarer och README</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>🔀 Git Branch-Strategi för Olika Verktyg</h3>
+
+            <div class="step">
+                <h4>Scenario 1: Huvudutveckling på Main</h4>
+                <p>
+                    Om du arbetar <strong>ensam</strong> och gör <strong>små, frekventa ändringar:</strong>
+                </p>
+
+                <div class="command-box"># Arbeta direkt på main (risk: om något går fel är det live)
+git checkout main
+# Gör ändringar
+git add .
+git commit -m "..."
+git push origin main</div>
+
+                <div class="highlight-box">
+                    <strong>⚠️ Varning:</strong> Eftersom GitHub Pages publicerar från main,
+                    kommer fel att synas direkt på live-sidan!
+                </div>
+            </div>
+
+            <div class="step">
+                <h4>Scenario 2: Feature Branches (Rekommenderat)</h4>
+                <p>
+                    För <strong>nya features</strong> eller <strong>experimentella ändringar:</strong>
+                </p>
+
+                <div class="command-box"># Claude Code Desktop: Skapar automatiskt
+claude/add-matte-2-exercise-XyZ12
+
+# Claude Code i Cursor: Skapa själv med beskrivande namn
+git checkout -b feature/add-matte-2-exponentials
+
+# "Bara" Cursor: Samma som ovan
+git checkout -b fix/typo-in-matte1</div>
+
+                <p style="margin-top: 1rem;"><strong>Workflow:</strong></p>
+                <ol>
+                    <li>Skapa branch</li>
+                    <li>Gör ändringar</li>
+                    <li>Commit och push</li>
+                    <li>Skapa Pull Request</li>
+                    <li>Granska på GitHub</li>
+                    <li>Merga till main</li>
+                    <li>Ta bort branchen</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h4>Scenario 3: Hybrid (Best of Both Worlds)</h4>
+                <p>
+                    <strong>Starta</strong> med Claude Code Desktop, <strong>förfina</strong> med Cursor:
+                </p>
+
+                <div class="command-box">1. Claude Code Desktop: Skapa matte2.html på claude/add-matte-2-XyZ12
+2. Öppna projektet i Cursor
+3. Checka ut branchen lokalt:
+   git fetch origin
+   git checkout claude/add-matte-2-XyZ12
+4. Förfina fil i Cursor (justera formatering, lägg till detaljer)
+5. Commit och push från Cursor
+6. Skapa PR och merga</div>
+            </div>
+
+            <h3>📋 Checklista: När Du Byter Verktyg</h3>
+
+            <div class="info-box">
+                <strong>Innan du byter från Claude Code Desktop till Cursor:</strong>
+                <ol>
+                    <li>☑️ Verifiera att alla ändringar är committade</li>
+                    <li>☑️ Push branchen till remote: <code>git push origin claude/branch-name</code></li>
+                    <li>☑️ Notera branch-namnet (eller hitta det på GitHub)</li>
+                </ol>
+
+                <strong>I Cursor:</strong>
+                <ol>
+                    <li>☑️ Fetch remote: <code>git fetch origin</code></li>
+                    <li>☑️ Checka ut branchen: <code>git checkout claude/branch-name</code></li>
+                    <li>☑️ Fortsätt arbeta</li>
+                </ol>
+
+                <strong>Efter att du är klar:</strong>
+                <ol>
+                    <li>☑️ Merga till main (via PR eller direkt)</li>
+                    <li>☑️ Ta bort branchen: <code>git push origin --delete claude/branch-name</code></li>
+                    <li>☑️ Checka ut main lokalt: <code>git checkout main</code></li>
+                    <li>☑️ Pull senaste main: <code>git pull origin main</code></li>
+                </ol>
+            </div>
+
+            <h3>🛡️ Säkerhetstips: Undvik Konflikter</h3>
+
+            <div class="highlight-box">
+                <strong>⚠️ VIKTIGT: Arbeta inte på samma fil i olika verktyg samtidigt!</strong>
+
+                <p><strong>Dåligt scenario:</strong></p>
+                <ol>
+                    <li>Öppnar matte1.html i Claude Code Desktop</li>
+                    <li>Samtidigt öppnar matte1.html i Cursor</li>
+                    <li>Gör ändringar i båda</li>
+                    <li>Båda committar och pushar</li>
+                    <li>❌ <strong>Git-konflikt!</strong></li>
+                </ol>
+
+                <p style="margin-top: 1rem;"><strong>Bra scenario:</strong></p>
+                <ol>
+                    <li>Starta arbete i Claude Code Desktop på matte2.html</li>
+                    <li>Commit och push</li>
+                    <li>Avsluta sessionen i Claude Code Desktop</li>
+                    <li>Öppna projektet i Cursor</li>
+                    <li>Fetch och checka ut branchen</li>
+                    <li>Fortsätt arbeta</li>
+                </ol>
+            </div>
+        </div>
+
         <!-- SAMMANFATTNING -->
         <div class="content-card">
             <h2>✅ Sammanfattning: Nyckelpunkter</h2>
