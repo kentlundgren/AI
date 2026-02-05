@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kunskap är Kul - Om Projektet | Matematik Gymnasiet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        header a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0.5rem;
+            display: inline-block;
+        }
+
+        header a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .article {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .article h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .article h3 {
+            color: #764ba2;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .article p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .article ul, .article ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article li {
+            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+        }
+
+        .quote-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #2196f3;
+            margin: 2rem 0;
+            font-style: italic;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #ff9800;
+            margin: 2rem 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid #4caf50;
+            margin: 2rem 0;
+        }
+
+        .project-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .image-caption {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        footer h3 {
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .nav-section p {
+            margin: 0.3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .article {
+                padding: 1.5rem;
+            }
+
+            .article h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💡 Kunskap är Kul</h1>
+            <p class="subtitle">Om att skapa interaktivt lärandematerial med AI-verktyg</p>
+            <a href="index.html">← Tillbaka till Startsidan</a>
+            <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub</a>
+        </header>
+
+        <div class="article">
+            <h2>🚀 När AI Möter Pedagogik: En Resa i Lärandets Gränsland</h2>
+
+            <p>
+                Kan generativ AI hjälpa oss att återuppliva och tillgängliggöra den kunskap som lärs ut i våra gymnasier? 
+                Det var frågan som startade detta projekt. Svaret? Ja – men resan dit är både fascinerande och utmanande.
+            </p>
+
+            <h3>🎯 Varför Just Gymnasiematematik?</h3>
+
+            <p>
+                Matematik är ett tryggt första steg. Till skillnad från samhällskunskap eller historia som förändras med tiden, 
+                förblir kvadratrötter och logaritmer desamma oavsett årtal. Men tanken är större än så: 
+                <strong>Vad händer om vi gör all gymnasiekunskap interaktiv och tillgänglig för alla, hela livet?</strong>
+            </p>
+
+            <div class="quote-box">
+                <p>
+                    "Vi skulle alla tjäna på att genom hela livet kunna repetera, diskutera och förstå den grundläggande 
+                    kunskap som förmedlas i våra skolor. Inte genom tunga läroböcker, utan genom lekfulla, interaktiva quiz 
+                    och pedagogiska förklaringar."
+                </p>
+            </div>
+
+            <h3>🛠️ Verktygen: Claude, Git, GitHub och Cursor</h3>
+
+            <p>
+                Projektet använder en kombination av moderna AI- och utvecklingsverktyg:
+            </p>
+
+            <ul>
+                <li><strong>Claude Code (Desktop)</strong> – Generativ AI som skapar innehåll och struktur</li>
+                <li><strong>Claude Code i Cursor</strong> – AI-integrerad kodredigerare för finputsning</li>
+                <li><strong>Git & GitHub</strong> – Versionshantering och publicering via GitHub Pages</li>
+                <li><strong>CLAUDE.md & Subagenter</strong> – Strukturerad AI-koordinering</li>
+            </ul>
+
+            <p>
+                Och här kommer den ärliga delen: <strong>Det tar tid att förstå hur allt hänger ihop.</strong>
+            </p>
+
+            <h3>📚 Inlärningskurvan: Ärligt Talat</h3>
+
+            <div class="highlight-box">
+                <h4 style="color: #e65100; margin-bottom: 1rem;">⏰ Sanningen om AI-utveckling</h4>
+                <p>
+                    När man börjar arbeta med Claude Code desktop, dess CLAUDE.md-struktur, permanenta subagenter, 
+                    Git-branch-hantering och GitHub Pages deployment kan det kännas överväldigande. Speciellt om man, 
+                    som jag, är van vid traditionell programutveckling.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Claude Code Desktop</strong> skapar automatiskt Git-branches (med <code>claude/</code>-prefix), 
+                    men skapar INTE automatiskt katalogstrukturer. <strong>Cursor</strong> ger visuell kontroll men 
+                    kräver manuell Git-hantering. <strong>CLAUDE.md</strong> är en kraftfull projektkoordinator, 
+                    men kräver noggrann struktur. <strong>Subagenter</strong> kan specialiseras, men måste designas rätt.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Det tar tid. Men det är tid väl spenderad.
+                </p>
+            </div>
+
+            <h3>🎓 Projektstrukturen: Koordinerat Samarbete</h3>
+
+            <p>
+                En av de mest kraftfulla funktionerna i Claude Code är möjligheten att skapa <strong>permanenta subagenter</strong> 
+                med specifika roller. I detta projekt använder vi:
+            </p>
+
+            <img src="projektstruktur_matematik.jpg" alt="Projektstruktur med CLAUDE.md och subagenter" class="project-image">
+            <p class="image-caption">
+                Projektstrukturen visar hur CLAUDE.md koordinerar tre specialiserade agenter
+            </p>
+
+            <ul>
+                <li><strong>math-tutor.md</strong> 🎓 – Pedagogisk förklaring av matematiska koncept</li>
+                <li><strong>problem-solver.md</strong> 🔧 – Systematiska steg-för-steg lösningar</li>
+                <li><strong>exercise-creator.md</strong> 📝 – Skapar kompletta övningar med interaktiva quiz</li>
+            </ul>
+
+            <p>
+                Varje agent har sin <strong>tydliga roll</strong>, sina <strong>kompetensområden</strong> och 
+                sina <strong>samarbetsprotokoll</strong>. CLAUDE.md fungerar som en projektkoordinator som 
+                Claude läser automatiskt när projektet startas.
+            </p>
+
+            <div class="success-box">
+                <h4 style="color: #1b5e20; margin-bottom: 1rem;">✅ Vad Fungerar Bra</h4>
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>Snabb prototyping</strong> – Claude Code desktop skapar grundstrukturen på minuter</li>
+                    <li><strong>Pedagogisk kvalitet</strong> – AI:n genererar bra förklaringar och quiz-frågor</li>
+                    <li><strong>Konsistens</strong> – Subagenter säkerställer enhetlig stil och struktur</li>
+                    <li><strong>GitHub Pages</strong> – Enkel publicering direkt från repository</li>
+                </ul>
+            </div>
+
+            <h3>💡 Interaktiva Quiz: Kunskap Genom Lek</h3>
+
+            <p>
+                Kärnan i projektet är <strong>interaktiva quiz-frågor</strong> som ger omedelbar feedback:
+            </p>
+
+            <ul>
+                <li>✅ <strong>Rätt svar</strong> → Grön bakgrund, bekräftelse och pedagogisk förklaring</li>
+                <li>❌ <strong>Fel svar</strong> → Orange bakgrund och förklaring av <em>varför</em> svaret är fel</li>
+            </ul>
+
+            <p>
+                Detta är inte bara teknik – det är <strong>pedagogik</strong>. Genom att förklara varför fel svar är fel 
+                hjälper vi användaren att förstå vanliga missuppfattningar och bygga djupare förståelse.
+            </p>
+
+            <div class="quote-box">
+                <p>
+                    "Ett quiz utan förklaring av fel svar är en missad lärtillfälle. 
+                    Det är inte bara viktigt att veta vad som är rätt – det är minst lika viktigt att förstå varför något är fel."
+                </p>
+            </div>
+
+            <h3>🔄 Arbetsflödet: Från Ide till Publicering</h3>
+
+            <p>
+                Så här ser en typisk övning ut från start till mål:
+            </p>
+
+            <ol>
+                <li><strong>Planering</strong> – Definiera ämne, kursnivå och lärandemål</li>
+                <li><strong>Claude Code Desktop</strong> – Skapa grundstruktur med exercise-creator-agenten</li>
+                <li><strong>Math-tutor</strong> – Generera pedagogiska quiz-frågor med förklaringar</li>
+                <li><strong>Problem-solver</strong> – Skapa steg-för-steg lösningar av huvudproblem</li>
+                <li><strong>Cursor (AI)</strong> – Finputsa HTML, CSS och JavaScript-interaktivitet</li>
+                <li><strong>Testning</strong> – Lokal server (python -m http.server) för att verifiera quiz-funktionalitet</li>
+                <li><strong>Git & GitHub</strong> – Commit, push och publicera via GitHub Pages</li>
+            </ol>
+
+            <p>
+                Varje steg lär dig något nytt om både AI-verktygen och pedagogiken.
+            </p>
+
+            <h3>🌍 Visionen: Kunskap för Alla, Hela Livet</h3>
+
+            <p>
+                Detta projekt är bara början. Föreställ dig:
+            </p>
+
+            <ul>
+                <li>📚 <strong>Alla gymnasieämnen</strong> tillgängliga som interaktiva övningar</li>
+                <li>🎮 <strong>Lekfull inlärning</strong> genom quiz och omedelbar feedback</li>
+                <li>🌐 <strong>Öppen källkod</strong> – vem som helst kan bidra eller anpassa</li>
+                <li>♿ <strong>Tillgängligt överallt</strong> – fungerar på mobil, surfplatta och dator</li>
+                <li>🔄 <strong>Livslångt lärande</strong> – repetera och fördjupa när du vill</li>
+            </ul>
+
+            <div class="success-box">
+                <h4 style="color: #1b5e20; margin-bottom: 1rem;">🎯 Varför Det Är Viktigt</h4>
+                <p>
+                    Kunskap som bara lever i klassrummet riskerar att glömmas bort. Men kunskap som är <strong>interaktiv</strong>, 
+                    <strong>tillgänglig</strong> och <strong>rolig</strong> kan användas genom hela livet. 
+                </p>
+                <p style="margin-top: 1rem;">
+                    Vi lär oss inte en gång för alla. Vi lär oss genom repetition, genom att se koncept från nya vinklar, 
+                    genom att testa vår förståelse. AI-verktyg kan hjälpa oss skapa dessa lärandemiljöer – 
+                    inte som ersättning för lärare, utan som komplement som alltid är tillgängligt.
+                </p>
+            </div>
+
+            <h3>🤔 Utmaningar och Lärdomar</h3>
+
+            <p>
+                Några viktiga insikter från projektet:
+            </p>
+
+            <div class="highlight-box">
+                <h4 style="color: #e65100; margin-bottom: 1rem;">📖 Vad Jag Lärt Mig</h4>
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>AI är inte magi</strong> – Det kräver tydliga instruktioner och iterativ förbättring</li>
+                    <li><strong>Struktur är avgörande</strong> – CLAUDE.md och subagenter behöver noggrann design</li>
+                    <li><strong>Testa, testa, testa</strong> – Interaktiva element måste verifieras innan publicering</li>
+                    <li><strong>Git-workflow varierar</strong> – Claude Desktop, Cursor och manuell Git har olika styrkor</li>
+                    <li><strong>Dokumentation lönar sig</strong> – Framtida dig tackar nutida dig för bra dokumentation</li>
+                </ul>
+            </div>
+
+            <h3>🚀 Vad Händer Nu?</h3>
+
+            <p>
+                Projektet är i aktiv utveckling. Nästa steg inkluderar:
+            </p>
+
+            <ul>
+                <li>📝 Fler övningar för Matematik 2-5</li>
+                <li>📊 Visualiseringar och grafer för bättre förståelse</li>
+                <li>🎨 Förbättrad responsiv design för mobila enheter</li>
+                <li>🧪 Experimentella övningar i andra ämnen (fysik? kemi?)</li>
+                <li>🤝 Öppna för bidrag från andra pedagoger och utvecklare</li>
+            </ul>
+
+            <h3>💬 Avslutande Tankar</h3>
+
+            <p>
+                Att arbeta med generativ AI för att skapa pedagogiskt material är både inspirerande och ödmjukande. 
+                Det går inte alltid smidigt – verktyg måste läras, strukturer måste förstås, och många commits måste göras. 
+            </p>
+
+            <p>
+                Men när det fungerar, när du ser en interaktiv övning som ger omedelbar, pedagogisk feedback, 
+                när du inser att detta kan hjälpa någon att förstå ett koncept de kämpat med – då känns det värt det.
+            </p>
+
+            <div class="quote-box">
+                <p style="font-size: 1.2rem; text-align: center; margin: 0;">
+                    <strong>"Kunskap är inte bara kul – den är fundamental. Och nu har vi verktygen att göra den tillgänglig för alla."</strong>
+                </p>
+            </div>
+
+            <p style="margin-top: 2rem;">
+                Om du är nyfiken på hur projektet fungerar tekniskt, utforska gärna 
+                <a href="matematikunderkatalog.html" style="color: #667eea; text-decoration: none; font-weight: bold;">guiden för projektstrukturen</a> 
+                eller kika på <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank" style="color: #667eea; text-decoration: none; font-weight: bold;">GitHub-repositoryt</a>.
+            </p>
+
+            <p>
+                Och om du har idéer, synpunkter eller vill bidra – hör gärna av dig!
+            </p>
+
+            <p style="margin-top: 2rem; font-style: italic; color: #666;">
+                <strong>Kent Lundgren</strong><br>
+                Utforskare av AI-verktyg och pedagogiska möjligheter<br>
+                📧 <a href="mailto:kent@kentlundgren.se" style="color: #667eea;">kent@kentlundgren.se</a> | 
+                💼 <a href="https://www.linkedin.com/in/kent-lundgren-3b6ba118/" target="_blank" style="color: #667eea;">LinkedIn</a>
+            </p>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="nav-grid">
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📄 Dokumentation</h4>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="CLAUDE.md">📋 CLAUDE.md</a></p>
+                    <p><a href="index.html">🏠 Startsidan</a></p>
+                    <p><a href="matematikunderkatalog.html">🛠️ Projektstruktur-Guide</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📚 Kurser</h4>
+                    <p><a href="matte1.html">Matematik 1</a></p>
+                    <p><a href="matte2.html">Matematik 2</a></p>
+                    <p><a href="matte3.html">Matematik 3</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🤖 Agenter</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 math-tutor</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 problem-solver</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 exercise-creator</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub Repository</a></p>
+                    <p><a href="../CLAUDE.md">📘 Överliggande CLAUDE.md</a></p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); opacity: 0.8; text-align: center;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Matematik Gymnasiet | Ett Projekt om AI, Pedagogik och Livslångt Lärande
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
