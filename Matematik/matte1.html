@@ -191,6 +191,47 @@
             color: #721c24;
         }
 
+        /* Förbättrad feedback styling för quiz-svar */
+        .feedback.correct {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+            border: 3px solid #4caf50 !important;
+            border-left: 8px solid #2e7d32 !important;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .feedback.correct h4 {
+            color: #1b5e20;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+            border: 3px solid #ff9800 !important;
+            border-left: 8px solid #f57c00 !important;
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .feedback.incorrect h4 {
+            color: #e65100;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        /* Fade in animation för feedback */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .problem-statement {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             padding: 2rem;
@@ -1523,12 +1564,15 @@ lg(100) = 2
         let answeredQuestions = {1: false, 2: false, 3: false, 4: false};
 
         function checkAnswer(questionNum, selectedAnswer) {
-            // Disable all buttons for this question
-            const buttons = document.querySelectorAll(`#feedback${questionNum}`).parentNode.querySelectorAll('.option-btn');
-            buttons.forEach(btn => btn.disabled = true);
-
             // Get feedback element
             const feedbackElement = document.getElementById(`feedback${questionNum}`);
+            
+            // Disable all buttons for this question
+            // Find the quiz-question container that contains this feedback element
+            const quizContainer = feedbackElement.closest('.quiz-question');
+            const buttons = quizContainer.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
             const data = quizData[questionNum];
             const isCorrect = selectedAnswer === data.correct;
 

@@ -114,15 +114,26 @@ Varje `matteX.html` fil ska följa denna struktur:
 - Titel och kursnivå
 - Kort introduktion
 
-### 2. Quiz-sektion
+### 2. Quiz-sektion ⚠️ MÅSTE VARA INTERAKTIV!
 **Quiz-fråga 1:** Förkunskapskontroll
 - 4 svarsalternativ (A, B, C, D)
 - Förklaring av rätt svar (✅)
 - Förklaring av varje fel svar (❌)
+- **JavaScript-interaktivitet:** När användaren klickar på ett svar ska feedback visas DIREKT
+- **Visuell feedback:** Rätt svar → grön bakgrund, Fel svar → orange bakgrund
 
 **Quiz-fråga 2:** Strategiplanering
 - 4 svarsalternativ
 - Förklaringar av rätt/fel
+- **Samma interaktivitet som Quiz-fråga 1**
+
+**Tekniska krav för quiz:**
+- Varje svaralternativ ska vara en `<button>` med `onclick="checkAnswer(questionNum, 'A/B/C/D')"`
+- Feedback-element: `<div id="feedback${questionNum}" class="feedback hidden"></div>`
+- JavaScript `checkAnswer()`-funktion måste finnas och fungera
+- CSS-klasser: `.feedback.correct` (grön) och `.feedback.incorrect` (orange)
+- Knappar ska inaktiveras efter svar för att förhindra flera klick
+- **⚠️ VIKTIGT:** TESTA quiz-funktionen innan publicering! (Se Kvalitetskontroll-sektion)
 
 ### 3. Huvudproblem
 - Tydlig problemformulering
@@ -327,11 +338,32 @@ math-tutor: Förklara varför sin²(x) + cos²(x) = 1"
 Innan en övning publiceras:
 - [ ] Quiz-frågorna testar relevanta förkunskaper
 - [ ] Alla 4 alternativ har pedagogiska förklaringar
+- [ ] **⚠️ KRITISKT: Quiz-interaktivitet fungerar!**
+  - [ ] Klicka på RÄTT svar → Grön feedback visas med ✅
+  - [ ] Klicka på FEL svar → Orange feedback visas med ❌ och förklaring
+  - [ ] Knappar inaktiveras efter klick (ingen dubbel-klick)
+  - [ ] Feedback innehåller tydlig pedagogisk förklaring
+  - [ ] MathJax renderas korrekt i feedback (om matematiska formler finns)
 - [ ] Huvudproblemet är lagom svårt för målgruppen
 - [ ] Steg-för-steg lösningen är fullständig
 - [ ] HTML är responsiv och fungerar på mobil
 - [ ] Footer-navigation är korrekt
 - [ ] Matematiken är korrekt (dubbelkolla!)
+
+**Hur man testar quiz lokalt:**
+```bash
+# Från Matematik-katalogen
+python3 -m http.server 8000
+# Besök http://localhost:8000/matte1.html
+# Klicka på varje svaralternativ och verifiera att feedback visas korrekt
+```
+
+**Vanliga Quiz-Fel att Undvika:**
+- ❌ Glömma `onclick="checkAnswer(questionNum, 'X')"` på knappar
+- ❌ Felaktigt feedback-id (ska vara `feedback1`, `feedback2`, etc.)
+- ❌ Saknar JavaScript `checkAnswer()`-funktion
+- ❌ Saknar CSS-klasser `.feedback.correct` och `.feedback.incorrect`
+- ❌ Knappar inaktiveras inte (kan klicka flera gånger)
 
 ---
 

@@ -716,6 +716,7 @@ mkdir -p .claude/agents
 - ✅ Dokumentera med både **README.md** och **index.html**
 - ✅ Använd **permissions** för att skydda känsliga filer
 - ✅ Commita agenter till git för teamdelning
+- ✅ **Testa interaktiva element** (quiz, formulär, knappar) innan publicering
 
 ### Undvik:
 - ❌ Generiska agentnamn (agent1, agent2, agent3)
@@ -723,6 +724,35 @@ mkdir -p .claude/agents
 - ❌ Hårdkoda känslig information i agenter
 - ❌ Skapa för många agenter utan tydlig roll
 - ❌ Ignorera README.md och index.html
+- ❌ Publicera interaktiva element utan att testa dem först
+
+### Interaktiva HTML-Element (Quiz, Formulär, etc.)
+
+Om ditt projekt innehåller **interaktiva HTML-element** (som quiz-frågor, formulär, knappar):
+
+**⚠️ KRITISKT: TESTA ALLTID INTERAKTIVITETEN!**
+
+**Innan publicering:**
+1. **Öppna filen lokalt:**
+   ```bash
+   python3 -m http.server 8000
+   # Besök http://localhost:8000/[fil].html
+   ```
+2. **Testa varje interaktiv funktion:**
+   - Klicka på alla knappar
+   - Fyll i formulär
+   - Verifiera att feedback visas korrekt
+   - Kontrollera att rätt/fel-svar ger olika visuell feedback
+
+**Quiz-specifika krav:**
+- Rätt svar → Tydlig feedback med ✅ (grön bakgrund rekommenderas)
+- Fel svar → Pedagogisk förklaring med ❌ (orange/röd bakgrund rekommenderas)
+- Knappar ska inaktiveras efter klick
+- JavaScript `checkAnswer()` eller liknande funktion måste finnas
+- CSS-klasser för `.correct` och `.incorrect` feedback
+
+**Exempel från Matematik-projektet:**
+Se [Matematik/CLAUDE.md](Matematik/CLAUDE.md) för detaljerade quiz-implementationskrav.
 
 ---
 
