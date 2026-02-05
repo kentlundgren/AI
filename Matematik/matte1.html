@@ -959,10 +959,16 @@ lg(100) = 2
 
         <!-- UPPGIFT 2B: SVÅRARE VERSION -->
         <div class="content-card" style="border-left: 5px solid #9c27b0;">
+            <h2>📝 Uppgift 2B: Förenkling med (lg(x))²</h2>
+            <p>
+                Nu testar vi den <strong>svårare varianten</strong> där exponenten är UTANFÖR logaritmen.
+                Här kan vi INTE använda potenslagen direkt - istället behöver vi <strong>substitution</strong>!
+            </p>
+        </div>
 
         <!-- QUIZ SEKTION LOGARITMER -->
         <div class="content-card">
-            <h2>💡 Förberedande Quiz - Logaritmer</h2>
+            <h2>💡 Förberedande Quiz - Uppgift 2B</h2>
 
             <!-- QUIZ FRÅGA 3 -->
             <div class="quiz-question">
@@ -1541,6 +1547,16 @@ lg(100) = 2
 
         function toggleSolution() {
             const solution = document.getElementById('solution-content');
+            solution.classList.toggle('hidden');
+
+            // Trigger MathJax when solution is shown
+            if (!solution.classList.contains('hidden') && typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([solution]).catch((err) => console.log('MathJax error:', err));
+            }
+        }
+
+        function toggleSolution2a() {
+            const solution = document.getElementById('solution-content-2a');
             solution.classList.toggle('hidden');
 
             // Trigger MathJax when solution is shown
