@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matematik 1 - Linjära Ekvationer | Matematik Gymnasiet</title>
+    <title>Matematik 1 - Blandade Övningar | Matematik Gymnasiet</title>
+
+    <!-- MathJax for beautiful mathematical notation -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
     <style>
         * {
             margin: 0;
@@ -311,13 +327,251 @@
 <body>
     <div class="container">
         <header>
-            <h1>📐 Linjära Ekvationer</h1>
-            <p class="level">Matematik 1 | Grundläggande Algebra</p>
+            <h1>📐 Matematik 1 - Blandade Övningar</h1>
+            <p class="level">Grundläggande Algebra | Ekvationer & Logaritmer</p>
             <div class="nav-links">
                 <a href="index.html">← Startsidan</a>
                 <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">GitHub</a>
             </div>
         </header>
+
+        <!-- MATEMATISK NOTATION: VERKTYG OCH HISTORIA -->
+        <div class="content-card">
+            <h2>🧮 Om Matematisk Notation på Webben</h2>
+            <p>
+                <strong>Observera:</strong> Denna sida använder <strong>MathJax</strong> för att visa
+                matematiska formler på ett professionellt sätt. Om du ser formler som
+                \(x^2 + y^2 = r^2\) och de ser vackra ut - då fungerar MathJax!
+            </p>
+
+            <h3>Verktyg för Matematisk Notation: Historia och Utveckling</h3>
+
+            <div class="step">
+                <h4>📜 TeX (1978) - Där Allt Började</h4>
+                <p>
+                    <strong>Skapare:</strong> Donald Knuth (Stanford University)<br>
+                    <strong>Syfte:</strong> Typsättning av matematiska böcker med högsta kvalitet<br>
+                    <strong>Innovation:</strong> Första systemet som kunde rendera komplexa matematiska formler digitalt
+                </p>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ Oöverträffad typografisk kvalitet</li>
+                    <li>✅ Precis kontroll över varje detalj</li>
+                    <li>✅ Standard inom akademisk publicering</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Brant inlärningskurva</li>
+                    <li>❌ Kräver kompilering (inte direkt på webben)</li>
+                    <li>❌ Designad för tryck, inte interaktiva medier</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>📚 LaTeX (1984) - Förenklingen</h4>
+                <p>
+                    <strong>Skapare:</strong> Leslie Lamport<br>
+                    <strong>Relation:</strong> Byggd ovanpå TeX med enklare makron<br>
+                    <strong>Status:</strong> <em>De facto</em> standard för vetenskaplig publicering
+                </p>
+                <p>
+                    <strong>Exempel på LaTeX-syntax:</strong>
+                </p>
+                <div class="calculation">% Kvadratisk ekvation
+ax^2 + bx + c = 0
+
+% Kvadratens lösning
+x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</div>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ Enklare än TeX, men lika kraftfull</li>
+                    <li>✅ Enorm ekosystem av paket</li>
+                    <li>✅ Används av majoriteten av matematiker och fysiker</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Fortfarande kräver kompilering</li>
+                    <li>❌ Inte direkt kompatibel med webbläsare</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>🌐 MathML (1998) - W3C Web-Standard</h4>
+                <p>
+                    <strong>Organisation:</strong> W3C (World Wide Web Consortium)<br>
+                    <strong>Syfte:</strong> Inbyggd matematisk notation i HTML<br>
+                    <strong>Typ:</strong> XML-baserat märkspråk
+                </p>
+                <p>
+                    <strong>Exempel på MathML:</strong>
+                </p>
+                <div class="calculation">&lt;math&gt;
+  &lt;mrow&gt;
+    &lt;msup&gt;
+      &lt;mi&gt;x&lt;/mi&gt;
+      &lt;mn&gt;2&lt;/mn&gt;
+    &lt;/msup&gt;
+    &lt;mo&gt;+&lt;/mo&gt;
+    &lt;msup&gt;
+      &lt;mi&gt;y&lt;/mi&gt;
+      &lt;mn&gt;2&lt;/mn&gt;
+    &lt;/msup&gt;
+  &lt;/mrow&gt;
+&lt;/math&gt;</div>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ Officiell HTML5-standard</li>
+                    <li>✅ Semantiskt korrekt (skärmläsare kan tolka)</li>
+                    <li>✅ Inget JavaScript krävs</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Extremt verbose (krånglig kod)</li>
+                    <li>❌ Begränsat webbläsarstöd (före 2023)</li>
+                    <li>❌ Inte lika vacker rendering som TeX/LaTeX</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>✨ MathJax (2010) - Revolutionen för Webben</h4>
+                <p>
+                    <strong>Organisation:</strong> American Mathematical Society, Design Science<br>
+                    <strong>Innovation:</strong> Renderar LaTeX-syntax direkt i webbläsaren<br>
+                    <strong>Användare:</strong> Wikipedia, Stack Exchange, Coursera, Khan Academy, m.fl.
+                </p>
+                <p>
+                    <strong>Så här används MathJax (denna sida!):</strong>
+                </p>
+                <div class="calculation">&lt;!-- Inline math: --&gt;
+Pytagoras sats: \(a^2 + b^2 = c^2\)
+
+&lt;!-- Display math (centrerad): --&gt;
+$$\int_0^1 x^2 \, dx = \frac{1}{3}$$</div>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ LaTeX-syntax (lätt för matematiker)</li>
+                    <li>✅ Vacker TeX-kvalitet rendering</li>
+                    <li>✅ Fungerar i alla moderna webbläsare</li>
+                    <li>✅ Kan rendera både LaTeX och MathML</li>
+                    <li>✅ Skalbar (responsiv design)</li>
+                    <li>✅ Tillgänglig (stöd för skärmläsare)</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Relativt stor filstorlek (~100 KB compressed)</li>
+                    <li>❌ Initial rendering kan vara långsam på gamla enheter</li>
+                    <li>❌ Kräver JavaScript aktiverat</li>
+                </ul>
+                <p>
+                    <strong>Versioner:</strong>
+                </p>
+                <ul>
+                    <li>MathJax 1.x (2010) - Första versionen</li>
+                    <li>MathJax 2.x (2012) - Snabbare, modulär</li>
+                    <li>MathJax 3.x (2020) - Modern ES6, ännu snabbare (vi använder denna!)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>⚡ KaTeX (2014) - Hastigheten</h4>
+                <p>
+                    <strong>Skapare:</strong> Khan Academy<br>
+                    <strong>Fokus:</strong> Extremt snabb rendering<br>
+                    <strong>Namn:</strong> "Khan Academy TeX"
+                </p>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ 5-10x snabbare än MathJax</li>
+                    <li>✅ Mindre filstorlek (~70 KB)</li>
+                    <li>✅ Synkron rendering (ingen fördröjning)</li>
+                    <li>✅ LaTeX-syntax</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Stödjer färre LaTeX-kommandon än MathJax</li>
+                    <li>❌ Mindre flexibel konfiguration</li>
+                    <li>❌ Sämre felhantering</li>
+                </ul>
+                <p>
+                    <strong>Användning:</strong> Bäst för sidor med många formler som behöver snabb rendering (t.ex. Khan Academy övningar)
+                </p>
+            </div>
+
+            <div class="step">
+                <h4>🔤 Unicode (Kontinuerlig utveckling)</h4>
+                <p>
+                    <strong>Typ:</strong> Direkt text, ingen kompilering<br>
+                    <strong>Exempel:</strong> ∫, √, ∑, π, ², ³, ≠, ≤, ≥, ±
+                </p>
+                <p>
+                    <strong>Fördelar:</strong>
+                </p>
+                <ul>
+                    <li>✅ Inga externa bibliotek</li>
+                    <li>✅ Fungerar överallt (även utan JavaScript)</li>
+                    <li>✅ Snabbt (ingen rendering)</li>
+                    <li>✅ Lätt att kopiera/klistra in</li>
+                </ul>
+                <p>
+                    <strong>Nackdelar:</strong>
+                </p>
+                <ul>
+                    <li>❌ Begränsad notation (inga bråk, matriser, etc.)</li>
+                    <li>❌ Ser inte lika professionellt ut</li>
+                    <li>❌ Svårt att skriva komplexa formler</li>
+                </ul>
+            </div>
+
+            <h3>🎯 Vad Använder Vi i Detta Projekt?</h3>
+            <p>
+                <strong>Val: MathJax 3.x</strong>
+            </p>
+            <p>
+                <strong>Motivering:</strong>
+            </p>
+            <ul>
+                <li>✅ <strong>Professionell kvalitet:</strong> Formler ser ut som i läroböcker</li>
+                <li>✅ <strong>LaTeX-syntax:</strong> Du lär dig något användbart för framtida studier</li>
+                <li>✅ <strong>Flexibilitet:</strong> Kan visa även komplexa formler</li>
+                <li>✅ <strong>Tillgänglighet:</strong> Fungerar med skärmläsare</li>
+                <li>✅ <strong>Standard:</strong> Används av Wikipedia, Stack Overflow, Khan Academy</li>
+            </ul>
+
+            <p style="margin-top: 1.5rem;">
+                <strong>Exempel på vad MathJax kan göra:</strong>
+            </p>
+            <p>
+                Inline: Pythagorean theorem \(a^2 + b^2 = c^2\) och Euler's identity \(e^{i\pi} + 1 = 0\).
+            </p>
+            <p>
+                Display (centrerad):
+            </p>
+            $$\int_0^\infty e^{-x^2} \, dx = \frac{\sqrt{\pi}}{2}$$
+            <p>
+                Matriser:
+            </p>
+            $$\begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} ax + by \\ cx + dy \end{bmatrix}$$
+        </div>
 
         <!-- LÄRANDEMÅL -->
         <div class="content-card">
@@ -524,6 +778,326 @@ x = 5</div>
             </details>
         </div>
 
+        <!-- ============================================ -->
+        <!-- UPPGIFT 2: LOGARITMER -->
+        <!-- ============================================ -->
+
+        <div class="content-card" style="border-top: 5px solid #ff9800;">
+            <h2>📊 Uppgift 2: Logaritmer och Förenkling</h2>
+            <p>
+                Nu testar vi <strong>MathJax</strong> med en mer avancerad uppgift!
+                Observera hur formlerna renderas professionellt.
+            </p>
+
+            <h3>Lärandemål</h3>
+            <ul>
+                <li>Förstå logaritmiska uttryck</li>
+                <li>Förenkla uttryck med logaritmer</li>
+                <li>Använda substitution för att lösa logaritmekvationer</li>
+                <li>Identifiera olika lösningsmetoder</li>
+            </ul>
+
+            <h3>Förkunskaper</h3>
+            <ul>
+                <li>Vad en logaritm är: \(\lg(x) = \log_{10}(x)\)</li>
+                <li>Logaritmlagen: \(\lg(a) + \lg(b) = \lg(ab)\)</li>
+                <li>Potenslagen: \(n\lg(a) = \lg(a^n)\)</li>
+                <li>Kvadratiska ekvationer</li>
+            </ul>
+        </div>
+
+        <!-- QUIZ SEKTION LOGARITMER -->
+        <div class="content-card">
+            <h2>💡 Förberedande Quiz - Logaritmer</h2>
+
+            <!-- QUIZ FRÅGA 3 -->
+            <div class="quiz-question">
+                <h3>Fråga 3: Vad betyder \(\lg(100)\)?</h3>
+                <p>
+                    Logaritmen \(\lg\) är <em>10-logaritmen</em> (tiologaritmen).
+                    Vad är värdet på \(\lg(100)\)?
+                </p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                        A) 2
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                        B) 10
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                        C) 100
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'D')">
+                        D) 1000
+                    </button>
+                </div>
+
+                <div id="feedback3" class="feedback hidden"></div>
+            </div>
+
+            <!-- QUIZ FRÅGA 4 -->
+            <div class="quiz-question">
+                <h3>Fråga 4: Vilken metod är bäst för att förenkla \(2\lg(x) - 0.5(\lg(x))^2\)?</h3>
+                <p>
+                    Om vi vill förenkla uttrycket \(2\lg(x) - 0.5(\lg(x))^2\),
+                    vilken strategi ska vi använda?
+                </p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                        A) Substituera \(t = \lg(x)\) för att se strukturen tydligare
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                        B) Direkt använda logaritmlagarna
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                        C) Ta 10 upphöjt till båda sidor
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'D')">
+                        D) Derivera uttrycket
+                    </button>
+                </div>
+
+                <div id="feedback4" class="feedback hidden"></div>
+            </div>
+        </div>
+
+        <!-- HUVUDPROBLEM LOGARITMER -->
+        <div class="content-card">
+            <h2>📝 Huvuduppgift - Logaritmer</h2>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong> Förenkla uttrycket
+                $$2\lg(x) - 0.5(\lg(x))^2$$
+
+                <br><br>
+                <strong>Bonusfrågor (om du vill gå vidare):</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                    <li>För vilka värden på \(x\) är uttrycket = 0?</li>
+                    <li>För vilket \(x\) når uttrycket sitt maximum?</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LÖSNING LOGARITMER -->
+        <div class="content-card">
+            <h2>🔍 Olika Angreppssätt</h2>
+            <p>
+                Låt oss utforska <strong>flera sätt</strong> att arbeta med detta uttryck!
+            </p>
+
+            <button class="toggle-btn" onclick="toggleSolution2()">
+                Visa/Dölj Lösningar
+            </button>
+
+            <div id="solution-content-2" class="solution-content hidden">
+
+                <!-- METOD 1: FÖRENKLING MED SUBSTITUTION -->
+                <div class="step">
+                    <h4>Metod 1: Förenkling med Substitution</h4>
+                    <p>
+                        <strong>Strategi:</strong> Byt ut \(\lg(x)\) mot en enklare variabel
+                        för att se strukturen tydligare.
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Sätt \(t = \lg(x)\)</p>
+                    <p>Nu blir uttrycket:</p>
+                    $$2t - 0.5t^2$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Faktorisera</p>
+                    $$2t - 0.5t^2 = t(2 - 0.5t)$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Förenkla genom att multiplicera med 2</p>
+                    $$t(2 - 0.5t) = t \cdot \frac{1}{2}(4 - t) = \frac{t(4-t)}{2}$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka \(t = \lg(x)\)</p>
+                    $$\frac{\lg(x)(4 - \lg(x))}{2}$$
+
+                    <div class="conclusion">
+                        <h4>Förenklat Uttryck</h4>
+                        <p class="answer">$$\frac{\lg(x)(4 - \lg(x))}{2}$$</p>
+                        <p style="margin-top: 1rem;">
+                            Eller ekvivalent: $$2\lg(x) - \frac{(\lg(x))^2}{2}$$
+                        </p>
+                    </div>
+                </div>
+
+                <!-- METOD 2: LÖSA EKVATIONEN -->
+                <div class="step">
+                    <h4>Metod 2: Lös Ekvationen \(2\lg(x) - 0.5(\lg(x))^2 = 0\)</h4>
+                    <p>
+                        Om vi vill hitta för vilka \(x\) uttrycket blir noll:
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Sätt \(t = \lg(x)\)</p>
+                    $$2t - 0.5t^2 = 0$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Faktorisera</p>
+                    $$t(2 - 0.5t) = 0$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Nollproduktmetoden</p>
+                    <p>Antingen \(t = 0\) eller \(2 - 0.5t = 0\)</p>
+                    <div class="calculation">t = 0  eller  2 - 0.5t = 0
+                        ⇒ t = 0  eller  0.5t = 2
+                        ⇒ t = 0  eller  t = 4</div>
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka till \(x\)</p>
+                    <p>Eftersom \(t = \lg(x)\):</p>
+                    $$\lg(x) = 0 \quad \Rightarrow \quad x = 10^0 = 1$$
+                    $$\lg(x) = 4 \quad \Rightarrow \quad x = 10^4 = 10000$$
+
+                    <div class="verification">
+                        <strong>✅ Kontroll:</strong><br>
+                        För \(x = 1\): \(2\lg(1) - 0.5(\lg(1))^2 = 2 \cdot 0 - 0.5 \cdot 0^2 = 0\) ✓<br>
+                        För \(x = 10000\): \(2\lg(10000) - 0.5(\lg(10000))^2 = 2 \cdot 4 - 0.5 \cdot 16 = 8 - 8 = 0\) ✓
+                    </div>
+
+                    <div class="conclusion">
+                        <h4>Nollställen</h4>
+                        <p class="answer">\(x = 1\) och \(x = 10000\)</p>
+                    </div>
+                </div>
+
+                <!-- METOD 3: EXTREMVÄRDE -->
+                <div class="step">
+                    <h4>Metod 3: Hitta Maximivärdet (Derivata)</h4>
+                    <p>
+                        <strong>Fråga:</strong> För vilket \(x\) når uttrycket sitt maximum?
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Med \(t = \lg(x)\) har vi \(f(t) = 2t - 0.5t^2\)</p>
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Derivera</p>
+                    $$f'(t) = 2 - t$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Sätt \(f'(t) = 0\)</p>
+                    $$2 - t = 0 \quad \Rightarrow \quad t = 2$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka till \(x\)</p>
+                    $$\lg(x) = 2 \quad \Rightarrow \quad x = 10^2 = 100$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 5:</strong> Beräkna maxvärdet</p>
+                    $$f(2) = 2(2) - 0.5(2)^2 = 4 - 2 = 2$$
+
+                    <div class="conclusion">
+                        <h4>Maxvärde</h4>
+                        <p class="answer">
+                            Uttrycket når sitt maximum \(2\) när \(x = 100\)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            Dvs: $$2\lg(100) - 0.5(\lg(100))^2 = 2$$
+                        </p>
+                    </div>
+                </div>
+
+                <!-- METOD 4: GRAFISK TOLKNING -->
+                <div class="step">
+                    <h4>Metod 4: Grafisk Tolkning</h4>
+                    <p>
+                        Uttrycket \(f(t) = 2t - 0.5t^2\) representerar en <strong>parabel</strong>
+                        som öppnar nedåt (eftersom koefficienten framför \(t^2\) är negativ).
+                    </p>
+
+                    <p>
+                        <strong>Viktig insikt:</strong>
+                    </p>
+                    $$f(t) = -0.5t^2 + 2t = -0.5(t^2 - 4t)$$
+                    $$= -0.5(t^2 - 4t + 4 - 4) = -0.5((t-2)^2 - 4)$$
+                    $$= -0.5(t-2)^2 + 2$$
+
+                    <p style="margin-top: 1rem;">
+                        Detta är en parabel i <strong>vertexform</strong>!
+                    </p>
+
+                    <ul>
+                        <li><strong>Vertex (topp):</strong> \(t = 2\), vilket ger \(x = 100\)</li>
+                        <li><strong>Maxvärde:</strong> \(f(2) = 2\)</li>
+                        <li><strong>Nollställen:</strong> \(t = 0\) och \(t = 4\) (dvs \(x = 1\) och \(x = 10000\))</li>
+                        <li><strong>Symmetrilinje:</strong> \(t = 2\) (mitten mellan nollställena)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;">
+                        <strong>Observation:</strong> Nollställena \(t=0\) och \(t=4\) ligger
+                        symmetriskt kring \(t=2\), vilket bekräftar att \(t=2\) är maxpunkten!
+                    </p>
+                </div>
+
+                <!-- SAMMANFATTNING -->
+                <div class="conclusion">
+                    <h4>📚 Sammanfattning - Alla Metoder</h4>
+                    <p style="text-align: left; margin-top: 1rem;">
+                        <strong>Förenklat uttryck:</strong>
+                        $$\frac{\lg(x)(4 - \lg(x))}{2}$$
+                    </p>
+                    <p style="text-align: left;">
+                        <strong>Nollställen:</strong> \(x = 1\) och \(x = 10000\)
+                    </p>
+                    <p style="text-align: left;">
+                        <strong>Maximum:</strong> \(x = 100\) (värde = 2)
+                    </p>
+                    <p style="text-align: left; margin-top: 1rem;">
+                        <strong>Lärdomar:</strong>
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>Substitution gör komplexa uttryck enklare att se</li>
+                        <li>Ett uttryck kan analyseras på flera sätt</li>
+                        <li>Algebra, derivata och grafisk tolkning ger olika insikter</li>
+                        <li>Logaritmer kan behandlas som "vanliga" variabler med substitution</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- FÖRDJUPNING LOGARITMER -->
+        <div class="content-card">
+            <h2>🚀 Fördjupning - Logaritmer</h2>
+            <p>Vill du utmana dig ytterligare?</p>
+
+            <div class="problem-statement">
+                <strong>Utmaning 1:</strong> Lös ekvationen
+                $$3\lg(x) - (\lg(x))^2 = 2$$
+
+                <br><br>
+                <strong>Utmaning 2:</strong> Förenkla uttrycket
+                $$\lg(x^2) - 2\lg(x) + \lg(100)$$
+
+                <br><br>
+                <strong>Utmaning 3:</strong> För vilka \(x\) gäller
+                $$2\lg(x) - 0.5(\lg(x))^2 > 0$$
+            </div>
+
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; color: #667eea; font-weight: bold;">
+                    Visa lösningshjälp (klicka här)
+                </summary>
+                <div style="margin-top: 1rem; padding: 1rem; background: #f5f7fa; border-radius: 5px;">
+                    <p><strong>Utmaning 1:</strong></p>
+                    <ul>
+                        <li>Sätt \(t = \lg(x)\)</li>
+                        <li>Lös \(3t - t^2 = 2\), dvs \(t^2 - 3t + 2 = 0\)</li>
+                        <li>Faktorisera: \((t-1)(t-2) = 0\)</li>
+                        <li>Svar: \(x = 10\) och \(x = 100\)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Utmaning 2:</strong></p>
+                    <ul>
+                        <li>Använd \(\lg(x^2) = 2\lg(x)\) och \(\lg(100) = 2\)</li>
+                        <li>\(2\lg(x) - 2\lg(x) + 2 = 2\)</li>
+                        <li>Svar: Uttrycket = \(2\) (konstant!)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Utmaning 3:</strong></p>
+                    <ul>
+                        <li>Vi vet nollställena är \(x=1\) och \(x=10000\)</li>
+                        <li>Parabeln öppnar nedåt</li>
+                        <li>Uttrycket är positivt MELLAN nollställena</li>
+                        <li>Svar: \(1 < x < 10000\)</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+
         <!-- FOOTER -->
         <footer>
             <h3>🔗 Projektnavigation</h3>
@@ -642,10 +1216,108 @@ x = 5</div>
                                <p><strong>Exempel när multiplikation används:</strong> I ekvationen x/3 = 5 multiplicerar vi med 3 för att få x = 15.</p>`
                     }
                 }
+            },
+            3: {
+                correct: 'A',
+                feedback: {
+                    'A': {
+                        correct: true,
+                        text: `<h4>✅ RÄTT SVAR!</h4>
+                               <p>Ja, \\(\\lg(100) = 2\\) eftersom \\(10^2 = 100\\).</p>
+                               <p><strong>Definition:</strong> Logaritmen \\(\\lg(x)\\) (tiologaritmen) svarar på frågan:<br>
+                               "10 upphöjt till vad blir x?"</p>
+                               <p><strong>Exempel:</strong></p>
+                               <ul>
+                                   <li>\\(\\lg(10) = 1\\) eftersom \\(10^1 = 10\\)</li>
+                                   <li>\\(\\lg(100) = 2\\) eftersom \\(10^2 = 100\\)</li>
+                                   <li>\\(\\lg(1000) = 3\\) eftersom \\(10^3 = 1000\\)</li>
+                                   <li>\\(\\lg(1) = 0\\) eftersom \\(10^0 = 1\\)</li>
+                               </ul>`
+                    },
+                    'B': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> \\(\\lg(100) \\neq 10\\)</p>
+                               <p>Du kanske tänkte att logaritmen av 100 har något med 10 att göra (vilket är delvis sant - basen ÄR 10),
+                               men logaritmen svarar på frågan: "10 upphöjt till VAD blir 100?"</p>
+                               <p>Svaret är 2, eftersom \\(10^2 = 100\\).</p>
+                               <p><strong>Rätt svar är A:</strong> \\(\\lg(100) = 2\\)</p>
+                               <p><strong>Notera:</strong> Om du istället hade frågat \\(\\lg(10)\\), då hade svaret varit 1.</p>`
+                    },
+                    'C': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> \\(\\lg(100) \\neq 100\\)</p>
+                               <p>Logaritmen ger INTE samma värde som indata. Tvärtom, logaritmen är oftast mycket mindre!</p>
+                               <p><strong>Rätt svar är A:</strong> \\(\\lg(100) = 2\\)</p>
+                               <p><strong>Förklaring:</strong> Logaritmen svarar på frågan "10 upphöjt till vad blir 100?"<br>
+                               Svaret är 2, eftersom \\(10^2 = 100\\).</p>
+                               <p><strong>Jämför:</strong> Exponenten (2) är mycket mindre än resultatet (100)!</p>`
+                    },
+                    'D': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> \\(\\lg(100) \\neq 1000\\)</p>
+                               <p>Du kanske blandade ihop med \\(\\lg(1000)\\), vilket faktiskt är 3 (inte 1000).</p>
+                               <p><strong>Rätt svar är A:</strong> \\(\\lg(100) = 2\\)</p>
+                               <p><strong>Hjälp att komma ihåg:</strong></p>
+                               <ul>
+                                   <li>\\(\\lg(10) = 1\\)</li>
+                                   <li>\\(\\lg(100) = 2\\)</li>
+                                   <li>\\(\\lg(1000) = 3\\)</li>
+                                   <li>Varje nolla ger ett extra i exponenten (10-potenser)!</li>
+                               </ul>`
+                    }
+                }
+            },
+            4: {
+                correct: 'A',
+                feedback: {
+                    'A': {
+                        correct: true,
+                        text: `<h4>✅ RÄTT SVAR!</h4>
+                               <p>Ja, substitution \\(t = \\lg(x)\\) är den bästa metoden!</p>
+                               <p><strong>Varför?</strong> Genom att byta ut \\(\\lg(x)\\) mot \\(t\\) blir uttrycket:</p>
+                               <p style="text-align: center;">\\(2t - 0.5t^2\\)</p>
+                               <p>Nu kan vi tydligt se att detta är ett <strong>andragradsuttryck</strong> i \\(t\\), vilket är mycket enklare att arbeta med!</p>
+                               <p><strong>Generell princip:</strong> När samma uttryck (här \\(\\lg(x)\\)) upprepas flera gånger, särskilt i olika potenser,
+                               är substitution ofta den bästa metoden.</p>
+                               <p><strong>Nästa steg:</strong> Faktorisera \\(2t - 0.5t^2 = t(2 - 0.5t)\\)</p>`
+                    },
+                    'B': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Logaritmlagarna (som \\(\\lg(ab) = \\lg(a) + \\lg(b)\\)) hjälper inte direkt här.</p>
+                               <p>Uttrycket \\(2\\lg(x) - 0.5(\\lg(x))^2\\) innehåller en KVADRAT av logaritmen, \\((\\lg(x))^2\\),
+                               vilket inte kan förenklas med vanliga logaritm lagar.</p>
+                               <p><strong>Rätt svar är A:</strong> Substitution \\(t = \\lg(x)\\) gör strukturen tydligare.</p>
+                               <p><strong>När logaritm lagar fungerar:</strong> \\(\\lg(x^2) = 2\\lg(x)\\), \\(\\lg(xy) = \\lg(x) + \\lg(y)\\), etc.
+                               Men INTE för \\((\\lg(x))^2\\)!</p>`
+                    },
+                    'C': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar</h4>
+                               <p><strong>Varför detta är fel:</strong> Att ta 10 upphöjt till båda sidor fungerar bara om vi har en EKVATION.</p>
+                               <p>Här har vi ett UTTRYCK som vi vill förenkla, inte en ekvation att lösa.</p>
+                               <p><strong>Rätt svar är A:</strong> Substitution \\(t = \\lg(x)\\) är bäst för att se strukturen.</p>
+                               <p><strong>När 10 upphöjt fungerar:</strong> Om vi hade ekvationen \\(\\lg(x) = 2\\) kan vi ta \\(10^{\\lg(x)} = 10^2\\)
+                               för att få \\(x = 100\\). Men det hjälper inte här!</p>`
+                    },
+                    'D': {
+                        correct: false,
+                        text: `<h4>❌ Fel svar (men inte helt fel!)</h4>
+                               <p><strong>Varför detta inte är bäst:</strong> Derivering kan användas om vi vill hitta EXTREMVÄRDEN,
+                               men inte för att FÖRENKLA uttrycket.</p>
+                               <p><strong>Rätt svar är A:</strong> Substitution \\(t = \\lg(x)\\) förenklar strukturen först.</p>
+                               <p><strong>När derivering används:</strong> Efter att vi förenklat till \\(f(t) = 2t - 0.5t^2\\) kan vi derivera
+                               för att hitta maximum: \\(f'(t) = 2 - t = 0 \\Rightarrow t = 2\\). Men det är ett senare steg!</p>
+                               <p><strong>Ordningen:</strong> Förenkla först (substitution), sedan analysera (derivera om behövs).</p>`
+                    }
+                }
             }
         };
 
-        let answeredQuestions = {1: false, 2: false};
+        let answeredQuestions = {1: false, 2: false, 3: false, 4: false};
 
         function checkAnswer(questionNum, selectedAnswer) {
             // Disable all buttons for this question
@@ -663,11 +1335,31 @@ x = 5</div>
 
             // Mark as answered
             answeredQuestions[questionNum] = true;
+
+            // Trigger MathJax to render the new content
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([feedbackElement]).catch((err) => console.log('MathJax error:', err));
+            }
         }
 
         function toggleSolution() {
             const solution = document.getElementById('solution-content');
             solution.classList.toggle('hidden');
+
+            // Trigger MathJax when solution is shown
+            if (!solution.classList.contains('hidden') && typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([solution]).catch((err) => console.log('MathJax error:', err));
+            }
+        }
+
+        function toggleSolution2() {
+            const solution = document.getElementById('solution-content-2');
+            solution.classList.toggle('hidden');
+
+            // Trigger MathJax when solution is shown
+            if (!solution.classList.contains('hidden') && typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([solution]).catch((err) => console.log('MathJax error:', err));
+            }
         }
     </script>
 </body>
