@@ -1,0 +1,25 @@
+När AI Möter Pedagogik: Kan Generativ AI Göra Gymnasiekunskap Tillgänglig för Alla?
+
+Det började med en enkel fråga: Vad händer om vi gör all den kunskap som lärs ut i våra gymnasier interaktiv och tillgänglig – inte bara under skoltiden, utan genom hela livet? 
+
+Jag bestämde mig för att börja med matematik. Inte för att jag tycker matematik är det viktigaste ämnet, utan för att det är tryggt. Till skillnad från samhällskunskap eller historia som förändras med tiden, förblir kvadratrötter och logaritmer desamma oavsett årtal. Ett perfekt första experiment.
+
+Men projektet blev snabbt mycket mer än matematik. Det blev en djupdykning i hur moderna AI-verktyg som Claude Code, Git, GitHub och specialiserade "subagenter" kan samarbeta för att skapa något värdefullt. Och jag ska vara ärlig: Det tog tid att förstå hur allt hänger ihop.
+
+Claude Code Desktop skapar automatiskt Git-branches men inte katalogstrukturer. CLAUDE.md fungerar som en kraftfull projektkoordinator, men kräver noggrann design. Permanenta subagenter kan specialiseras med unika roller – i mitt fall en "math-tutor" för pedagogiska förklaringar, en "problem-solver" för steg-för-steg lösningar, och en "exercise-creator" för att designa kompletta övningar. Men de måste designas rätt från början.
+
+Inlärningskurvan var brant. Men varje steg lärde mig något nytt, inte bara om verktygen utan om pedagogiken i sig. Det mest fascinerande? Att inse hur viktigt det är att inte bara visa rätt svar, utan att förklara varför fel svar är fel. Ett interaktivt quiz där eleven klickar på ett alternativ och får omedelbar feedback – en grön box när det är rätt, en orange box med pedagogisk förklaring när det är fel – det är inte bara teknik. Det är pedagogik i praktiken.
+
+Vi lär oss inte en gång för alla. Vi lär oss genom repetition, genom att se koncept från nya vinklar, genom att testa vår förståelse. Och här tror jag AI-verktyg kan göra verklig skillnad. Inte som ersättning för lärare – det vore absurt – utan som ett komplement som alltid är tillgängligt, alltid redo att förklara igen, på ett nytt sätt, tills det klickar.
+
+Visionen är större än matematik. Föreställ dig alla gymnasieämnen tillgängliga som interaktiva övningar. Fysik med simuleringar. Historia med interaktiva tidslinjer. Samhällskunskap med debatt-simuleringar. Allt öppet, tillgängligt och gratis. Kunskap som inte bara lever i klassrummet utan som kan användas genom hela livet.
+
+Är det lätt? Nej. Går det snabbt? Inte alltid. Men när det fungerar, när du ser en övning som ger omedelbar, pedagogisk feedback, när du inser att detta faktiskt kan hjälpa någon att förstå ett koncept de kämpat med – då känns det värt varenda commit, varenda branch-konflikt, varenda omdesign av en subagent.
+
+Projektet är öppen källkod och publicerat via GitHub Pages. Om du är nyfiken på att utforska hur det hela fungerar – tekniskt, pedagogiskt, och ärligt om både utmaningar och möjligheter – har jag skrivit en längre reflektion här:
+
+https://kentlundgren.github.io/AI/Matematik/kunskap_är_kul.html
+
+Och om du har erfarenhet av liknande projekt, eller tankar om hur AI kan användas i utbildning – hör gärna av dig. Jag lär mig fortfarande.
+
+#GenerativAI #Pedagogik #LivslångtLärande #ClaudeCode #ÖppenKällkod #Utbildning
