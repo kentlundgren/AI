@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide: Skapa Matematik Underkatalog | Claude Code Desktop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.15rem;
+            opacity: 0.9;
+        }
+
+        header a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        header a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.9rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .content-card p, .content-card li {
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .content-card ul, .content-card ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe0b2 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #ff9800;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: #e65100;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #2196f3;
+            margin: 1.5rem 0;
+        }
+
+        .info-box strong {
+            color: #0d47a1;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #4caf50;
+            margin: 1.5rem 0;
+        }
+
+        .success-box strong {
+            color: #1b5e20;
+        }
+
+        code {
+            background: #f5f5f5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d32f2f;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .command-box {
+            background: #2d2d2d;
+            color: #4caf50;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            border-left: 5px solid #4caf50;
+        }
+
+        .diagram {
+            background: #f5f7fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px dashed #667eea;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+
+        footer h3 {
+            color: #4ECDC4;
+            margin-bottom: 1rem;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .nav-section p {
+            margin: 0.3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            .step-number {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛠️ Guide: Skapa Matematik Underkatalog</h1>
+            <p class="subtitle">Steg-för-steg guide för Claude Code Desktop, Git och GitHub</p>
+            <a href="index.html">← Tillbaka till Matematik Startsidan</a>
+        </header>
+
+        <!-- INTRODUKTION -->
+        <div class="content-card">
+            <h2>📚 Vad Denna Guide Handlar Om</h2>
+            <p>
+                Denna guide förklarar hur du skapar en <strong>underkatalog</strong> i ett befintligt
+                GitHub-repository med hjälp av <strong>Claude Code desktop</strong>. Specifikt täcker vi:
+            </p>
+            <ul>
+                <li>Hur Claude Code desktop fungerar med Git och GitHub</li>
+                <li>Skillnaden mellan "environments" och projektkataloger</li>
+                <li>Hur man skapar en strukturerad projektkatalog (som <code>Matematik/</code>)</li>
+                <li>Hur man arbetar med permanenta agenter</li>
+                <li>Hur man publicerar till GitHub Pages</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>⚠️ Viktigt att förstå:</strong>
+                <p>
+                    Claude Code desktop fungerar <strong>annorlunda</strong> än Claude Code i Cursor.
+                    Environments skapar Git-branches, INTE kataloger automatiskt. Du måste explicit
+                    skapa projektkataloger själv!
+                </p>
+            </div>
+        </div>
+
+        <!-- FÖRSTÅELSE: CLAUDE CODE DESKTOP -->
+        <div class="content-card">
+            <h2>🧠 Förstå Claude Code Desktop</h2>
+
+            <h3>Environment vs. Projektkatalog</h3>
+
+            <div class="info-box">
+                <strong>🔑 Nyckelkoncept:</strong>
+                <ul>
+                    <li><strong>Environment:</strong> En Claude Code "konversation" som skapar en <code>claude/</code> Git-branch</li>
+                    <li><strong>Projektkatalog:</strong> En faktisk katalog (t.ex. <code>Matematik/</code>) som du måste skapa manuellt</li>
+                </ul>
+            </div>
+
+            <h3>När Du Skapar ett Environment</h3>
+            <p>Om du skapar ett environment som heter "Matematik" i Claude Code desktop:</p>
+
+            <ol>
+                <li><strong>Claude skapar:</strong> En Git-branch som <code>claude/math-problem-tutor-KwJRN</code></li>
+                <li><strong>Claude skapar INTE:</strong> En katalog som <code>/AI/Matematik/</code></li>
+                <li><strong>Du arbetar i:</strong> Root-katalogen (<code>/AI/</code>) om du inte skapar underkataloger</li>
+            </ol>
+
+            <div class="diagram">
+Environment "Matematik" skapar:
+
+Git:
+  ├── Branch: claude/math-problem-tutor-KwJRN ✅ (skapas automatiskt)
+  └── Working directory: /AI/ (root)
+
+Filsystem:
+  ├── /AI/Matematik/ ❌ (skapas INTE automatiskt)
+  └── Du måste skapa katalogen manuellt!
+            </div>
+
+            <h3>Git Remote Proxy</h3>
+            <p>Claude Code desktop använder en lokal proxy för Git-kommunikation:</p>
+
+            <div class="command-box">$ git remote -v
+origin  http://local_proxy@127.0.0.1:38440/git/kentlundgren/AI (fetch)
+origin  http://local_proxy@127.0.0.1:38440/git/kentlundgren/AI (push)</div>
+
+            <p>
+                Detta betyder att Claude Code automatiskt hanterar synkronisering med GitHub.
+                Du behöver inte konfigurera Git manuellt - det fungerar "ut-ur-lådan"!
+            </p>
+        </div>
+
+        <!-- STEG-FÖR-STEG GUIDE -->
+        <div class="content-card">
+            <h2>🚀 Steg-för-Steg: Skapa Matematik Underkatalog</h2>
+
+            <h3><span class="step-number">1</span> Verifiera Din Position</h3>
+            <p>Först, kontrollera att du är i rätt repository:</p>
+
+            <div class="command-box">$ pwd
+/home/user/AI
+
+$ git remote -v
+origin  http://local_proxy@127.0.0.1:38440/git/kentlundgren/AI (fetch)
+origin  http://local_proxy@127.0.0.1:38440/git/kentlundgren/AI (push)</div>
+
+            <p>
+                <strong>Verifiering:</strong> Du ska vara i <code>/AI/</code> root-katalogen och
+                remote ska peka mot <code>kentlundgren/AI</code>.
+            </p>
+
+            <h3><span class="step-number">2</span> Skapa Projektkatalogen</h3>
+            <p>Skapa <code>Matematik/</code> katalog med nödvändig struktur:</p>
+
+            <div class="command-box">$ mkdir -p Matematik/.claude/agents</div>
+
+            <p><strong>Förklaring:</strong></p>
+            <ul>
+                <li><code>mkdir -p</code>: Skapar katalogen och alla parent-kataloger</li>
+                <li><code>Matematik/</code>: Huvudprojektkatalogen</li>
+                <li><code>.claude/agents/</code>: Katalog för permanenta agenter</li>
+            </ul>
+
+            <div class="success-box">
+                <strong>✅ Resultat:</strong> Du har nu följande struktur:
+                <pre style="background: transparent; color: #1b5e20; padding: 0.5rem 0;">/AI/
+├── Matematik/
+│   └── .claude/
+│       └── agents/</pre>
+            </div>
+
+            <h3><span class="step-number">3</span> Skapa Permanenta Agenter</h3>
+            <p>
+                Skapa agentfiler i <code>.claude/agents/</code>. Varje agent är en Markdown-fil
+                med YAML frontmatter:
+            </p>
+
+            <p><strong>Exempel: math-tutor.md</strong></p>
+            <pre>---
+name: math-tutor
+description: Pedagogisk förklaring av matematiska koncept
+tools: Read, Grep, Glob, WebSearch, WebFetch
+model: sonnet
+permissionMode: default
+---
+
+# Math Tutor Agent
+
+Du är en erfaren matematiklärare...
+
+[Fullständig agentbeskrivning här]</pre>
+
+            <p>Skapa tre agenter:</p>
+            <ul>
+                <li><code>math-tutor.md</code> - Pedagogisk förklaring</li>
+                <li><code>problem-solver.md</code> - Steg-för-steg lösningar</li>
+                <li><code>exercise-creator.md</code> - Övningsdesign</li>
+            </ul>
+
+            <h3><span class="step-number">4</span> Skapa CLAUDE.md (Lokal)</h3>
+            <p>Skapa en projektspecifik <code>CLAUDE.md</code> i <code>Matematik/</code>:</p>
+
+            <div class="command-box">$ touch Matematik/CLAUDE.md</div>
+
+            <p>Denna fil ska:</p>
+            <ul>
+                <li>Referera till den överliggande <code>/AI/CLAUDE.md</code></li>
+                <li>Innehålla projektspecifika instruktioner</li>
+                <li>Beskriva permanenta agenter och deras roller</li>
+                <li>Dokumentera arbetsflöden och vanliga kommandon</li>
+            </ul>
+
+            <div class="info-box">
+                <strong>💡 CLAUDE.md Hierarki:</strong>
+                <ul>
+                    <li><strong>Överliggande:</strong> <code>/AI/CLAUDE.md</code> (generella best practices)</li>
+                    <li><strong>Lokal:</strong> <code>/AI/Matematik/CLAUDE.md</code> (projektspecifikt)</li>
+                </ul>
+                <p>Claude läser båda och kombinerar kontexten!</p>
+            </div>
+
+            <h3><span class="step-number">5</span> Skapa README.md</h3>
+            <p>Skapa teknisk dokumentation:</p>
+
+            <div class="command-box">$ touch Matematik/README.md</div>
+
+            <p>README.md ska innehålla:</p>
+            <ul>
+                <li>Projektöversikt och syfte</li>
+                <li>Beskrivning av permanenta agenter</li>
+                <li>Projektstruktur</li>
+                <li>Instruktioner för utvecklare</li>
+                <li>Länkar till live demo och GitHub</li>
+            </ul>
+
+            <h3><span class="step-number">6</span> Skapa index.html</h3>
+            <p>Skapa huvudsidan för GitHub Pages:</p>
+
+            <div class="command-box">$ touch Matematik/index.html</div>
+
+            <p>index.html ska vara:</p>
+            <ul>
+                <li>Pedagogisk genomgång för slutanvändare</li>
+                <li>Navigation till alla kursfiler (matte1.html, matte2.html, osv.)</li>
+                <li>Responsiv och mobilvänlig</li>
+                <li>Innehålla länkar till GitHub-repot</li>
+            </ul>
+
+            <h3><span class="step-number">7</span> Skapa Övningsfiler</h3>
+            <p>Skapa kursfiler med interaktiva quiz:</p>
+
+            <div class="command-box">$ touch Matematik/matte1.html
+$ touch Matematik/matte2.html
+$ touch Matematik/matte3.html
+$ touch Matematik/matte4.html
+$ touch Matematik/matte5.html</div>
+
+            <p>Varje fil ska följa formatet:</p>
+            <ol>
+                <li><strong>Quiz-sektion:</strong> 1-2 frågor med 4 alternativ och förklaringar</li>
+                <li><strong>Huvudproblem:</strong> Tydlig problemformulering</li>
+                <li><strong>Steg-för-steg lösning:</strong> Fullständig genomgång</li>
+                <li><strong>Footer navigation:</strong> Länkar till andra filer</li>
+            </ol>
+
+            <h3><span class="step-number">8</span> Kontrollera Strukturen</h3>
+            <p>Verifiera att allt är på plats:</p>
+
+            <div class="command-box">$ tree Matematik/
+Matematik/
+├── .claude/
+│   └── agents/
+│       ├── math-tutor.md
+│       ├── problem-solver.md
+│       └── exercise-creator.md
+├── CLAUDE.md
+├── README.md
+├── index.html
+├── matematikunderkatalog.html
+├── matte1.html
+├── matte2.html
+├── matte3.html
+├── matte4.html
+└── matte5.html</div>
+
+            <div class="success-box">
+                <strong>✅ Perfekt!</strong> Din projektstruktur är komplett.
+            </div>
+        </div>
+
+        <!-- GIT OCH GITHUB -->
+        <div class="content-card">
+            <h2>🌿 Git Branch-Hantering</h2>
+
+            <h3>Förstå Claude Code Branches</h3>
+            <p>Claude Code desktop skapar automatiskt branches med prefix <code>claude/</code>:</p>
+
+            <div class="command-box">$ git branch -a
+* claude/learn-claude-code-desktop-gBnkk  (nuvarande)
+  claude/math-problem-tutor-KwJRN
+  remotes/origin/main</div>
+
+            <p><strong>Branch-format:</strong> <code>claude/[beskrivning]-[session-id]</code></p>
+
+            <h3>Arbetsflöde</h3>
+
+            <ol>
+                <li>
+                    <strong>Development:</strong> Arbeta på <code>claude/</code> branch
+                    <div class="command-box">$ git status
+On branch claude/learn-claude-code-desktop-gBnkk</div>
+                </li>
+
+                <li>
+                    <strong>Commit ändringar:</strong>
+                    <div class="command-box">$ git add Matematik/
+$ git commit -m "Add Matematik project structure"</div>
+                </li>
+
+                <li>
+                    <strong>Push till remote:</strong>
+                    <div class="command-box">$ git push -u origin claude/learn-claude-code-desktop-gBnkk</div>
+                    <div class="highlight-box">
+                        <strong>⚠️ VIKTIGT:</strong> Branch-namnet måste börja med <code>claude/</code>
+                        och sluta med matchande session-id, annars får du 403 HTTP-fel!
+                    </div>
+                </li>
+
+                <li>
+                    <strong>Merge till main:</strong> När projektet är klart
+                    <div class="command-box">$ git checkout main
+$ git merge claude/learn-claude-code-desktop-gBnkk
+$ git push origin main</div>
+                </li>
+            </ol>
+
+            <h3>GitHub URL:er</h3>
+
+            <p>Efter push finns ditt projekt på:</p>
+            <ul>
+                <li><strong>Development branch:</strong> <code>https://github.com/kentlundgren/AI/tree/claude/learn-claude-code-desktop-gBnkk/Matematik</code></li>
+                <li><strong>Main branch (efter merge):</strong> <code>https://github.com/kentlundgren/AI/tree/main/Matematik</code></li>
+            </ul>
+        </div>
+
+        <!-- GITHUB PAGES -->
+        <div class="content-card">
+            <h2>🌐 Publicera med GitHub Pages</h2>
+
+            <h3><span class="step-number">1</span> Aktivera GitHub Pages</h3>
+            <ol>
+                <li>Gå till <code>https://github.com/kentlundgren/AI/settings/pages</code></li>
+                <li>Under "Source", välj: <strong>main</strong> branch</li>
+                <li>Välj: <strong>/ (root)</strong> folder</li>
+                <li>Klicka <strong>Save</strong></li>
+            </ol>
+
+            <h3><span class="step-number">2</span> Vänta på Deployment</h3>
+            <p>
+                GitHub bygger din sida automatiskt. Detta kan ta 1-5 minuter.
+                Du kan följa progress under "Actions" fliken.
+            </p>
+
+            <h3><span class="step-number">3</span> Besök Din Sida</h3>
+            <p>När deployment är klar är din sida tillgänglig på:</p>
+
+            <div class="success-box">
+                <strong>🌐 Live URL:</strong>
+                <p><code>https://kentlundgren.github.io/AI/Matematik/</code></p>
+                <p>
+                    GitHub Pages letar automatiskt efter <code>index.html</code> i katalogen,
+                    så du behöver inte specificera filnamn!
+                </p>
+            </div>
+
+            <h3>Testa Lokalt Först</h3>
+            <p>Innan du publicerar, testa sidan lokalt:</p>
+
+            <div class="command-box">$ cd Matematik
+$ python3 -m http.server 8000
+
+# Besök: http://localhost:8000</div>
+
+            <p>Detta startar en lokal webbserver så du kan se hur sidorna fungerar.</p>
+        </div>
+
+        <!-- ANVÄNDNING AV AGENTER -->
+        <div class="content-card">
+            <h2>🤖 Använda Permanenta Agenter</h2>
+
+            <h3>Aktivera Agenter i Claude Code</h3>
+            <p>När du har skapat agentfilerna i <code>.claude/agents/</code> kan du använda dem:</p>
+
+            <div class="info-box">
+                <strong>📝 Kommandoformat:</strong>
+                <p><code>"Använd [agent-namn] för att [uppgift]"</code></p>
+            </div>
+
+            <h3>Exempel på Användning</h3>
+
+            <h4>1. Skapa en övning</h4>
+            <div class="command-box">"Använd exercise-creator för att skapa en övning om kvadratkomplettering för Matte 2"</div>
+            <p><strong>Resultat:</strong> exercise-creator skapar quiz-frågor och övningsstruktur</p>
+
+            <h4>2. Lösa ett problem</h4>
+            <div class="command-box">"Använd problem-solver för att lösa ekvationen x² - 5x + 6 = 0"</div>
+            <p><strong>Resultat:</strong> problem-solver ger steg-för-steg lösning</p>
+
+            <h4>3. Förklara ett koncept</h4>
+            <div class="command-box">"Använd math-tutor för att förklara vad en derivata är"</div>
+            <p><strong>Resultat:</strong> math-tutor ger pedagogisk förklaring med exempel</p>
+
+            <h4>4. Kombinera agenter</h4>
+            <div class="command-box">"exercise-creator: Skapa övning om trigonometri
+problem-solver: Lös huvudproblemet
+math-tutor: Förklara varför sin²(x) + cos²(x) = 1"</div>
+            <p><strong>Resultat:</strong> Komplett övning med lösning och teoriförklaring</p>
+
+            <h3>Agentsamarbete</h3>
+            <p>Agenterna är designade för att arbeta tillsammans:</p>
+
+            <div class="diagram">
+┌─────────────────────┐
+│ exercise-creator    │
+│ Skapar struktur     │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ problem-solver      │
+│ Genererar lösning   │
+└──────────┬──────────┘
+           │
+           ▼
+┌─────────────────────┐
+│ math-tutor          │
+│ Granskar pedagogik  │
+└─────────────────────┘
+            </div>
+        </div>
+
+        <!-- FELSÖKNING -->
+        <div class="content-card">
+            <h2>🔧 Vanliga Problem och Lösningar</h2>
+
+            <h3>Problem 1: "403 Forbidden" vid git push</h3>
+            <div class="highlight-box">
+                <strong>Orsak:</strong> Branch-namnet följer inte Claude Code-formatet
+                <br>
+                <strong>Lösning:</strong> Använd <code>git push -u origin claude/[namn]-[id]</code>
+                där branch-namnet börjar med <code>claude/</code> och slutar med session-id.
+            </div>
+
+            <h3>Problem 2: "Matematik/ katalog finns inte"</h3>
+            <div class="highlight-box">
+                <strong>Orsak:</strong> Environment skapar inte automatiskt kataloger
+                <br>
+                <strong>Lösning:</strong> Skapa katalogen manuellt: <code>mkdir -p Matematik/.claude/agents</code>
+            </div>
+
+            <h3>Problem 3: "index.html visas inte på GitHub Pages"</h3>
+            <div class="highlight-box">
+                <strong>Orsak:</strong> Filen kanske inte är commitad till main branch
+                <br>
+                <strong>Lösning:</strong>
+                <ol>
+                    <li>Kontrollera: <code>git ls-tree main Matematik/index.html</code></li>
+                    <li>Om tom output, merge från development branch till main</li>
+                    <li>Push main: <code>git push origin main</code></li>
+                </ol>
+            </div>
+
+            <h3>Problem 4: "Agenter fungerar inte"</h3>
+            <div class="highlight-box">
+                <strong>Orsak:</strong> Felaktig YAML frontmatter i agentfiler
+                <br>
+                <strong>Lösning:</strong> Kontrollera att varje agent har korrekt format:
+                <pre style="background: #f5f5f5; color: #333; padding: 1rem; margin-top: 0.5rem;">---
+name: agent-namn
+description: Beskrivning
+tools: Read, Grep, Glob
+model: sonnet
+permissionMode: default
+---
+
+# Agent Content här</pre>
+            </div>
+        </div>
+
+        <!-- SAMMANFATTNING -->
+        <div class="content-card">
+            <h2>✅ Sammanfattning: Nyckelpunkter</h2>
+
+            <h3>Vad Du Lärt Dig</h3>
+            <ul>
+                <li>✅ Claude Code desktop environments skapar <strong>Git-branches</strong>, inte kataloger</li>
+                <li>✅ Du måste <strong>manuellt skapa</strong> projektkataloger (t.ex. <code>Matematik/</code>)</li>
+                <li>✅ Permanenta agenter placeras i <code>.claude/agents/</code> med YAML frontmatter</li>
+                <li>✅ CLAUDE.md kan vara <strong>hierarkisk</strong> (överliggande + lokal)</li>
+                <li>✅ Git branches följer formatet <code>claude/[namn]-[id]</code></li>
+                <li>✅ GitHub Pages aktiveras under Settings → Pages → main branch</li>
+            </ul>
+
+            <h3>Nästa Steg</h3>
+            <ol>
+                <li>Experimentera med att skapa fler övningar för Matte 2-5</li>
+                <li>Använd agenterna för att generera innehåll</li>
+                <li>Iterera baserat på vad som fungerar bra</li>
+                <li>Dokumentera dina lärdomar i README.md</li>
+                <li>Dela projektet med andra för feedback!</li>
+            </ol>
+
+            <div class="success-box">
+                <strong>🎉 Grattis!</strong>
+                <p>
+                    Du har nu en fullständig förståelse för hur Claude Code desktop fungerar
+                    med Git, GitHub och permanenta agenter. Du kan skapa välstrukturerade projekt
+                    som både är pedagogiska och tekniskt robusta!
+                </p>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="nav-grid">
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📄 Dokumentation</h4>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="CLAUDE.md">📋 CLAUDE.md</a></p>
+                    <p><a href="index.html">🏠 Startsidan</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">📚 Kurser</h4>
+                    <p><a href="matte1.html">Matematik 1</a></p>
+                    <p><a href="matte2.html">Matematik 2</a></p>
+                    <p><a href="matte3.html">Matematik 3</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🤖 Agenter</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 math-tutor</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 problem-solver</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 exercise-creator</a></p>
+                </div>
+
+                <div class="nav-section">
+                    <h4 style="color: #4ECDC4;">🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub Repository</a></p>
+                    <p><a href="../CLAUDE.md">📘 Överliggande CLAUDE.md</a></p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); opacity: 0.8; text-align: center;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Matematik Gymnasiet | Guide för Claude Code Desktop
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
