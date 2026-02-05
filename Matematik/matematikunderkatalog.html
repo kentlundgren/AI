@@ -701,6 +701,554 @@ permissionMode: default
             </div>
         </div>
 
+        <!-- UPPDATERA PROJEKTET MED NYA UPPGIFTER -->
+        <div class="content-card">
+            <h2>➕ Uppdatera Projektet med Nya Uppgifter</h2>
+            <p>
+                Nu när du har skapat grundstrukturen vill du troligen lägga till fler matematikuppgifter.
+                Här är olika workflows beroende på ändringens storlek.
+            </p>
+
+            <h3>Scenario 1: Lägga Till En Ny Övningsfil (t.ex. matte2.html)</h3>
+
+            <div class="step">
+                <h4>Steg 1: Be Claude Skapa Filen</h4>
+                <p>Du kan antingen:</p>
+                <ul>
+                    <li><strong>Använd agenter:</strong> "Använd exercise-creator för att skapa en matte2.html om [ämne]"</li>
+                    <li><strong>Direkt request:</strong> "Skapa en matte2.html fil med samma struktur som matte1.html men för [ämne]"</li>
+                </ul>
+
+                <p style="margin-top: 1rem;"><strong>Exempel:</strong></p>
+                <div class="command-box">"Skapa matte2.html med en övning om exponentialfunktioner.
+Använd samma struktur som matte1.html:
+- 2 quiz-frågor
+- Steg-för-steg lösning
+- Fördjupning
+- MathJax för formler"</div>
+            </div>
+
+            <div class="step">
+                <h4>Steg 2: Commit Ändringarna</h4>
+                <p>Be Claude committa (eller gör det själv i terminal):</p>
+                <div class="command-box">$ git add Matematik/matte2.html
+$ git commit -m "Add exponential functions exercise for Matte 2
+
+- Created interactive quiz with 2 questions
+- Step-by-step solution using MathJax
+- Added extension problems
+- Consistent styling with matte1.html
+
+https://claude.ai/code/session_XXXXX"
+
+$ git push origin claude/[branch-name]</div>
+            </div>
+
+            <div class="step">
+                <h4>Steg 3: Skapa Pull Request (Rekommenderat)</h4>
+                <p>
+                    För <strong>nya filer</strong> eller <strong>stora ändringar</strong>, skapa alltid en PR!
+                </p>
+                <div class="command-box">$ gh pr create \
+  --title "Add Matte 2: Exponential Functions" \
+  --body "New exercise file for Matte 2 covering exponential functions" \
+  --base main \
+  --head claude/[branch-name]</div>
+
+                <p style="margin-top: 1rem;"><strong>Varför PR?</strong></p>
+                <ul>
+                    <li>✅ Granska ändringar innan de går live på GitHub Pages</li>
+                    <li>✅ Testa att MathJax fungerar korrekt</li>
+                    <li>✅ Dokumenterad historik</li>
+                    <li>✅ Säkerhet: Ingen bruten kod på main</li>
+                </ul>
+            </div>
+
+            <h3>Scenario 2: Uppdatera Befintlig Fil (t.ex. lägga till uppgift i matte1.html)</h3>
+
+            <div class="info-box">
+                <strong>Detta är precis vad vi gjorde med logaritmuppgiften!</strong>
+                <p>Vi lade till MathJax och en ny logaritmövning i matte1.html.</p>
+            </div>
+
+            <div class="step">
+                <h4>Workflow för Uppdateringar</h4>
+
+                <p><strong>1. Gör ändringen:</strong></p>
+                <div class="command-box">"Lägg till en uppgift om kvadratrötter i matte1.html,
+samma format som logaritmuppgiften"</div>
+
+                <p style="margin-top: 1rem;"><strong>2. Commit och push:</strong></p>
+                <div class="command-box">$ git add Matematik/matte1.html
+$ git commit -m "Add square root exercise to matte1.html"
+$ git push origin claude/[branch-name]</div>
+
+                <p style="margin-top: 1rem;"><strong>3. Skapa PR (om stor ändring):</strong></p>
+                <div class="command-box">$ gh pr create \
+  --title "Add square root exercise to Matte 1" \
+  --body "..." \
+  --base main \
+  --head claude/[branch-name]</div>
+
+                <div class="highlight-box" style="margin-top: 1rem;">
+                    <strong>⚠️ När är PR lämplig?</strong>
+                    <ul>
+                        <li><strong>Alltid för nya filer</strong> (matte2.html, matte3.html, etc.)</li>
+                        <li><strong>För stora uppdateringar</strong> (+500 rader, nya features)</li>
+                        <li><strong>För strukturella ändringar</strong> (ny CSS, JavaScript-logik)</li>
+                        <li><strong>När du vill granska</strong> innan deploy till GitHub Pages</li>
+                    </ul>
+
+                    <strong>När kan du skippa PR:</strong>
+                    <ul>
+                        <li>Småfix (stavfel, formatering)</li>
+                        <li>Uppdatering av länkar</li>
+                        <li>Minor content additions (om du är säker på kvaliteten)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Scenario 3: Batch-Uppdatering (Skapa flera filer samtidigt)</h3>
+
+            <div class="step">
+                <h4>Exempel: Skapa matte2.html, matte3.html, matte4.html</h4>
+
+                <p><strong>1. Be Claude skapa alla filer:</strong></p>
+                <div class="command-box">"Skapa tre nya övningsfiler:
+- matte2.html: Exponentialfunktioner
+- matte3.html: Polynom
+- matte4.html: Vektorer
+
+Använd samma struktur som matte1.html"</div>
+
+                <p style="margin-top: 1rem;"><strong>2. Commit alla samtidigt:</strong></p>
+                <div class="command-box">$ git add Matematik/matte2.html Matematik/matte3.html Matematik/matte4.html
+$ git commit -m "Add exercises for Matte 2-4
+
+- matte2.html: Exponential functions with MathJax
+- matte3.html: Polynomial equations
+- matte4.html: Vector operations
+
+Each file includes quiz, solutions, and extensions"
+
+$ git push origin claude/[branch-name]</div>
+
+                <p style="margin-top: 1rem;"><strong>3. Skapa EN PR för alla:</strong></p>
+                <div class="command-box">$ gh pr create \
+  --title "Add exercises for Matte 2, 3, and 4" \
+  --body "Batch creation of three new exercise files..." \
+  --base main \
+  --head claude/[branch-name]</div>
+            </div>
+
+            <h3>Alternativ till PR: Direct Push till Main</h3>
+
+            <div class="highlight-box">
+                <strong>⚠️ VARNING:</strong> Direct push till main är INTE rekommenderat för detta projekt!
+                <p>Men för fullständighetens skull, här är hur det fungerar:</p>
+            </div>
+
+            <div class="step">
+                <h4>Direct Push (Använd ENDAST för tiny fixes)</h4>
+
+                <div class="command-box">$ git checkout main
+$ git pull origin main
+$ # Gör din ändring här
+$ git add [file]
+$ git commit -m "Tiny fix: ..."
+$ git push origin main</div>
+
+                <p style="margin-top: 1rem;"><strong>Nackdelar:</strong></p>
+                <ul>
+                    <li>❌ Ingen granskning</li>
+                    <li>❌ Om något går fel går det direkt live på GitHub Pages</li>
+                    <li>❌ Ingen dokumenterad review-process</li>
+                    <li>❌ Svårt att rollback</li>
+                </ul>
+
+                <p><strong>Fördelar:</strong></p>
+                <ul>
+                    <li>✅ Snabbare för tiny fixes (stavfel, etc.)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PULL REQUESTS: WORKFLOW OCH BEST PRACTICES -->
+        <div class="content-card">
+            <h2>🔀 Pull Requests: Workflow och Best Practices</h2>
+
+            <h3>Vad Är En Pull Request?</h3>
+            <p>
+                En <strong>Pull Request (PR)</strong> är en begäran att "dra in" (pull) dina ändringar
+                från en development-branch till en annan branch (ofta main).
+            </p>
+
+            <div class="info-box">
+                <strong>Analogin:</strong>
+                <p>Tänk dig att du har skrivit ett utkast (development branch) och nu vill du att någon
+                   ska granska det innan det publiceras i boken (main branch). PR är granskningsprocessen!</p>
+            </div>
+
+            <h3>Varför Använda Pull Requests?</h3>
+
+            <div class="step">
+                <h4>1. Code Review</h4>
+                <p>Du (eller andra) kan granska ändringarna på GitHub's webgränssnitt:</p>
+                <ul>
+                    <li>Se exakt vad som ändrats (diff)</li>
+                    <li>Kommentera på specifika rader</li>
+                    <li>Begära ändringar</li>
+                    <li>Godkänna när det ser bra ut</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>2. Testing & CI/CD</h4>
+                <p>PR kan trigga automatiska tester:</p>
+                <ul>
+                    <li>Lint checks (HTML-validering)</li>
+                    <li>Link checking</li>
+                    <li>Build verification</li>
+                    <li>(Detta projekt har inte CI/CD ännu, men kan läggas till)</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>3. Dokumentation</h4>
+                <p>PR skapar en permanent historik:</p>
+                <ul>
+                    <li>Vad ändrades och varför</li>
+                    <li>Diskussioner om design-beslut</li>
+                    <li>Koppling till issues/features</li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h4>4. Säkerhet</h4>
+                <p>Förhindrar att bruten kod går direkt live:</p>
+                <ul>
+                    <li>Main branch är alltid stabil</li>
+                    <li>GitHub Pages visar alltid fungerande innehåll</li>
+                    <li>Experimentering sker säkert på development branches</li>
+                </ul>
+            </div>
+
+            <h3>Hur Skapar Man En PR?</h3>
+
+            <div class="step">
+                <h4>Metod 1: Via gh CLI (Rekommenderat i Claude Code)</h4>
+
+                <p><strong>Basic PR:</strong></p>
+                <div class="command-box">$ gh pr create \
+  --title "Add logarithm exercise" \
+  --body "Adds comprehensive logarithm exercise with 4 solution methods" \
+  --base main \
+  --head claude/learn-claude-code-desktop-gBnkk</div>
+
+                <p style="margin-top: 1rem;"><strong>PR med längre beskrivning:</strong></p>
+                <div class="command-box">$ gh pr create \
+  --title "Add MathJax and logarithm exercise" \
+  --body "$(cat <<'EOF'
+## Changes
+- Added MathJax 3.x for mathematical notation
+- Created logarithm simplification exercise
+- 4 different solution methods (substitution, solving, derivative, graphing)
+- 2 new quiz questions with detailed feedback
+- Extension problems
+
+## Testing
+- [x] MathJax renders correctly
+- [x] Quiz interactions work
+- [x] Mobile responsive
+
+## Screenshots
+[Add screenshots if needed]
+EOF
+)" \
+  --base main \
+  --head claude/learn-claude-code-desktop-gBnkk</div>
+
+                <p style="margin-top: 1rem;"><strong>Efter PR skapas:</strong></p>
+                <div class="command-box"># Output:
+Creating pull request for claude/learn-claude-code-desktop-gBnkk into main in kentlundgren/AI
+
+https://github.com/kentlundgren/AI/pull/3</div>
+            </div>
+
+            <div class="step">
+                <h4>Metod 2: Via GitHub Web UI</h4>
+
+                <ol>
+                    <li>Push din branch: <code>git push origin claude/[branch-name]</code></li>
+                    <li>Gå till <code>https://github.com/kentlundgren/AI</code></li>
+                    <li>GitHub visar en gul banner: "Compare & pull request"</li>
+                    <li>Klicka på knappen</li>
+                    <li>Fyll i titel och beskrivning</li>
+                    <li>Välj base: <code>main</code> och compare: <code>claude/[branch-name]</code></li>
+                    <li>Klicka "Create pull request"</li>
+                </ol>
+            </div>
+
+            <h3>Granska och Merga PR</h3>
+
+            <div class="step">
+                <h4>På GitHub Web UI:</h4>
+
+                <ol>
+                    <li><strong>Öppna PR-länken:</strong> <code>https://github.com/kentlundgren/AI/pull/[nummer]</code></li>
+                    <li><strong>Granska "Files changed" tab:</strong>
+                        <ul>
+                            <li>Se alla ändringar (grön = tillagt, röd = borttaget)</li>
+                            <li>Kommentera på specifika rader om behövs</li>
+                        </ul>
+                    </li>
+                    <li><strong>Testa live (om möjligt):</strong>
+                        <ul>
+                            <li>GitHub kan deployas till preview environment</li>
+                            <li>Eller checka ut branchen lokalt och testa</li>
+                        </ul>
+                    </li>
+                    <li><strong>Merga PR:</strong>
+                        <ul>
+                            <li>Klicka "Merge pull request" (grön knapp)</li>
+                            <li>Välj merge-metod:
+                                <ul>
+                                    <li><strong>Merge commit:</strong> Behåller all historik (rekommenderat)</li>
+                                    <li><strong>Squash and merge:</strong> Kombinerar alla commits till en</li>
+                                    <li><strong>Rebase and merge:</strong> Linjär historik</li>
+                                </ul>
+                            </li>
+                            <li>Klicka "Confirm merge"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ta bort branch (valfritt):</strong>
+                        <ul>
+                            <li>GitHub erbjuder "Delete branch" efter merge</li>
+                            <li>Rekommenderat för att hålla repot rent</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h4>Via gh CLI:</h4>
+
+                <div class="command-box"># Se alla PR:s
+$ gh pr list
+
+# Granska en PR
+$ gh pr view 3
+
+# Merga en PR
+$ gh pr merge 3 --merge  # eller --squash, --rebase
+
+# Ta bort branch efter merge
+$ gh pr merge 3 --merge --delete-branch</div>
+            </div>
+
+            <h3>Best Practices för PR-Meddelanden</h3>
+
+            <div class="step">
+                <h4>God PR-Titel</h4>
+                <div class="command-box">✅ Good: "Add MathJax support and logarithm exercise"
+✅ Good: "Fix mobile responsiveness in matte1.html"
+✅ Good: "Update README with new exercises"
+
+❌ Bad: "Update"
+❌ Bad: "Fix stuff"
+❌ Bad: "Changes"</div>
+            </div>
+
+            <div class="step">
+                <h4>God PR-Beskrivning</h4>
+                <div class="command-box">## Changes
+- Added MathJax 3.x for mathematical notation
+- Created logarithm exercise with 4 solution methods
+- Added 2 quiz questions
+
+## Why
+To provide better mathematical notation and more
+comprehensive exercise examples.
+
+## Testing
+- [x] MathJax renders correctly
+- [x] Quiz interactions work
+- [x] Mobile responsive
+
+## Related
+- Closes #12
+- Related to #5</div>
+            </div>
+        </div>
+
+        <!-- CLAUDE CODE DESKTOP: TERMINAL OCH KOMMANDON -->
+        <div class="content-card">
+            <h2>💻 Claude Code Desktop: Terminal och Kommandon</h2>
+
+            <h3>Hur Fungerar Terminalen?</h3>
+
+            <div class="highlight-box">
+                <strong>⚠️ Viktigt att förstå:</strong>
+                <p>
+                    Claude Code desktop har <strong>INTE en interaktiv terminal</strong> som du kan skriva i direkt!
+                    Det är en webbaserad chat-gränssnitt där Claude kör kommandon åt dig.
+                </p>
+            </div>
+
+            <div class="step">
+                <h4>Så Fungerar Det</h4>
+
+                <p><strong>1. Du ber Claude köra kommandon:</strong></p>
+                <div class="command-box">"Kör git status"
+"Visa innehållet i Matematik-katalogen"
+"Skapa en ny fil matte2.html"
+"Commit och push ändringarna"</div>
+
+                <p style="margin-top: 1rem;"><strong>2. Claude använder Bash-verktyget:</strong></p>
+                <p>
+                    Claude har tillgång till ett <code>Bash</code>-verktyg som kör kommandon i bakgrunden.
+                    Du ser resultatet i chatten.
+                </p>
+
+                <p style="margin-top: 1rem;"><strong>3. Exempel på interaktion:</strong></p>
+                <div class="info-box">
+                    <p><strong>Du:</strong> "Kör git status"</p>
+                    <p><strong>Claude:</strong> [Kör Bash-verktyget]</p>
+                    <p><strong>Output:</strong></p>
+                    <pre style="background: #2d2d2d; color: #4caf50; padding: 1rem; border-radius: 5px;">On branch claude/learn-claude-code-desktop-gBnkk
+Your branch is up to date with 'origin/claude/learn-claude-code-desktop-gBnkk'.
+
+nothing to commit, working tree clean</pre>
+                </div>
+            </div>
+
+            <h3>Alternativ: Använd Extern Terminal</h3>
+
+            <p>
+                Om du vill köra kommandon själv (vilket rekommenderas för lärande!), öppna en extern terminal:
+            </p>
+
+            <div class="step">
+                <h4>På macOS:</h4>
+                <ol>
+                    <li>Öppna <strong>Terminal</strong> app (Cmd+Space, sök "Terminal")</li>
+                    <li>Navigera till projektkatalogen:
+                        <div class="command-box">$ cd /home/user/AI</div>
+                    </li>
+                    <li>Kör kommandon som vanligt:
+                        <div class="command-box">$ git status
+$ git log --oneline -5
+$ ls -la Matematik/</div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h4>På Windows:</h4>
+                <ol>
+                    <li>Öppna <strong>Git Bash</strong>, <strong>PowerShell</strong>, eller <strong>Windows Terminal</strong></li>
+                    <li>Navigera till projektkatalogen</li>
+                    <li>Kör Git-kommandon</li>
+                </ol>
+            </div>
+
+            <div class="step">
+                <h4>På Linux:</h4>
+                <ol>
+                    <li>Öppna din favoriteterminal (Ctrl+Alt+T)</li>
+                    <li>Navigera till projektet</li>
+                    <li>Kör kommandon</li>
+                </ol>
+            </div>
+
+            <h3>Vanliga Git-Kommandon Du Kan Köra Själv</h3>
+
+            <div class="step">
+                <h4>Status och Information</h4>
+                <div class="command-box"># Se status
+$ git status
+
+# Se commit-historik
+$ git log --oneline -10
+
+# Se vilken branch du är på
+$ git branch
+
+# Se skillnader (ändringar)
+$ git diff
+
+# Se remote URL
+$ git remote -v</div>
+            </div>
+
+            <div class="step">
+                <h4>Commit och Push</h4>
+                <div class="command-box"># Lägg till fil
+$ git add Matematik/matte2.html
+
+# Commit
+$ git commit -m "Add matte2.html"
+
+# Push till remote
+$ git push origin claude/[branch-name]</div>
+            </div>
+
+            <div class="step">
+                <h4>Pull Requests (via gh CLI)</h4>
+                <div class="command-box"># Installera gh CLI först (om inte installerat)
+# https://cli.github.com/
+
+# Skapa PR
+$ gh pr create --title "..." --body "..." --base main --head claude/[branch]
+
+# Lista PR:s
+$ gh pr list
+
+# Se en PR
+$ gh pr view 3
+
+# Merga en PR
+$ gh pr merge 3</div>
+            </div>
+
+            <h3>Hybrid-Approach: Best of Both Worlds</h3>
+
+            <div class="success-box">
+                <strong>💡 Rekommendation:</strong>
+                <p>Använd BÅDE Claude och extern terminal!</p>
+
+                <ul>
+                    <li><strong>Claude för:</strong> Skapa filer, skriva kod, komplex logik</li>
+                    <li><strong>Extern terminal för:</strong> Git-kommandon, inspektera status, lära dig</li>
+                </ul>
+
+                <p style="margin-top: 1rem;"><strong>Exempel workflow:</strong></p>
+                <ol>
+                    <li>Be Claude skapa matte2.html</li>
+                    <li>Öppna terminal och kör <code>git diff</code> för att se ändringarna</li>
+                    <li>Kör <code>git add</code> och <code>git commit</code> själv</li>
+                    <li>Kör <code>gh pr create</code> själv</li>
+                    <li>Granska PR på GitHub web UI</li>
+                    <li>Merga när du är nöjd</li>
+                </ol>
+            </div>
+
+            <h3>Troubleshooting: Terminal Hittar Inte Projektet</h3>
+
+            <div class="highlight-box">
+                <strong>Problem:</strong> Du navigerar till <code>/home/user/AI</code> men katalogen finns inte
+                <br><br>
+                <strong>Orsak:</strong> Claude Code desktop kan använda en annan sökväg beroende på OS
+                <br><br>
+                <strong>Lösning:</strong>
+                <ol>
+                    <li>Be Claude: "Kör pwd" för att se fullständig sökväg</li>
+                    <li>Använd den sökvägen i din terminal</li>
+                    <li>Eller: Öppna projektet i VS Code och använd den inbyggda terminalen</li>
+                </ol>
+            </div>
+        </div>
+
         <!-- FOOTER -->
         <footer>
             <h3>🔗 Projektnavigation</h3>
