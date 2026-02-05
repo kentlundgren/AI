@@ -1402,8 +1402,304 @@ x = 5</div>
             // Trigger MathJax when solution is shown
             if (!solution.classList.contains('hidden') && typeof MathJax !== 'undefined') {
                 MathJax.typesetPromise([solution]).catch((err) => console.log('MathJax error:', err));
+                // Draw graphs when solution is shown
+                drawGraph1();
+                drawGraph2();
             }
         }
+
+        // ========================================
+        // GRAPH DRAWING FUNCTIONS
+        // ========================================
+
+        function drawGraph1() {
+            const canvas = document.getElementById('graph1');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = 60;
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+
+            // Define the function f(x) = 2*lg(x) - 0.5*(lg(x))^2
+            function f(x) {
+                if (x <= 0) return null;
+                const lgx = Math.log10(x);
+                return 2 * lgx - 0.5 * lgx * lgx;
+            }
+
+            // Define x range: from 0.1 to 100000 (logarithmic scale makes sense)
+            const xMin = 0.1;
+            const xMax = 100000;
+            const yMin = -2;
+            const yMax = 3;
+
+            // Coordinate transformation functions
+            function toCanvasX(x) {
+                // Logarithmic scale for x
+                const logX = Math.log10(x);
+                const logXMin = Math.log10(xMin);
+                const logXMax = Math.log10(xMax);
+                return padding + ((logX - logXMin) / (logXMax - logXMin)) * (width - 2 * padding);
+            }
+
+            function toCanvasY(y) {
+                return height - padding - ((y - yMin) / (yMax - yMin)) * (height - 2 * padding);
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, toCanvasY(0));
+            ctx.lineTo(width - padding, toCanvasY(0));
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, height - padding);
+            ctx.stroke();
+
+            // Draw x-axis labels (logarithmic scale)
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            const xLabels = [0.1, 1, 10, 100, 1000, 10000, 100000];
+            xLabels.forEach(x => {
+                if (x >= xMin && x <= xMax) {
+                    const canvasX = toCanvasX(x);
+                    ctx.beginPath();
+                    ctx.moveTo(canvasX, toCanvasY(0) - 5);
+                    ctx.lineTo(canvasX, toCanvasY(0) + 5);
+                    ctx.stroke();
+                    ctx.fillText(x >= 1000 ? (x/1000 + 'k') : x.toString(), canvasX, toCanvasY(0) + 20);
+                }
+            });
+
+            // Draw y-axis labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let y = Math.ceil(yMin); y <= yMax; y++) {
+                const canvasY = toCanvasY(y);
+                ctx.beginPath();
+                ctx.moveTo(padding - 5, canvasY);
+                ctx.lineTo(padding + 5, canvasY);
+                ctx.stroke();
+                ctx.fillText(y.toString(), padding - 10, canvasY);
+            }
+
+            // Draw axis labels
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('x (logaritmisk skala)', width / 2, height - 20);
+
+            ctx.save();
+            ctx.translate(20, height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('f(x) = 2lg(x) - 0.5(lg(x))²', 0, 0);
+            ctx.restore();
+
+            // Draw the function curve
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            for (let logX = Math.log10(xMin); logX <= Math.log10(xMax); logX += 0.02) {
+                const x = Math.pow(10, logX);
+                const y = f(x);
+                if (y !== null && y >= yMin && y <= yMax) {
+                    const canvasX = toCanvasX(x);
+                    const canvasY = toCanvasY(y);
+                    if (firstPoint) {
+                        ctx.moveTo(canvasX, canvasY);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(canvasX, canvasY);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Mark special points
+            // Zero at x=1
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(1), toCanvasY(0), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('(1, 0)', toCanvasX(1), toCanvasY(0) - 15);
+
+            // Maximum at x=100
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(100), toCanvasY(2), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.fillText('(100, 2)', toCanvasX(100), toCanvasY(2) - 15);
+
+            // Zero at x=10000
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(10000), toCanvasY(0), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.fillText('(10000, 0)', toCanvasX(10000), toCanvasY(0) + 20);
+        }
+
+        function drawGraph2() {
+            const canvas = document.getElementById('graph2');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = 60;
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, width, height);
+
+            // Define the function g(t) = 2t - 0.5t²
+            function g(t) {
+                return 2 * t - 0.5 * t * t;
+            }
+
+            // Define t range
+            const tMin = -1;
+            const tMax = 5;
+            const yMin = -2;
+            const yMax = 3;
+
+            // Coordinate transformation functions
+            function toCanvasX(t) {
+                return padding + ((t - tMin) / (tMax - tMin)) * (width - 2 * padding);
+            }
+
+            function toCanvasY(y) {
+                return height - padding - ((y - yMin) / (yMax - yMin)) * (height - 2 * padding);
+            }
+
+            // Draw axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, toCanvasY(0));
+            ctx.lineTo(width - padding, toCanvasY(0));
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(toCanvasX(0), padding);
+            ctx.lineTo(toCanvasX(0), height - padding);
+            ctx.stroke();
+
+            // Draw t-axis labels
+            ctx.fillStyle = '#333';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            for (let t = Math.ceil(tMin); t <= tMax; t++) {
+                const canvasX = toCanvasX(t);
+                ctx.beginPath();
+                ctx.moveTo(canvasX, toCanvasY(0) - 5);
+                ctx.lineTo(canvasX, toCanvasY(0) + 5);
+                ctx.stroke();
+                ctx.fillText(t.toString(), canvasX, toCanvasY(0) + 20);
+            }
+
+            // Draw y-axis labels
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            for (let y = Math.ceil(yMin); y <= yMax; y++) {
+                const canvasY = toCanvasY(y);
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(0) - 5, canvasY);
+                ctx.lineTo(toCanvasX(0) + 5, canvasY);
+                ctx.stroke();
+                ctx.fillText(y.toString(), toCanvasX(0) - 10, canvasY);
+            }
+
+            // Draw axis labels
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('t = lg(x)', width / 2, height - 20);
+
+            ctx.save();
+            ctx.translate(20, height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('g(t) = 2t - 0.5t²', 0, 0);
+            ctx.restore();
+
+            // Draw the parabola
+            ctx.strokeStyle = '#764ba2';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            for (let t = tMin; t <= tMax; t += 0.02) {
+                const y = g(t);
+                if (y >= yMin && y <= yMax) {
+                    const canvasX = toCanvasX(t);
+                    const canvasY = toCanvasY(y);
+                    if (firstPoint) {
+                        ctx.moveTo(canvasX, canvasY);
+                        firstPoint = false;
+                    } else {
+                        ctx.lineTo(canvasX, canvasY);
+                    }
+                }
+            }
+            ctx.stroke();
+
+            // Mark special points
+            // Zero at t=0 (corresponds to x=1)
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(0), toCanvasY(0), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('t=0 (x=1)', toCanvasX(0), toCanvasY(0) - 15);
+
+            // Maximum at t=2 (corresponds to x=100)
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(2), toCanvasY(2), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.fillText('t=2 (x=100)', toCanvasX(2), toCanvasY(2) - 15);
+
+            // Zero at t=4 (corresponds to x=10000)
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(toCanvasX(4), toCanvasY(0), 6, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.fillText('t=4 (x=10⁴)', toCanvasX(4), toCanvasY(0) + 20);
+
+            // Draw vertex form annotation
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(toCanvasX(2), padding);
+            ctx.lineTo(toCanvasX(2), height - padding);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#28a745';
+            ctx.font = 'bold 11px Arial';
+            ctx.fillText('Symmetrilinje: t=2', toCanvasX(2), padding + 20);
+        }
+
+        // Draw graphs when page loads (if solution is already visible)
+        window.addEventListener('load', function() {
+            // Graphs will be drawn when solution is toggled
+        });
     </script>
 </body>
 </html>
