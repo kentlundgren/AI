@@ -36,6 +36,9 @@ Du är specialist på att designa pedagogiska matematikövningar för svensk gym
 
 ## Quiz-Design Metodik
 
+⚠️ **KRITISKT: Quiz MÅSTE vara interaktiva med JavaScript!**
+Se `math-tutor.md` för fullständiga tekniska krav.
+
 ### Fråga 1: Förkunskapskontroll
 Kontrollera att eleven har nödvändiga grundkunskaper
 
@@ -164,22 +167,53 @@ D) Ta kvadratroten av båda sidor
     </section>
 
     <section id="quiz">
-        <h2>Förberedande Quiz</h2>
+        <h2>💡 Förberedande Quiz</h2>
+        <p>Aktivera dina förkunskaper innan vi börjar!</p>
 
-        <div class="quiz-question" id="q1">
+        <!-- QUIZ FRÅGA 1 -->
+        <div class="quiz-question">
             <h3>Fråga 1: [Fråga om förkunskap]</h3>
+            <p>[Kontextbeskrivning om behövs]</p>
+
             <div class="options">
-                <button onclick="checkAnswer(1, 'A')">A) [Alternativ]</button>
-                <button onclick="checkAnswer(1, 'B')">B) [Alternativ]</button>
-                <button onclick="checkAnswer(1, 'C')">C) [Alternativ]</button>
-                <button onclick="checkAnswer(1, 'D')">D) [Alternativ]</button>
+                <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                    A) [Alternativ A text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                    B) [Alternativ B text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                    C) [Alternativ C text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                    D) [Alternativ D text]
+                </button>
             </div>
-            <div id="feedback1" class="feedback"></div>
+
+            <div id="feedback1" class="feedback hidden"></div>
         </div>
 
-        <div class="quiz-question" id="q2">
+        <!-- QUIZ FRÅGA 2 -->
+        <div class="quiz-question">
             <h3>Fråga 2: [Fråga om strategi]</h3>
-            <!-- Samma struktur -->
+            <p>[Kontextbeskrivning]</p>
+
+            <div class="options">
+                <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                    A) [Alternativ A text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                    B) [Alternativ B text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                    C) [Alternativ C text]
+                </button>
+                <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                    D) [Alternativ D text]
+                </button>
+            </div>
+
+            <div id="feedback2" class="feedback hidden"></div>
         </div>
     </section>
 
@@ -208,12 +242,50 @@ D) Ta kvadratroten av båda sidor
     </footer>
 
     <script>
-        function checkAnswer(questionNum, selected) {
-            // Quiz-logik här
+        // Quiz feedback data - SE math-tutor.md FÖR KOMPLETT EXEMPEL!
+        const quizData = {
+            1: {
+                correct: 'A',  // Rätt svar för fråga 1
+                feedback: {
+                    'A': { correct: true, text: `<h4>✅ RÄTT SVAR!</h4><p>[Förklaring]</p>` },
+                    'B': { correct: false, text: `<h4>❌ Fel svar</h4><p><strong>Varför fel:</strong> [Förklaring]</p>` },
+                    'C': { correct: false, text: `<h4>❌ Fel svar</h4><p><strong>Varför fel:</strong> [Förklaring]</p>` },
+                    'D': { correct: false, text: `<h4>❌ Fel svar</h4><p><strong>Varför fel:</strong> [Förklaring]</p>` }
+                }
+            },
+            2: {
+                correct: 'B',  // Rätt svar för fråga 2
+                feedback: {
+                    // Samma struktur som ovan
+                }
+            }
+        };
+
+        function checkAnswer(questionNum, selectedAnswer) {
+            // Get feedback element
+            const feedbackElement = document.getElementById(`feedback${questionNum}`);
+            
+            // Disable all buttons for this question
+            const quizContainer = feedbackElement.closest('.quiz-question');
+            const buttons = quizContainer.querySelectorAll('.option-btn');
+            buttons.forEach(btn => btn.disabled = true);
+
+            const data = quizData[questionNum];
+            const isCorrect = selectedAnswer === data.correct;
+
+            // Show feedback
+            feedbackElement.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackElement.innerHTML = data.feedback[selectedAnswer].text;
+
+            // Trigger MathJax if used
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([feedbackElement]).catch((err) => console.log('MathJax error:', err));
+            }
         }
 
         function toggleSolution() {
-            // Visa/dölj lösning
+            const solution = document.getElementById('solution-content');
+            solution.style.display = solution.style.display === 'none' ? 'block' : 'none';
         }
     </script>
 </body>
@@ -238,12 +310,33 @@ D) Ta kvadratroten av båda sidor
 ## Kvalitetskontroll
 
 Innan en övning är klar:
+
+### Pedagogiska Krav
 - [ ] Är lärandemålen tydliga?
 - [ ] Matchar quiz-frågorna förkunskaper och strategi?
 - [ ] Har varje fel svar en pedagogisk förklaring?
 - [ ] Är huvudproblemet lagom svårt för målgruppen?
 - [ ] Finns det en komplett lösning?
+
+### Tekniska Krav
 - [ ] Är HTML-koden korrekt och responsiv?
+- [ ] **⚠️ KRITISKT: Quiz-interaktivitet fungerar!**
+  - [ ] Klicka på RÄTT svar → Grön feedback med ✅
+  - [ ] Klicka på FEL svar → Orange feedback med ❌ och förklaring
+  - [ ] Knappar inaktiveras efter klick
+  - [ ] MathJax renderas korrekt (om formler finns)
+
+### Testinstruktioner
+
+**Testa alltid lokalt innan publicering:**
+```bash
+# Från Matematik-katalogen
+python3 -m http.server 8000
+# Besök http://localhost:8000/[filnamn].html
+# Klicka på VARJE svaralternativ i VARJE quiz-fråga
+```
+
+**Påminn användaren att testa!** Quiz som inte fungerar är värdelösa pedagogiskt.
 
 ## Exempel på Användning
 
