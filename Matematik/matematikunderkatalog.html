@@ -973,10 +973,55 @@ git checkout -b fix/typo-in-matte1</div>
 
                 <strong>I Cursor:</strong>
                 <ol>
-                    <li>☑️ Fetch remote: <code>git fetch origin</code></li>
+                    <li>☑️ Fetch remote: <code>git fetch origin --verbose</code></li>
                     <li>☑️ Checka ut branchen: <code>git checkout claude/branch-name</code></li>
                     <li>☑️ Fortsätt arbeta</li>
                 </ol>
+
+                <div class="highlight-box" style="margin-top: 1rem;">
+                    <strong>💡 Varför <code>--verbose</code>?</strong>
+                    <p>
+                        <strong>Verbose</strong> betyder "utförlig" på engelska. Flaggan <code>--verbose</code> 
+                        (eller kort: <code>-v</code>) gör att Git visar <strong>detaljerad output</strong> om vad som händer.
+                    </p>
+
+                    <p style="margin-top: 0.8rem;"><strong>Problem med bara <code>git fetch origin</code>:</strong></p>
+                    <ul>
+                        <li>❌ Om allt redan är synkat får du <strong>ingen output alls</strong></li>
+                        <li>❌ Det ser ut som att kommandot "hänger" eller inte gör något</li>
+                        <li>❌ Du vet inte om det faktiskt kördes eller om något gick fel</li>
+                    </ul>
+
+                    <p style="margin-top: 0.8rem;"><strong>Fördelar med <code>git fetch origin --verbose</code>:</strong></p>
+                    <ul>
+                        <li>✅ Du ser exakt vad som händer (POST git-upload-pack, antal bytes)</li>
+                        <li>✅ Du får bekräftelse: <code>= [up to date] main -&gt; origin/main</code></li>
+                        <li>✅ Om nya branches finns ser du dem listas</li>
+                        <li>✅ Du vet att kommandot faktiskt kördes</li>
+                    </ul>
+
+                    <p style="margin-top: 0.8rem;"><strong>Exempel från verklig körning:</strong></p>
+                    <img src="git_fetch_origin_--verbose.jpg" 
+                         alt="Jämförelse mellan git fetch origin --verbose (med output) och git fetch origin (utan synlig output)" 
+                         style="width: 100%; max-width: 800px; border: 2px solid #667eea; border-radius: 8px; margin-top: 0.5rem; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    
+                    <p style="margin-top: 0.8rem; font-size: 0.95em; font-style: italic;">
+                        <strong>Bilden visar:</strong> Med <code>--verbose</code> (överst) får du tydlig feedback om att main är uppdaterad. 
+                        Utan <code>--verbose</code> (nederst) ser det ut som att inget händer!
+                    </p>
+
+                    <div class="success-box" style="margin-top: 1rem; background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+                        <strong>💡 Tips:</strong>
+                        <p style="margin-bottom: 0;">
+                            Gör <code>--verbose</code> till en vana! Det gäller även andra Git-kommandon:
+                        </p>
+                        <ul style="margin-top: 0.5rem;">
+                            <li><code>git pull origin main --verbose</code></li>
+                            <li><code>git push origin branch-name --verbose</code></li>
+                            <li><code>git clone repo-url --verbose</code></li>
+                        </ul>
+                    </div>
+                </div>
 
                 <strong>Efter att du är klar:</strong>
                 <ol>
