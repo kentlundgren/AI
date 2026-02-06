@@ -221,6 +221,267 @@ math-tutor: Förklara varför sin²(x) + cos²(x) = 1"
 
 ---
 
+## 🔢 Skapa Nya Mattetal
+
+Detta projekt använder en standardiserad struktur för alla mattetal. Följ dessa steg för att skapa ett nytt mattetal som följer samma kvalitetsnivå som befintliga filer.
+
+### Struktur för Ett Mattetal
+
+Varje mattetal (matte1.html, matte2.html, etc.) består av:
+
+1. **HTML Header med MathJax**
+   - Meta tags för charset och viewport
+   - MathJax-konfiguration för matematiska formler
+   - CSS med lila gradient-tema (konsistent design)
+
+2. **Lärandemål och Förkunskaper**
+   - Tydliga lärandemål (bullet points)
+   - Lista över nödvändiga förkunskaper
+
+3. **2 Quiz-frågor** (relaterade till huvuduppgiften)
+   - 4 svarsalternativ per fråga (A, B, C, D)
+   - Interaktiv feedback med `checkAnswer()` JavaScript-funktion
+   - Pedagogiska förklaringar för både rätt och fel svar
+   - MathJax-formler i feedback
+
+4. **Huvuduppgift** med verklig kontext
+   - Tydlig problemformulering
+   - Praktisk tillämpning eller scenario
+   - Relevant för kursnivån
+
+5. **Fyra Lösningsmetoder** (före steg-för-steg lösning)
+   - Metod A: Den bästa metoden (markerad med ⭐)
+   - Metod B: Näst bästa metoden (markerad med ⭐)
+   - Metod C och D: Alternativa metoder
+   - Fördelar och nackdelar för varje metod
+   - Gridlayout med färgkodning (grön=bäst, blå=näst bäst, grå=övriga)
+
+6. **Tips-sektion** (interaktiv med toggle-knapp)
+   - 3-4 tips på olika nivåer (allmänt → specifikt → verifiering)
+   - Gul/orange färgschema
+   - `toggleTips()` JavaScript-funktion
+
+7. **Vanliga Fel-sektion**
+   - 3 vanliga misstag med pedagogiska förklaringar
+   - Vad som händer när man gör felet
+   - Hur man undviker det
+   - Röd/orange färgschema
+
+8. **Grafisk Presentation** (interaktiv canvas eller SVG)
+   - Canvas-baserad graf med JavaScript
+   - `toggleGraph()` och `drawGraph()` funktioner
+   - Tydliga axlar, skalning och markeringar
+   - Markera kritiska punkter (max/min, nollställen, etc.)
+
+9. **Steg-för-Steg Lösning** (5-stegs struktur)
+   - **Steg 1: Förstå** - Givet, sökt, begränsningar
+   - **Steg 2: Planera** - Strategival
+   - **Steg 3: Genomföra (Metod A)** - FULL genomgång av bästa metoden
+   - **Steg 4: Genomföra (Metod B)** - FULL genomgång av näst bästa metoden
+   - **Steg 5: Kontrollera och Slutsats** - Verifiering och slutsvar
+   - `toggleSolution()` JavaScript-funktion
+
+10. **Fördjupning** (frivillig)
+    - Extra utmaningar eller frågor
+    - Kopplingar till andra ämnen
+
+11. **Footer med Navigation**
+    - Länkar till andra kurser (matte1-5)
+    - Markera "Du är här" för aktuell kurs
+    - Länkar till README, GitHub, agenter
+
+### Prompt-mall för Att Skapa Nytt Mattetal
+
+När du vill skapa ett nytt mattetal, använd följande prompt-struktur:
+
+```
+Skapa en komplett HTML-fil för [KURS] med följande specifikationer:
+
+**Ämne:** [t.ex. Trigonometriska ekvationer, Vektorgeometri, Gränsvärden]
+
+**Problem:** [Kort beskrivning av huvudproblemet]
+
+**Kontext:** [Verklig tillämpning eller scenario som gör problemet relevant]
+
+**Använd följande struktur:**
+
+1. HTML Header med MathJax (samma setup som matte2.html)
+
+2. Lärandemål och förkunskaper
+
+3. 2 Quiz-frågor (relaterade till problemet):
+   - Fråga 1: [Beskriv fråga om förkunskaper]
+     - A) [Alternativ]
+     - B) [Alternativ] ✅
+     - C) [Alternativ]
+     - D) [Alternativ]
+
+   - Fråga 2: [Beskriv fråga om metodik]
+     - A) [Alternativ]
+     - B) [Alternativ] ✅
+     - C) [Alternativ]
+     - D) [Alternativ]
+
+4. Huvuduppgift med tydlig problemformulering
+
+5. Fyra Lösningsmetoder (med färgkodning):
+   - ⭐ Metod A: [beskrivning] - BÄST
+   - ⭐ Metod B: [beskrivning] - NÄST BÄST
+   - Metod C: [beskrivning]
+   - Metod D: [beskrivning]
+
+6. Tips-sektion (interaktiv toggle):
+   - Tip 1: [Allmänt tips]
+   - Tip 2: [Specifikt tips]
+   - Tip 3: [Verifieringstips]
+
+7. Vanliga Fel-sektion:
+   - Fel 1: [Beskrivning + hur man undviker]
+   - Fel 2: [Beskrivning + hur man undviker]
+   - Fel 3: [Beskrivning + hur man undviker]
+
+8. Grafisk Presentation (canvas med JavaScript):
+   - Beskriv vad som ska visualiseras
+   - Vilka punkter ska markeras
+   - Axlar och skalning
+
+9. Steg-för-Steg Lösning (5 steg):
+   - Förstå → Planera → Genomföra (A) → Genomföra (B) → Kontrollera
+   - FULL genomgång av båda bästa metoderna
+
+10. Footer med projektnavigation (kopiera från matte2.html, uppdatera "Du är här")
+
+Följ HTML-struktur, CSS-klasser och JavaScript-funktioner från matte2.html.
+Använd samma lila gradient-tema och responsiv design.
+```
+
+### Tekniska Krav
+
+**CSS-klasser som MÅSTE finnas:**
+- `.content-card` - Huvudkort för varje sektion
+- `.quiz-question` - Quiz-container
+- `.option-btn` - Quiz-svarsknapp
+- `.feedback`, `.feedback.correct`, `.feedback.incorrect` - Feedback
+- `.methods-grid` - Grid för lösningsmetoder
+- `.method-card`, `.method-card.best`, `.method-card.second-best` - Metodkort
+- `.tips-box` - Tips-container
+- `.error-box` - Fel-container
+- `.toggle-btn` - Toggle-knapp
+- `.hidden-content` - Dold innehåll
+- `.step` - Steg i lösningen
+- `.footer-grid` - Footer-layout
+
+**JavaScript-funktioner som MÅSTE finnas:**
+- `checkAnswer(questionNum, answer)` - Hanterar quiz-svar
+- `toggleTips()` - Visar/döljer tips
+- `toggleGraph()` - Visar/döljer graf
+- `drawGraph()` - Ritar canvas-graf (anpassad per mattetal)
+- `toggleSolution()` - Visar/döljer lösning
+
+**MathJax-konfiguration:**
+```javascript
+MathJax = {
+    tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['$$', '$$']],
+        processEscapes: true
+    }
+};
+```
+
+### Checklista innan Publicering
+
+Innan en ny mattetal-fil publiceras, gå igenom denna checklista:
+
+#### Innehåll
+- [ ] Quiz-frågorna testar relevanta förkunskaper och metodik
+- [ ] Alla 4 quiz-alternativ har pedagogiska förklaringar
+- [ ] Huvudproblemet är lagom svårt för målgruppen
+- [ ] Fyra lösningsmetoder är tydligt beskrivna
+- [ ] Tips ger progressiv vägledning (inte hela lösningen)
+- [ ] Vanliga fel är verkligt relevanta för ämnet
+- [ ] Steg-för-steg lösningen är fullständig (båda bästa metoderna)
+
+#### Interaktivitet ⚠️ KRITISKT
+- [ ] **Quiz-interaktivitet fungerar:**
+  - [ ] Klicka på RÄTT svar → Grön feedback visas med ✅
+  - [ ] Klicka på FEL svar → Orange feedback visas med ❌ och förklaring
+  - [ ] Knappar inaktiveras efter klick (ingen dubbel-klick möjlig)
+  - [ ] Feedback innehåller tydlig pedagogisk förklaring
+  - [ ] MathJax renderas korrekt i feedback
+- [ ] **"Visa Tips"-knapp** visar/döljer tips-sektion
+- [ ] **"Visa Graf"-knapp** visar/döljer graf OCH ritar graf korrekt
+- [ ] **"Visa Lösning"-knapp** visar/döljer steg-för-steg lösning
+- [ ] **Canvas-graf** ritas korrekt vid första visning
+- [ ] **Canvas-graf** dupliceras inte vid upprepade klick
+
+#### Design och Layout
+- [ ] Responsiv design fungerar på mobil (grid kollapsar till 1 kolumn)
+- [ ] Lila gradient-tema är konsistent med andra filer
+- [ ] Footer-navigation är korrekt med "Du är här"-markering
+- [ ] Alla CSS-klasser är definierade och används korrekt
+
+#### Matematisk Korrekthet
+- [ ] All matematik är korrekt verifierad
+- [ ] MathJax renderar alla formler korrekt
+- [ ] Inga "\(" eller "$$" synliga i texten (betyder MathJax-fel)
+- [ ] Enhetlighet i notation (t.ex. lg vs log, × vs · för multiplikation)
+
+#### Testa Lokalt
+```bash
+# Från Matematik-katalogen
+python3 -m http.server 8000
+# Besök http://localhost:8000/matteX.html
+```
+- [ ] Öppna filen i webbläsare
+- [ ] Klicka på alla quiz-svar och verifiera feedback
+- [ ] Testa alla toggle-knappar
+- [ ] Kontrollera graf på olika skärmstorlekar
+- [ ] Testa på mobil (Chrome DevTools → Toggle device toolbar)
+
+### Vanliga Fel att Undvika
+
+**Quiz-implementering:**
+- ❌ Glömma `onclick="checkAnswer(questionNum, 'X')"` på knappar
+- ❌ Felaktigt feedback-id (ska vara `feedback1`, `feedback2`, etc.)
+- ❌ Saknar JavaScript `checkAnswer()`-funktion
+- ❌ Saknar CSS-klasser `.feedback.correct` och `.feedback.incorrect`
+- ❌ Knappar inaktiveras inte efter klick
+
+**Canvas-graf:**
+- ❌ Glömmer att rensa canvas innan omritning (ger duplicerade grafer)
+- ❌ Ingen kontroll för att graf endast ritas en gång
+- ❌ Fel skalning (grafen går utanför canvas)
+- ❌ Saknar tydliga markeringar för kritiska punkter
+
+**MathJax:**
+- ❌ Glömmer att trigga MathJax.typesetPromise efter dynamiskt innehåll
+- ❌ Använder enkel backslash istället för dubbel (ska vara `\\(` inte `\(`)
+- ❌ Blandar inline och display math felaktigt
+
+### Exempelstruktur: matte2.html
+
+Se `matte2.html` som referens för:
+- Quiz-system med `quizData`-objekt och `checkAnswer()`-funktion
+- Toggle-knappar för tips, graf och lösning
+- `methods-grid` layout med färgkodning
+- Tips-section och error-box styling
+- Canvas graph implementation med `drawVolumeGraph()`
+- 5-stegs lösningsstruktur med MathJax
+- Footer med "Du är här: Matte 2"-markering
+
+### Arbetsflöde för Att Skapa Nytt Mattetal
+
+1. **Bestäm ämne och problem** enligt läroplan
+2. **Använd prompt-mallen** ovan
+3. **Generera HTML-fil** (antingen manuellt eller med agent)
+4. **Testa lokalt** enligt checklista
+5. **Fixa eventuella buggar** (särskilt quiz-interaktivitet)
+6. **Commit till git** med beskrivande meddelande
+7. **Push till GitHub** för publicering på GitHub Pages
+
+---
+
 ## 📖 Läroplan-Koppling (Svensk Gymnasieskola)
 
 ### Matematik 1 (100p)
