@@ -146,6 +146,27 @@
             font-size: 1rem;
         }
 
+        .course-card.disabled {
+            background: linear-gradient(135deg, #b0b0b0 0%, #808080 100%);
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .course-card.disabled:hover {
+            transform: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .coming-soon {
+            background: rgba(255, 152, 0, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
         .agent-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -324,6 +345,22 @@
                 Varje kurs innehåller quiz-frågor och steg-för-steg lösningar anpassade för nivån.
             </p>
 
+            <div class="highlight-box" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-left: 5px solid #2196F3;">
+                <strong>🎓 Se översikt över alla konkreta matteuppgifter:</strong>
+                <p style="margin-top: 0.5rem;">
+                    Besök vår huvudmeny för en komplett översikt med kortlayout som visar exakt vilka
+                    uppgifter som finns i varje kurs. Perfekt för att få en snabb överblick!
+                </p>
+                <p style="margin-top: 1rem; text-align: center;">
+                    👉 <a href="https://kentlundgren.github.io/AI/Matematik/fem_matteuppgifter.html"
+                       style="color: #1565c0; font-weight: bold; font-size: 1.1rem; text-decoration: none;
+                              border-bottom: 2px solid #2196F3; padding: 0.5rem 1rem; display: inline-block;
+                              background: white; border-radius: 5px;">
+                        Gå till Huvudmeny med Alla Övningar
+                    </a>
+                </p>
+            </div>
+
             <div class="course-grid">
                 <a href="matte1.html" class="course-card">
                     <h3>Matematik 1</h3>
@@ -337,18 +374,20 @@
                     <h3>Matematik 3</h3>
                     <p>Polynom, komplexa tal</p>
                 </a>
-                <a href="matte4.html" class="course-card">
+                <div class="course-card disabled">
                     <h3>Matematik 4</h3>
                     <p>Vektorer, matriser, 3D-geometri</p>
-                </a>
-                <a href="matte5.html" class="course-card">
+                    <div class="coming-soon">🚧 Kommer snart</div>
+                </div>
+                <div class="course-card disabled">
                     <h3>Matematik 5</h3>
                     <p>Differentialekvationer, serier</p>
-                </a>
+                    <div class="coming-soon">🚧 Kommer snart</div>
+                </div>
             </div>
 
             <p style="margin-top: 1.5rem; font-style: italic; color: #666;">
-                <strong>OBS:</strong> Övningar läggs till successivt. Börja med Matematik 1 för att se exempel!
+                <strong>Status:</strong> Matematik 1-3 är tillgängliga nu. Matematik 4-5 läggs till successivt.
             </p>
         </div>
 
@@ -603,11 +642,12 @@
 
                 <div class="nav-section">
                     <h4>📚 Kurser</h4>
-                    <p><a href="matte1.html">Matematik 1</a></p>
-                    <p><a href="matte2.html">Matematik 2</a></p>
-                    <p><a href="matte3.html">Matematik 3</a></p>
-                    <p><a href="matte4.html">Matematik 4</a></p>
-                    <p><a href="matte5.html">Matematik 5</a></p>
+                    <p><a href="fem_matteuppgifter.html">🎓 Huvudmeny (Översikt)</a></p>
+                    <p><a href="matte1.html">📐 Matematik 1</a></p>
+                    <p><a href="matte2.html">📊 Matematik 2</a></p>
+                    <p><a href="matte3.html">🔢 Matematik 3</a></p>
+                    <p style="opacity: 0.6;">📐 Matematik 4 (Kommer snart)</p>
+                    <p style="opacity: 0.6;">🎯 Matematik 5 (Kommer snart)</p>
                 </div>
 
                 <div class="nav-section">
