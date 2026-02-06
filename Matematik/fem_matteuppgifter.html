@@ -82,6 +82,27 @@
             box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
         }
 
+        .exercise-card.disabled {
+            background: #f5f5f5;
+            opacity: 0.6;
+            cursor: not-allowed;
+            border-top-color: #999;
+        }
+
+        .exercise-card.disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .exercise-card.disabled .card-number {
+            color: #999;
+        }
+
+        .exercise-card.disabled .start-btn {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
         .card-number {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -164,6 +185,48 @@
             opacity: 0.8;
         }
 
+        /* Tooltip styling för fredagsquiz-länk */
+        .tooltip-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-link .tooltip-text {
+            visibility: hidden;
+            width: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: left;
+            border-radius: 10px;
+            padding: 1rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .tooltip-link .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: #764ba2 transparent transparent transparent;
+        }
+
+        .tooltip-link:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
@@ -226,21 +289,23 @@
                 <button class="start-btn">Starta uppgift →</button>
             </a>
 
-            <!-- Matte 4: Vektorgeometri -->
-            <a href="matte4.html" class="exercise-card">
+            <!-- Matte 4: Vektorgeometri (Kommer snart) -->
+            <div class="exercise-card disabled">
                 <div class="card-number">📐 Matte 4</div>
                 <h3>Vektorgeometri i 3D</h3>
                 <p class="card-description">Kortaste avståndet - Punkt till linje i rymden. Utforska vektorer och geometri i tre dimensioner.</p>
-                <button class="start-btn">Starta uppgift →</button>
-            </a>
+                <p style="color: #ff9800; font-weight: bold; margin-top: 1rem;">🚧 Kommer snart</p>
+                <button class="start-btn" disabled>Inte tillgänglig än</button>
+            </div>
 
-            <!-- Matte 5: Gränsvärden -->
-            <a href="matte5.html" class="exercise-card">
+            <!-- Matte 5: Gränsvärden (Kommer snart) -->
+            <div class="exercise-card disabled">
                 <div class="card-number">🎯 Matte 5</div>
                 <h3>Gränsvärden och L'Hôpitals Regel</h3>
                 <p class="card-description">Obestämd form - När x→0. Använd avancerade metoder för att beräkna komplexa gränsvärden.</p>
-                <button class="start-btn">Starta uppgift →</button>
-            </a>
+                <p style="color: #ff9800; font-weight: bold; margin-top: 1rem;">🚧 Kommer snart</p>
+                <button class="start-btn" disabled>Inte tillgänglig än</button>
+            </div>
         </div>
     </main>
 
@@ -265,6 +330,13 @@
                 <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">🌐 Externa Länkar</h4>
                 <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub Repository</a></p>
                 <p><a href="https://kentlundgren.github.io/AI/Matematik/" target="_blank">🌍 Live Demo</a></p>
+                <p class="tooltip-link">
+                    <a href="https://kentlundgren.github.io/quiz/0/" target="_blank">🏛️ Fredagsquiz</a>
+                    <span class="tooltip-text">
+                        <strong>Fredagsquiz - Simrishamns kommun</strong><br><br>
+                        En samling interaktiva quiz för att lära känna Simrishamns kommun. Skapad med samma AI-verktyg (Claude 4 och Cursor) som detta matematikprojekt. Varje fredag ett nytt quiz om kultur, historia, ekonomi och organisation!
+                    </span>
+                </p>
             </div>
         </div>
 
