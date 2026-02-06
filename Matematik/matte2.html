@@ -1287,6 +1287,48 @@ lg(100) = 2
                         text: '<h4>❌ Inte bäst</h4><p>Att plotta är BRA för intuition, men inte den mest exakta metoden.</p><p><strong>Bäst:</strong> Använd andraderivatatestet (f\'\'(a) < 0) för bevis, plotta för verifiering!</p>'
                     }
                 }
+            },
+            3: {
+                correct: 'A',
+                feedback: {
+                    'A': {
+                        correct: true,
+                        text: '<h4>✅ RÄTT!</h4><p>\\(\\lg(100)\\) betyder "10 upphöjt till vad blir 100?"</p><p>Eftersom \\(10^2 = 100\\), så är \\(\\lg(100) = 2\\)</p><p><strong>Minnesregel:</strong> \\(\\lg(10^n) = n\\)</p>'
+                    },
+                    'B': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Du har blandat ihop logaritmen med själva talet!</p><p>\\(\\lg(100)\\) FRÅGAR "10 upphöjt till vad blir 100?", och svaret är 2 (inte 10).</p><p><strong>Rätt:</strong> \\(\\lg(100) = 2\\) eftersom \\(10^2 = 100\\)</p>'
+                    },
+                    'C': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>100 är ARGUMENTET till logaritmen, inte värdet!</p><p>\\(\\lg(100)\\) betyder "10 upphöjt till VAD blir 100?" Svaret är 2, eftersom \\(10^2 = 100\\).</p>'
+                    },
+                    'D': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>1000 = \\(10^3\\), så \\(\\lg(1000) = 3\\), inte \\(\\lg(100)\\).</p><p><strong>Rätt:</strong> \\(\\lg(100) = \\lg(10^2) = 2\\)</p>'
+                    }
+                }
+            },
+            4: {
+                correct: 'A',
+                feedback: {
+                    'A': {
+                        correct: true,
+                        text: '<h4>✅ RÄTT!</h4><p>Eftersom vi har \\((\\lg(x))^2\\) är det SMART att sätta \\(t = \\lg(x)\\).</p><p>Då blir uttrycket: \\(2t - 0.5t^2\\), vilket är mycket enklare att se strukturen på!</p><p><strong>Substitution är nyckeln</strong> när exponenten är UTANFÖR logaritmen.</p>'
+                    },
+                    'B': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Logaritmlagarna fungerar när exponenten är INUTI logaritmen: \\(\\lg(x^2) = 2\\lg(x)\\)</p><p>Men här har vi \\((\\lg(x))^2\\) - exponenten är UTANFÖR! Då fungerar INTE logaritmlagarna direkt.</p><p><strong>Rätt:</strong> Använd substitution \\(t = \\lg(x)\\)</p>'
+                    },
+                    'C': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Detta skulle ge \\(x = 10^{...}\\) vilket inte förenklar uttrycket.</p><p><strong>Rätt:</strong> Använd substitution \\(t = \\lg(x)\\) för att se strukturen tydligare: \\(2t - 0.5t^2\\)</p>'
+                    },
+                    'D': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Vi vill FÖRENKLA uttrycket, inte derivera det!</p><p>Derivatan kan användas senare för att hitta maximum, men först måste vi förstå strukturen.</p><p><strong>Rätt:</strong> Sätt \\(t = \\lg(x)\\) och förenkla till \\(2t - 0.5t^2\\)</p>'
+                    }
+                }
             }
         };
 
@@ -1331,6 +1373,32 @@ lg(100) = 2
             graph.classList.toggle('hidden-content');
             if (!graph.classList.contains('hidden-content')) {
                 drawVolumeGraph();
+            }
+        }
+
+        function toggleSolution2() {
+            const solution = document.getElementById('solution-content-2');
+            solution.classList.toggle('solution-content');
+            solution.classList.toggle('hidden');
+            if (!solution.classList.contains('hidden')) {
+                // Draw both logarithm graphs when solution is shown
+                setTimeout(() => {
+                    drawLogarithmGraph1();
+                    drawLogarithmGraph2();
+                }, 100);
+                if (typeof MathJax !== 'undefined') {
+                    MathJax.typesetPromise([solution]).catch((err) => console.log(err));
+                }
+            }
+        }
+
+        function toggleSolution2a() {
+            const solution = document.getElementById('solution-content-2a');
+            solution.classList.toggle('hidden');
+            if (!solution.classList.contains('hidden')) {
+                if (typeof MathJax !== 'undefined') {
+                    MathJax.typesetPromise([solution]).catch((err) => console.log(err));
+                }
             }
         }
 
@@ -1424,6 +1492,271 @@ lg(100) = 2
             ctx.fillStyle = '#28a745';
             ctx.font = 'bold 16px Arial';
             ctx.fillText('Max: (5, 2000)', maxXPos + 15, maxYPos - 10);
+        }
+
+        // Draw logarithm graph 1: f(x) = 2lg(x) - 0.5(lg(x))²
+        function drawLogarithmGraph1() {
+            const canvas = document.getElementById('graph1');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 60;
+            const graphWidth = canvas.width - 2 * padding;
+            const graphHeight = canvas.height - 2 * padding;
+
+            // Axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.stroke();
+
+            // Function f(x) = 2*lg(x) - 0.5*(lg(x))²
+            const f = (x) => {
+                if (x <= 0) return 0;
+                const lgX = Math.log10(x);
+                return 2 * lgX - 0.5 * lgX * lgX;
+            };
+
+            // X range: 0.1 to 100000 (logarithmic scale display points)
+            const xMin = 0.1;
+            const xMax = 100000;
+            const yMin = -2;
+            const yMax = 3;
+
+            // Logarithmic scale for x-axis
+            const xLogMin = Math.log10(xMin);
+            const xLogMax = Math.log10(xMax);
+            const xLogScale = graphWidth / (xLogMax - xLogMin);
+            const yScale = graphHeight / (yMax - yMin);
+
+            // Draw function
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            for (let logX = xLogMin; logX <= xLogMax; logX += 0.05) {
+                const x = Math.pow(10, logX);
+                const y = f(x);
+                const xPos = padding + (logX - xLogMin) * xLogScale;
+                const yPos = canvas.height - padding - (y - yMin) * yScale;
+
+                if (firstPoint) {
+                    ctx.moveTo(xPos, yPos);
+                    firstPoint = false;
+                } else {
+                    ctx.lineTo(xPos, yPos);
+                }
+            }
+            ctx.stroke();
+
+            // Mark special points
+            // Zero at x=1
+            const x1 = 1;
+            const x1Pos = padding + (Math.log10(x1) - xLogMin) * xLogScale;
+            const y1Pos = canvas.height - padding - (f(x1) - yMin) * yScale;
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(x1Pos, y1Pos, 6, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Zero at x=10000
+            const x2 = 10000;
+            const x2Pos = padding + (Math.log10(x2) - xLogMin) * xLogScale;
+            const y2Pos = canvas.height - padding - (f(x2) - yMin) * yScale;
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(x2Pos, y2Pos, 6, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Maximum at x=100
+            const x3 = 100;
+            const x3Pos = padding + (Math.log10(x3) - xLogMin) * xLogScale;
+            const y3Pos = canvas.height - padding - (f(x3) - yMin) * yScale;
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(x3Pos, y3Pos, 8, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.fillText('x', canvas.width - padding + 10, canvas.height - padding + 5);
+            ctx.fillText('f(x)', padding - 50, padding - 10);
+
+            // X-axis ticks (logarithmic)
+            ctx.font = '12px Arial';
+            const xTicks = [1, 10, 100, 1000, 10000];
+            xTicks.forEach(x => {
+                const xPos = padding + (Math.log10(x) - xLogMin) * xLogScale;
+                ctx.fillText(x, xPos - 15, canvas.height - padding + 20);
+                // Small tick mark
+                ctx.beginPath();
+                ctx.moveTo(xPos, canvas.height - padding);
+                ctx.lineTo(xPos, canvas.height - padding + 5);
+                ctx.stroke();
+            });
+
+            // Y-axis ticks
+            for (let y = yMin; y <= yMax; y += 1) {
+                const yPos = canvas.height - padding - (y - yMin) * yScale;
+                ctx.fillText(y.toFixed(0), padding - 30, yPos + 5);
+                // Small tick mark
+                ctx.beginPath();
+                ctx.moveTo(padding - 5, yPos);
+                ctx.lineTo(padding, yPos);
+                ctx.stroke();
+            }
+
+            // Labels for special points
+            ctx.fillStyle = '#dc3545';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText('x=1', x1Pos - 10, y1Pos - 10);
+            ctx.fillText('x=10000', x2Pos - 30, y2Pos - 10);
+
+            ctx.fillStyle = '#28a745';
+            ctx.fillText('Max: x=100', x3Pos + 10, y3Pos - 10);
+        }
+
+        // Draw logarithm graph 2: g(t) = 2t - 0.5t² (parabola)
+        function drawLogarithmGraph2() {
+            const canvas = document.getElementById('graph2');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 60;
+            const graphWidth = canvas.width - 2 * padding;
+            const graphHeight = canvas.height - 2 * padding;
+
+            // Axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.stroke();
+
+            // Function g(t) = 2t - 0.5t²
+            const g = (t) => 2 * t - 0.5 * t * t;
+
+            const tMin = -1;
+            const tMax = 5;
+            const yMin = -2;
+            const yMax = 3;
+
+            const tScale = graphWidth / (tMax - tMin);
+            const yScale = graphHeight / (yMax - yMin);
+
+            // Draw function
+            ctx.strokeStyle = '#764ba2';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            let firstPoint = true;
+            for (let t = tMin; t <= tMax; t += 0.05) {
+                const y = g(t);
+                const xPos = padding + (t - tMin) * tScale;
+                const yPos = canvas.height - padding - (y - yMin) * yScale;
+
+                if (firstPoint) {
+                    ctx.moveTo(xPos, yPos);
+                    firstPoint = false;
+                } else {
+                    ctx.lineTo(xPos, yPos);
+                }
+            }
+            ctx.stroke();
+
+            // Mark special points
+            // Zero at t=0
+            const t1 = 0;
+            const t1Pos = padding + (t1 - tMin) * tScale;
+            const y1Pos = canvas.height - padding - (g(t1) - yMin) * yScale;
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(t1Pos, y1Pos, 6, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Zero at t=4
+            const t2 = 4;
+            const t2Pos = padding + (t2 - tMin) * tScale;
+            const y2Pos = canvas.height - padding - (g(t2) - yMin) * yScale;
+            ctx.fillStyle = '#dc3545';
+            ctx.beginPath();
+            ctx.arc(t2Pos, y2Pos, 6, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Maximum at t=2
+            const t3 = 2;
+            const t3Pos = padding + (t3 - tMin) * tScale;
+            const y3Pos = canvas.height - padding - (g(t3) - yMin) * yScale;
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(t3Pos, y3Pos, 8, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Dashed line to maximum
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(t3Pos, canvas.height - padding);
+            ctx.lineTo(t3Pos, y3Pos);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Labels
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.fillText('t = lg(x)', canvas.width - padding - 20, canvas.height - padding + 20);
+            ctx.fillText('g(t)', padding - 50, padding - 10);
+
+            // T-axis ticks
+            ctx.font = '14px Arial';
+            for (let t = 0; t <= 5; t += 1) {
+                const xPos = padding + (t - tMin) * tScale;
+                ctx.fillText(t, xPos - 5, canvas.height - padding + 20);
+                // Small tick mark
+                ctx.strokeStyle = '#333';
+                ctx.beginPath();
+                ctx.moveTo(xPos, canvas.height - padding);
+                ctx.lineTo(xPos, canvas.height - padding + 5);
+                ctx.stroke();
+            }
+
+            // Y-axis ticks
+            for (let y = yMin; y <= yMax; y += 1) {
+                const yPos = canvas.height - padding - (y - yMin) * yScale;
+                ctx.fillText(y.toFixed(0), padding - 30, yPos + 5);
+                // Small tick mark
+                ctx.beginPath();
+                ctx.moveTo(padding - 5, yPos);
+                ctx.lineTo(padding, yPos);
+                ctx.stroke();
+            }
+
+            // Labels for special points
+            ctx.fillStyle = '#dc3545';
+            ctx.font = 'bold 12px Arial';
+            ctx.fillText('t=0', t1Pos - 10, y1Pos + 20);
+            ctx.fillText('t=4', t2Pos - 10, y2Pos + 20);
+
+            ctx.fillStyle = '#28a745';
+            ctx.font = 'bold 14px Arial';
+            ctx.fillText('Max: t=2', t3Pos + 10, y3Pos - 10);
+            ctx.fillText('g(2)=2', t3Pos + 10, y3Pos + 10);
         }
     </script>
 </body>
