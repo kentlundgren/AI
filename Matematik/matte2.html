@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematik 2 - Derivata och Optimering | Matematik Gymnasiet</title>
+
+    <!-- MathJax for mathematical notation -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .level {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        header .nav-links {
+            margin-top: 1rem;
+        }
+
+        header .nav-links a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        header .nav-links a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .content-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .content-card h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-card h3 {
+            color: #764ba2;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .content-card ul, .content-card ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-card li {
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-statement {
+            background: linear-gradient(135deg, #e8f0fe 0%, #f0e8fe 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .quiz-question {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 5px solid #4ECDC4;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #667eea;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .option-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1.5rem;
+            border-radius: 8px;
+            animation: fadeIn 0.5s;
+        }
+
+        .feedback.hidden {
+            display: none;
+        }
+
+        .feedback.correct {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            color: #155724;
+        }
+
+        .feedback.incorrect {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            color: #856404;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .method-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-top: 4px solid #6c757d;
+        }
+
+        .method-card.best {
+            border-top-color: #28a745;
+            background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
+        }
+
+        .method-card.second-best {
+            border-top-color: #17a2b8;
+            background: linear-gradient(135deg, #d1ecf1 0%, #e1f5fe 100%);
+        }
+
+        .method-card h3 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .method-card.best h3 {
+            color: #28a745;
+        }
+
+        .method-card.second-best h3 {
+            color: #17a2b8;
+        }
+
+        .method-benefit {
+            color: #28a745;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .method-drawback {
+            color: #dc3545;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .tips-box {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffe0b2 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #ff9800;
+            margin: 1rem 0;
+        }
+
+        .tips-box h4 {
+            color: #e65100;
+            margin-bottom: 0.5rem;
+        }
+
+        .error-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid #f44336;
+            margin: 1rem 0;
+        }
+
+        .error-box h4 {
+            color: #c62828;
+            margin-bottom: 0.5rem;
+        }
+
+        .toggle-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 1rem 0;
+        }
+
+        .toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .hidden-content {
+            display: none;
+        }
+
+        canvas {
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            margin: 1rem 0;
+            max-width: 100%;
+            background: white;
+        }
+
+        .step {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .step h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            border-radius: 10px;
+            margin-top: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        footer h3 {
+            margin-bottom: 1rem;
+            color: #4ECDC4;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin: 0.3rem 0;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+
+        .current-page {
+            font-weight: bold;
+            background: rgba(78, 205, 196, 0.3) !important;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .content-card {
+                padding: 1.5rem;
+            }
+
+            header .nav-links a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+
+            .methods-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Matematik 2 - Derivata och Optimering</h1>
+            <p class="level">Nivå: Matematik 2 (Gymnasiet)</p>
+            <div class="nav-links">
+                <a href="fem_matteuppgifter.html">← Tillbaka till översikten</a>
+                <a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub</a>
+            </div>
+        </header>
+
+        <!-- LÄRANDEMÅL -->
+        <div class="content-card">
+            <h2>🎯 Lärandemål</h2>
+            <p>Efter denna övning ska du kunna:</p>
+            <ul>
+                <li>Förstå vad en derivata representerar (förändringshastighet)</li>
+                <li>Sätta upp en volymfunktion baserat på geometriska förutsättningar</li>
+                <li>Använda derivata för att hitta extrempunkter (maximum och minimum)</li>
+                <li>Kontrollera att en kritisk punkt är ett maximum med andraderivatatestet</li>
+                <li>Tolka resultatet i en praktisk kontext</li>
+            </ul>
+
+            <h3>Förkunskaper</h3>
+            <p>Du bör känna till:</p>
+            <ul>
+                <li>Grundläggande algebra och ekvationslösning</li>
+                <li>Volymen för en låda: V = längd × bredd × höjd</li>
+                <li>Vad en funktion är och hur man plottar grafer</li>
+                <li>Grundläggande deriveringsregler (potensregeln)</li>
+            </ul>
+        </div>
+
+        <!-- QUIZ SEKTION -->
+        <div class="content-card">
+            <h2>💡 Förberedande Quiz</h2>
+            <p>Innan vi börjar med huvuduppgiften, låt oss aktivera dina förkunskaper!</p>
+
+            <!-- QUIZ FRÅGA 1 -->
+            <div class="quiz-question">
+                <h3>Fråga 1: Vad betyder det att derivatan är noll vid en punkt?</h3>
+                <p>När vi har en funktion f(x) och f'(a) = 0, vad betyder det?</p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(1, 'A')">
+                        A) Funktionen är noll vid x = a
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'B')">
+                        B) Funktionen har en toppunkt eller bottenpunkt vid x = a
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'C')">
+                        C) Funktionen är konstant överallt
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(1, 'D')">
+                        D) Funktionen är odefinierad vid x = a
+                    </button>
+                </div>
+
+                <div id="feedback1" class="feedback hidden"></div>
+            </div>
+
+            <!-- QUIZ FRÅGA 2 -->
+            <div class="quiz-question">
+                <h3>Fråga 2: Hur kontrollerar vi att en kritisk punkt är ett maximum?</h3>
+                <p>Vi har hittat att f'(a) = 0. Hur vet vi om x = a ger ett maximum?</p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(2, 'A')">
+                        A) Kontrollera att f'(a) = 0
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'B')">
+                        B) Kontrollera att f''(a) < 0 (andraderivatatestet)
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'C')">
+                        C) Kontrollera att f''(a) > 0
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(2, 'D')">
+                        D) Plotta funktionen och titta
+                    </button>
+                </div>
+
+                <div id="feedback2" class="feedback hidden"></div>
+            </div>
+        </div>
+
+        <!-- HUVUDPROBLEM -->
+        <div class="content-card">
+            <h2>📝 Huvuduppgift: Öppen Låda - Maximal Volym</h2>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong><br>
+                Du har en kvadratisk plåt som är 30 cm × 30 cm. Du ska vika upp en öppen låda genom att:
+                <ol>
+                    <li>Klippa bort lika stora kvadrater från alla fyra hörnen</li>
+                    <li>Vika upp kanterna för att bilda en låda</li>
+                </ol>
+                <strong>Fråga:</strong> Hur stora ska kvadraterna vara (sidlängd x cm) för att lådan ska få maximal volym?
+                <br><br>
+                <em>Praktisk kontext:</em> Detta är en verklig designutmaning inom förpackningsindustrin - hur maximerar man volymen med given material?
+            </div>
+        </div>
+
+        <!-- FYRA LÖSNINGSMETODER -->
+        <section class="content-card">
+            <h2>🔍 Fyra Olika Lösningsmetoder</h2>
+            <p>Det finns flera sätt att angripa detta problem. Vi visar fyra metoder och bedömer deras för- och nackdelar:</p>
+
+            <div class="methods-grid">
+                <div class="method-card best">
+                    <h3>⭐ Metod A: Derivata (BÄST)</h3>
+                    <p><strong>Strategi:</strong> Sätt upp V(x) = x(30-2x)², beräkna V'(x), lös V'(x) = 0</p>
+                    <p class="method-benefit"><strong>Fördelar:</strong> Ger exakt svar, systematisk, fungerar alltid</p>
+                </div>
+
+                <div class="method-card second-best">
+                    <h3>⭐ Metod B: Funktionsanalys med Graf (NÄST BÄST)</h3>
+                    <p><strong>Strategi:</strong> Rita V(x) och hitta toppunkten visuellt</p>
+                    <p class="method-benefit"><strong>Fördelar:</strong> Visuell förståelse, lätt att verifiera</p>
+                    <p class="method-drawback"><strong>Nackdelar:</strong> Kan ge ungefärligt svar</p>
+                </div>
+
+                <div class="method-card">
+                    <h3>Metod C: Tabelltestning</h3>
+                    <p><strong>Strategi:</strong> Testa olika x-värden och jämför V(x)</p>
+                    <p class="method-drawback"><strong>Nackdelar:</strong> Tidskrävande, ungefärligt</p>
+                </div>
+
+                <div class="method-card">
+                    <h3>Metod D: Logisk Uppskattning</h3>
+                    <p><strong>Strategi:</strong> Gissa ett rimligt värde</p>
+                    <p class="method-drawback"><strong>Nackdelar:</strong> Osystematisk, ingen garanti</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TIPS SEKTION -->
+        <div class="content-card">
+            <h2>💡 Tips för att Komma Igång</h2>
+            <button class="toggle-btn" onclick="toggleTips()">Visa/Dölj Tips</button>
+
+            <div id="tips-content" class="hidden-content">
+                <div class="tips-box">
+                    <h4>💡 Tip 1: Volymformeln</h4>
+                    <p>Volymen för en låda är <strong>längd × bredd × höjd</strong>. Om vi klipper bort x cm i varje hörn och viker upp, blir <strong>höjden = x cm</strong>.</p>
+                </div>
+
+                <div class="tips-box">
+                    <h4>💡 Tip 2: Bottenmåtten</h4>
+                    <p>Efter att ha klippt bort x cm från varje hörn påverkas både längd och bredd. Från en 30 cm sida försvinner x cm från <strong>båda ändar</strong>, så bottenmåtten blir <strong>(30 - 2x) × (30 - 2x)</strong> cm.</p>
+                </div>
+
+                <div class="tips-box">
+                    <h4>💡 Tip 3: Hitta Maximum</h4>
+                    <p>För att hitta maximumet av V(x):</p>
+                    <ol>
+                        <li>Beräkna derivatan V'(x)</li>
+                        <li>Sätt V'(x) = 0 och lös</li>
+                        <li>Kontrollera med V''(x) < 0 att det är maximum</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- VANLIGA FEL -->
+        <div class="content-card">
+            <h2>⚠️ Vanliga Fel att Undvika</h2>
+
+            <div class="error-box">
+                <h4>❌ Fel 1: Glömmer att båda sidorna påverkas</h4>
+                <p><strong>Felet:</strong> Tror att bottenmåtten blir (30 - x) × (30 - x)</p>
+                <p><strong>Rätt:</strong> Bottenmåtten = (30 - 2x) × (30 - 2x)</p>
+            </div>
+
+            <div class="error-box">
+                <h4>❌ Fel 2: Sätter derivatan till x istället för noll</h4>
+                <p><strong>Rätt:</strong> Sätt V'(x) = 0 och lös för x</p>
+            </div>
+
+            <div class="error-box">
+                <h4>❌ Fel 3: Kontrollerar inte att det är maximum</h4>
+                <p><strong>Rätt:</strong> Använd andraderivatatestet: V''(x) < 0</p>
+            </div>
+        </div>
+
+        <!-- GRAFISK PRESENTATION -->
+        <div class="content-card">
+            <h2>📈 Grafisk Presentation</h2>
+            <button class="toggle-btn" onclick="toggleGraph()">Visa/Dölj Graf</button>
+
+            <div id="graph-content" class="hidden-content">
+                <p>Grafen av V(x) = x(30 - 2x)² för 0 < x < 15:</p>
+                <canvas id="graph-canvas" width="700" height="400"></canvas>
+                <p style="margin-top: 1rem; color: #666;">
+                    <strong>Observera:</strong> Grafen visar tydligt att det finns en toppunkt vid x = 5, där volymen är 2000 cm³.
+                </p>
+            </div>
+        </div>
+
+        <!-- STEG-FÖR-STEG LÖSNING -->
+        <div class="content-card">
+            <h2>📐 Steg-för-Steg Lösning</h2>
+            <button class="toggle-btn" onclick="toggleSolution()">Visa/Dölj Fullständig Lösning</button>
+
+            <div id="solution-content" class="hidden-content">
+
+                <div class="step">
+                    <h4>📖 Steg 1: Förstå Problemet</h4>
+                    <p><strong>Givet:</strong></p>
+                    <ul>
+                        <li>Kvadratisk plåt: 30 cm × 30 cm</li>
+                        <li>Klipp bort lika stora kvadrater (sidlängd x cm) från alla hörn</li>
+                        <li>Vik upp för att bilda öppen låda</li>
+                    </ul>
+                    <p><strong>Sökt:</strong> Värdet på x som ger maximal volym</p>
+                    <p><strong>Begränsningar:</strong> 0 < x < 15</p>
+                </div>
+
+                <div class="step">
+                    <h4>🎯 Steg 2: Planera Lösningen</h4>
+                    <p><strong>Vi behöver:</strong></p>
+                    <ol>
+                        <li>Sätta upp volymfunktion V(x)</li>
+                        <li>Derivera: V'(x)</li>
+                        <li>Sätta V'(x) = 0 och lösa för x</li>
+                        <li>Kontrollera att det är maximum (andraderivatatestet)</li>
+                        <li>Beräkna maximal volym</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <h4>⚙️ Steg 3: Genomföra - Metod A (Derivata)</h4>
+
+                    <p><strong>3.1. Sätt upp volymfunktionen</strong></p>
+                    <p>När vi klipper bort x cm från varje hörn:</p>
+                    <ul>
+                        <li><strong>Höjd:</strong> x cm</li>
+                        <li><strong>Längd:</strong> 30 - 2x cm</li>
+                        <li><strong>Bredd:</strong> 30 - 2x cm</li>
+                    </ul>
+                    <p>Volymfunktionen:</p>
+                    $$V(x) = x \cdot (30-2x) \cdot (30-2x) = x(30-2x)^2$$
+
+                    <p style="margin-top: 1.5rem;"><strong>3.2. Förenkla</strong></p>
+                    <p>Expandera \((30-2x)^2 = 900 - 120x + 4x^2\)</p>
+                    $$V(x) = x(900 - 120x + 4x^2) = 900x - 120x^2 + 4x^3$$
+
+                    <p style="margin-top: 1.5rem;"><strong>3.3. Beräkna derivatan</strong></p>
+                    $$V'(x) = 900 - 240x + 12x^2$$
+
+                    <p style="margin-top: 1.5rem;"><strong>3.4. Sätt V'(x) = 0</strong></p>
+                    $$900 - 240x + 12x^2 = 0$$
+                    <p>Förenkla genom att dividera med 12:</p>
+                    $$75 - 20x + x^2 = 0$$
+                    $$x^2 - 20x + 75 = 0$$
+
+                    <p>Kvadreringsformeln:</p>
+                    $$x = \frac{20 \pm \sqrt{400 - 300}}{2} = \frac{20 \pm 10}{2}$$
+
+                    <p>Detta ger:</p>
+                    $$x_1 = 15 \quad \text{(ogiltig)} \quad x_2 = 5 \quad \text{(giltig)}$$
+
+                    <p style="margin-top: 1.5rem;"><strong>3.5. Andraderivatatestet</strong></p>
+                    $$V''(x) = -240 + 24x$$
+                    $$V''(5) = -240 + 120 = -120 < 0$$
+                    <p><strong>Eftersom V''(5) < 0 är x = 5 ett maximum!</strong> ✅</p>
+                </div>
+
+                <div class="step">
+                    <h4>📊 Steg 4: Genomföra - Metod B (Grafisk)</h4>
+                    <p>Alternativ metod för verifiering:</p>
+                    <ol>
+                        <li>Rita grafen av V(x) = x(30-2x)²</li>
+                        <li>Identifiera toppunkten → x ≈ 5</li>
+                        <li>Läs av volymen → V(5) = 2000 cm³</li>
+                    </ol>
+                </div>
+
+                <div class="step">
+                    <h4>✅ Steg 5: Kontrollera och Slutsats</h4>
+                    <p><strong>Beräkna maximal volym:</strong></p>
+                    $$V(5) = 5 \cdot (30 - 10)^2 = 5 \cdot 400 = 2000 \text{ cm}^3$$
+
+                    <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 8px; border-left: 5px solid #28a745; margin: 1rem 0;">
+                        <p style="font-size: 1.2rem;"><strong>Svar: x = 5 cm</strong></p>
+                        <p><strong>Resulterande mått:</strong></p>
+                        <ul>
+                            <li>Höjd: 5 cm</li>
+                            <li>Bottenmått: 20 × 20 cm</li>
+                            <li>Maximal volym: 2000 cm³ = 2 liter</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FÖRDJUPNING -->
+        <div class="content-card">
+            <h2>🚀 Fördjupning (Frivillig)</h2>
+            <p><strong>Utmaning 1:</strong> Vad händer om plåten är rektangulär, t.ex. 30 × 40 cm?</p>
+            <p><strong>Utmaning 2:</strong> Finns det ett allmänt samband för en kvadratisk plåt med sidan L cm?</p>
+        </div>
+
+        <!-- FOOTER -->
+        <!-- ============================================ -->
+        <!-- UPPGIFT 2: LOGARITMER -->
+        <!-- ============================================ -->
+
+        <div class="content-card" style="border-top: 5px solid #ff9800;">
+            <h2>📊 Uppgift 2: Logaritmer och Förenkling</h2>
+            <p>
+                Nu testar vi <strong>MathJax</strong> med logaritmuppgifter!
+                Observera hur formlerna renderas professionellt.
+            </p>
+
+            <h3>Lärandemål</h3>
+            <ul>
+                <li>Förstå logaritmiska uttryck</li>
+                <li>Förenkla uttryck med logaritmer</li>
+                <li><strong>Skilja mellan lg(x²) och (lg(x))²</strong> - MYCKET VIKTIGT! ⚠️</li>
+                <li>Använda substitution för att lösa logaritmekvationer</li>
+                <li>Identifiera olika lösningsmetoder</li>
+            </ul>
+
+            <h3>Förkunskaper</h3>
+            <ul>
+                <li>Vad en logaritm är: \(\lg(x) = \log_{10}(x)\)</li>
+                <li>Logaritmlagen: \(\lg(a) + \lg(b) = \lg(ab)\)</li>
+                <li>Potenslagen: \(n\lg(a) = \lg(a^n)\) och \(\lg(a^n) = n\lg(a)\)</li>
+                <li>Kvadratiska ekvationer</li>
+            </ul>
+        </div>
+
+        <!-- VIKTIG DISTINKTION -->
+        <div class="content-card" style="border-left: 5px solid #ff5722;">
+            <h2>⚠️ VIKTIGT: lg(x²) vs (lg(x))²</h2>
+            <p>
+                Innan vi börjar måste vi förstå en <strong>kritisk skillnad</strong> i notation som ofta förvirrar elever!
+            </p>
+
+            <div class="step">
+                <h4>📖 lg(x²) - Logaritmen AV x²</h4>
+                <p>
+                    Här är <strong>x² inuti logaritmen</strong>. Vi tar logaritmen av ett tal som är upphöjt till 2.
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0;">
+                    $$\lg(x^2) = \lg(\underbrace{x \cdot x}_{\text{x²}})$$
+                </p>
+                <p>
+                    <strong>Potenslagen säger:</strong> \(\lg(x^2) = 2\lg(x)\)
+                </p>
+                <div class="calculation">Exempel:
+lg(100²) = lg(10000) = 4
+Eller med potenslagen:
+lg(100²) = 2·lg(100) = 2·2 = 4 ✓</div>
+                <p>
+                    <strong>Analogi:</strong> "Priset på 5 äpplen" = 5 × (priset på ett äpple)
+                </p>
+            </div>
+
+            <div class="step">
+                <h4>📖 (lg(x))² - Kvadraten AV logaritmen</h4>
+                <p>
+                    Här tar vi <strong>hela logaritmen och upphöjer den till 2</strong>. Vi beräknar logaritmen först, sedan kvadrerar resultatet.
+                </p>
+                <p style="text-align: center; font-size: 1.2rem; margin: 1rem 0;">
+                    $$(\lg(x))^2 = \lg(x) \cdot \lg(x)$$
+                </p>
+                <p>
+                    <strong>INGEN logaritmlag kan förenkla detta!</strong> Det är ett helt annat uttryck.
+                </p>
+                <div class="calculation">Exempel:
+(lg(100))² = (2)² = 4
+
+JÄMFÖR med lg(100²):
+lg(100²) = lg(10000) = 4
+
+I detta fall samma resultat, men det är en slump!</div>
+                <p>
+                    <strong>Analogi:</strong> "Priset × Priset" ≠ "Priset på (äpple × äpple)"
+                </p>
+            </div>
+
+            <div style="background: #fff3cd; border: 2px solid #ffc107; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                <h4 style="color: #856404; margin-top: 0;">🎯 Sammanfattning av skillnaden</h4>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+                    <tr style="background: #ffc107; color: white;">
+                        <th style="padding: 0.8rem; text-align: left;">Notation</th>
+                        <th style="padding: 0.8rem; text-align: left;">Betydelse</th>
+                        <th style="padding: 0.8rem; text-align: left;">Förenkling</th>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\(\lg(x^2)\)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Logaritmen av x²</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\(= 2\lg(x)\) (potenslagen)</td>
+                    </tr>
+                    <tr style="background: #f9f9f9;">
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">\((\lg(x))^2\)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Kvadraten av lg(x)</td>
+                        <td style="padding: 0.8rem; border: 1px solid #ddd;">Kan EJ förenklas med logaritm lagar</td>
+                    </tr>
+                </table>
+
+                <p style="margin-top: 1rem; font-weight: bold; color: #856404;">
+                    📝 Minnesregel: Är exponenten INUTI eller UTANFÖR logaritmen?
+                </p>
+            </div>
+        </div>
+
+        <!-- UPPGIFT 2A: ENKLARE VERSION -->
+        <div class="content-card" style="border-left: 5px solid #4caf50;">
+            <h2>📝 Uppgift 2A: Förenkling med lg(x²)</h2>
+            <p>
+                Låt oss börja med den <strong>enklare varianten</strong> där potenslagen kan användas direkt.
+            </p>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong> Förenkla uttrycket
+                $$2\lg(x) - 0.5\lg(x^2)$$
+            </div>
+
+            <button class="toggle-btn" onclick="toggleSolution2a()">
+                Visa/Dölj Lösning
+            </button>
+
+            <div id="solution-content-2a" class="solution-content hidden">
+                <div class="step">
+                    <h4>Steg 1: Identifiera strukturen</h4>
+                    <p>
+                        Vi har \(\lg(x^2)\) - exponenten 2 är <strong>INUTI</strong> logaritmen.
+                        Detta betyder att vi kan använda <strong>potenslagen</strong>!
+                    </p>
+                    <p style="text-align: center; margin: 1rem 0;">
+                        $$\lg(x^2) = 2\lg(x)$$
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h4>Steg 2: Applicera potenslagen</h4>
+                    <p>
+                        Byt ut \(\lg(x^2)\) mot \(2\lg(x)\):
+                    </p>
+                    <div class="calculation">2lg(x) - 0.5lg(x²)
+= 2lg(x) - 0.5·2lg(x)
+= 2lg(x) - 1.0lg(x)
+= 2lg(x) - lg(x)</div>
+                </div>
+
+                <div class="step">
+                    <h4>Steg 3: Förenkla</h4>
+                    <p>
+                        Subtrahera termerna:
+                    </p>
+                    <div class="calculation">= 2lg(x) - lg(x)
+= lg(x)</div>
+                </div>
+
+                <div class="conclusion">
+                    <h4>✅ Slutsats</h4>
+                    <p class="answer">$$2\lg(x) - 0.5\lg(x^2) = \lg(x)$$</p>
+                    <p style="margin-top: 1rem;">
+                        Uttrycket förenklas till bara <strong>lg(x)</strong>! Mycket enkelt när vi använder potenslagen korrekt.
+                    </p>
+                </div>
+
+                <div class="verification">
+                    <h4>🔍 Kontroll med konkret exempel</h4>
+                    <p>Låt oss testa med \(x = 100\):</p>
+                    <div class="calculation">Vänsterled:
+2lg(100) - 0.5lg(100²)
+= 2·2 - 0.5·lg(10000)
+= 4 - 0.5·4
+= 4 - 2
+= 2
+
+Högerled:
+lg(100) = 2
+
+2 = 2 ✓ Det stämmer!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UPPGIFT 2B: SVÅRARE VERSION -->
+        <div class="content-card" style="border-left: 5px solid #9c27b0;">
+            <h2>📝 Uppgift 2B: Förenkling med (lg(x))²</h2>
+            <p>
+                Nu testar vi den <strong>svårare varianten</strong> där exponenten är UTANFÖR logaritmen.
+                Här kan vi INTE använda potenslagen direkt - istället behöver vi <strong>substitution</strong>!
+            </p>
+        </div>
+
+        <!-- QUIZ SEKTION LOGARITMER -->
+        <div class="content-card">
+            <h2>💡 Förberedande Quiz - Uppgift 2B</h2>
+
+            <!-- QUIZ FRÅGA 3 -->
+            <div class="quiz-question">
+                <h3>Fråga 3: Vad betyder \(\lg(100)\)?</h3>
+                <p>
+                    Logaritmen \(\lg\) är <em>10-logaritmen</em> (tiologaritmen).
+                    Vad är värdet på \(\lg(100)\)?
+                </p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(3, 'A')">
+                        A) 2
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'B')">
+                        B) 10
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'C')">
+                        C) 100
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(3, 'D')">
+                        D) 1000
+                    </button>
+                </div>
+
+                <div id="feedback3" class="feedback hidden"></div>
+            </div>
+
+            <!-- QUIZ FRÅGA 4 -->
+            <div class="quiz-question">
+                <h3>Fråga 4: Vilken metod är bäst för att förenkla \(2\lg(x) - 0.5(\lg(x))^2\)?</h3>
+                <p>
+                    Om vi vill förenkla uttrycket \(2\lg(x) - 0.5(\lg(x))^2\),
+                    vilken strategi ska vi använda?
+                </p>
+
+                <div class="options">
+                    <button class="option-btn" onclick="checkAnswer(4, 'A')">
+                        A) Substituera \(t = \lg(x)\) för att se strukturen tydligare
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'B')">
+                        B) Direkt använda logaritmlagarna
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'C')">
+                        C) Ta 10 upphöjt till båda sidor
+                    </button>
+                    <button class="option-btn" onclick="checkAnswer(4, 'D')">
+                        D) Derivera uttrycket
+                    </button>
+                </div>
+
+                <div id="feedback4" class="feedback hidden"></div>
+            </div>
+        </div>
+
+        <!-- HUVUDPROBLEM LOGARITMER -->
+        <div class="content-card">
+            <h2>📝 Huvuduppgift - Logaritmer</h2>
+
+            <div class="problem-statement">
+                <strong>Problem:</strong> Förenkla uttrycket
+                $$2\lg(x) - 0.5(\lg(x))^2$$
+
+                <br><br>
+                <strong>Bonusfrågor (om du vill gå vidare):</strong>
+                <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                    <li>För vilka värden på \(x\) är uttrycket = 0?</li>
+                    <li>För vilket \(x\) når uttrycket sitt maximum?</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LÖSNING LOGARITMER -->
+        <div class="content-card">
+            <h2>🔍 Olika Angreppssätt</h2>
+            <p>
+                Låt oss utforska <strong>flera sätt</strong> att arbeta med detta uttryck!
+            </p>
+
+            <button class="toggle-btn" onclick="toggleSolution2()">
+                Visa/Dölj Lösningar
+            </button>
+
+            <div id="solution-content-2" class="solution-content hidden">
+
+                <!-- METOD 1: FÖRENKLING MED SUBSTITUTION -->
+                <div class="step">
+                    <h4>Metod 1: Förenkling med Substitution</h4>
+                    <p>
+                        <strong>Strategi:</strong> Byt ut \(\lg(x)\) mot en enklare variabel
+                        för att se strukturen tydligare.
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Sätt \(t = \lg(x)\)</p>
+                    <p>Nu blir uttrycket:</p>
+                    $$2t - 0.5t^2$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Faktorisera</p>
+                    $$2t - 0.5t^2 = t(2 - 0.5t)$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Förenkla genom att multiplicera med 2</p>
+                    $$t(2 - 0.5t) = t \cdot \frac{1}{2}(4 - t) = \frac{t(4-t)}{2}$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka \(t = \lg(x)\)</p>
+                    $$\frac{\lg(x)(4 - \lg(x))}{2}$$
+
+                    <div class="conclusion">
+                        <h4>Förenklat Uttryck</h4>
+                        <p class="answer">$$\frac{\lg(x)(4 - \lg(x))}{2}$$</p>
+                        <p style="margin-top: 1rem;">
+                            Eller ekvivalent: $$2\lg(x) - \frac{(\lg(x))^2}{2}$$
+                        </p>
+                    </div>
+                </div>
+
+                <!-- METOD 2: LÖSA EKVATIONEN -->
+                <div class="step">
+                    <h4>Metod 2: Lös Ekvationen \(2\lg(x) - 0.5(\lg(x))^2 = 0\)</h4>
+                    <p>
+                        Om vi vill hitta för vilka \(x\) uttrycket blir noll:
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Sätt \(t = \lg(x)\)</p>
+                    $$2t - 0.5t^2 = 0$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Faktorisera</p>
+                    $$t(2 - 0.5t) = 0$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Nollproduktmetoden</p>
+                    <p>Antingen \(t = 0\) eller \(2 - 0.5t = 0\)</p>
+                    <div class="calculation">t = 0  eller  2 - 0.5t = 0
+                        ⇒ t = 0  eller  0.5t = 2
+                        ⇒ t = 0  eller  t = 4</div>
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka till \(x\)</p>
+                    <p>Eftersom \(t = \lg(x)\):</p>
+                    $$\lg(x) = 0 \quad \Rightarrow \quad x = 10^0 = 1$$
+                    $$\lg(x) = 4 \quad \Rightarrow \quad x = 10^4 = 10000$$
+
+                    <div class="verification">
+                        <strong>✅ Kontroll:</strong><br>
+                        För \(x = 1\): \(2\lg(1) - 0.5(\lg(1))^2 = 2 \cdot 0 - 0.5 \cdot 0^2 = 0\) ✓<br>
+                        För \(x = 10000\): \(2\lg(10000) - 0.5(\lg(10000))^2 = 2 \cdot 4 - 0.5 \cdot 16 = 8 - 8 = 0\) ✓
+                    </div>
+
+                    <div class="conclusion">
+                        <h4>Nollställen</h4>
+                        <p class="answer">\(x = 1\) och \(x = 10000\)</p>
+                    </div>
+                </div>
+
+                <!-- METOD 3: EXTREMVÄRDE -->
+                <div class="step">
+                    <h4>Metod 3: Hitta Maximivärdet (Derivata)</h4>
+                    <p>
+                        <strong>Fråga:</strong> För vilket \(x\) når uttrycket sitt maximum?
+                    </p>
+
+                    <p><strong>Steg 1:</strong> Med \(t = \lg(x)\) har vi \(f(t) = 2t - 0.5t^2\)</p>
+
+                    <p style="margin-top: 1rem;"><strong>Steg 2:</strong> Derivera</p>
+                    $$f'(t) = 2 - t$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 3:</strong> Sätt \(f'(t) = 0\)</p>
+                    $$2 - t = 0 \quad \Rightarrow \quad t = 2$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 4:</strong> Byt tillbaka till \(x\)</p>
+                    $$\lg(x) = 2 \quad \Rightarrow \quad x = 10^2 = 100$$
+
+                    <p style="margin-top: 1rem;"><strong>Steg 5:</strong> Beräkna maxvärdet</p>
+                    $$f(2) = 2(2) - 0.5(2)^2 = 4 - 2 = 2$$
+
+                    <div class="conclusion">
+                        <h4>Maxvärde</h4>
+                        <p class="answer">
+                            Uttrycket når sitt maximum \(2\) när \(x = 100\)
+                        </p>
+                        <p style="margin-top: 1rem;">
+                            Dvs: $$2\lg(100) - 0.5(\lg(100))^2 = 2$$
+                        </p>
+                    </div>
+                </div>
+
+                <!-- METOD 4: GRAFISK TOLKNING -->
+                <div class="step">
+                    <h4>Metod 4: Grafisk Tolkning</h4>
+                    <p>
+                        Uttrycket \(f(t) = 2t - 0.5t^2\) representerar en <strong>parabel</strong>
+                        som öppnar nedåt (eftersom koefficienten framför \(t^2\) är negativ).
+                    </p>
+
+                    <p>
+                        <strong>Viktig insikt:</strong>
+                    </p>
+                    $$f(t) = -0.5t^2 + 2t = -0.5(t^2 - 4t)$$
+                    $$= -0.5(t^2 - 4t + 4 - 4) = -0.5((t-2)^2 - 4)$$
+                    $$= -0.5(t-2)^2 + 2$$
+
+                    <p style="margin-top: 1rem;">
+                        Detta är en parabel i <strong>vertexform</strong>!
+                    </p>
+
+                    <ul>
+                        <li><strong>Vertex (topp):</strong> \(t = 2\), vilket ger \(x = 100\)</li>
+                        <li><strong>Maxvärde:</strong> \(f(2) = 2\)</li>
+                        <li><strong>Nollställen:</strong> \(t = 0\) och \(t = 4\) (dvs \(x = 1\) och \(x = 10000\))</li>
+                        <li><strong>Symmetrilinje:</strong> \(t = 2\) (mitten mellan nollställena)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;">
+                        <strong>Observation:</strong> Nollställena \(t=0\) och \(t=4\) ligger
+                        symmetriskt kring \(t=2\), vilket bekräftar att \(t=2\) är maxpunkten!
+                    </p>
+                </div>
+
+                <!-- SAMMANFATTNING -->
+                <div class="conclusion">
+                    <h4>📚 Sammanfattning - Alla Metoder</h4>
+                    <p style="text-align: left; margin-top: 1rem;">
+                        <strong>Förenklat uttryck:</strong>
+                        $$\frac{\lg(x)(4 - \lg(x))}{2}$$
+                    </p>
+                    <p style="text-align: left;">
+                        <strong>Nollställen:</strong> \(x = 1\) och \(x = 10000\)
+                    </p>
+                    <p style="text-align: left;">
+                        <strong>Maximum:</strong> \(x = 100\) (värde = 2)
+                    </p>
+                    <p style="text-align: left; margin-top: 1rem;">
+                        <strong>Lärdomar:</strong>
+                    </p>
+                    <ul style="text-align: left;">
+                        <li>Substitution gör komplexa uttryck enklare att se</li>
+                        <li>Ett uttryck kan analyseras på flera sätt</li>
+                        <li>Algebra, derivata och grafisk tolkning ger olika insikter</li>
+                        <li>Logaritmer kan behandlas som "vanliga" variabler med substitution</li>
+                    </ul>
+                </div>
+
+                <!-- VISUALISERING -->
+                <div class="step">
+                    <h4>📊 Visualisering: Grafer av Funktionen</h4>
+                    <p>
+                        Låt oss visualisera funktionen på två sätt: både med \(f(x) = 2\lg(x) - 0.5(\lg(x))^2\)
+                        och den förenklade parabeln \(g(t) = 2t - 0.5t^2\) där \(t = \lg(x)\).
+                    </p>
+
+                    <!-- Graf 1: f(x) = 2lg(x) - 0.5(lg(x))² -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h5 style="color: #667eea; text-align: center; margin-bottom: 1rem;">
+                            Graf 1: \(f(x) = 2\lg(x) - 0.5(\lg(x))^2\)
+                        </h5>
+                        <canvas id="graph1" width="800" height="400" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; color: #666;">
+                            <strong>Notera:</strong> Grafen visar hur funktionen beter sig för olika \(x\)-värden.
+                            Röd punkt = nollställen, grön punkt = maximum.
+                        </p>
+                    </div>
+
+                    <!-- Graf 2: g(t) = 2t - 0.5t² (parabeln) -->
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h5 style="color: #764ba2; text-align: center; margin-bottom: 1rem;">
+                            Graf 2: \(g(t) = 2t - 0.5t^2\) där \(t = \lg(x)\)
+                        </h5>
+                        <canvas id="graph2" width="800" height="400" style="max-width: 100%; border: 1px solid #ddd; border-radius: 5px;"></canvas>
+                        <p style="margin-top: 1rem; font-size: 0.95rem; color: #666;">
+                            <strong>Insikt:</strong> Efter substitution \(t = \lg(x)\) ser vi tydligt att det är en parabel!
+                            Nollställen vid \(t=0\) och \(t=4\), maximum vid \(t=2\).
+                        </p>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 1rem; border-radius: 5px; border-left: 4px solid #2196f3; margin-top: 1.5rem;">
+                        <strong>🔍 Jämförelse mellan graferna:</strong>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                            <li><strong>Graf 1</strong> visar den "verkliga" funktionen med \(x\) på x-axeln (logaritmisk skala)</li>
+                            <li><strong>Graf 2</strong> visar parabeln efter substitution med \(t = \lg(x)\) på x-axeln (linjär skala)</li>
+                            <li>Båda graferna har <strong>samma y-värden</strong> - skillnaden är bara hur x-axeln skalas!</li>
+                            <li>Graf 2 gör det lättare att <strong>se strukturen</strong> (en vanlig parabel)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FÖRDJUPNING LOGARITMER -->
+        <div class="content-card">
+            <h2>🚀 Fördjupning - Logaritmer</h2>
+            <p>Vill du utmana dig ytterligare?</p>
+
+            <div class="problem-statement">
+                <strong>Utmaning 1:</strong> Lös ekvationen
+                $$3\lg(x) - (\lg(x))^2 = 2$$
+
+                <br><br>
+                <strong>Utmaning 2:</strong> Förenkla uttrycket
+                $$\lg(x^2) - 2\lg(x) + \lg(100)$$
+
+                <br><br>
+                <strong>Utmaning 3:</strong> För vilka \(x\) gäller
+                $$2\lg(x) - 0.5(\lg(x))^2 > 0$$
+            </div>
+
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; color: #667eea; font-weight: bold;">
+                    Visa lösningshjälp (klicka här)
+                </summary>
+                <div style="margin-top: 1rem; padding: 1rem; background: #f5f7fa; border-radius: 5px;">
+                    <p><strong>Utmaning 1:</strong></p>
+                    <ul>
+                        <li>Sätt \(t = \lg(x)\)</li>
+                        <li>Lös \(3t - t^2 = 2\), dvs \(t^2 - 3t + 2 = 0\)</li>
+                        <li>Faktorisera: \((t-1)(t-2) = 0\)</li>
+                        <li>Svar: \(x = 10\) och \(x = 100\)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Utmaning 2:</strong></p>
+                    <ul>
+                        <li>Använd \(\lg(x^2) = 2\lg(x)\) och \(\lg(100) = 2\)</li>
+                        <li>\(2\lg(x) - 2\lg(x) + 2 = 2\)</li>
+                        <li>Svar: Uttrycket = \(2\) (konstant!)</li>
+                    </ul>
+
+                    <p style="margin-top: 1rem;"><strong>Utmaning 3:</strong></p>
+                    <ul>
+                        <li>Vi vet nollställena är \(x=1\) och \(x=10000\)</li>
+                        <li>Parabeln öppnar nedåt</li>
+                        <li>Uttrycket är positivt MELLAN nollställena</li>
+                        <li>Svar: \(1 < x < 10000\)</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+
+            <div class="footer-grid">
+                <div>
+                    <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">📄 Dokumentation</h4>
+                    <p><a href="README.md">📖 README</a></p>
+                    <p><a href="index.html">🏠 Startsida</a></p>
+                    <p><a href="fem_matteuppgifter.html">📊 Översikt</a></p>
+                </div>
+
+                <div>
+                    <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">📚 Matematikkurser</h4>
+                    <p><a href="matte1.html">📐 Matte 1</a></p>
+                    <p><a href="matte2.html" class="current-page">📊 Matte 2 (Du är här)</a></p>
+                    <p><a href="matte3.html">🔢 Matte 3</a></p>
+                    <p><a href="matte4.html">📐 Matte 4</a></p>
+                    <p><a href="matte5.html">🎯 Matte 5</a></p>
+                </div>
+
+                <div>
+                    <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">🤖 Agenter</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 Math Tutor</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 Problem Solver</a></p>
+                    <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 Exercise Creator</a></p>
+                </div>
+
+                <div>
+                    <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">🌐 Externa Länkar</h4>
+                    <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub</a></p>
+                    <p><a href="https://kentlundgren.github.io/AI/Matematik/" target="_blank">🌍 Live Demo</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>Skapad med <strong>Claude Code</strong> permanenta agenter</p>
+                <p>© 2026 - Interaktiva matematikövningar för gymnasiet</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Quiz feedback data
+        const quizData = {
+            1: {
+                correct: 'B',
+                feedback: {
+                    'A': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>f\'(a) = 0 betyder att DERIVATAN är noll, inte funktionen. Derivatan mäter lutningen.</p><p><strong>Rätt:</strong> När derivatan är noll har funktionen horisontell tangent - en toppunkt eller bottenpunkt.</p>'
+                    },
+                    'B': {
+                        correct: true,
+                        text: '<h4>✅ RÄTT!</h4><p>När f\'(a) = 0 är lutningen noll vid x = a. Detta händer vid extrempunkter - toppar eller bottnar.</p><p><strong>Tänk på:</strong> Vid toppen av ett berg är marken tillfälligt platt (lutning = 0).</p>'
+                    },
+                    'C': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>En konstant funktion har f\'(x) = 0 överallt, men f\'(a) = 0 vid EN punkt betyder inte konstant funktion.</p><p><strong>Exempel:</strong> f(x) = x² har f\'(0) = 0, men växer för x ≠ 0.</p>'
+                    },
+                    'D': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>f\'(a) = 0 betyder att derivatan HAR värdet 0, inte att funktionen är odefinierad. Funktionen måste vara väldefinierad för att vi ska kunna derivera.</p>'
+                    }
+                }
+            },
+            2: {
+                correct: 'B',
+                feedback: {
+                    'A': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Detta har vi redan gjort! f\'(a) = 0 ger kritisk punkt, men berättar inte om det är max eller min.</p><p><strong>Rätt:</strong> Använd andraderivatatestet (f\'\'(a)) eller testa värden runt punkten.</p>'
+                    },
+                    'B': {
+                        correct: true,
+                        text: '<h4>✅ RÄTT!</h4><p>Andraderivatatestet är den eleganta metoden:</p><ul><li>f\'\'(a) < 0 → konkav → <strong>MAXIMUM</strong> ✅</li><li>f\'\'(a) > 0 → konvex → MINIMUM</li></ul><p>I vårt problem: V\'\'(5) = -120 < 0, så x = 5 ger maximum!</p>'
+                    },
+                    'C': {
+                        correct: false,
+                        text: '<h4>❌ Fel svar</h4><p>Du har bytt tecken! f\'\'(a) > 0 betyder konvex graf → MINIMUM, inte maximum.</p><p><strong>Minnesregel:</strong> ☹ (konkav, f\'\' < 0) = MAX, 😊 (konvex, f\'\' > 0) = MIN</p>'
+                    },
+                    'D': {
+                        correct: false,
+                        text: '<h4>❌ Inte bäst</h4><p>Att plotta är BRA för intuition, men inte den mest exakta metoden.</p><p><strong>Bäst:</strong> Använd andraderivatatestet (f\'\'(a) < 0) för bevis, plotta för verifiering!</p>'
+                    }
+                }
+            }
+        };
+
+        function checkAnswer(questionNum, selectedAnswer) {
+            const feedbackElement = document.getElementById('feedback' + questionNum);
+            const quizContainer = feedbackElement.closest('.quiz-question');
+            const buttons = quizContainer.querySelectorAll('.option-btn');
+
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            const data = quizData[questionNum];
+            const isCorrect = selectedAnswer === data.correct;
+
+            // Show feedback
+            feedbackElement.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+            feedbackElement.innerHTML = data.feedback[selectedAnswer].text;
+
+            // Trigger MathJax
+            if (typeof MathJax !== 'undefined') {
+                MathJax.typesetPromise([feedbackElement]).catch((err) => console.log(err));
+            }
+        }
+
+        function toggleSolution() {
+            const solution = document.getElementById('solution-content');
+            solution.classList.toggle('hidden-content');
+            if (!solution.classList.contains('hidden-content')) {
+                if (typeof MathJax !== 'undefined') {
+                    MathJax.typesetPromise([solution]).catch((err) => console.log(err));
+                }
+            }
+        }
+
+        function toggleTips() {
+            const tips = document.getElementById('tips-content');
+            tips.classList.toggle('hidden-content');
+        }
+
+        function toggleGraph() {
+            const graph = document.getElementById('graph-content');
+            graph.classList.toggle('hidden-content');
+            if (!graph.classList.contains('hidden-content')) {
+                drawVolumeGraph();
+            }
+        }
+
+        function drawVolumeGraph() {
+            const canvas = document.getElementById('graph-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 60;
+            const graphWidth = canvas.width - 2 * padding;
+            const graphHeight = canvas.height - 2 * padding;
+
+            // Axes
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.stroke();
+
+            // Function V(x) = x(30-2x)^2
+            const V = (x) => x * Math.pow(30 - 2*x, 2);
+            const xMax = 15;
+            const vMax = 2200;
+
+            const xScale = graphWidth / xMax;
+            const yScale = graphHeight / vMax;
+
+            // Draw function
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let x = 0; x <= xMax; x += 0.1) {
+                const xPos = padding + x * xScale;
+                const yPos = canvas.height - padding - V(x) * yScale;
+                if (x === 0) {
+                    ctx.moveTo(xPos, yPos);
+                } else {
+                    ctx.lineTo(xPos, yPos);
+                }
+            }
+            ctx.stroke();
+
+            // Mark maximum at x=5
+            const maxX = 5;
+            const maxV = V(5);
+            const maxXPos = padding + maxX * xScale;
+            const maxYPos = canvas.height - padding - maxV * yScale;
+
+            // Dashed line to maximum
+            ctx.strokeStyle = '#28a745';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(maxXPos, canvas.height - padding);
+            ctx.lineTo(maxXPos, maxYPos);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Point at maximum
+            ctx.fillStyle = '#28a745';
+            ctx.beginPath();
+            ctx.arc(maxXPos, maxYPos, 8, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#333';
+            ctx.font = '16px Arial';
+            ctx.fillText('x (cm)', canvas.width - padding + 10, canvas.height - padding + 5);
+            ctx.fillText('V (cm³)', padding - 50, padding - 10);
+
+            // X-axis ticks
+            ctx.font = '14px Arial';
+            for (let x = 0; x <= xMax; x += 5) {
+                const xPos = padding + x * xScale;
+                ctx.fillText(x, xPos - 5, canvas.height - padding + 25);
+            }
+
+            // Y-axis ticks
+            for (let v = 0; v <= 2000; v += 500) {
+                const yPos = canvas.height - padding - v * yScale;
+                ctx.fillText(v, padding - 50, yPos + 5);
+            }
+
+            // Label maximum
+            ctx.fillStyle = '#28a745';
+            ctx.font = 'bold 16px Arial';
+            ctx.fillText('Max: (5, 2000)', maxXPos + 15, maxYPos - 10);
+        }
+    </script>
+</body>
+</html>
