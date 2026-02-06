@@ -20,9 +20,12 @@ Projektet demonstrerar hur man kan använda **Claude Code permanenta agenter** f
 ## 🎯 Huvudresultat
 
 ### För Elever
-- ✅ Interaktiva matematikövningar för gymnasiet (Matte 1-5)
+- ✅ Interaktiva matematikövningar för gymnasiet (**Matte 1-3 tillgängliga nu**, Matte 4-5 kommer snart)
 - ✅ Quiz-frågor som aktiverar förkunskaper innan övning
 - ✅ Steg-för-steg lösningar med fullständig förklaring
+- ✅ Fyra olika lösningsmetoder per uppgift (bästa metoden markerad)
+- ✅ Tips-sektion och vanliga fel att undvika
+- ✅ Interaktiva grafer med Canvas
 - ✅ Förklaringar av både rätt och felaktiga svar
 - ✅ Responsiv design för mobil och desktop
 
@@ -67,12 +70,13 @@ Matematik/
 ├── CLAUDE.md                          # Projektkoordinator (läses av Claude)
 ├── README.md                          # Denna fil (teknisk dokumentation)
 ├── index.html                         # Pedagogisk genomgång (GitHub Pages landning)
+├── fem_matteuppgifter.html            # Huvudmeny med kortlayout för alla övningar
 ├── matematikunderkatalog.html         # Guide för att skapa strukturen
-├── matte1.html                        # Matematik 1 övningar
-├── matte2.html                        # Matematik 2 övningar
-├── matte3.html                        # Matematik 3 övningar
-├── matte4.html                        # Matematik 4 övningar
-└── matte5.html                        # Matematik 5 övningar
+├── matte1.html                        # Matematik 1 övningar (Linjära ekvationer)
+├── matte2.html                        # Matematik 2 övningar (Derivata & Logaritmer)
+├── matte3.html                        # Matematik 3 övningar (Trigonometri)
+├── matte4.html                        # Matematik 4 övningar (Kommer snart)
+└── matte5.html                        # Matematik 5 övningar (Kommer snart)
 ```
 
 ---
@@ -123,15 +127,64 @@ Varje övningsfil (matte1.html, matte2.html, etc.) följer samma struktur:
 
 ---
 
+## 📝 Tillgängliga Övningar (Status)
+
+### ✅ Matematik 1 - Linjära Ekvationer
+**Tillgänglig:** [matte1.html](https://kentlundgren.github.io/AI/Matematik/matte1.html)
+
+**Innehåll:**
+- **Uppgift:** Mobilabonnemang - Vilket är mest lönsamt?
+- **Ämne:** Linjära funktioner och ekvationer i verkliga situationer
+- **Lösningsmetoder:** Algebraisk (bäst), grafisk, tabellmetod, gissning
+- **Specialfunktioner:** Interaktiv graf med linjära funktioner och skärningspunkt
+
+### ✅ Matematik 2 - Derivata & Logaritmer
+**Tillgänglig:** [matte2.html](https://kentlundgren.github.io/AI/Matematik/matte2.html)
+
+**Innehåll:**
+- **Uppgift 1:** Öppen låda - Maximal volym (optimering)
+- **Uppgift 2:** Logaritmer och förenkling
+- **Ämnen:** Derivata, förändringshastighet, optimering, logaritmlagar
+- **Lösningsmetoder:** Derivata (bäst), funktionsanalys, tabelltestning, logisk uppskattning
+- **Specialfunktioner:** Interaktiv graf med volymfunktion V(x) = x(30-2x)²
+
+### ✅ Matematik 3 - Trigonometri
+**Tillgänglig:** [matte3.html](https://kentlundgren.github.io/AI/Matematik/matte3.html)
+
+**Innehåll:**
+- **Uppgift:** När är skuggan lika lång? - Solvinkel och skugglängd
+- **Ämne:** Trigonometriska ekvationer, tan(θ), arctan, periodisitet
+- **Lösningsmetoder:** Trigonometrisk ekvation (bäst), enhetscirkeln, grafisk lösning, triangelmätning
+- **Specialfunktioner:** Geometrisk visualisering av torn, skugga och solvinkel med Canvas
+
+### 🚧 Matematik 4 - Vektorer (Kommer snart)
+**Status:** Planerad
+
+**Planerat innehåll:**
+- **Uppgift:** Kortaste avståndet - Punkt till linje i rymden
+- **Ämne:** Vektorgeometri i 3D
+- **Lösningsmetoder:** Vektorprojektion, avståndsformel, kryssproduktsformel
+
+### 🚧 Matematik 5 - Gränsvärden (Kommer snart)
+**Status:** Planerad
+
+**Planerat innehåll:**
+- **Uppgift:** Obestämd form - När x→0
+- **Ämne:** Gränsvärden och L'Hôpitals regel
+- **Lösningsmetoder:** L'Hôpitals regel, Taylorserier, numerisk approximation
+
+---
+
 ## 🚀 Hur Man Använder Detta Projekt
 
 ### Som Elev
 
 1. **Besök GitHub Pages:** https://kentlundgren.github.io/AI/Matematik/
-2. **Välj kursnivå:** matte1.html, matte2.html, osv.
-3. **Svara på quiz-frågor** innan du läser lösningen
-4. **Studera steg-för-steg lösningen** i egen takt
-5. **Försök fördjupningsuppgiften** om du vill ha utmaning
+2. **Välj kursnivå:** Använd [fem_matteuppgifter.html](https://kentlundgren.github.io/AI/Matematik/fem_matteuppgifter.html) för att se alla tillgängliga övningar
+3. **Klicka på ett kort** för att öppna övningen (Matte 1-3 är tillgängliga)
+4. **Svara på quiz-frågor** innan du läser lösningen
+5. **Studera steg-för-steg lösningen** i egen takt
+6. **Utforska tips och vanliga fel** för djupare förståelse
 
 ### Som Utvecklare (Lär dig Claude Code Desktop)
 
@@ -223,19 +276,21 @@ claude/math-problem-tutor-KwJRN
 - [x] Skapa CLAUDE.md (lokal + överliggande)
 - [x] Skapa README.md
 
-### Fas 2: Innehållsproduktion 🔄
+### Fas 2: Innehållsproduktion ✅
 - [ ] Skapa index.html (pedagogisk genomgång)
-- [ ] Skapa matte1.html (exempel med quiz)
-- [ ] Skapa matte2.html
-- [ ] Skapa matte3.html
-- [ ] Skapa matte4.html
-- [ ] Skapa matte5.html
+- [x] Skapa fem_matteuppgifter.html (huvudmeny)
+- [x] Skapa matte1.html (Linjära ekvationer)
+- [x] Skapa matte2.html (Derivata & Logaritmer)
+- [x] Skapa matte3.html (Trigonometri)
+- [ ] Skapa matte4.html (Vektorer - planerad)
+- [ ] Skapa matte5.html (Gränsvärden - planerad)
 
-### Fas 3: Publicering 📅
-- [ ] Merge till main branch
-- [ ] Aktivera GitHub Pages
-- [ ] Verifiera alla länkar
-- [ ] Testa responsiv design
+### Fas 3: Publicering ✅
+- [x] Merge till main branch
+- [x] Aktivera GitHub Pages
+- [x] Publicera matte1-3.html
+- [ ] Verifiera alla länkar (matte1-3)
+- [ ] Testa responsiv design (matte1-3)
 
 ---
 
@@ -268,9 +323,10 @@ claude/math-problem-tutor-KwJRN
 ## 🔗 Projektnavigation
 
 ### 📄 Dokumentation
-- [📖 README](README.md) - Denna fil
-- [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator
+- [📖 README](README.md) - Denna fil (teknisk dokumentation)
+- [📋 CLAUDE.md](CLAUDE.md) - Projektkoordinator för Claude Code
 - [🌐 index.html](index.html) - Pedagogisk genomgång
+- [🎓 fem_matteuppgifter.html](fem_matteuppgifter.html) - Huvudmeny med kortlayout
 - [🛠️ matematikunderkatalog.html](matematikunderkatalog.html) - Setup-guide
 
 ### 🤖 Agenter
@@ -279,11 +335,12 @@ claude/math-problem-tutor-KwJRN
 - [📝 exercise-creator](.claude/agents/exercise-creator.md)
 
 ### 📚 Övningar
-- [Matematik 1](matte1.html) *(kommer snart)*
-- [Matematik 2](matte2.html) *(kommer snart)*
-- [Matematik 3](matte3.html) *(kommer snart)*
-- [Matematik 4](matte4.html) *(kommer snart)*
-- [Matematik 5](matte5.html) *(kommer snart)*
+- [📐 Matematik 1](matte1.html) - **Tillgänglig** (Linjära ekvationer)
+- [📊 Matematik 2](matte2.html) - **Tillgänglig** (Derivata & Logaritmer)
+- [🔢 Matematik 3](matte3.html) - **Tillgänglig** (Trigonometri)
+- [📐 Matematik 4](matte4.html) - *(Kommer snart - Vektorer)*
+- [🎯 Matematik 5](matte5.html) - *(Kommer snart - Gränsvärden)*
+- [🎓 Huvudmeny](fem_matteuppgifter.html) - **Översikt med kortlayout**
 
 ### 🌐 Externa Länkar
 - [💻 GitHub Repository](https://github.com/kentlundgren/AI/tree/main/Matematik)
