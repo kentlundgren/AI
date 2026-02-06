@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fem Matteuppgifter - Gymnasiematematik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(to bottom, #f5f5f5, #e8e8e8);
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .intro h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .intro p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .exercise-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            border-top: 5px solid #667eea;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-number {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .exercise-card h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+        }
+
+        footer h3 {
+            margin-bottom: 1rem;
+            color: #4ECDC4;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        footer p {
+            margin: 0.3rem 0;
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            .exercise-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .intro {
+                padding: 0 1rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎓 Fem Typiska Matteuppgifter</h1>
+        <p>Gymnasiematematik - Matte 1 till Matte 5</p>
+    </header>
+
+    <section class="intro">
+        <h2>Välkommen!</h2>
+        <p>Här hittar du fem typiska matematikuppgifter från gymnasiets matematikkurser. Varje uppgift innehåller quiz-frågor, flera lösningsmetoder, tips, vanliga fel att undvika och grafiska representationer.</p>
+        <p>Välj den kurs du vill öva på nedan:</p>
+    </section>
+
+    <main>
+        <div class="exercise-grid">
+            <!-- Matte 1: Linjära Ekvationer -->
+            <a href="matte1.html" class="exercise-card">
+                <div class="card-number">📐 Matte 1</div>
+                <h3>Linjära Ekvationer</h3>
+                <p class="card-description">Mobilabonnemang - Vilket är mest lönsamt? Lär dig jämföra och lösa linjära funktioner i verkliga situationer.</p>
+                <button class="start-btn">Starta uppgift →</button>
+            </a>
+
+            <!-- Matte 2: Derivata -->
+            <a href="matte2.html" class="exercise-card">
+                <div class="card-number">📊 Matte 2</div>
+                <h3>Derivata och Optimering</h3>
+                <p class="card-description">Öppen låda - Maximal volym. Använd derivata för att hitta optimala mått och förstå förändringshastighet.</p>
+                <button class="start-btn">Starta uppgift →</button>
+            </a>
+
+            <!-- Matte 3: Trigonometri -->
+            <a href="matte3.html" class="exercise-card">
+                <div class="card-number">🔢 Matte 3</div>
+                <h3>Trigonometriska Ekvationer</h3>
+                <p class="card-description">När är skuggan lika lång? - Solvinkel och skugglängd. Tillämpa trigonometri på geometriska problem.</p>
+                <button class="start-btn">Starta uppgift →</button>
+            </a>
+
+            <!-- Matte 4: Vektorgeometri -->
+            <a href="matte4.html" class="exercise-card">
+                <div class="card-number">📐 Matte 4</div>
+                <h3>Vektorgeometri i 3D</h3>
+                <p class="card-description">Kortaste avståndet - Punkt till linje i rymden. Utforska vektorer och geometri i tre dimensioner.</p>
+                <button class="start-btn">Starta uppgift →</button>
+            </a>
+
+            <!-- Matte 5: Gränsvärden -->
+            <a href="matte5.html" class="exercise-card">
+                <div class="card-number">🎯 Matte 5</div>
+                <h3>Gränsvärden och L'Hôpitals Regel</h3>
+                <p class="card-description">Obestämd form - När x→0. Använd avancerade metoder för att beräkna komplexa gränsvärden.</p>
+                <button class="start-btn">Starta uppgift →</button>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <h3>🔗 Projektnavigation</h3>
+
+        <div class="footer-grid">
+            <div>
+                <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">📄 Dokumentation</h4>
+                <p><a href="README.md">📖 README</a></p>
+                <p><a href="index.html">🏠 Startsida</a></p>
+            </div>
+
+            <div>
+                <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">🤖 Agenter</h4>
+                <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/math-tutor.md" target="_blank">🎓 Math Tutor</a></p>
+                <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/problem-solver.md" target="_blank">🔧 Problem Solver</a></p>
+                <p><a href="https://github.com/kentlundgren/AI/blob/main/Matematik/.claude/agents/exercise-creator.md" target="_blank">📝 Exercise Creator</a></p>
+            </div>
+
+            <div>
+                <h4 style="color: #4ECDC4; margin-bottom: 0.5rem;">🌐 Externa Länkar</h4>
+                <p><a href="https://github.com/kentlundgren/AI/tree/main/Matematik" target="_blank">💻 GitHub Repository</a></p>
+                <p><a href="https://kentlundgren.github.io/AI/Matematik/" target="_blank">🌍 Live Demo</a></p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>Skapad med <strong>Claude Code</strong> permanenta agenter</p>
+            <p>© 2026 - Interaktiva matematikövningar för gymnasiet</p>
+        </div>
+    </footer>
+</body>
+</html>

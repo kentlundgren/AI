@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for f in matte2.html matte3.html matte4.html matte5.html)",
+      "Bash(do if [ -f \"D:\\\\VåraFiler_primära_på_SSD\\\\Kent_dokument\\\\Data\\\\HTML\\\\kentlundgren_se\\\\program\\\\AI\\\\Matematik$f\" ])",
+      "Bash(then echo \"$f exists\")",
+      "Bash(else echo \"$f MISSING\")",
+      "Bash(fi)",
+      "Bash(done)",
+      "WebFetch(domain:kentlundgren.github.io)"
+    ]
+  }
+}
