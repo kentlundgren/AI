@@ -1720,7 +1720,7 @@ dagens-dubbel (Firebase-projekt)
     └── veckor (document)
         └── items (subcollection)
             ├── auto-generated-id-1 (document)
-            │   ├── week: 1
+            │   ├── week: 6
             │   ├── date: "2026-02-07"
             │   ├── players: { ... }
             │   └── results: { ... }
