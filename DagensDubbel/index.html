@@ -1385,16 +1385,20 @@
          */
         function saveToFirestore(weekData) {
             try {
-                // FIRESTORE STRUKTUR: collection -> document -> subcollection -> document
+                // UPPDATERING 2026-02-07: Använd veckonummer som dokument-ID
+                // Detta säkerställer att samma vecka uppdateras istället för att skapa dubbletter
+                const weekDocId = 'week-' + weekData.week;
+                
                 db.collection('dagensDubbel')
                     .doc('veckor')
                     .collection('items')
-                    .add({
+                    .doc(weekDocId)  // Använd veckonummer som ID
+                    .set({
                         ...weekData,
                         firestoreTimestamp: firebase.firestore.FieldValue.serverTimestamp()
-                    })
-                    .then((docRef) => {
-                        console.log('✅ Sparad till Firestore med ID:', docRef.id);
+                    }, { merge: true })  // merge: true = uppdatera befintligt eller skapa nytt
+                    .then(() => {
+                        console.log('✅ Vecka', weekData.week, 'sparad/uppdaterad i Firestore');
                     })
                     .catch((error) => {
                         console.error('❌ Firestore-fel vid sparande:', error);
@@ -1420,14 +1424,24 @@
                         console.log('📥 Firestore-uppdatering mottagen');
                         
                         const firestoreWeeks = [];
+                        const seenWeeks = new Set();  // UPPDATERING 2026-02-07: Undvik dubbletter
+                        
                         snapshot.forEach((doc) => {
-                            firestoreWeeks.push({
-                                firestoreId: doc.id,  // Spara Firestore-ID
-                                ...doc.data()
-                            });
+                            const data = doc.data();
+                            
+                            // UPPDATERING 2026-02-07: Ta bara senaste versionen av varje vecka
+                            if (!seenWeeks.has(data.week)) {
+                                seenWeeks.add(data.week);
+                                firestoreWeeks.push({
+                                    firestoreId: doc.id,  // Spara Firestore-ID
+                                    ...data
+                                });
+                            } else {
+                                console.warn('⚠️ Dublett hittad för vecka', data.week, '- ignorerar');
+                            }
                         });
                         
-                        console.log(`Firestore har ${firestoreWeeks.length} veckor`);
+                        console.log(`Firestore har ${firestoreWeeks.length} unika veckor`);
                         
                         // SYNKA MED LOCALSTORAGE
                         if (firestoreWeeks.length > 0) {
@@ -1443,6 +1457,81 @@
             } catch (error) {
                 console.error('❌ Firebase-exception vid läsning:', error);
             }
+        }
+
+        /**
+         * UPPDATERING 2026-02-07: Rensar dubbletter från Firestore
+         * Kör denna funktion EN GÅNG från console om du har dubbletter
+         */
+        function cleanFirestoreDuplicates() {
+            if (!confirm('⚠️ Detta kommer att rensa alla gamla dubbletter från Firestore.\n\nFortsätt?')) {
+                return;
+            }
+            
+            console.log('🧹 Startar rensning av dubbletter...');
+            
+            db.collection('dagensDubbel')
+                .doc('veckor')
+                .collection('items')
+                .get()
+                .then((snapshot) => {
+                    const weekGroups = {};  // Gruppera dokument per veckonummer
+                    
+                    snapshot.forEach((doc) => {
+                        const data = doc.data();
+                        const weekNum = data.week;
+                        
+                        if (!weekGroups[weekNum]) {
+                            weekGroups[weekNum] = [];
+                        }
+                        
+                        weekGroups[weekNum].push({
+                            id: doc.id,
+                            timestamp: data.firestoreTimestamp || data.timestamp || '',
+                            data: data
+                        });
+                    });
+                    
+                    // För varje veckonummer, behåll bara den senaste
+                    let deletePromises = [];
+                    
+                    Object.keys(weekGroups).forEach(weekNum => {
+                        const docs = weekGroups[weekNum];
+                        
+                        if (docs.length > 1) {
+                            console.log(`⚠️ Vecka ${weekNum} har ${docs.length} dubbletter`);
+                            
+                            // Sortera efter timestamp (senaste först)
+                            docs.sort((a, b) => {
+                                if (!a.timestamp) return 1;
+                                if (!b.timestamp) return -1;
+                                return b.timestamp - a.timestamp;
+                            });
+                            
+                            // Ta bort alla utom den senaste
+                            for (let i = 1; i < docs.length; i++) {
+                                console.log(`  🗑️ Raderar gammal version: ${docs[i].id}`);
+                                deletePromises.push(
+                                    db.collection('dagensDubbel')
+                                        .doc('veckor')
+                                        .collection('items')
+                                        .doc(docs[i].id)
+                                        .delete()
+                                );
+                            }
+                        }
+                    });
+                    
+                    return Promise.all(deletePromises);
+                })
+                .then(() => {
+                    console.log('✅ Rensning klar!');
+                    alert('✅ Dubbletter har rensats från Firestore!\n\nLadda om sidan för att se uppdaterad data.');
+                })
+                .catch((error) => {
+                    console.error('❌ Fel vid rensning:', error);
+                    alert('❌ Något gick fel vid rensning: ' + error.message);
+                });
         }
 
         /**
