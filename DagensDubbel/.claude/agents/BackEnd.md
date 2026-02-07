@@ -1177,9 +1177,16 @@ function migrateLocalStorageToFirebase() {
 // migrateLocalStorageToFirebase();
 ```
 
-### Firebase Setup-guide (NÄSTAN SAMMA för båda mönstren!)
+### Firebase Setup-guide (UPPDATERAD 2026-02-07)
 
 **Steg 1-4 och 6-7 är EXAKT samma. Endast steg 5 skiljer sig åt.**
+
+**⚠️ VIKTIGA VARNINGAR före setup:**
+1. **Undvik "production mode"** - Välj alltid "Start in **test mode**" när du skapar databasen
+2. **Ignorera Gemini AI-förslag** - Firebase Console kan föreslå AI-genererade regler, hoppa över dessa
+3. **Välj rätt region** - `europe-west1` för Europa (kan inte ändras efteråt!)
+
+---
 
 1. **Gå till Firebase Console**: https://console.firebase.google.com/
 2. **Skapa nytt projekt** (t.ex. "dagens-dubbel")
@@ -1188,7 +1195,15 @@ function migrateLocalStorageToFirebase() {
 5. **Aktivera databas** (VÄLJ ETT ALTERNATIV):
    - **För Mönster A (Firestore)**: Build → **Firestore Database** → Create Database
    - **För Mönster B (Realtime DB)**: Build → **Realtime Database** → Create Database
-6. **Välj region**: europe-west1 (för Europa)
+   
+   **⚠️ KRITISKT STEG 5:**
+   - När du klickar "Create Database", får du välja **"production mode"** eller **"test mode"**
+   - **VÄLJ ALLTID: "Start in test mode"** ✅
+   - **UNDVIK: "Start in production mode"** ❌ (detta blockerar all läs/skriv-access)
+
+6. **Välj region**: `europe-west1` (för Europa)
+   - **OBS:** Denna inställning kan INTE ändras efteråt!
+
 7. **Säkerhetsregler** (för test):
 
 **Firestore (Mönster A):**
@@ -1212,18 +1227,66 @@ service cloud.firestore {
   }
 }
 ```
-**OBS!** Byt till säkrare regler innan publicering.
+
+**⚠️ SÄKERHETSVARNING:**
+- Ovanstående regler är **ENDAST FÖR UTVECKLING/TEST**
+- **BYT till säkrare regler innan publicering** (se "Säkra regler" nedan)
+- Test mode-regler upphör automatiskt efter 30 dagar
 
 **💡 Bonus:** Du kan aktivera BÅDA databaserna i samma Firebase-projekt! De delar samma `firebaseConfig` och kan användas samtidigt.
 
-### Best Practices för Firebase
+---
+
+### Säkra regler för produktion (VIKTIGT!)
+
+**När du är klar med utveckling, byt till dessa regler:**
+
+**Firestore (Mönster A) - Produktion:**
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      allow read: if true;  // Alla kan läsa
+      allow write: if request.auth != null;  // Endast inloggade kan skriva
+    }
+  }
+}
+```
+
+**Realtime Database (Mönster B) - Produktion:**
+```json
+{
+  "rules": {
+    "dagensDubbel": {
+      ".read": true,
+      ".write": "auth != null"
+    }
+  }
+}
+```
+
+**Förklaring:**
+- `allow read: if true` → Alla kan läsa data (behövs för att visa resultat)
+- `allow write: if request.auth != null` → Endast inloggade användare kan skriva (skyddar mot spam)
+
+**För att aktivera autentisering:**
+1. Firebase Console → **Authentication** → **Get Started**
+2. Välj metod (t.ex. Email/Password eller Google)
+3. Lägg till inloggning i din app (se Firebase Authentication-dokumentation)
+
+### Best Practices för Firebase (UPPDATERAD 2026-02-07)
 
 1. **Alltid kontrollera `window.firebaseReady`** innan Firebase-operationer
 2. **Hantera fel gracefully** med try-catch och fallback till localStorage
 3. **Använd `onValue` för realtidsuppdateringar** istället för att pollas manuellt
-4. **Spara Firebase-ID** när du läser data (behövs för uppdatering/radering)
-5. **Validera data** innan sparande (samma som för localStorage)
-6. **Använd säkra regler** i produktion (se Firebase Security Rules)
+4. **Använd beskrivande dokument-ID:n** - `week-6` istället för slumpmässiga ID:n
+5. **Använd `{ merge: true }`** för att uppdatera befintliga dokument istället för att skapa nya
+6. **Spara `firestoreTimestamp`** för att kunna identifiera senaste versionen
+7. **Validera data** innan sparande (samma som för localStorage)
+8. **Använd säkra regler** i produktion (se Firebase Security Rules)
+9. **Rensa dubbletter regelbundet** - Använd rensningsknappen i Historik-fliken
+10. **Länka localStorage och Firebase** - Spara till båda för optimal prestanda och backup
 
 ### Firebase vs LocalStorage - När ska du använda vad?
 
@@ -1712,20 +1775,231 @@ service cloud.firestore {
 }
 ```
 
-### Firestore-struktur
+### Firestore-struktur (UPPDATERAD 2026-02-07)
+
+**VIKTIGT:** Från och med version 1.1 använder systemet **veckonummer som dokument-ID** för att undvika dubbletter.
 
 ```
 dagens-dubbel (Firebase-projekt)
 └── dagensDubbel (collection)
     └── veckor (document)
         └── items (subcollection)
-            ├── auto-generated-id-1 (document)
+            ├── week-6 (document) ← Veckonummer som ID
             │   ├── week: 6
             │   ├── date: "2026-02-07"
-            │   ├── players: { ... }
-            │   └── results: { ... }
-            ├── auto-generated-id-2 (document)
-            └── ...
+            │   ├── players: {
+            │   │   kent: { bet: 45, race1: "5,8,11", race2: "1,4,15" },
+            │   │   lotta: { bet: 25, race1: "5,8,11", race2: "4,15" },
+            │   │   ...
+            │   │ }
+            │   ├── results: { winner_race1: 4, winner_race2: 6, dd_payout: 70.08 }
+            │   └── firestoreTimestamp: [serverTimestamp]
+            ├── week-7 (document)
+            │   └── ...
+            └── week-8 (document)
+                └── ...
+```
+
+**Fördelar med `week-X` format:**
+- ✅ **Inga dubbletter** - Samma vecka uppdateras istället för att skapa nya dokument
+- ✅ **Tydlig struktur** - Man ser direkt vilken vecka datan tillhör
+- ✅ **Lätt att hitta** - Direkt sökbar i Firebase Console
+- ✅ **Effektiv synkronisering** - `{ merge: true }` uppdaterar befintlig data
+
+---
+
+## 🗂️ FIREBASE CONSOLE NAVIGATION - UPPDATERING 2026-02-07
+
+### Hur man hittar och läser data i Firebase Console
+
+**Firebase Console URL:**
+```
+https://console.firebase.google.com/u/0/project/dagens-dubbel/firestore
+```
+
+### Steg-för-steg navigation:
+
+1. **Logga in på Firebase Console**
+   - Gå till: https://console.firebase.google.com/
+   - Välj projekt: `dagens-dubbel`
+
+2. **Öppna Firestore Database**
+   - Klicka på **"Build"** i vänster menyn
+   - Välj **"Firestore Database"**
+   - Klicka på **"Data"**-fliken
+
+3. **Navigera till dagens dubbel-data**
+   ```
+   Klicka på: dagensDubbel (collection)
+          → veckor (document)
+          → items (subcollection)
+          → week-6 (document) ← Här är veckans data!
+   ```
+
+4. **Läsa data i ett dokument**
+   - Klicka på `week-6` för att se fälten:
+     - `date`: "2026-02-07"
+     - `week`: 6
+     - `players`: { kent: {...}, lotta: {...}, ... }
+     - `results`: { winner_race1: 4, winner_race2: 6, dd_payout: 70.08 }
+     - `firestoreTimestamp`: February 7, 2026 at 11:19:35 PM UTC+1
+
+### Tolka dokument-ID:n
+
+| Dokument-ID | Betydelse | Status |
+|-------------|-----------|--------|
+| `week-6` | Vecka 6 (aktuellt format) | ✅ Korrekt |
+| `week-7` | Vecka 7 (aktuellt format) | ✅ Korrekt |
+| `H8Y.qDNulTwnP...` | Slumpmässigt ID (gammalt) | ⚠️ Dubblett - radera |
+| `p1nOwJMNzOXW...` | Slumpmässigt ID (gammalt) | ⚠️ Dubblett - radera |
+
+**Problem med slumpmässiga ID:n:**
+- ❌ Omöjligt att se vilken vecka datan tillhör
+- ❌ Skapar dubbletter vid varje sparning
+- ❌ Svårt att hitta specifik vecka
+
+**Lösning:** Använd rensningsknappen (se nedan)
+
+### Firebase Console Tips
+
+**🔍 Snabbt hitta en vecka:**
+- I Console, använd sökfältet längst upp
+- Skriv: `week-7` för att hitta vecka 7 direkt
+
+**📊 Se alla veckor:**
+- Öppna `items`-subcollection
+- Alla `week-X` dokument visas i en lista
+- Sortera efter `firestoreTimestamp` för att se senaste först
+
+**🗑️ Radera manuellt:**
+- Klicka på tre prickarna `⋮` till höger om dokumentnamnet
+- Välj **"Delete document"** (INTE "Delete field")
+- Bekräfta
+
+**⚠️ Viktigt:**
+- **Delete document** = Tar bort hela veckan (allt innehåll)
+- **Delete field** = Tar bara bort ett enskilt fält (t.ex. `date` eller `players`)
+
+### Dubbletthantering i Firebase
+
+**Problem:** Gamla sparningar skapade slumpmässiga ID:n → Flera kopior av samma vecka
+
+**Orsak:** Tidigare kod använde `.add()` istället för `.doc(id).set()`
+
+**Lösning:** 
+1. **Automatisk rensning (rekommenderas):**
+   - Öppna `index.html` → Historik-fliken
+   - Klicka på **🧹 Rensa dubbletter i Firebase** (orange knapp)
+   - Systemet behåller senaste versionen av varje vecka
+   - Raderar alla gamla versioner
+
+2. **Manuell rensning (om du föredrar):**
+   - Gå till Firebase Console
+   - Identifiera dokument med slumpmässiga ID:n
+   - Radera alla utom den senaste (titta på `firestoreTimestamp`)
+
+### Code: Rensningsfunktion (finns i index.html)
+
+```javascript
+function cleanFirestoreDuplicates() {
+    // Grupperar alla dokument per veckonummer
+    // Behåller endast senaste versionen av varje vecka
+    // Raderar alla gamla versioner
+    
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .get()
+        .then((snapshot) => {
+            const weekGroups = {};
+            
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const weekNum = data.week;
+                
+                if (!weekGroups[weekNum]) {
+                    weekGroups[weekNum] = [];
+                }
+                
+                weekGroups[weekNum].push({
+                    id: doc.id,
+                    timestamp: data.firestoreTimestamp || data.timestamp || '',
+                    date: data.date || '',
+                    data: data
+                });
+            });
+            
+            // För varje vecka, behåll bara den senaste
+            let deletePromises = [];
+            
+            Object.keys(weekGroups).forEach(weekNum => {
+                const docs = weekGroups[weekNum];
+                
+                if (docs.length > 1) {
+                    // Sortera efter timestamp (senaste först)
+                    docs.sort((a, b) => {
+                        if (!a.timestamp) return 1;
+                        if (!b.timestamp) return -1;
+                        return b.timestamp - a.timestamp;
+                    });
+                    
+                    // Radera alla utom den senaste
+                    for (let i = 1; i < docs.length; i++) {
+                        deletePromises.push(
+                            db.collection('dagensDubbel')
+                                .doc('veckor')
+                                .collection('items')
+                                .doc(docs[i].id)
+                                .delete()
+                        );
+                    }
+                }
+            });
+            
+            return Promise.all(deletePromises);
+        })
+        .then(() => {
+            console.log('✅ Rensning klar!');
+            alert('✅ Dubbletter har rensats från Firestore!');
+            location.reload();
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid rensning:', error);
+        });
+}
+```
+
+### Förhindra framtida dubbletter
+
+**Nuvarande kod använder:**
+```javascript
+function saveToFirestore(weekData) {
+    const weekDocId = 'week-' + weekData.week;  // ← Veckonummer som ID
+    
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .doc(weekDocId)  // ← Använd fast ID
+        .set({
+            ...weekData,
+            firestoreTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true })  // ← Uppdatera istället för att skapa nytt
+        .then(() => {
+            console.log('✅ Vecka', weekData.week, 'sparad/uppdaterad i Firestore');
+        });
+}
+```
+
+**Nyckeln:**
+- `.doc(weekDocId)` → Använder `week-6` som ID
+- `{ merge: true }` → Uppdaterar befintligt dokument om det finns
+
+**Tidigare fel (UNDVIK DETTA):**
+```javascript
+db.collection('dagensDubbel')
+    .doc('veckor')
+    .collection('items')
+    .add(weekData)  // ❌ Skapar NYTT dokument med slumpmässigt ID varje gång
 ```
 
 ---
@@ -1796,7 +2070,25 @@ function escapeCSV(value) {
 
 ---
 
-**Version**: 1.0  
+## 📌 Se även
+
+- **FireBase.html** - Komplett Firebase-guide med bilder och steg-för-steg instruktioner
+- **CLAUDE.md** - Projektöversikt och workflow för vecka 7
+- **PRD_ver2.md** - Produktkrav och förbättringsförslag baserat på vecka 6
+- **Firebase Console** - https://console.firebase.google.com/u/0/project/dagens-dubbel/firestore
+
+---
+
+**Version**: 1.1 (UPPDATERAD 2026-02-07)  
 **Skapad**: 7 februari 2026  
+**Senast uppdaterad**: 7 februari 2026  
 **Kontakt**: Kent Lundgren  
 **Projekt**: Dagens Dubbel Analyssystem
+
+**Ändringslogg v1.1:**
+- ✅ Lagt till Firebase Console Navigation-guide
+- ✅ Uppdaterad Firestore-struktur med `week-X` format
+- ✅ Dubbletthantering och rensningsfunktion dokumenterad
+- ✅ Setup-guide förbättrad med varningar om "production mode" och säkerhetsregler
+- ✅ Best Practices uppdaterade med 10 punkter
+- ✅ Länkar till Firebase Console och relaterade dokument
