@@ -70,6 +70,134 @@ Ett **självförbättrande prediktionssystem** för Dagens Dubbel (Solvalla lör
 
 ---
 
+## 🔗 KORSNAVIGERING MELLAN HTML-FILER (UPPDATERAD 2026-02-07)
+
+### Princip: Alla HTML-filer länkar till index.html och vice versa
+
+**Syfte:** Användare ska alltid kunna navigera enkelt mellan olika vyer i projektet utan att behöva använda webbläsarens "tillbaka"-knapp eller manuellt ändra URL.
+
+### Implementerade länkar
+
+| Från | Till | Typ | Placering |
+|------|------|-----|-----------|
+| **index.html** | systemets_tips.html | Tab-knapp | Huvudnavigation |
+| **index.html** | FireBase.html | Tab-knapp | Huvudnavigation |
+| **systemets_tips.html** | index.html | Text-länk | Inom innehåll |
+| **FireBase.html** | index.html | Knapp | Header |
+
+### Implementeringsmönster
+
+#### 1. Från index.html till andra sidor (Tab-knapp)
+
+```html
+<!-- I index.html navigation -->
+<button class="tab-button" onclick="window.location.href='systemets_tips.html'" 
+        style="background: linear-gradient(135deg, #27ae60, #229954);">
+    🤖 Systemets Tips
+</button>
+<button class="tab-button" onclick="window.location.href='FireBase.html'" 
+        style="background: linear-gradient(135deg, #e67e22, #d35400);">
+    🔥 Firebase Guide
+</button>
+```
+
+**Fördelar:**
+- ✅ Visuellt konsekvent med övriga tabs
+- ✅ Tydlig färgkodning (grön för system, orange för teknisk guide)
+- ✅ Enkel onclick-navigation
+
+#### 2. Tillbaka till index.html från andra sidor (Header-knapp)
+
+**A. Från FireBase.html (knapp i header):**
+```html
+<header>
+    <h1>🔥 Firebase Integration Guide</h1>
+    <p>Kent's standardmönster för Firebase Realtime Database</p>
+    <p style="margin-top: 1rem;">
+        <a href="index.html" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block; margin-right: 0.5rem;">
+            ← Tillbaka till huvudsystemet
+        </a>
+        <a href="https://github.com/kentlundgren/AI/tree/main/DagensDubbel" target="_blank" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block;">
+            💻 Visa källkod på GitHub
+        </a>
+    </p>
+</header>
+```
+
+**B. Från systemets_tips.html (text-länk i innehåll):**
+```html
+<p style="text-align: center; margin-top: 2rem;">
+    <a href="index.html" style="color: #667eea; text-decoration: none; font-size: 1.1em;">
+        ← Tillbaka till huvudsystemet
+    </a>
+</p>
+```
+
+### Designprinciper för korsnavigering
+
+1. **Konsistens**: Använd samma mönster för liknande sidor
+2. **Tydlighet**: Användare ska alltid se "← Tillbaka till huvudsystemet" när de är på undersida
+3. **Färgkodning**: Använd gradient-bakgrunder för att skilja olika typer av sidor åt
+   - 🟢 Grön: Systemets strategier och tips
+   - 🟠 Orange: Tekniska guider och dokumentation
+   - 🔵 Blå: Standardfärg för vanliga tabs
+
+4. **Placering**: 
+   - Från index.html → Tabs i huvudnavigationen
+   - Från andra sidor → Header (primär) eller footer (sekundär)
+
+### Nya HTML-filer i framtiden
+
+När du skapar en ny HTML-fil (t.ex. `systemets_tips_v7.html`, `tranings_guide.html`):
+
+**CHECKLISTA:**
+1. ✅ Lägg till tab-knapp i `index.html` huvudnavigation
+2. ✅ Lägg till "← Tillbaka till huvudsystemet" länk i den nya filens header
+3. ✅ Välj lämplig färgkodning baserat på typ av innehåll
+4. ✅ Uppdatera denna sektion i CLAUDE.md med den nya länken
+
+### Exempel: Lägga till en ny fil
+
+**Om du vill skapa `tranings_guide.html`:**
+
+```html
+<!-- 1. I index.html, lägg till: -->
+<button class="tab-button" onclick="window.location.href='tranings_guide.html'" 
+        style="background: linear-gradient(135deg, #3498db, #2980b9);">
+    📚 Träningsguide
+</button>
+
+<!-- 2. I tranings_guide.html, lägg till i header: -->
+<header>
+    <h1>📚 Träningsguide för Dagens Dubbel</h1>
+    <p>Hur systemet lär sig från varje vecka</p>
+    <p style="margin-top: 1rem;">
+        <a href="index.html" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block;">
+            ← Tillbaka till huvudsystemet
+        </a>
+    </p>
+</header>
+```
+
+**3. Uppdatera CLAUDE.md:**
+- Lägg till i tabellen under "Implementerade länkar"
+- Dokumentera färgval och motivering
+
+### Varför korsnavigering är viktigt
+
+✅ **Användarvänlighet**: Intuitivt att navigera mellan vyer  
+✅ **Proffsig känsla**: Moderna webbappar har alltid navigation  
+✅ **Minskar förvirring**: Användare fastnar inte på en sida  
+✅ **Dokumenterar struktur**: Länkar visar hur projektet hänger ihop  
+
+---
+
 ## 🔥 BACKEND-FOKUS: FIREBASE OCH DATAHANTERING
 
 ### Firebase Firestore - Kent's Mönster A

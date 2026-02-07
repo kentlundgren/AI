@@ -791,7 +791,7 @@ Se [Matematik/CLAUDE.md](Matematik/CLAUDE.md) för detaljerade quiz-implementati
 
 ---
 
-## 🔗 Korsnavigering mellan HTML-filer
+## 🔗 Korsnavigering mellan HTML-filer (UPPDATERAD 2026-02-07)
 
 **Implementerat i:** [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) (2026-02-07)
 
@@ -799,11 +799,13 @@ Se [Matematik/CLAUDE.md](Matematik/CLAUDE.md) för detaljerade quiz-implementati
 
 När ett projekt innehåller flera HTML-filer ska det vara lätt för användaren att navigera mellan dem. `index.html` fungerar som **huvudfil/hub**, och alla andra HTML-filer ska ha tydliga länkar tillbaka.
 
-### Regel
+### 📋 OBLIGATORISK REGEL
 
 **När du skapar nya HTML-filer i ett projekt:**
-1. ✅ Lägg till en **flik/länk från `index.html`** till den nya filen
-2. ✅ Lägg till en **"Tillbaka till huvudsystemet"-länk** i den nya filen som pekar på `index.html`
+1. ✅ **Lägg till en flik/länk från `index.html`** till den nya filen
+2. ✅ **Lägg till en "← Tillbaka till huvudsystemet"-länk** i den nya filen som pekar på `index.html`
+3. ✅ **Använd färgkodning** för att skilja olika typer av sidor åt
+4. ✅ **Uppdatera projektets CLAUDE.md** med den nya länken
 
 ### Implementation
 
@@ -815,11 +817,19 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 <div class="tabs">
     <button class="tab-button active" onclick="switchTab('input')">📝 Inmatning</button>
     <button class="tab-button" onclick="switchTab('results')">🏆 Resultat</button>
-    <!-- Ny flik som länkar till extern fil -->
+    
+    <!-- Grön gradient för system-relaterat innehåll -->
     <button class="tab-button" 
             onclick="window.location.href='systemets_tips.html'" 
             style="background: linear-gradient(135deg, #27ae60, #229954);">
         🤖 Systemets Tips
+    </button>
+    
+    <!-- Orange gradient för teknisk dokumentation -->
+    <button class="tab-button" 
+            onclick="window.location.href='FireBase.html'" 
+            style="background: linear-gradient(135deg, #e67e22, #d35400);">
+        🔥 Firebase Guide
     </button>
 </div>
 ```
@@ -838,37 +848,139 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 
 #### 2️⃣ Från annan HTML-fil tillbaka till index.html
 
-**I header-sektionen av den andra filen:**
+**Variant A: I header-sektionen (rekommenderas för dokumentation):**
 ```html
 <header>
-    <h1>Titel på sidan</h1>
-    <p>Beskrivning</p>
-    <!-- Tillbaka-länk -->
-    <p style="margin-top: 1.5rem;">
+    <h1>🔥 Firebase Integration Guide</h1>
+    <p>Kent's standardmönster för Firebase Realtime Database</p>
+    <p style="margin-top: 1rem;">
+        <!-- Tillbaka-länk FÖRST -->
         <a href="index.html" 
-           style="color: white; background: rgba(255,255,255,0.2); padding: 0.7rem 1.5rem; 
-                  border-radius: 8px; text-decoration: none; display: inline-block;
-                  transition: all 0.3s ease; font-weight: 500;">
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block; margin-right: 0.5rem;">
             ← Tillbaka till huvudsystemet
+        </a>
+        <!-- Eventuellt andra länkar (GitHub, etc.) -->
+        <a href="https://github.com/kentlundgren/AI" target="_blank" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block;">
+            💻 GitHub
         </a>
     </p>
 </header>
 ```
 
+**Variant B: I innehåll/footer (enklare variant):**
+```html
+<p style="text-align: center; margin-top: 2rem;">
+    <a href="index.html" style="color: #667eea; text-decoration: none; font-size: 1.1em;">
+        ← Tillbaka till huvudsystemet
+    </a>
+</p>
+```
+
+### Färgkodning för olika typer av sidor
+
+| Typ av innehåll | Färg | Gradient | Användning |
+|-----------------|------|----------|------------|
+| **Systemets strategier/tips** | 🟢 Grön | `#27ae60` → `#229954` | AI-genererade analyser, tips, strategier |
+| **Teknisk dokumentation** | 🟠 Orange | `#e67e22` → `#d35400` | Firebase, API-guider, tekniska manualer |
+| **Användardokumentation** | 🔵 Blå | `#3498db` → `#2980b9` | Instruktioner, FAQ, hjälpsidor |
+| **Standardfunktion** | 🟣 Lila | `#667eea` → `#764ba2` | Vanliga tabs, ingen speciell kategori |
+
 ### Exempel från DagensDubbel
 
-**index.html:**
-- Har en grön flik "🤖 Systemets Tips" som länkar till `systemets_tips.html`
+**index.html har länkar till:**
+- `systemets_tips.html` - 🟢 Grön flik (AI-strategi)
+- `FireBase.html` - 🟠 Orange flik (Teknisk guide)
 
-**systemets_tips.html:**
-- Har en "← Tillbaka till huvudsystemet"-knapp i headern som länkar till `index.html`
+**Båda filerna har tillbaka-länkar:**
+- `systemets_tips.html` → Enkel text-länk i innehåll
+- `FireBase.html` → Knapp i header (bredvid GitHub-länk)
 
-### Fördelar
+### Checklista när du lägger till ny HTML-fil
 
-- ✅ Användaren hittar alltid tillbaka till huvudfilen
-- ✅ Tydlig struktur där `index.html` är "hemmet"
-- ✅ Bättre användarupplevelse vid navigation
-- ✅ Följer webbstandarder (index som startpunkt)
+```markdown
+□ 1. Skapa HTML-filen (t.ex. `ny_fil.html`)
+□ 2. I index.html: Lägg till tab-knapp med passande färg
+□ 3. I ny_fil.html: Lägg till "← Tillbaka till huvudsystemet" i header
+□ 4. Testa båda navigationsriktningarna
+□ 5. Uppdatera projektets CLAUDE.md med ny länk i "Korsnavigering"-sektion
+□ 6. Commit med beskrivande meddelande (t.ex. "Lagt till Firebase-guide med korsnavigering")
+```
+
+### Varför detta är viktigt
+
+✅ **Användarvänlighet**: Intuitivt att navigera mellan vyer  
+✅ **Proffsig känsla**: Moderna webbappar har alltid navigation  
+✅ **Minskar förvirring**: Användare fastnar inte på en sida  
+✅ **Dokumenterar struktur**: Länkar visar hur projektet hänger ihop  
+✅ **SEO och tillgänglighet**: Sökrobotar och skärmläsare kan indexera bättre  
+✅ **Underhållbarhet**: Lätt att se alla filer som hör ihop  
+
+### Vanliga misstag att undvika
+
+❌ **Glömmer tillbaka-länk** - Användare blir strandsatta på undersida  
+❌ **Ingen färgkodning** - Svårt att skilja olika typer av innehåll  
+❌ **Länkar i footer istället för header** - Användare ser inte dem direkt  
+❌ **Använder `target="_blank"` för interna länkar** - Öppnar onödiga tabs  
+❌ **Glömmer uppdatera CLAUDE.md** - Framtida Claude-sessioner vet inte om länkarna  
+
+### Mall för ny HTML-fil
+
+```html
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ny Sida - Dagens Dubbel</title>
+    <style>
+        /* Grundläggande styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Titel på sidan</h1>
+            <p>Beskrivning</p>
+            <!-- VIKTIGT: Tillbaka-länk -->
+            <p style="margin-top: 1rem;">
+                <a href="index.html" 
+                   style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                          border-radius: 5px; text-decoration: none; display: inline-block;">
+                    ← Tillbaka till huvudsystemet
+                </a>
+            </p>
+        </header>
+        
+        <div style="padding: 40px;">
+            <!-- Innehåll här -->
+        </div>
+    </div>
+</body>
+</html>
+```
 
 ---
 
