@@ -1974,8 +1974,11 @@
                 return;
             }
 
+            // UPPDATERING 2026-02-07: Filtrera bort vecka 1 (testdata)
+            const filteredData = weeklyData.filter(week => week.week !== 1);
+
             let html = '';
-            weeklyData.forEach(week => {
+            filteredData.forEach(week => {
                 const hasResults = week.results.winner_race1 && week.results.winner_race2;
                 
                 html += `<tr>
