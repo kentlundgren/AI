@@ -775,9 +775,17 @@ function saveWeekData() {
             <!-- ============================================
                  SETUP FIREBASE-PROJEKT
                  ============================================ -->
-            <h2>🚀 Setup: Skapa Firebase-projekt</h2>
+            <h2>🚀 Setup: Skapa Firebase-projekt (SAMMA för båda mönstren)</h2>
             
             <div class="section">
+                <div class="info">
+                    <strong>💡 Setup-processen är nästan identisk för båda mönstren!</strong><br><br>
+                    <strong>Steg 1-4:</strong> EXAKT samma (skapa projekt, lägg till webbapp, kopiera config)<br>
+                    <strong>Steg 5:</strong> OLIKA - välj Firestore (Mönster A) eller Realtime Database (Mönster B)<br>
+                    <strong>Steg 6:</strong> Säkerhetsregler - samma koncept, olika syntax<br>
+                    <strong>Steg 7:</strong> SAMMA - testa anslutningen
+                </div>
+
                 <div class="step">
                     <span class="step-number">1</span>
                     <strong>Gå till Firebase Console</strong><br>
@@ -799,46 +807,176 @@ function saveWeekData() {
                 <div class="step">
                     <span class="step-number">4</span>
                     <strong>Kopiera Firebase Config</strong><br>
-                    Firebase visar en <code>firebaseConfig</code>-objekt. Kopiera detta och klistra in i ditt script (se Steg 2 ovan).
+                    Firebase visar en <code>firebaseConfig</code>-objekt. Kopiera detta och klistra in i ditt script.<br>
+                    <strong>SAMMA config fungerar för båda mönstren!</strong>
                 </div>
 
                 <div class="step">
                     <span class="step-number">5</span>
-                    <strong>Aktivera Realtime Database</strong><br>
-                    I sidomenyn, gå till "Build" → "Realtime Database" → "Create Database".<br>
+                    <strong>Aktivera databas (VÄLJ ETT ALTERNATIV)</strong><br><br>
+                    
+                    <strong>🅰️ För Mönster A (Firestore):</strong><br>
+                    I sidomenyn, gå till "Build" → <strong>"Firestore Database"</strong> → "Create Database".<br>
+                    Välj region (t.ex. <code>europe-west1</code> för Europa).<br>
+                    Starta i "Test mode" (öppna regler, byt senare till säkrare regler).<br><br>
+                    
+                    <strong>🅱️ För Mönster B (Realtime Database):</strong><br>
+                    I sidomenyn, gå till "Build" → <strong>"Realtime Database"</strong> → "Create Database".<br>
                     Välj region (t.ex. <code>europe-west1</code> för Europa).<br>
                     Starta i "Test mode" (öppna regler, byt senare till säkrare regler).
+                    
+                    <div class="highlight" style="margin-top: 15px;">
+                        <strong>📌 Viktigt:</strong> Du kan aktivera BÅDA databaserna i samma projekt om du vill testa båda mönstren! Firebase-projektet stödjer både Firestore och Realtime Database samtidigt.
+                    </div>
                 </div>
 
                 <div class="step">
                     <span class="step-number">6</span>
-                    <strong>Säkerhetsregler (VIKTIGT!)</strong><br>
-                    Under "Rules"-fliken, byt ut reglerna:
+                    <strong>Säkerhetsregler (VIKTIGT! - Olika syntax för varje databas)</strong><br><br>
+                    
+                    <strong>🅰️ För Mönster A (Firestore):</strong><br>
+                    Under "Rules"-fliken i Firestore, använd denna syntax:
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;  // Endast inloggade
+    }
+  }
+}</pre>
+
+                    <strong>🅱️ För Mönster B (Realtime Database):</strong><br>
+                    Under "Rules"-fliken i Realtime Database, använd denna syntax:
 
 <pre>{
   "rules": {
-    ".read": "auth != null",  // Endast inloggade användare kan läsa
-    ".write": "auth != null"  // Endast inloggade användare kan skriva
+    ".read": "auth != null",   // Endast inloggade användare kan läsa
+    ".write": "auth != null"   // Endast inloggade användare kan skriva
   }
 }</pre>
 
                     <div class="warning">
-                        <strong>⚠️ För utveckling (osäkert, använd bara lokalt):</strong>
-<pre>{
-  "rules": {
-    ".read": true,
-    ".write": true
+                        <strong>⚠️ För utveckling (osäkert, använd bara lokalt):</strong><br><br>
+                        
+                        <strong>Firestore (test mode):</strong>
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;  // ÖPPET FÖR ALLA
+    }
   }
 }</pre>
-                        <strong>Byt till säkra regler innan publicering!</strong>
+
+                        <strong>Realtime Database (test mode):</strong>
+<pre>{
+  "rules": {
+    ".read": true,   // ÖPPET FÖR ALLA
+    ".write": true   // ÖPPET FÖR ALLA
+  }
+}</pre>
+                        <strong>⚠️ Byt till säkra regler innan publicering!</strong>
                     </div>
                 </div>
 
                 <div class="step">
                     <span class="step-number">7</span>
-                    <strong>Testa anslutningen</strong><br>
-                    Öppna din HTML-fil i webbläsaren och kontrollera Console (F12).<br>
-                    Du bör se: <code>FIREBASE ÄR REDO FÖR ANVÄNDNING</code>
+                    <strong>Testa anslutningen (SAMMA för båda)</strong><br>
+                    Öppna din HTML-fil i webbläsaren och kontrollera Console (F12 → Console-fliken).<br><br>
+                    
+                    <strong>🅰️ Mönster A ska visa:</strong><br>
+                    <code>Firebase initierad! Projekt: ditt-projekt-namn</code><br><br>
+                    
+                    <strong>🅱️ Mönster B ska visa:</strong><br>
+                    <code>FIREBASE ÄR REDO FÖR ANVÄNDNING</code>
+                    
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>💡 Om du ser fel:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Kontrollera att <code>firebaseConfig</code> är korrekt kopierad</li>
+                            <li>Verifiera att rätt databas är aktiverad (Firestore eller Realtime)</li>
+                            <li>Kontrollera att säkerhetsreglerna är satta till "test mode"</li>
+                            <li>Kolla Network-fliken (F12) för eventuella nätverksfel</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 SAMMANFATTNING: VAD ÄR SAMMA/OLIKA
+                 ============================================ -->
+            <h2>📋 Sammanfattning: Vad är samma och vad är olika?</h2>
+            
+            <div class="section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Setup-steg</th>
+                            <th>Mönster A (Compat + Firestore)</th>
+                            <th>Mönster B (Modular + Realtime DB)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Firebase Console</strong></td>
+                            <td>console.firebase.google.com</td>
+                            <td>console.firebase.google.com</td>
+                            <td class="pros">✅ SAMMA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Skapa projekt</strong></td>
+                            <td>"Add project" → välj namn</td>
+                            <td>"Add project" → välj namn</td>
+                            <td class="pros">✅ SAMMA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Lägg till webbapp</strong></td>
+                            <td>Klicka på Web (&lt;/&gt;-ikonen)</td>
+                            <td>Klicka på Web (&lt;/&gt;-ikonen)</td>
+                            <td class="pros">✅ SAMMA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Firebase Config</strong></td>
+                            <td>Kopiera firebaseConfig-objektet</td>
+                            <td>Kopiera firebaseConfig-objektet</td>
+                            <td class="pros">✅ SAMMA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Aktivera databas</strong></td>
+                            <td>Build → <strong>Firestore Database</strong></td>
+                            <td>Build → <strong>Realtime Database</strong></td>
+                            <td class="cons">❌ OLIKA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>6. Säkerhetsregler</strong></td>
+                            <td>Firestore rules syntax</td>
+                            <td>JSON rules syntax</td>
+                            <td style="color: #f39c12; font-weight: bold;">⚠️ OLIKA SYNTAX</td>
+                        </tr>
+                        <tr>
+                            <td><strong>7. Testa anslutning</strong></td>
+                            <td>Öppna i webbläsare, kolla Console</td>
+                            <td>Öppna i webbläsare, kolla Console</td>
+                            <td class="pros">✅ SAMMA</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight">
+                    <strong>🎯 Slutsats:</strong><br>
+                    <strong>90% av setup-processen är identisk!</strong> Den enda verkliga skillnaden är vilket databas-alternativ du väljer i steg 5 (Firestore eller Realtime Database). Säkerhetsreglerna (steg 6) är samma koncept men med olika syntax.
+                </div>
+
+                <div class="info">
+                    <strong>💡 Bonus-tips:</strong> Du kan aktivera BÅDA databaserna i samma Firebase-projekt! Detta är perfekt om du vill:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Testa båda mönstren för att se vilket du föredrar</li>
+                        <li>Använda Firestore för komplex data och Realtime DB för realtidsuppdateringar</li>
+                        <li>Migrera gradvis från ett mönster till ett annat</li>
+                    </ul>
+                    Båda databaserna delar samma <code>firebaseConfig</code> och kan användas samtidigt i samma projekt!
                 </div>
             </div>
 

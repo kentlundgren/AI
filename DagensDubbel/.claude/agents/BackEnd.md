@@ -1177,24 +1177,44 @@ function migrateLocalStorageToFirebase() {
 // migrateLocalStorageToFirebase();
 ```
 
-### Firebase Setup-guide
+### Firebase Setup-guide (NÄSTAN SAMMA för båda mönstren!)
+
+**Steg 1-4 och 6-7 är EXAKT samma. Endast steg 5 skiljer sig åt.**
 
 1. **Gå till Firebase Console**: https://console.firebase.google.com/
 2. **Skapa nytt projekt** (t.ex. "dagens-dubbel")
 3. **Lägg till Web App** (klicka på </> ikonen)
-4. **Kopiera firebaseConfig** och klistra in i ditt script
-5. **Aktivera Realtime Database**: Build → Realtime Database → Create Database
+4. **Kopiera firebaseConfig** och klistra in i ditt script (SAMMA för båda mönstren!)
+5. **Aktivera databas** (VÄLJ ETT ALTERNATIV):
+   - **För Mönster A (Firestore)**: Build → **Firestore Database** → Create Database
+   - **För Mönster B (Realtime DB)**: Build → **Realtime Database** → Create Database
 6. **Välj region**: europe-west1 (för Europa)
 7. **Säkerhetsregler** (för test):
+
+**Firestore (Mönster A):**
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;  // ÖPPET FÖR ALLA - ENDAST TEST
+    }
+  }
+}
+```
+
+**Realtime Database (Mönster B):**
 ```json
 {
   "rules": {
-    ".read": true,
+    ".read": true,   // ÖPPET FÖR ALLA - ENDAST TEST
     ".write": true
   }
 }
 ```
 **OBS!** Byt till säkrare regler innan publicering.
+
+**💡 Bonus:** Du kan aktivera BÅDA databaserna i samma Firebase-projekt! De delar samma `firebaseConfig` och kan användas samtidigt.
 
 ### Best Practices för Firebase
 
