@@ -750,6 +750,7 @@ mkdir -p .claude/agents
 - ✅ **Testa interaktiva element** (quiz, formulär, knappar) innan publicering
 - ✅ **Använd färgkodning** för att visa input-status (gul → grå vid sparande)
 - ✅ **Automatisera beräkningar** där möjligt för bättre UX
+- ✅ **Korsnavigering mellan HTML-filer** - Alla HTML-filer länkar till index.html och vice versa
 
 ### Undvik:
 - ❌ Generiska agentnamn (agent1, agent2, agent3)
@@ -787,6 +788,87 @@ Om ditt projekt innehåller **interaktiva HTML-element** (som quiz-frågor, form
 
 **Exempel från Matematik-projektet:**
 Se [Matematik/CLAUDE.md](Matematik/CLAUDE.md) för detaljerade quiz-implementationskrav.
+
+---
+
+## 🔗 Korsnavigering mellan HTML-filer
+
+**Implementerat i:** [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) (2026-02-07)
+
+### Syfte
+
+När ett projekt innehåller flera HTML-filer ska det vara lätt för användaren att navigera mellan dem. `index.html` fungerar som **huvudfil/hub**, och alla andra HTML-filer ska ha tydliga länkar tillbaka.
+
+### Regel
+
+**När du skapar nya HTML-filer i ett projekt:**
+1. ✅ Lägg till en **flik/länk från `index.html`** till den nya filen
+2. ✅ Lägg till en **"Tillbaka till huvudsystemet"-länk** i den nya filen som pekar på `index.html`
+
+### Implementation
+
+#### 1️⃣ Från index.html till annan HTML-fil
+
+**Alt A: Som flik i navigation** (om projektet har flikar):
+```html
+<!-- I index.html, lägg till i tab-navigeringen -->
+<div class="tabs">
+    <button class="tab-button active" onclick="switchTab('input')">📝 Inmatning</button>
+    <button class="tab-button" onclick="switchTab('results')">🏆 Resultat</button>
+    <!-- Ny flik som länkar till extern fil -->
+    <button class="tab-button" 
+            onclick="window.location.href='systemets_tips.html'" 
+            style="background: linear-gradient(135deg, #27ae60, #229954);">
+        🤖 Systemets Tips
+    </button>
+</div>
+```
+
+**Alt B: Som länk i innehållet** (om ingen flik-struktur finns):
+```html
+<p style="margin-top: 1rem;">
+    <a href="andra_filen.html" 
+       style="color: white; background: #667eea; padding: 0.7rem 1.5rem; 
+              border-radius: 8px; text-decoration: none; display: inline-block;
+              transition: all 0.3s ease;">
+        → Gå till Analys
+    </a>
+</p>
+```
+
+#### 2️⃣ Från annan HTML-fil tillbaka till index.html
+
+**I header-sektionen av den andra filen:**
+```html
+<header>
+    <h1>Titel på sidan</h1>
+    <p>Beskrivning</p>
+    <!-- Tillbaka-länk -->
+    <p style="margin-top: 1.5rem;">
+        <a href="index.html" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.7rem 1.5rem; 
+                  border-radius: 8px; text-decoration: none; display: inline-block;
+                  transition: all 0.3s ease; font-weight: 500;">
+            ← Tillbaka till huvudsystemet
+        </a>
+    </p>
+</header>
+```
+
+### Exempel från DagensDubbel
+
+**index.html:**
+- Har en grön flik "🤖 Systemets Tips" som länkar till `systemets_tips.html`
+
+**systemets_tips.html:**
+- Har en "← Tillbaka till huvudsystemet"-knapp i headern som länkar till `index.html`
+
+### Fördelar
+
+- ✅ Användaren hittar alltid tillbaka till huvudfilen
+- ✅ Tydlig struktur där `index.html` är "hemmet"
+- ✅ Bättre användarupplevelse vid navigation
+- ✅ Följer webbstandarder (index som startpunkt)
 
 ---
 
