@@ -219,8 +219,16 @@
             border-radius: 8px;
             font-size: 1em;
             transition: all 0.3s ease;
-            /* Uppdatering 2026-02-07: Gul bakgrund för att tydligt visa att data ska fyllas i */
+            /* Uppdatering 2026-02-07: Gul bakgrund för fält som ska fyllas i manuellt */
             background-color: #fffacd;  /* Ljusgul - indikerar att fältet ska fyllas i */
+        }
+
+        /* Uppdatering 2026-02-07: Insatsfält (bet) ska INTE vara gula - de beräknas automatiskt */
+        input[id$="-bet"] {
+            background-color: #f8f9fa;  /* Ljusgrå/vit - automatiskt fält */
+            font-weight: 600;
+            color: #667eea;
+            cursor: not-allowed;  /* Visar att fältet inte kan redigeras */
         }
 
         input:focus,
@@ -235,6 +243,13 @@
         input.saved,
         textarea.saved {
             background-color: #e9ecef;  /* Ljusgrå - indikerar att data är sparad */
+        }
+        
+        /* Insatsfält förblir ljusgrå även efter sparande */
+        input[id$="-bet"].saved {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #667eea;
         }
 
         textarea {
@@ -616,7 +631,7 @@
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
-                            <input type="number" id="kent-bet" value="45" min="0">
+                            <input type="number" id="kent-bet" value="45" min="0" readonly>
                         </div>
                     </div>
 
@@ -633,7 +648,7 @@
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
-                            <input type="number" id="lotta-bet" value="42" min="0">
+                            <input type="number" id="lotta-bet" value="42" min="0" readonly>
                         </div>
                     </div>
 
@@ -650,7 +665,7 @@
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
-                            <input type="number" id="bengt-bet" value="40" min="0">
+                            <input type="number" id="bengt-bet" value="40" min="0" readonly>
                         </div>
                     </div>
 
@@ -667,7 +682,7 @@
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
-                            <input type="number" id="benita-bet" value="38" min="0">
+                            <input type="number" id="benita-bet" value="38" min="0" readonly>
                         </div>
                     </div>
 
