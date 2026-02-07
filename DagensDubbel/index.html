@@ -881,11 +881,82 @@
         /**
          * Laddar sparad data från localStorage när sidan laddas
          */
+        // ============================================
+        // AUTOMATISK INSATSBERÄKNING - UPPDATERING 2026-02-07
+        // ============================================
+        // Formel: antal_hästar_lopp1 × antal_hästar_lopp2 × 5 kr
+        // Exempel: 3 hästar × 3 hästar × 5kr = 45kr
+        // ============================================
+
+        /**
+         * Beräknar antal kommaseparerade värden i en sträng
+         * @param {string} str - Sträng med kommaseparerade värden (t.ex. "2,5,6")
+         * @returns {number} - Antal värden
+         */
+        function countHorses(str) {
+            if (!str || str.trim() === '') return 0;
+            return str.split(',').filter(s => s.trim() !== '').length;
+        }
+
+        /**
+         * Beräknar insats för en spelare baserat på antal hästar i varje lopp
+         * @param {string} playerId - Spelarens prefix (kent, lotta, bengt, benita, system)
+         */
+        function calculateBet(playerId) {
+            const race1Input = document.getElementById(`${playerId}-race1`);
+            const race2Input = document.getElementById(`${playerId}-race2`);
+            const betInput = document.getElementById(`${playerId}-bet`);
+
+            if (!race1Input || !race2Input || !betInput) return;
+
+            const horsesRace1 = countHorses(race1Input.value);
+            const horsesRace2 = countHorses(race2Input.value);
+
+            // Beräkna insats: antal_lopp1 × antal_lopp2 × 5 kr
+            const calculatedBet = horsesRace1 * horsesRace2 * 5;
+
+            // Uppdatera fältet
+            betInput.value = calculatedBet;
+
+            console.log(`${playerId}: ${horsesRace1} × ${horsesRace2} × 5kr = ${calculatedBet}kr`);
+        }
+
+        /**
+         * Lägger till event listeners för automatisk insatsberäkning för alla spelare
+         */
+        function setupBetCalculation() {
+            const players = ['kent', 'lotta', 'bengt', 'benita', 'system'];
+
+            players.forEach(playerId => {
+                const race1Input = document.getElementById(`${playerId}-race1`);
+                const race2Input = document.getElementById(`${playerId}-race2`);
+
+                if (race1Input && race2Input) {
+                    // Beräkna när användaren skriver
+                    race1Input.addEventListener('input', () => calculateBet(playerId));
+                    race2Input.addEventListener('input', () => calculateBet(playerId));
+
+                    // Beräkna direkt vid laddning om värden finns
+                    if (race1Input.value && race2Input.value) {
+                        calculateBet(playerId);
+                    }
+                }
+            });
+
+            console.log('✅ Automatisk insatsberäkning aktiverad för alla spelare');
+        }
+
         window.onload = function() {
             // Ladda från localStorage först (snabbt)
             loadDataFromStorage();
             updateAllDisplays();
             setDefaultDate();
+            
+            // UPPDATERING 2026-02-07: Automatisk insatsberäkning
+            setupBetCalculation();
+            
+            // UPPDATERING 2026-02-07: Färgkodning av input-fält (gul → grå)
+            setupFieldColorReset();
             
             // UPPDATERING 2026-02-07: Lyssna på Firestore-uppdateringar (realtid)
             // Detta synkar data från molnet och uppdaterar UI automatiskt
@@ -1088,10 +1159,50 @@
                     calculateWeekWinners(weekData);
                 }
 
+                // UPPDATERING 2026-02-07: Markera alla input-fält som sparade (grå)
+                markFieldsAsSaved();
+
             } catch (error) {
                 console.error('Fel vid sparande:', error);
                 showNotification('Fel vid sparande: ' + error.message, 'error');
             }
+        }
+
+        // ============================================
+        // FÄRGKODNING AV INPUT-FÄLT - UPPDATERING 2026-02-07
+        // ============================================
+        // Gul (tom) → Grå (sparad)
+        // ============================================
+
+        /**
+         * Markerar alla input-fält och textareas som "saved" (grå bakgrund)
+         * Anropas efter att data har sparats
+         */
+        function markFieldsAsSaved() {
+            // Hämta alla input-fält och textareas i spelarkorten och resultat-sektionen
+            const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+            
+            inputs.forEach(input => {
+                input.classList.add('saved');
+            });
+
+            console.log('✅ Alla fält markerade som sparade (grå bakgrund)');
+        }
+
+        /**
+         * Återställer färgkodning (tar bort "saved" class) när användaren börjar redigera
+         * Detta görs automatiskt när användaren ändrar något i formuläret
+         */
+        function setupFieldColorReset() {
+            const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.classList.remove('saved');
+                });
+            });
+
+            console.log('✅ Färgkodning kommer att återställas vid redigering');
         }
 
         /**
