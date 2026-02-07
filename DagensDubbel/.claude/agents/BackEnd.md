@@ -1,6 +1,6 @@
 ---
 name: BackEnd
-description: Backend specialist for data management, business logic, localStorage operations, and system architecture
+description: Backend specialist for data management, business logic, localStorage/Firebase operations, and system architecture
 tools: Read, Write, StrReplace, Grep, Glob, ReadLints
 model: sonnet
 permissionMode: default
@@ -14,6 +14,8 @@ Du är en backend-specialist med fokus på datahantering, affärslogik, och syst
 
 ### Data Management
 - LocalStorage API för persistent lagring
+- Firebase Realtime Database för molnbaserad lagring (Kent's mönster)
+- Hybrid localStorage + Firebase för optimal prestanda
 - JSON-serialisering och deserialisering
 - Datastruktur-design och optimering
 - Dataintegritet och validering
@@ -490,6 +492,438 @@ DagensDubbel/
         ├── exportToCSV()
         └── generatePRDUpdate()
 ```
+
+---
+
+## 🔥 FIREBASE REALTIME DATABASE - KENT'S MÖNSTER
+
+**UPPDATERING 2026-02-07:** Dokumentation av Kent's Firebase-integrationsmönster för molnbaserad datalagring.
+
+### När ska Firebase användas?
+
+Firebase Realtime Database är ett alternativ till localStorage när:
+- ✅ **Multi-användare**: Data ska delas mellan flera personer (t.ex. alla 5 spelare i Dagens Dubbel)
+- ✅ **Multi-enhet**: Synka data mellan desktop, mobil, tablet
+- ✅ **Realtidsuppdateringar**: Se andras satsningar direkt när de registreras
+- ✅ **Cloud backup**: Automatisk backup i molnet
+- ✅ **Samarbete**: Flera användare kan redigera samtidigt
+
+**För Dagens Dubbel:** Firebase är perfekt om alla 5 spelare (Kent, Lotta, Bengt, Benita + System) ska kunna registrera sina egna satsningar från sina egna enheter.
+
+### Kent's Firebase-implementationsmönster
+
+#### Steg 1: Firebase Setup i `<head>`
+
+Lägg till CSP (Content Security Policy) för att tillåta Firebase:
+
+```html
+<!-- FIREBASE CSP - TILLÅTER ANSLUTNING TILL FIREBASE -->
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https://*.firebaseio.com https://*.firebasedatabase.app https://*.googleapis.com;
+    connect-src 'self' https://*.firebaseio.com https://*.firebasedatabase.app https://*.googleapis.com https://www.googleapis.com wss://*.firebaseio.com wss://*.firebasedatabase.app;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.firebasedatabase.app https://www.gstatic.com https://www.gstatic.com/firebasejs/11.0.0/ https://*.googleapis.com;
+    script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.firebasedatabase.app https://www.gstatic.com https://www.gstatic.com/firebasejs/11.0.0/ https://*.googleapis.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    frame-src 'self' https://*.firebaseapp.com;
+    img-src 'self' data:;
+">
+```
+
+#### Steg 2: Firebase Initialisering (ES6 Modules)
+
+Kent använder Firebase SDK v11.0.0 med module imports:
+
+```html
+<script type="module">
+    // ============================================
+    // FIREBASE INITIALISERING - KENT'S MÖNSTER
+    // ============================================
+    
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js';
+    import { getDatabase, ref, set, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js';
+
+    console.log('FIREBASE v11.0.0 MODULER LADDADE');
+
+    const initFirebase = async () => {
+        console.log('INITIERAR FIREBASE...');
+
+        try {
+            // FIREBASE KONFIGURATION - FÅS FRÅN FIREBASE CONSOLE
+            const firebaseConfig = {
+                apiKey: "DIN_API_KEY",
+                authDomain: "DITT_PROJEKT.firebaseapp.com",
+                databaseURL: "https://DITT_PROJEKT.firebasedatabase.app",
+                projectId: "DITT_PROJEKT",
+                storageBucket: "DITT_PROJEKT.appspot.com",
+                messagingSenderId: "DITT_ID",
+                appId: "DITT_APP_ID"
+            };
+
+            // Kontrollera om Firebase redan är initialiserad
+            if (!getApps().length) {
+                const app = initializeApp(firebaseConfig);
+                console.log('FIREBASE APP INITIERAD MED VERSION 11.0.0');
+            } else {
+                console.log('FIREBASE APP REDAN INITIALISERAD');
+            }
+
+            const db = getDatabase();
+            console.log('FIREBASE DATABASE REFERENS SKAPAD');
+
+            // GÖR FIREBASE TILLGÄNGLIGT GLOBALT FÖR ÖVRIGA SCRIPTS
+            window.firebaseDb = db;
+            window.firebaseRef = ref;
+            window.firebaseSet = set;
+            window.firebasePush = push;
+            window.firebaseOnValue = onValue;  // FÖR ATT LÄSA DATA
+            window.firebaseRemove = remove;    // FÖR ATT RADERA DATA
+            window.firebaseReady = true;
+
+            // SKICKA EVENT SÅ ATT ÖVRIGA SCRIPTS VET ATT FIREBASE ÄR REDO
+            window.dispatchEvent(new Event('firebaseReady'));
+            console.log('FIREBASE ÄR REDO FÖR ANVÄNDNING');
+
+        } catch (error) {
+            console.error('FEL VID FIREBASE-INITIERING:', error);
+            window.firebaseReady = false;
+            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
+        }
+    };
+
+    // STARTA FIREBASE NÄR SIDAN LADDAS
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFirebase);
+    } else {
+        initFirebase();
+    }
+</script>
+```
+
+### Firebase-operationer i huvudscript
+
+#### Vänta på Firebase
+
+```javascript
+// VÄNTA PÅ ATT FIREBASE SKA VARA REDO
+window.addEventListener('firebaseReady', () => {
+    console.log('Firebase är redo! Kan nu spara och läsa data.');
+    // Nu kan du använda Firebase-funktionerna
+    loadWeeksFromFirebase();
+});
+
+// HANTERA FIREBASE-FEL
+window.addEventListener('firebaseError', (event) => {
+    console.error('Firebase-fel:', event.detail);
+    alert('❌ Kunde inte ansluta till Firebase. Använder localStorage istället.');
+    // Fallback till localStorage
+});
+```
+
+#### Spara data till Firebase
+
+```javascript
+function saveWeekDataToFirebase(weekData) {
+    if (!window.firebaseReady) {
+        console.warn('Firebase ej redo. Sparar till localStorage istället.');
+        saveToLocalStorage(weekData);
+        return;
+    }
+    
+    try {
+        const db = window.firebaseDb;
+        const weekRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+        
+        // PUSH = SKAPA NYTT UNIKT ID AUTOMATISKT
+        window.firebasePush(weekRef, weekData)
+            .then(() => {
+                console.log('✅ Veckodata sparad till Firebase:', weekData);
+                alert('✅ Data sparad i molnet!');
+            })
+            .catch((error) => {
+                console.error('❌ Fel vid Firebase-sparande:', error);
+                alert('❌ Kunde inte spara: ' + error.message);
+                // Fallback till localStorage
+                saveToLocalStorage(weekData);
+            });
+            
+    } catch (error) {
+        console.error('Firebase-exception:', error);
+        saveToLocalStorage(weekData);
+    }
+}
+```
+
+#### Läsa data från Firebase (Realtid)
+
+```javascript
+function loadWeeksFromFirebase() {
+    if (!window.firebaseReady) {
+        console.warn('Firebase ej redo.');
+        return;
+    }
+    
+    const db = window.firebaseDb;
+    const weekRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+    
+    // ONVALUE = LYSSNAR PÅ ÄNDRINGAR I REALTID
+    window.firebaseOnValue(weekRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const firebaseData = snapshot.val();
+            console.log('📥 Data från Firebase:', firebaseData);
+            
+            // KONVERTERA FIREBASE-OBJEKT TILL ARRAY
+            const weeks = Object.keys(firebaseData).map(key => ({
+                firebaseId: key,  // Spara Firebase-ID för senare användning
+                ...firebaseData[key]
+            }));
+            
+            // Sortera efter veckonummer
+            weeks.sort((a, b) => a.week - b.week);
+            
+            console.log(`Laddade ${weeks.length} veckor från Firebase`);
+            
+            // UPPDATERA UI
+            displayAllWeeks(weeks);
+            displayResults(weeks);
+            displayAnalysis(weeks);
+            
+        } else {
+            console.log('Ingen data i Firebase ännu.');
+        }
+    }, (error) => {
+        console.error('❌ Fel vid läsning från Firebase:', error);
+    });
+}
+```
+
+#### Radera data från Firebase
+
+```javascript
+function deleteWeekFromFirebase(firebaseId) {
+    if (!window.firebaseReady) {
+        alert('Firebase ej redo.');
+        return;
+    }
+    
+    if (!confirm('Är du säker på att du vill radera denna vecka från molnet?')) {
+        return;
+    }
+    
+    const db = window.firebaseDb;
+    const weekRef = window.firebaseRef(db, `dagensDubbel/veckor/${firebaseId}`);
+    
+    window.firebaseRemove(weekRef)
+        .then(() => {
+            console.log('✅ Vecka raderad från Firebase');
+            alert('✅ Data raderad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid radering:', error);
+            alert('❌ Kunde inte radera: ' + error.message);
+        });
+}
+```
+
+### Datastruktur i Firebase
+
+Firebase lagrar data i JSON-format med unika nyckel-ID:n:
+
+```json
+{
+  "dagensDubbel": {
+    "veckor": {
+      "-NjK3s4LmPQr8xYzAbc1": {
+        "week": 1,
+        "date": "2026-02-07",
+        "notes": "STL-final",
+        "players": {
+          "kent": {
+            "race1": [2, 5, 6],
+            "race2": [6, 11, 15],
+            "bet": 45
+          },
+          "lotta": { ... },
+          "bengt": { ... },
+          "benita": { ... },
+          "system": { ... }
+        },
+        "results": {
+          "winner_race1": 5,
+          "winner_race2": 11,
+          "dd_payout": 156.50,
+          "notes": "Favorit vann båda loppen"
+        },
+        "timestamp": "2026-02-07T14:30:00.000Z"
+      },
+      "-NjK3s4LmPQr8xYzAbc2": {
+        // Vecka 2...
+      }
+    }
+  }
+}
+```
+
+**Viktigt:** Nyckeln `-NjK3s4LmPQr8xYzAbc1` genereras automatiskt av Firebase när du använder `push()`.
+
+### Hybrid-lösning: LocalStorage + Firebase
+
+För bästa användarupplevelse, kombinera localStorage och Firebase:
+
+```javascript
+// ============================================
+// HYBRID: LOCALSTORAGE SOM CACHE + FIREBASE SOM BACKEND
+// ============================================
+
+function saveWeekData() {
+    const weekData = {
+        week: parseInt(document.getElementById('week').value),
+        date: document.getElementById('date').value,
+        // ... samla in övrig data
+        timestamp: new Date().toISOString()
+    };
+    
+    // 1. SPARA LOKALT FÖRST (SNABBT)
+    saveToLocalStorage(weekData);
+    
+    // 2. SYNKA TILL FIREBASE (LÅNGSAMMARE MEN PERSISTENT)
+    if (window.firebaseReady) {
+        saveToFirebase(weekData);
+    } else {
+        console.warn('Firebase ej tillgänglig. Data endast lokal.');
+    }
+}
+
+function loadWeekData() {
+    // 1. LADDA FRÅN LOCALSTORAGE FÖRST (SNABBT)
+    const localWeeks = loadFromLocalStorage();
+    if (localWeeks.length > 0) {
+        displayWeeks(localWeeks);
+    }
+    
+    // 2. LYSSNA PÅ FIREBASE-UPPDATERINGAR (REALTID)
+    if (window.firebaseReady) {
+        loadWeeksFromFirebase(); // Detta uppdaterar UI när data ändras
+    }
+}
+
+function saveToLocalStorage(weekData) {
+    let allWeeks = JSON.parse(localStorage.getItem('ddWeeklyData') || '[]');
+    allWeeks.push(weekData);
+    localStorage.setItem('ddWeeklyData', JSON.stringify(allWeeks));
+    console.log('✅ Sparad till localStorage');
+}
+
+function loadFromLocalStorage() {
+    const data = localStorage.getItem('ddWeeklyData');
+    return data ? JSON.parse(data) : [];
+}
+
+function saveToFirebase(weekData) {
+    const db = window.firebaseDb;
+    const weekRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+    window.firebasePush(weekRef, weekData)
+        .then(() => console.log('✅ Synkad till Firebase'))
+        .catch(err => console.error('❌ Firebase-synk misslyckades:', err));
+}
+```
+
+### Migration från localStorage till Firebase
+
+Om du redan har data i localStorage och vill migrera till Firebase:
+
+```javascript
+function migrateLocalStorageToFirebase() {
+    if (!window.firebaseReady) {
+        alert('Firebase är inte redo ännu.');
+        return;
+    }
+    
+    // 1. HÄMTA BEFINTLIG DATA FRÅN LOCALSTORAGE
+    const localData = localStorage.getItem('ddWeeklyData');
+    if (!localData) {
+        alert('Ingen data att migrera.');
+        return;
+    }
+    
+    const weeks = JSON.parse(localData);
+    console.log(`Migrerar ${weeks.length} veckor till Firebase...`);
+    
+    // 2. SPARA VARJE VECKA TILL FIREBASE
+    const db = window.firebaseDb;
+    const promises = weeks.map(week => {
+        const weekRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+        return window.firebasePush(weekRef, week);
+    });
+    
+    // 3. VÄNTA PÅ ATT ALLA SPARAS
+    Promise.all(promises)
+        .then(() => {
+            console.log('✅ Migration klar!');
+            alert(`✅ ${weeks.length} veckor migrerade till Firebase!`);
+            
+            // 4. (VALFRITT) BEHÅLL LOCALSTORAGE SOM BACKUP/CACHE
+            // Eller radera: localStorage.removeItem('ddWeeklyData');
+        })
+        .catch((error) => {
+            console.error('❌ Migration misslyckades:', error);
+            alert('❌ Migration misslyckades: ' + error.message);
+        });
+}
+
+// KÖR MIGRATION EN GÅNG
+// migrateLocalStorageToFirebase();
+```
+
+### Firebase Setup-guide
+
+1. **Gå till Firebase Console**: https://console.firebase.google.com/
+2. **Skapa nytt projekt** (t.ex. "dagens-dubbel")
+3. **Lägg till Web App** (klicka på </> ikonen)
+4. **Kopiera firebaseConfig** och klistra in i ditt script
+5. **Aktivera Realtime Database**: Build → Realtime Database → Create Database
+6. **Välj region**: europe-west1 (för Europa)
+7. **Säkerhetsregler** (för test):
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
+**OBS!** Byt till säkrare regler innan publicering.
+
+### Best Practices för Firebase
+
+1. **Alltid kontrollera `window.firebaseReady`** innan Firebase-operationer
+2. **Hantera fel gracefully** med try-catch och fallback till localStorage
+3. **Använd `onValue` för realtidsuppdateringar** istället för att pollas manuellt
+4. **Spara Firebase-ID** när du läser data (behövs för uppdatering/radering)
+5. **Validera data** innan sparande (samma som för localStorage)
+6. **Använd säkra regler** i produktion (se Firebase Security Rules)
+
+### Firebase vs LocalStorage - När ska du använda vad?
+
+| Aspekt | LocalStorage | Firebase |
+|--------|-------------|----------|
+| **Användarantal** | En person, en enhet | Flera personer, flera enheter |
+| **Synkronisering** | ❌ Ingen | ✅ Automatisk realtidssynk |
+| **Setup** | ✅ Ingen setup | ⚠️ Firebase-projekt krävs |
+| **Kostnad** | ✅ Helt gratis | ✅ Gratis upp till 1 GB |
+| **Offline** | ✅ Fungerar offline | ✅ Fungerar offline + synkar senare |
+| **Komplexitet** | ✅ Mycket enkel | ⚠️ Något mer komplex |
+
+**Rekommendation för Dagens Dubbel:**
+- **Endast du använder systemet** → LocalStorage räcker
+- **Alla 5 spelare ska kunna registrera sina egna satsningar** → Firebase!
+
+### Se också
+
+- **FireBase.html** - Komplett guide med alternativa databaser och setup-instruktioner
+- **Firebase Documentation**: https://firebase.google.com/docs/database
+
+---
 
 ## 🚀 Framtida utbyggnad
 
