@@ -438,6 +438,37 @@ Varje projekt ska ha en **index.html** som:
 
 **Syfte:** Användare som besöker GitHub-repot ska enkelt kunna se resultatet live, och besökare på live-sidan ska kunna utforska källkoden.
 
+### Exempel: DagensDubbel-projektet
+
+**Implementerad korsnavigering:**
+
+1. **I README.md** (rad 7-9):
+```markdown
+## 🌐 Live Demo
+**🎯 [Öppna programmet här →](https://kentlundgren.github.io/AI/DagensDubbel/)**
+
+Klicka på länken ovan för att använda den live-versionen direkt i webbläsaren.
+```
+
+2. **I index.html** (header-sektion):
+```html
+<header>
+    <h1>🏇 Dagens Dubbel Analyssystem</h1>
+    <p>Självförbättrande prediktionssystem för Solvalla Lördagstrav</p>
+    <span class="version-badge">Version 1.0 | 7 februari 2026</span>
+    <p style="margin-top: 1rem;">
+        <a href="https://github.com/kentlundgren/AI/tree/main/DagensDubbel" target="_blank" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block;
+                  transition: background 0.3s ease;">
+            💻 Visa källkod på GitHub
+        </a>
+    </p>
+</header>
+```
+
+**Resultat:** Användare kan enkelt navigera mellan live-version och källkod i båda riktningar.
+
 ---
 
 ## 🔗 Footer Navigation Standard
