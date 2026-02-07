@@ -1046,24 +1046,46 @@
          * Väljer 2-4 hästar per lopp och insats mellan 35-50 kr
          */
         function generateSystemBet() {
-            // Slumpmässigt antal hästar (2-4 per lopp)
-            const numHorsesRace1 = Math.floor(Math.random() * 3) + 2; // 2-4
-            const numHorsesRace2 = Math.floor(Math.random() * 3) + 2; // 2-4
+            // UPPDATERING 2026-02-07: Generera satsning som ger insats mellan 30-50 kr
+            // Formel: insats = antal_hästar_lopp1 × antal_hästar_lopp2 × 5 kr
+            // Målinsats: 30-50 kr = 6-10 rader
+            
+            const targetRows = Math.floor(Math.random() * 5) + 6; // 6-10 rader
+            
+            // Hitta faktorpar som ger targetRows (t.ex. 6 = 3×2, 2×3, 6×1, 1×6)
+            const factorPairs = [];
+            for (let i = 1; i <= targetRows; i++) {
+                if (targetRows % i === 0) {
+                    const j = targetRows / i;
+                    if (i >= 1 && i <= 5 && j >= 1 && j <= 5) { // Max 5 hästar per lopp
+                        factorPairs.push([i, j]);
+                    }
+                }
+            }
+            
+            // Om inga faktorer hittas (t.ex. primtal > 5), använd fallback
+            if (factorPairs.length === 0) {
+                factorPairs.push([3, 3]); // Default: 45 kr
+            }
+            
+            // Välj ett slumpmässigt faktorpar
+            const [numHorsesRace1, numHorsesRace2] = factorPairs[Math.floor(Math.random() * factorPairs.length)];
 
-            // Generera unika hästnummer för lopp 1 (max 12 hästar typiskt)
+            // Generera unika hästnummer för lopp 1 och 2
             const race1Horses = generateUniqueRandomNumbers(numHorsesRace1, 1, 12);
             const race2Horses = generateUniqueRandomNumbers(numHorsesRace2, 1, 15);
 
-            // Slumpmässig insats mellan 35-50 kr
-            const bet = Math.floor(Math.random() * 16) + 35; // 35-50
-
-            // Uppdatera formulär
+            // Uppdatera formulär (insatsen beräknas automatiskt av calculateBet)
             document.getElementById('system-race1').value = race1Horses.sort((a, b) => a - b).join(',');
             document.getElementById('system-race2').value = race2Horses.sort((a, b) => a - b).join(',');
-            document.getElementById('system-bet').value = bet;
+
+            // UPPDATERING 2026-02-07: Beräkna insats automatiskt
+            calculateBet('system');
+            
+            const calculatedBet = document.getElementById('system-bet').value;
 
             // Visa bekräftelse
-            showNotification('Systemets satsning genererad! Insats: ' + bet + ' kr', 'success');
+            showNotification(`Systemets satsning genererad! ${numHorsesRace1} × ${numHorsesRace2} = ${calculatedBet} kr`, 'success');
         }
 
         /**
