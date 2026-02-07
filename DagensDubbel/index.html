@@ -218,7 +218,9 @@
             border: 2px solid #dee2e6;
             border-radius: 8px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            /* Uppdatering 2026-02-07: Gul bakgrund för att tydligt visa att data ska fyllas i */
+            background-color: #fffacd;  /* Ljusgul - indikerar att fältet ska fyllas i */
         }
 
         input:focus,
@@ -227,6 +229,12 @@
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Uppdatering 2026-02-07: Grå bakgrund för sparad data */
+        input.saved,
+        textarea.saved {
+            background-color: #e9ecef;  /* Ljusgrå - indikerar att data är sparad */
         }
 
         textarea {
