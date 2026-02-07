@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systemets Tips - Vecka 6 (2026-02-07)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.4em;
+            margin: 20px 0 10px 0;
+        }
+
+        .section p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box strong {
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .horse-analysis {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .horse-card {
+            background: #f8f9fa;
+            border-left: 4px solid #4ECDC4;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .horse-card.favorite {
+            border-left-color: #27ae60;
+            background: #e8f8f5;
+        }
+
+        .horse-card.longshot {
+            border-left-color: #e74c3c;
+            background: #fadbd8;
+        }
+
+        .horse-card.medium {
+            border-left-color: #f39c12;
+            background: #fef5e7;
+        }
+
+        .horse-card h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .odds-tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .strategy-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .strategy-card h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .strategy-card p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-bet {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .final-bet h3 {
+            color: white;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .final-bet .horses {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .final-bet .race-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 200px;
+        }
+
+        .final-bet .race-box h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .final-bet .race-box .horses-list {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #4ECDC4;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Systemets Analys & Tips</h1>
+            <p>Vecka 6 - Lördagen 7 februari 2026</p>
+            <p>Solvalla Lördagstrav - Dagens Dubbel</p>
+        </header>
+
+        <div class="content">
+            <div class="section">
+                <h2>📊 Analysmetodik</h2>
+                <p>
+                    Systemets automatiska satsning baseras på en <strong>balanserad riskstrategi</strong> som kombinerar 
+                    statistisk analys, oddsanalys och diversifiering. Målet är att uppnå en insats mellan 30-50 kr 
+                    samtidigt som vi maximerar chansen för träff genom att välja hästar med olika riskprofiler.
+                </p>
+
+                <div class="strategy-grid">
+                    <div class="strategy-card">
+                        <h4>🎯 Favoriter</h4>
+                        <p>Låga odds (2-5x)<br>Hög vinstchans<br>Låg avkastning</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4>⚖️ Medelvärden</h4>
+                        <p>Medel odds (8-15x)<br>Balanserad risk<br>God avkastning</p>
+                    </div>
+                    <div class="strategy-card">
+                        <h4>🚀 Långskott</h4>
+                        <p>Höga odds (20+x)<br>Lägre vinstchans<br>Hög avkastning</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🏇 Avdelning 1 - Lopp 1 (V85-7)</h2>
+                <p><strong>Starttid:</strong> 18:27 | <strong>Distans:</strong> 2140m | <strong>Autostart</strong></p>
+
+                <h3>📈 Oddsanalys (enligt ATG)</h3>
+                <div class="horse-analysis">
+                    <div class="horse-card favorite">
+                        <h4>✅ Häst 5: Gilding Eagle (Magnus A Djuse)</h4>
+                        <span class="odds-tag">3,72x</span>
+                        <p>
+                            <strong>Roll:</strong> FAVORIT<br>
+                            <strong>Varför vald:</strong> Marknadens starkaste favorit med låga odds. Ger stabilt grundskydd 
+                            i kombinationen och ökar chansen för DD-träff betydligt. Hästen har visat god form och kusken 
+                            Magnus A Djuse är erfaren.
+                        </p>
+                    </div>
+
+                    <div class="horse-card medium">
+                        <h4>⚖️ Häst 8: Steady Countess (Fredrik Plassén)</h4>
+                        <span class="odds-tag">12,15x</span>
+                        <p>
+                            <strong>Roll:</strong> MEDELVÄRDE<br>
+                            <strong>Varför vald:</strong> Balanserat odds som ger bra avkastning om den vinner. Inte för högt odds 
+                            (inte extremt långskott), inte för lågt (inte självklar favorit). Representerar den "gyllene medelvägen" 
+                            där hästen har realistisk vinstchans samtidigt som oddset ger god utdelning.
+                        </p>
+                    </div>
+
+                    <div class="horse-card" style="border-left-color: #95a5a6; background: #ecf0f1;">
+                        <h4>❓ Häst 11: Conrads Leonard (Thomas Uhrberg)</h4>
+                        <span class="odds-tag" style="background: #95a5a6;">EJ (struken)</span>
+                        <p>
+                            <strong>Roll:</strong> RESERVVAL<br>
+                            <strong>Varför vald:</strong> Ursprungligen vald som säkerhetsval, men verkar vara struken från loppet 
+                            (inget odds visas). I ett automatiskt system där satsningen genereras i förväg kan sådana situationer 
+                            uppstå. I framtida versioner bör systemet kunna hantera strykningar dynamiskt.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Strategisk balans i Lopp 1:</strong><br>
+                    1 favorit (3,72x) + 1 medelvärde (12,15x) + 1 osäker (EJ) = Diversifierad spridning med fokus på realism
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🏇 Avdelning 2 - Lopp 2 (V85-8)</h2>
+                <p><strong>Starttid:</strong> 18:47 | <strong>Distans:</strong> 2140m | <strong>Autostart</strong></p>
+
+                <h3>📈 Oddsanalys (enligt ATG)</h3>
+                <div class="horse-analysis">
+                    <div class="horse-card favorite">
+                        <h4>✅ Häst 15: Rya Håleryd (Magnus A Djuse)</h4>
+                        <span class="odds-tag">2,98x</span>
+                        <p>
+                            <strong>Roll:</strong> STARK FAVORIT<br>
+                            <strong>Varför vald:</strong> Loppets klara favorit med lägsta oddset. En "säker" häst som ger 
+                            grundskydd i kombinationen. Tillsammans med samma kusk som häst 5 (Magnus A Djuse), vilket tyder 
+                            på att stallet har stark tilltro. Är nästan ett "måste-ha" i systemsatsningen.
+                        </p>
+                    </div>
+
+                    <div class="horse-card longshot">
+                        <h4>🚀 Häst 1: Noblesse Brodda (Örjan Kihlström)</h4>
+                        <span class="odds-tag">25,33x</span>
+                        <p>
+                            <strong>Roll:</strong> LÅNGSKOTT<br>
+                            <strong>Varför vald:</strong> Högt odds ger potentiellt mycket hög utdelning om den vinner. 
+                            Balanserar den säkra favoriten (häst 15) genom att lägga till en riskfylld men lönsam möjlighet. 
+                            Om kombinationen 5-1 eller 8-1 från lopp 1 slår in tillsammans med denna, blir utdelningen mycket god.
+                        </p>
+                    </div>
+
+                    <div class="horse-card longshot">
+                        <h4>🚀 Häst 4: Ken's Queen (André Eklundh)</h4>
+                        <span class="odds-tag">20,30x</span>
+                        <p>
+                            <strong>Roll:</strong> LÅNGSKOTT<br>
+                            <strong>Varför vald:</strong> Ytterligare ett långskott med högt odds. Ger systemet möjlighet 
+                            att fånga upp en "överraskning" om någon av utmanarna skulle vinna. Tillsammans med häst 1 skapar 
+                            detta två parallella långskotts-scenarion som kompletterar favoriten (häst 15).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>💡 Strategisk balans i Lopp 2:</strong><br>
+                    1 stark favorit (2,98x) + 2 långskott (25,33x och 20,30x) = Säkerhet + högavkastningspotential
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🧮 Matematisk kalkyl</h2>
+                <p>
+                    Med 3 hästar i lopp 1 och 3 hästar i lopp 2 får vi <strong>3 × 3 = 9 rader</strong>.
+                    Med standardinsats på 5 kr per rad blir totalkostnaden <strong>9 × 5 kr = 45 kr</strong>.
+                </p>
+
+                <h3>Möjliga kombinationer:</h3>
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <thead>
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 12px; text-align: left;">Lopp 1</th>
+                            <th style="padding: 12px; text-align: left;">Lopp 2</th>
+                            <th style="padding: 12px; text-align: right;">Teoretiskt odds</th>
+                            <th style="padding: 12px; text-align: left;">Profil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #e8f8f5;">
+                            <td style="padding: 12px;">5 (3,72x)</td>
+                            <td style="padding: 12px;">15 (2,98x)</td>
+                            <td style="padding: 12px; text-align: right;">~11x</td>
+                            <td style="padding: 12px;">Favorit + Favorit (säkrast)</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 12px;">5 (3,72x)</td>
+                            <td style="padding: 12px;">1 (25,33x)</td>
+                            <td style="padding: 12px; text-align: right;">~94x</td>
+                            <td style="padding: 12px;">Favorit + Långskott (balanserad)</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 12px;">5 (3,72x)</td>
+                            <td style="padding: 12px;">4 (20,30x)</td>
+                            <td style="padding: 12px; text-align: right;">~75x</td>
+                            <td style="padding: 12px;">Favorit + Långskott (balanserad)</td>
+                        </tr>
+                        <tr style="background: #fef5e7;">
+                            <td style="padding: 12px;">8 (12,15x)</td>
+                            <td style="padding: 12px;">15 (2,98x)</td>
+                            <td style="padding: 12px; text-align: right;">~36x</td>
+                            <td style="padding: 12px;">Medel + Favorit (god potential)</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 12px;">8 (12,15x)</td>
+                            <td style="padding: 12px;">1 (25,33x)</td>
+                            <td style="padding: 12px; text-align: right;">~308x</td>
+                            <td style="padding: 12px;">Medel + Långskott (hög risk/avkastning)</td>
+                        </tr>
+                        <tr style="background: white;">
+                            <td style="padding: 12px;">8 (12,15x)</td>
+                            <td style="padding: 12px;">4 (20,30x)</td>
+                            <td style="padding: 12px; text-align: right;">~247x</td>
+                            <td style="padding: 12px;">Medel + Långskott (hög risk/avkastning)</td>
+                        </tr>
+                        <tr style="background: #ecf0f1;">
+                            <td style="padding: 12px;">11 (EJ)</td>
+                            <td style="padding: 12px;">15/1/4</td>
+                            <td style="padding: 12px; text-align: right;">-</td>
+                            <td style="padding: 12px;">Struken (ej aktuell)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p style="font-style: italic; color: #666;">
+                    <strong>Not:</strong> Teoretiskt odds är multiplikationen av oddsen för båda hästarna, men det faktiska 
+                    DD-oddset kan variera beroende på hur många som spelar samma kombination.
+                </p>
+            </div>
+
+            <div class="final-bet">
+                <h3>🎯 Systemets Slutgiltiga Satsning</h3>
+                <div class="horses">
+                    <div class="race-box">
+                        <h4>Lopp 1 (V85-7)</h4>
+                        <div class="horses-list">5, 8, 11</div>
+                        <p style="margin-top: 10px; font-size: 0.9em;">
+                            Gilding Eagle<br>
+                            Steady Countess<br>
+                            Conrads Leonard (EJ)
+                        </p>
+                    </div>
+                    <div style="font-size: 3em; align-self: center;">×</div>
+                    <div class="race-box">
+                        <h4>Lopp 2 (V85-8)</h4>
+                        <div class="horses-list">1, 4, 15</div>
+                        <p style="margin-top: 10px; font-size: 0.9em;">
+                            Noblesse Brodda<br>
+                            Ken's Queen<br>
+                            Rya Håleryd
+                        </p>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; font-size: 1.2em;">
+                    <strong>Total insats:</strong> 45 kr (9 rader × 5 kr)
+                </p>
+                <p style="margin-top: 10px; opacity: 0.9;">
+                    Strategin: 2 favoriter, 1 medelvärde, 2 långskott = Balanserad riskportfölj
+                </p>
+            </div>
+
+            <div class="section">
+                <h2>🎓 Lärdomar från Strategin</h2>
+                <p>
+                    Denna automatiska satsning demonstrerar flera viktiga principer från modern spelstrategi:
+                </p>
+                <ol style="line-height: 2; margin-left: 20px;">
+                    <li><strong>Diversifiering:</strong> Sprid risken genom att välja hästar med olika oddsprofiler</li>
+                    <li><strong>Grundskydd:</strong> Inkludera alltid minst en stark favorit för att öka träffchansen</li>
+                    <li><strong>Uppsida-potential:</strong> Lägg till långskott för att fånga höga utdelningar</li>
+                    <li><strong>Kostnadsmedvetenhet:</strong> Håll insatsen inom budget (30-50 kr) genom smart kombination</li>
+                    <li><strong>Oddsanalys:</strong> Använd marknadens bedömning (oddsen) som en del av beslutsunderlaget</li>
+                </ol>
+
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <strong>⚠️ Viktigt att komma ihåg:</strong><br>
+                    Denna analys är genererad automatiskt och baseras på odds samt matematisk modellering. 
+                    För mer avancerad analys bör man även beakta: hästens form, kuskarens statistik, 
+                    banans förutsättningar, väder, och historisk prestation på distansen. Systemet kan 
+                    förfinas över tid genom maskininlärning baserat på tidigare resultat.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📚 Relaterad Dokumentation</h2>
+                <p>
+                    För den fullständiga teoretiska bakgrunden och detaljerad metodbeskrivning, se 
+                    <a href="PRD_ver1.md" target="_blank" style="color: #667eea; font-weight: bold;">PRD_ver1.md</a> 
+                    som innehåller systemets kompletta design, målsättningar och utvecklingsplan.
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Dagens Dubbel Analyssystem</strong></p>
+            <p>Skapad med Claude Code | <a href="https://github.com/kentlundgren/AI/tree/main/DagensDubbel" target="_blank">GitHub Repository</a></p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                Data hämtad från <a href="https://www.atg.se/spel/2026-02-07/dd/solvalla/avd/1/resultat" target="_blank">ATG.se</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
