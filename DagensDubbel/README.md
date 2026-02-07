@@ -3,6 +3,11 @@
 ## 📋 Översikt
 Ett webbbaserat system för att analysera och följa upp satsningar på Dagens Dubbel (Solvalla lördagstrav). Systemet spårar fem spelare (Kent, Lotta, Bengt, Benita + ett automatiskt system) och beräknar statistik, ROI och träffsäkerhet över tid.
 
+## 🌐 Live Demo
+**🎯 [Öppna programmet här →](https://kentlundgren.github.io/AI/DagensDubbel/)**
+
+Klicka på länken ovan för att använda den live-versionen direkt i webbläsaren. All data sparas lokalt i din webbläsare via localStorage.
+
 ## 🚀 Snabbstart
 
 ### Steg 1: Öppna filen
