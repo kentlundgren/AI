@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dagens Dubbel Analyssystem - Solvalla</title>
+    <style>
+        /* ========================================
+           GRUNDLÄGGANDE STILAR
+           ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        /* ========================================
+           HEADER OCH NAVIGERING
+           ======================================== */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        /* ========================================
+           TABBAR NAVIGERING
+           ======================================== */
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #495057;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .tab-button.active {
+            color: #667eea;
+            background: white;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #667eea;
+        }
+
+        /* ========================================
+           TAB INNEHÅLL
+           ======================================== */
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+           FORMULÄR OCH INPUT
+           ======================================== */
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #dee2e6;
+        }
+
+        .section h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #495057;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* ========================================
+           SPELARE GRID
+           ======================================== */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .player-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .player-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .player-card h4 {
+            color: #2a5298;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .player-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .player-kent { background: #667eea; }
+        .player-lotta { background: #f093fb; }
+        .player-bengt { background: #4facfe; }
+        .player-benita { background: #43e97b; }
+        .player-system { background: #fa709a; }
+
+        .horse-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .horse-input input {
+            flex: 1;
+        }
+
+        /* ========================================
+           KNAPPAR
+           ======================================== */
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .button-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .button-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           RESULTAT OCH STATISTIK
+           ======================================== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-card h3 {
+            color: white;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        /* ========================================
+           TABELL STILAR
+           ======================================== */
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .results-table th {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .results-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .results-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========================================
+           BADGES OCH IKONER
+           ======================================== */
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .badge-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        /* ========================================
+           MEDDELANDEN
+           ======================================== */
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        /* ========================================
+           RESPONSIV DESIGN
+           ======================================== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                border-bottom: 1px solid #dee2e6;
+            }
+
+            .players-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+        /* ========================================
+           HJÄLPKLASSER
+           ======================================== */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-muted {
+            color: #6c757d;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .mb-20 {
+            margin-bottom: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ========================================
+           LADDNINGSANIMERING
+           ======================================== */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         HUVUD-CONTAINER
+         ======================================== -->
+    <div class="container">
+        <!-- Header sektion -->
+        <header>
+            <h1>🏇 Dagens Dubbel Analyssystem</h1>
+            <p>Självförbättrande prediktionssystem för Solvalla Lördagstrav</p>
+            <span class="version-badge">Version 1.0 | 7 februari 2026</span>
+        </header>
+
+        <!-- Tab-navigering -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('input')">📝 Inmatning</button>
+            <button class="tab-button" onclick="switchTab('results')">🏆 Resultat</button>
+            <button class="tab-button" onclick="switchTab('analysis')">📊 Analys</button>
+            <button class="tab-button" onclick="switchTab('history')">📚 Historik</button>
+            <button class="tab-button" onclick="switchTab('prd')">📄 PRD-Update</button>
+        </div>
+
+        <!-- ========================================
+             TAB 1: INMATNING
+             ======================================== -->
+        <div id="tab-input" class="tab-content active">
+            <!-- Grundinformation -->
+            <div class="section">
+                <h2>Veckodata</h2>
+                <div class="form-group">
+                    <label for="raceDate">Datum för loppet:</label>
+                    <input type="date" id="raceDate" value="2026-02-07">
+                </div>
+                <div class="form-group">
+                    <label for="weekNumber">Veckonummer:</label>
+                    <input type="number" id="weekNumber" value="1" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="raceNotes">Anteckningar om loppet (t.ex. STL-final, Margareta-serie):</label>
+                    <textarea id="raceNotes" placeholder="Beskriv dagens lopp..."></textarea>
+                </div>
+            </div>
+
+            <!-- Alla spelares satsningar -->
+            <div class="section">
+                <h2>Spelares satsningar</h2>
+                <p class="text-muted mb-20">Ange vilka hästar varje spelare satsat på i de två loppen. Separera hästar med komma (t.ex. "2,5,6").</p>
+                
+                <div class="players-grid">
+                    <!-- Kent -->
+                    <div class="player-card">
+                        <h4><span class="player-icon player-kent">K</span>Kent</h4>
+                        <div class="form-group">
+                            <label>Lopp 1 (V85-7):</label>
+                            <input type="text" id="kent-race1" placeholder="t.ex. 2,5,6" value="2,5,6">
+                        </div>
+                        <div class="form-group">
+                            <label>Lopp 2 (V85-8):</label>
+                            <input type="text" id="kent-race2" placeholder="t.ex. 6,11,15" value="6,11,15">
+                        </div>
+                        <div class="form-group">
+                            <label>Insats (kr):</label>
+                            <input type="number" id="kent-bet" value="45" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Lotta -->
+                    <div class="player-card">
+                        <h4><span class="player-icon player-lotta">L</span>Lotta</h4>
+                        <div class="form-group">
+                            <label>Lopp 1 (V85-7):</label>
+                            <input type="text" id="lotta-race1" placeholder="t.ex. 5,6,8" value="5,6,8">
+                        </div>
+                        <div class="form-group">
+                            <label>Lopp 2 (V85-8):</label>
+                            <input type="text" id="lotta-race2" placeholder="t.ex. 10,13,15" value="10,13,15">
+                        </div>
+                        <div class="form-group">
+                            <label>Insats (kr):</label>
+                            <input type="number" id="lotta-bet" value="42" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Bengt -->
+                    <div class="player-card">
+                        <h4><span class="player-icon player-bengt">B</span>Bengt</h4>
+                        <div class="form-group">
+                            <label>Lopp 1 (V85-7):</label>
+                            <input type="text" id="bengt-race1" placeholder="t.ex. 1,3,7">
+                        </div>
+                        <div class="form-group">
+                            <label>Lopp 2 (V85-8):</label>
+                            <input type="text" id="bengt-race2" placeholder="t.ex. 2,5,9">
+                        </div>
+                        <div class="form-group">
+                            <label>Insats (kr):</label>
+                            <input type="number" id="bengt-bet" value="40" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Benita -->
+                    <div class="player-card">
+                        <h4><span class="player-icon player-benita">B</span>Benita</h4>
+                        <div class="form-group">
+                            <label>Lopp 1 (V85-7):</label>
+                            <input type="text" id="benita-race1" placeholder="t.ex. 4,6,9">
+                        </div>
+                        <div class="form-group">
+                            <label>Lopp 2 (V85-8):</label>
+                            <input type="text" id="benita-race2" placeholder="t.ex. 3,7,12">
+                        </div>
+                        <div class="form-group">
+                            <label>Insats (kr):</label>
+                            <input type="number" id="benita-bet" value="38" min="0">
+                        </div>
+                    </div>
+
+                    <!-- Systemet (Claude) -->
+                    <div class="player-card">
+                        <h4><span class="player-icon player-system">🤖</span>Systemet</h4>
+                        <div class="form-group">
+                            <label>Lopp 1 (V85-7):</label>
+                            <input type="text" id="system-race1" placeholder="Genereras automatiskt" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Lopp 2 (V85-8):</label>
+                            <input type="text" id="system-race2" placeholder="Genereras automatiskt" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Insats (kr):</label>
+                            <input type="number" id="system-bet" value="0" readonly>
+                        </div>
+                        <button class="button button-secondary" onclick="generateSystemBet()" style="width: 100%; margin-top: 10px;">
+                            🎲 Generera systemets satsning
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faktiska resultat -->
+            <div class="section">
+                <h2>Faktiska resultat (fylls i efter loppen)</h2>
+                <div class="form-group">
+                    <label for="winner-race1">Vinnare Lopp 1 (V85-7) - Hästnummer:</label>
+                    <input type="number" id="winner-race1" placeholder="t.ex. 5" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="winner-race2">Vinnare Lopp 2 (V85-8) - Hästnummer:</label>
+                    <input type="number" id="winner-race2" placeholder="t.ex. 11" min="1">
+                </div>
+                <div class="form-group">
+                    <label for="dd-payout">DD-utdelning (kr):</label>
+                    <input type="number" id="dd-payout" placeholder="t.ex. 156.50" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="result-notes">Anteckningar om resultatet:</label>
+                    <textarea id="result-notes" placeholder="T.ex. överraskande vinnare, favorit gallopperade..."></textarea>
+                </div>
+            </div>
+
+            <!-- Spara-knappar -->
+            <div class="button-group">
+                <button class="button button-success" onclick="saveWeekData()">💾 Spara veckodata</button>
+                <button class="button button-secondary" onclick="clearForm()">🗑️ Rensa formulär</button>
+                <button class="button" onclick="switchTab('results')">➡️ Gå till Resultat</button>
+            </div>
+        </div>
+
+        <!-- ========================================
+             TAB 2: RESULTAT
+             ======================================== -->
+        <div id="tab-results" class="tab-content">
+            <div class="section">
+                <h2>Senaste veckans resultat</h2>
+                <div id="latest-results">
+                    <p class="text-muted text-center">Ingen data ännu. Fyll i inmatningsfliken först.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Spelares prestanda</h2>
+                <div id="player-performance">
+                    <p class="text-muted text-center">Laddar statistik...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================
+             TAB 3: ANALYS
+             ======================================== -->
+        <div id="tab-analysis" class="tab-content">
+            <div class="section">
+                <h2>Kumulativ statistik</h2>
+                <div class="stats-grid" id="cumulative-stats">
+                    <!-- Genereras dynamiskt -->
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>ROI-jämförelse</h2>
+                <div id="roi-comparison">
+                    <p class="text-muted text-center">Data laddas...</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Insikter och mönster</h2>
+                <div id="insights">
+                    <p class="text-muted text-center">Analyserar data...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================
+             TAB 4: HISTORIK
+             ======================================== -->
+        <div id="tab-history" class="tab-content">
+            <div class="section">
+                <h2>Alla veckors resultat</h2>
+                <table class="results-table" id="history-table">
+                    <thead>
+                        <tr>
+                            <th>Vecka</th>
+                            <th>Datum</th>
+                            <th>Vinnare L1</th>
+                            <th>Vinnare L2</th>
+                            <th>DD-utdelning</th>
+                            <th>Kent</th>
+                            <th>Lotta</th>
+                            <th>Bengt</th>
+                            <th>Benita</th>
+                            <th>System</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <tr>
+                            <td colspan="10" class="text-center text-muted">Ingen historik ännu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="button-group">
+                <button class="button button-secondary" onclick="exportHistoryCSV()">📥 Exportera till CSV</button>
+                <button class="button button-danger" onclick="clearAllData()">🗑️ Rensa all data (OBS!)</button>
+            </div>
+        </div>
+
+        <!-- ========================================
+             TAB 5: PRD-UPDATE
+             ======================================== -->
+        <div id="tab-prd" class="tab-content">
+            <div class="section">
+                <h2>PRD Version 1.0 → Version 1.1</h2>
+                <div class="alert alert-info">
+                    <strong>Information:</strong> Denna sektion genererar en uppdaterad version av PRD-dokumentet baserat på insamlad data och resultat.
+                </div>
+
+                <div class="form-group">
+                    <label>Antal veckor analyserade:</label>
+                    <div id="prd-weeks-analyzed" style="font-size: 1.2em; font-weight: bold; color: #667eea; padding: 10px;">
+                        0 veckor
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Viktjusteringar att inkludera i PRD:</label>
+                    <div id="prd-weight-adjustments" style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
+                        <p class="text-muted">Ingen data ännu</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Upptäckta mönster och insikter:</label>
+                    <div id="prd-insights" style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
+                        <p class="text-muted">Ingen data ännu</p>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="button" onclick="generatePRDUpdate()">📝 Generera PRD Update</button>
+                    <button class="button button-success" onclick="downloadPRD()">📥 Ladda ner PRD som textfil</button>
+                </div>
+
+                <div id="prd-output" class="mt-20" style="display: none;">
+                    <h3>Genererad PRD-uppdatering:</h3>
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6; max-height: 600px; overflow-y: auto;">
+                        <pre id="prd-text" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 0.9em;"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================
+         JAVASCRIPT - HUVUDLOGIK
+         ======================================== -->
+    <script>
+        // ========================================
+        // GLOBALA VARIABLER OCH DATASTRUKTUR
+        // ========================================
+        
+        /**
+         * Huvuddatastruktur för att lagra all veckodata
+         * Lagras i localStorage för persistens mellan sessioner
+         */
+        let weeklyData = [];
+
+        /**
+         * Spelare-konfiguration
+         * Definierar alla spelare och deras egenskaper
+         */
+        const players = {
+            kent: { name: 'Kent', icon: 'K', color: 'player-kent' },
+            lotta: { name: 'Lotta', icon: 'L', color: 'player-lotta' },
+            bengt: { name: 'Bengt', icon: 'B', color: 'player-bengt' },
+            benita: { name: 'Benita', icon: 'B', color: 'player-benita' },
+            system: { name: 'Systemet', icon: '🤖', color: 'player-system' }
+        };
+
+        // ========================================
+        // INITIALIZATION - Körs när sidan laddas
+        // ========================================
+        
+        /**
+         * Laddar sparad data från localStorage när sidan laddas
+         */
+        window.onload = function() {
+            loadDataFromStorage();
+            updateAllDisplays();
+            setDefaultDate();
+        };
+
+        /**
+         * Sätter dagens datum som standard i formuläret
+         */
+        function setDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('raceDate').value = today;
+        }
+
+        // ========================================
+        // TAB-NAVIGERING
+        // ========================================
+        
+        /**
+         * Växlar mellan olika flikar i gränssnittet
+         * @param {string} tabName - Namnet på fliken att visa
+         */
+        function switchTab(tabName) {
+            // Dölj alla flikar
+            const allTabs = document.querySelectorAll('.tab-content');
+            allTabs.forEach(tab => tab.classList.remove('active'));
+
+            // Dölj alla tab-knappar som aktiva
+            const allButtons = document.querySelectorAll('.tab-button');
+            allButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Visa vald flik
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Markera vald tab-knapp
+            event.target.classList.add('active');
+
+            // Uppdatera innehållet i den nya fliken
+            updateTabContent(tabName);
+        }
+
+        /**
+         * Uppdaterar innehållet i en specifik flik
+         * @param {string} tabName - Namnet på fliken att uppdatera
+         */
+        function updateTabContent(tabName) {
+            switch(tabName) {
+                case 'results':
+                    displayLatestResults();
+                    displayPlayerPerformance();
+                    break;
+                case 'analysis':
+                    displayCumulativeStats();
+                    displayROIComparison();
+                    generateInsights();
+                    break;
+                case 'history':
+                    displayFullHistory();
+                    break;
+                case 'prd':
+                    updatePRDSection();
+                    break;
+            }
+        }
+
+        // ========================================
+        // SYSTEMETS SATSNINGSGENERERING
+        // ========================================
+        
+        /**
+         * Genererar en slumpmässig satsning för systemet
+         * Väljer 2-4 hästar per lopp och insats mellan 35-50 kr
+         */
+        function generateSystemBet() {
+            // Slumpmässigt antal hästar (2-4 per lopp)
+            const numHorsesRace1 = Math.floor(Math.random() * 3) + 2; // 2-4
+            const numHorsesRace2 = Math.floor(Math.random() * 3) + 2; // 2-4
+
+            // Generera unika hästnummer för lopp 1 (max 12 hästar typiskt)
+            const race1Horses = generateUniqueRandomNumbers(numHorsesRace1, 1, 12);
+            const race2Horses = generateUniqueRandomNumbers(numHorsesRace2, 1, 15);
+
+            // Slumpmässig insats mellan 35-50 kr
+            const bet = Math.floor(Math.random() * 16) + 35; // 35-50
+
+            // Uppdatera formulär
+            document.getElementById('system-race1').value = race1Horses.sort((a, b) => a - b).join(',');
+            document.getElementById('system-race2').value = race2Horses.sort((a, b) => a - b).join(',');
+            document.getElementById('system-bet').value = bet;
+
+            // Visa bekräftelse
+            showNotification('Systemets satsning genererad! Insats: ' + bet + ' kr', 'success');
+        }
+
+        /**
+         * Genererar unika slumpmässiga nummer inom ett intervall
+         * @param {number} count - Antal nummer att generera
+         * @param {number} min - Minsta värde
+         * @param {number} max - Största värde
+         * @returns {Array} - Array med unika nummer
+         */
+        function generateUniqueRandomNumbers(count, min, max) {
+            const numbers = [];
+            while (numbers.length < count) {
+                const num = Math.floor(Math.random() * (max - min + 1)) + min;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            return numbers;
+        }
+
+        // ========================================
+        // DATA SPARA/LADDA
+        // ========================================
+        
+        /**
+         * Sparar veckodata till localStorage och uppdaterar visningen
+         */
+        function saveWeekData() {
+            try {
+                // Samla data från formulär
+                const weekData = {
+                    week: parseInt(document.getElementById('weekNumber').value),
+                    date: document.getElementById('raceDate').value,
+                    notes: document.getElementById('raceNotes').value,
+                    
+                    // Spelares satsningar
+                    players: {
+                        kent: {
+                            race1: parseHorses(document.getElementById('kent-race1').value),
+                            race2: parseHorses(document.getElementById('kent-race2').value),
+                            bet: parseFloat(document.getElementById('kent-bet').value)
+                        },
+                        lotta: {
+                            race1: parseHorses(document.getElementById('lotta-race1').value),
+                            race2: parseHorses(document.getElementById('lotta-race2').value),
+                            bet: parseFloat(document.getElementById('lotta-bet').value)
+                        },
+                        bengt: {
+                            race1: parseHorses(document.getElementById('bengt-race1').value),
+                            race2: parseHorses(document.getElementById('bengt-race2').value),
+                            bet: parseFloat(document.getElementById('bengt-bet').value)
+                        },
+                        benita: {
+                            race1: parseHorses(document.getElementById('benita-race1').value),
+                            race2: parseHorses(document.getElementById('benita-race2').value),
+                            bet: parseFloat(document.getElementById('benita-bet').value)
+                        },
+                        system: {
+                            race1: parseHorses(document.getElementById('system-race1').value),
+                            race2: parseHorses(document.getElementById('system-race2').value),
+                            bet: parseFloat(document.getElementById('system-bet').value)
+                        }
+                    },
+                    
+                    // Faktiska resultat
+                    results: {
+                        winner_race1: parseInt(document.getElementById('winner-race1').value) || null,
+                        winner_race2: parseInt(document.getElementById('winner-race2').value) || null,
+                        dd_payout: parseFloat(document.getElementById('dd-payout').value) || 0,
+                        notes: document.getElementById('result-notes').value
+                    },
+                    
+                    timestamp: new Date().toISOString()
+                };
+
+                // Validering
+                if (!weekData.date) {
+                    showNotification('Datum måste anges!', 'error');
+                    return;
+                }
+
+                // Kolla om vecka redan finns
+                const existingIndex = weeklyData.findIndex(w => w.week === weekData.week);
+                if (existingIndex >= 0) {
+                    // Uppdatera befintlig
+                    weeklyData[existingIndex] = weekData;
+                    showNotification('Vecka ' + weekData.week + ' uppdaterad!', 'success');
+                } else {
+                    // Lägg till ny
+                    weeklyData.push(weekData);
+                    showNotification('Vecka ' + weekData.week + ' sparad!', 'success');
+                }
+
+                // Sortera efter vecka
+                weeklyData.sort((a, b) => a.week - b.week);
+
+                // Spara till localStorage
+                localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
+
+                // Uppdatera alla visningar
+                updateAllDisplays();
+
+                // Beräkna och visa vinnare
+                if (weekData.results.winner_race1 && weekData.results.winner_race2) {
+                    calculateWeekWinners(weekData);
+                }
+
+            } catch (error) {
+                console.error('Fel vid sparande:', error);
+                showNotification('Fel vid sparande: ' + error.message, 'error');
+            }
+        }
+
+        /**
+         * Parsar en sträng med hästnummer till en array
+         * @param {string} str - Sträng med kommaseparerade nummer (t.ex. "2,5,6")
+         * @returns {Array} - Array med hästnummer
+         */
+        function parseHorses(str) {
+            if (!str || str.trim() === '') return [];
+            return str.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+        }
+
+        /**
+         * Laddar data från localStorage
+         */
+        function loadDataFromStorage() {
+            const stored = localStorage.getItem('ddWeeklyData');
+            if (stored) {
+                try {
+                    weeklyData = JSON.parse(stored);
+                    console.log('Data laddad:', weeklyData.length, 'veckor');
+                } catch (error) {
+                    console.error('Fel vid laddning av data:', error);
+                    weeklyData = [];
+                }
+            }
+        }
+
+        /**
+         * Uppdaterar alla visningar i gränssnittet
+         */
+        function updateAllDisplays() {
+            displayLatestResults();
+            displayPlayerPerformance();
+            displayCumulativeStats();
+            displayROIComparison();
+            generateInsights();
+            displayFullHistory();
+            updatePRDSection();
+        }
+
+        // ========================================
+        // BERÄKNINGAR OCH ANALYS
+        // ========================================
+        
+        /**
+         * Beräknar vinnare för en specifik vecka
+         * @param {Object} weekData - Data för veckan
+         */
+        function calculateWeekWinners(weekData) {
+            const winner1 = weekData.results.winner_race1;
+            const winner2 = weekData.results.winner_race2;
+            const payout = weekData.results.dd_payout;
+
+            let resultsHTML = '<h3>Veckans vinnare:</h3><ul>';
+
+            // Kontrollera varje spelare
+            Object.keys(weekData.players).forEach(playerId => {
+                const player = weekData.players[playerId];
+                const hasWinner1 = player.race1.includes(winner1);
+                const hasWinner2 = player.race2.includes(winner2);
+                const hit = hasWinner1 && hasWinner2;
+
+                const playerName = players[playerId].name;
+                
+                if (hit) {
+                    const winAmount = payout - player.bet;
+                    resultsHTML += `<li><strong>${playerName}</strong>: ✅ TRÄFF! Vinst: ${winAmount.toFixed(2)} kr (Netto: +${(payout - player.bet).toFixed(2)} kr)</li>`;
+                } else {
+                    resultsHTML += `<li><strong>${playerName}</strong>: ❌ Ingen träff (Förlust: -${player.bet} kr)</li>`;
+                }
+            });
+
+            resultsHTML += '</ul>';
+            
+            // Visa i en temporär alert
+            showNotification('Vecka ' + weekData.week + ' analyserad!', 'success');
+        }
+
+        /**
+         * Visar senaste veckans resultat
+         */
+        function displayLatestResults() {
+            const container = document.getElementById('latest-results');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu. Fyll i inmatningsfliken först.</p>';
+                return;
+            }
+
+            const latest = weeklyData[weeklyData.length - 1];
+            
+            let html = `
+                <div class="alert alert-info">
+                    <strong>Vecka ${latest.week}</strong> | ${formatDate(latest.date)}<br>
+                    ${latest.notes ? latest.notes : ''}
+                </div>
+            `;
+
+            if (latest.results.winner_race1 && latest.results.winner_race2) {
+                html += `
+                    <div style="background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                        <h3>Faktiska resultat:</h3>
+                        <p><strong>Lopp 1 vinnare:</strong> Häst #${latest.results.winner_race1}</p>
+                        <p><strong>Lopp 2 vinnare:</strong> Häst #${latest.results.winner_race2}</p>
+                        <p><strong>DD-utdelning:</strong> ${latest.results.dd_payout.toFixed(2)} kr</p>
+                        ${latest.results.notes ? `<p><em>${latest.results.notes}</em></p>` : ''}
+                    </div>
+                `;
+
+                // Visa varje spelares resultat
+                html += '<h3>Spelares resultat:</h3>';
+                html += '<div class="players-grid">';
+
+                Object.keys(latest.players).forEach(playerId => {
+                    const player = latest.players[playerId];
+                    const hasWinner1 = player.race1.includes(latest.results.winner_race1);
+                    const hasWinner2 = player.race2.includes(latest.results.winner_race2);
+                    const ddHit = hasWinner1 && hasWinner2;
+
+                    const playerInfo = players[playerId];
+                    
+                    html += `
+                        <div class="player-card">
+                            <h4><span class="player-icon ${playerInfo.color}">${playerInfo.icon}</span>${playerInfo.name}</h4>
+                            <p><strong>Lopp 1:</strong> ${player.race1.join(', ')} ${hasWinner1 ? '✅' : '❌'}</p>
+                            <p><strong>Lopp 2:</strong> ${player.race2.join(', ')} ${hasWinner2 ? '✅' : '❌'}</p>
+                            <p><strong>Insats:</strong> ${player.bet} kr</p>
+                            ${ddHit ? 
+                                `<div class="badge badge-success" style="display: block; margin-top: 10px; text-align: center;">DD-TRÄFF! Vinst: ${(latest.results.dd_payout - player.bet).toFixed(2)} kr</div>` :
+                                `<div class="badge badge-danger" style="display: block; margin-top: 10px; text-align: center;">Ingen träff (Förlust: -${player.bet} kr)</div>`
+                            }
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+            } else {
+                html += '<p class="text-muted">Resultat har inte fyllts i än för denna vecka.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Visar alla spelares samlade prestanda
+         */
+        function displayPlayerPerformance() {
+            const container = document.getElementById('player-performance');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu.</p>';
+                return;
+            }
+
+            // Beräkna statistik för varje spelare
+            const stats = {};
+            Object.keys(players).forEach(playerId => {
+                stats[playerId] = {
+                    totalBet: 0,
+                    totalWin: 0,
+                    ddHits: 0,
+                    race1Hits: 0,
+                    race2Hits: 0,
+                    weeks: 0
+                };
+            });
+
+            weeklyData.forEach(week => {
+                if (!week.results.winner_race1 || !week.results.winner_race2) return;
+
+                Object.keys(week.players).forEach(playerId => {
+                    const player = week.players[playerId];
+                    const hasWinner1 = player.race1.includes(week.results.winner_race1);
+                    const hasWinner2 = player.race2.includes(week.results.winner_race2);
+                    const ddHit = hasWinner1 && hasWinner2;
+
+                    stats[playerId].totalBet += player.bet;
+                    if (ddHit) {
+                        stats[playerId].totalWin += week.results.dd_payout;
+                        stats[playerId].ddHits++;
+                    }
+                    if (hasWinner1) stats[playerId].race1Hits++;
+                    if (hasWinner2) stats[playerId].race2Hits++;
+                    stats[playerId].weeks++;
+                });
+            });
+
+            // Rendera tabell
+            let html = '<table class="results-table"><thead><tr>';
+            html += '<th>Spelare</th><th>Veckor</th><th>Total insats</th><th>Total vinst</th><th>Netto</th><th>ROI</th><th>DD-träffar</th><th>L1 träffar</th><th>L2 träffar</th>';
+            html += '</tr></thead><tbody>';
+
+            Object.keys(stats).forEach(playerId => {
+                const s = stats[playerId];
+                if (s.weeks === 0) return;
+
+                const netto = s.totalWin - s.totalBet;
+                const roi = s.totalBet > 0 ? ((netto / s.totalBet) * 100) : 0;
+                const playerInfo = players[playerId];
+
+                html += `<tr>
+                    <td><span class="player-icon ${playerInfo.color}">${playerInfo.icon}</span> ${playerInfo.name}</td>
+                    <td>${s.weeks}</td>
+                    <td>${s.totalBet.toFixed(2)} kr</td>
+                    <td>${s.totalWin.toFixed(2)} kr</td>
+                    <td style="color: ${netto >= 0 ? 'green' : 'red'}; font-weight: bold;">${netto >= 0 ? '+' : ''}${netto.toFixed(2)} kr</td>
+                    <td style="color: ${roi >= 0 ? 'green' : 'red'}; font-weight: bold;">${roi >= 0 ? '+' : ''}${roi.toFixed(1)}%</td>
+                    <td>${s.ddHits} (${s.weeks > 0 ? ((s.ddHits/s.weeks)*100).toFixed(1) : 0}%)</td>
+                    <td>${s.race1Hits} (${s.weeks > 0 ? ((s.race1Hits/s.weeks)*100).toFixed(1) : 0}%)</td>
+                    <td>${s.race2Hits} (${s.weeks > 0 ? ((s.race2Hits/s.weeks)*100).toFixed(1) : 0}%)</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        /**
+         * Visar kumulativ statistik
+         */
+        function displayCumulativeStats() {
+            const container = document.getElementById('cumulative-stats');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu.</p>';
+                return;
+            }
+
+            // Räkna antal veckor med resultat
+            const weeksWithResults = weeklyData.filter(w => w.results.winner_race1 && w.results.winner_race2).length;
+            
+            // Total DD-träffar
+            let totalDDHits = 0;
+            let totalWeeks = 0;
+            
+            weeklyData.forEach(week => {
+                if (!week.results.winner_race1 || !week.results.winner_race2) return;
+                totalWeeks++;
+                
+                Object.values(week.players).forEach(player => {
+                    const hasWinner1 = player.race1.includes(week.results.winner_race1);
+                    const hasWinner2 = player.race2.includes(week.results.winner_race2);
+                    if (hasWinner1 && hasWinner2) totalDDHits++;
+                });
+            });
+
+            const avgDDHitRate = totalWeeks > 0 ? ((totalDDHits / (totalWeeks * 5)) * 100) : 0; // 5 spelare
+
+            let html = `
+                <div class="stat-card">
+                    <h3>Veckor analyserade</h3>
+                    <div class="stat-value">${weeksWithResults}</div>
+                    <div class="stat-label">av ${weeklyData.length} totalt</div>
+                </div>
+                <div class="stat-card">
+                    <h3>DD-träffar totalt</h3>
+                    <div class="stat-value">${totalDDHits}</div>
+                    <div class="stat-label">alla spelare</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Genomsnittlig träff%</h3>
+                    <div class="stat-value">${avgDDHitRate.toFixed(1)}%</div>
+                    <div class="stat-label">per spelare/vecka</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Systemversion</h3>
+                    <div class="stat-value">1.0</div>
+                    <div class="stat-label">Initial release</div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Visar ROI-jämförelse mellan spelare
+         */
+        function displayROIComparison() {
+            const container = document.getElementById('roi-comparison');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu.</p>';
+                return;
+            }
+
+            // Räkna ut ROI per spelare
+            const roiData = {};
+            Object.keys(players).forEach(playerId => {
+                roiData[playerId] = { bet: 0, win: 0 };
+            });
+
+            weeklyData.forEach(week => {
+                if (!week.results.winner_race1 || !week.results.winner_race2) return;
+
+                Object.keys(week.players).forEach(playerId => {
+                    const player = week.players[playerId];
+                    const hasWinner1 = player.race1.includes(week.results.winner_race1);
+                    const hasWinner2 = player.race2.includes(week.results.winner_race2);
+                    
+                    roiData[playerId].bet += player.bet;
+                    if (hasWinner1 && hasWinner2) {
+                        roiData[playerId].win += week.results.dd_payout;
+                    }
+                });
+            });
+
+            // Sortera efter ROI
+            const sorted = Object.keys(roiData)
+                .map(playerId => ({
+                    id: playerId,
+                    ...roiData[playerId],
+                    roi: roiData[playerId].bet > 0 ? (((roiData[playerId].win - roiData[playerId].bet) / roiData[playerId].bet) * 100) : 0
+                }))
+                .sort((a, b) => b.roi - a.roi);
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+            
+            sorted.forEach((data, index) => {
+                const playerInfo = players[data.id];
+                const netto = data.win - data.bet;
+                
+                html += `
+                    <div style="background: white; padding: 20px; border-radius: 8px; border: 2px solid ${data.roi >= 0 ? '#28a745' : '#dc3545'}; position: relative;">
+                        <div style="position: absolute; top: 10px; right: 10px; font-size: 2em; opacity: 0.2;">${index + 1}</div>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                            <span class="player-icon ${playerInfo.color}" style="width: 50px; height: 50px; font-size: 1.5em;">${playerInfo.icon}</span>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: #2a5298;">${playerInfo.name}</h3>
+                                <p style="margin: 5px 0 0 0; color: #6c757d;">ROI: <strong style="color: ${data.roi >= 0 ? 'green' : 'red'}; font-size: 1.3em;">${data.roi >= 0 ? '+' : ''}${data.roi.toFixed(1)}%</strong></p>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Total insats</div>
+                                <div style="font-weight: bold;">${data.bet.toFixed(2)} kr</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Total vinst</div>
+                                <div style="font-weight: bold;">${data.win.toFixed(2)} kr</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Netto</div>
+                                <div style="font-weight: bold; color: ${netto >= 0 ? 'green' : 'red'};">${netto >= 0 ? '+' : ''}${netto.toFixed(2)} kr</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        /**
+         * Genererar insikter och mönster från data
+         */
+        function generateInsights() {
+            const container = document.getElementById('insights');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu.</p>';
+                return;
+            }
+
+            const weeksWithResults = weeklyData.filter(w => w.results.winner_race1 && w.results.winner_race2);
+            
+            if (weeksWithResults.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Inga resultat att analysera ännu.</p>';
+                return;
+            }
+
+            let insights = [];
+
+            // Insikt 1: Bästa spelare
+            const playerStats = {};
+            Object.keys(players).forEach(pid => playerStats[pid] = { hits: 0, weeks: 0 });
+            
+            weeksWithResults.forEach(week => {
+                Object.keys(week.players).forEach(pid => {
+                    const p = week.players[pid];
+                    const hit = p.race1.includes(week.results.winner_race1) && p.race2.includes(week.results.winner_race2);
+                    if (hit) playerStats[pid].hits++;
+                    playerStats[pid].weeks++;
+                });
+            });
+
+            const bestPlayer = Object.keys(playerStats).reduce((a, b) => 
+                playerStats[a].hits > playerStats[b].hits ? a : b
+            );
+            insights.push(`🏆 <strong>Bästa spelare hittills:</strong> ${players[bestPlayer].name} med ${playerStats[bestPlayer].hits} DD-träffar på ${playerStats[bestPlayer].weeks} veckor (${((playerStats[bestPlayer].hits/playerStats[bestPlayer].weeks)*100).toFixed(1)}%)`);
+
+            // Insikt 2: Genomsnittlig utdelning
+            const avgPayout = weeksWithResults.reduce((sum, w) => sum + w.results.dd_payout, 0) / weeksWithResults.length;
+            insights.push(`💰 <strong>Genomsnittlig DD-utdelning:</strong> ${avgPayout.toFixed(2)} kr`);
+
+            // Insikt 3: Hösta/lägsta utdelning
+            const maxPayout = Math.max(...weeksWithResults.map(w => w.results.dd_payout));
+            const minPayout = Math.min(...weeksWithResults.map(w => w.results.dd_payout));
+            insights.push(`📊 <strong>Utdelningsspann:</strong> ${minPayout.toFixed(2)} kr (lägst) till ${maxPayout.toFixed(2)} kr (högst)`);
+
+            // Insikt 4: Systemets prestanda vs genomsnitt
+            if (playerStats.system && playerStats.system.weeks > 0) {
+                const systemHitRate = (playerStats.system.hits / playerStats.system.weeks) * 100;
+                const avgHitRate = Object.keys(playerStats).reduce((sum, pid) => {
+                    return sum + (playerStats[pid].weeks > 0 ? (playerStats[pid].hits / playerStats[pid].weeks) : 0);
+                }, 0) / Object.keys(playerStats).length * 100;
+                
+                if (systemHitRate > avgHitRate) {
+                    insights.push(`🤖 <strong>Systemet presterar över genomsnittet!</strong> ${systemHitRate.toFixed(1)}% vs ${avgHitRate.toFixed(1)}% genomsnitt`);
+                } else {
+                    insights.push(`🤖 <strong>Systemet behöver förbättras:</strong> ${systemHitRate.toFixed(1)}% vs ${avgHitRate.toFixed(1)}% genomsnitt`);
+                }
+            }
+
+            let html = '<ul style="background: white; padding: 20px 40px; border-radius: 8px; line-height: 2;">';
+            insights.forEach(insight => {
+                html += `<li>${insight}</li>`;
+            });
+            html += '</ul>';
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Visar fullständig historik i tabell
+         */
+        function displayFullHistory() {
+            const tbody = document.getElementById('history-body');
+            
+            if (weeklyData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="text-center text-muted">Ingen historik ännu</td></tr>';
+                return;
+            }
+
+            let html = '';
+            weeklyData.forEach(week => {
+                const hasResults = week.results.winner_race1 && week.results.winner_race2;
+                
+                html += `<tr>
+                    <td><strong>${week.week}</strong></td>
+                    <td>${formatDate(week.date)}</td>
+                    <td>${week.results.winner_race1 || '-'}</td>
+                    <td>${week.results.winner_race2 || '-'}</td>
+                    <td>${week.results.dd_payout > 0 ? week.results.dd_payout.toFixed(2) + ' kr' : '-'}</td>
+                `;
+
+                if (hasResults) {
+                    Object.keys(players).forEach(pid => {
+                        const p = week.players[pid];
+                        const hit = p.race1.includes(week.results.winner_race1) && p.race2.includes(week.results.winner_race2);
+                        html += `<td>${hit ? '<span class="badge badge-success">TRÄFF</span>' : '<span class="badge badge-danger">Miss</span>'}</td>`;
+                    });
+                } else {
+                    html += '<td colspan="5" class="text-center text-muted">Ej klart</td>';
+                }
+
+                html += '</tr>';
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        /**
+         * Uppdaterar PRD-sektionen
+         */
+        function updatePRDSection() {
+            document.getElementById('prd-weeks-analyzed').textContent = weeklyData.length + ' veckor';
+            
+            // Placeholder - fylls i av generatePRDUpdate()
+            if (weeklyData.length === 0) {
+                document.getElementById('prd-weight-adjustments').innerHTML = '<p class="text-muted">Ingen data ännu</p>';
+                document.getElementById('prd-insights').innerHTML = '<p class="text-muted">Ingen data ännu</p>';
+            }
+        }
+
+        /**
+         * Genererar PRD-uppdatering
+         */
+        function generatePRDUpdate() {
+            if (weeklyData.length === 0) {
+                showNotification('Ingen data att generera PRD från!', 'error');
+                return;
+            }
+
+            // Detta skulle i en riktig app kalla Claude API för att generera uppdatering
+            // För nu, visa en placeholder
+            const prdText = `# PRODUCT REQUIREMENTS DOCUMENT (PRD)
+## Självförbättrande Analyssystem för Dagens Dubbel – Solvalla Lördagstrav
+
+**Version:** 1.1
+**Datum:** ${new Date().toISOString().split('T')[0]}
+**Författare:** Kent Lundgren / Systemet
+**Status:** Uppdaterad baserat på ${weeklyData.length} veckors data
+
+---
+
+## SAMMANFATTNING AV ÄNDRINGAR SEDAN V1.0
+
+### Dataunderlag
+- **Antal veckor analyserade:** ${weeklyData.length}
+- **Veckor med kompletta resultat:** ${weeklyData.filter(w => w.results.winner_race1).length}
+- **Total DD-träffar:** [Beräknas vid generering]
+
+### Preliminära insikter
+[Genereras automatiskt baserat på insamlad data]
+
+### Rekommenderade viktjusteringar
+[Kommer från utvärderingsmotor]
+
+---
+
+*Fullständig PRD-uppdatering genereras av systemet baserat på faktisk data.*
+            `;
+
+            document.getElementById('prd-text').textContent = prdText;
+            document.getElementById('prd-output').style.display = 'block';
+            
+            showNotification('PRD-utkast genererat! Se nedan.', 'success');
+        }
+
+        /**
+         * Laddar ner PRD som textfil
+         */
+        function downloadPRD() {
+            const prdContent = document.getElementById('prd-text').textContent;
+            
+            if (!prdContent || prdContent.trim() === '') {
+                showNotification('Generera PRD först!', 'error');
+                return;
+            }
+
+            const blob = new Blob([prdContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'PRD_v1.1_' + new Date().toISOString().split('T')[0] + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('PRD nedladdad!', 'success');
+        }
+
+        // ========================================
+        // HJÄLPFUNKTIONER
+        // ========================================
+        
+        /**
+         * Formaterar datum till läsbar form
+         * @param {string} dateStr - ISO-datumformat
+         * @returns {string} - Formaterat datum
+         */
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('sv-SE', options);
+        }
+
+        /**
+         * Visar notifikation till användaren
+         * @param {string} message - Meddelande att visa
+         * @param {string} type - Typ av meddelande (success, error, info)
+         */
+        function showNotification(message, type = 'info') {
+            // Enkel alert för nu - kan bytas mot snyggare notification senare
+            alert(message);
+        }
+
+        /**
+         * Rensar inmatningsformuläret
+         */
+        function clearForm() {
+            if (!confirm('Är du säker på att du vill rensa formuläret?')) return;
+            
+            document.getElementById('raceNotes').value = '';
+            
+            ['kent', 'lotta', 'bengt', 'benita', 'system'].forEach(pid => {
+                document.getElementById(pid + '-race1').value = '';
+                document.getElementById(pid + '-race2').value = '';
+            });
+            
+            document.getElementById('winner-race1').value = '';
+            document.getElementById('winner-race2').value = '';
+            document.getElementById('dd-payout').value = '';
+            document.getElementById('result-notes').value = '';
+            
+            showNotification('Formulär rensat!', 'info');
+        }
+
+        /**
+         * Exporterar historik till CSV
+         */
+        function exportHistoryCSV() {
+            if (weeklyData.length === 0) {
+                showNotification('Ingen data att exportera!', 'error');
+                return;
+            }
+
+            let csv = 'Vecka,Datum,Vinnare L1,Vinnare L2,DD-utdelning,Kent Träff,Lotta Träff,Bengt Träff,Benita Träff,System Träff\n';
+            
+            weeklyData.forEach(week => {
+                const row = [
+                    week.week,
+                    week.date,
+                    week.results.winner_race1 || '',
+                    week.results.winner_race2 || '',
+                    week.results.dd_payout || ''
+                ];
+
+                if (week.results.winner_race1 && week.results.winner_race2) {
+                    Object.keys(players).forEach(pid => {
+                        const p = week.players[pid];
+                        const hit = p.race1.includes(week.results.winner_race1) && p.race2.includes(week.results.winner_race2);
+                        row.push(hit ? '1' : '0');
+                    });
+                } else {
+                    row.push('', '', '', '', '');
+                }
+
+                csv += row.join(',') + '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'dd_history_' + new Date().toISOString().split('T')[0] + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('CSV exporterad!', 'success');
+        }
+
+        /**
+         * Rensar all data (med varning)
+         */
+        function clearAllData() {
+            if (!confirm('VARNING: Detta kommer radera ALL data permanent. Är du absolut säker?')) return;
+            if (!confirm('Sista chansen! All data kommer försvinna. Fortsätt?')) return;
+            
+            localStorage.removeItem('ddWeeklyData');
+            weeklyData = [];
+            updateAllDisplays();
+            
+            showNotification('All data raderad!', 'info');
+        }
+    </script>
+</body>
+</html>
