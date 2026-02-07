@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Integration Guide - Kent's Mönster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h2 {
+            color: #1e3c72;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #2a5298;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight {
+            background: #fffacd;
+            padding: 15px;
+            border-left: 4px solid #f39c12;
+            margin: 15px 0;
+        }
+
+        .warning {
+            background: #ffe6e6;
+            padding: 15px;
+            border-left: 4px solid #e74c3c;
+            margin: 15px 0;
+        }
+
+        .info {
+            background: #e6f7ff;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+
+        code {
+            background: #ecf0f1;
+            color: #e74c3c;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .pros {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cons {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .step {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 Firebase Integration Guide</h1>
+            <p>Kent's standardmönster för Firebase Realtime Database</p>
+            <p style="margin-top: 1rem;">
+                <a href="https://github.com/kentlundgren/AI/tree/main/DagensDubbel" target="_blank" 
+                   style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                          border-radius: 5px; text-decoration: none; display: inline-block;">
+                    💻 Visa källkod på GitHub
+                </a>
+            </p>
+        </header>
+
+        <div class="content">
+            <!-- ============================================
+                 INTRODUKTION
+                 ============================================ -->
+            <h2>📚 Översikt</h2>
+            <div class="section">
+                <p>Detta dokument beskriver Kent's standardmönster för att koppla frontend-applikationer till <strong>Firebase Realtime Database</strong>. Mönstret har utvecklats genom tre tidigare projekt och är anpassat för "glada amatörer" som vill ha en enkel, gratis backend-lösning.</p>
+                
+                <div class="highlight">
+                    <strong>🎯 Huvudfunktionalitet:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Realtids-databas som synkas mellan användare</li>
+                        <li>Ingen egen server krävs</li>
+                        <li>Gratis tier upp till 1GB data + 10GB nedladdning/månad</li>
+                        <li>Automatisk synkronisering mellan enheter</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 KENT'S FIREBASE-MÖNSTER
+                 ============================================ -->
+            <h2>🔧 Kent's Firebase-implementationsmönster</h2>
+            
+            <div class="section">
+                <h3>Steg 1: Content Security Policy (CSP)</h3>
+                <p>Lägg till följande i <code>&lt;head&gt;</code> för att tillåta Firebase-anslutningar:</p>
+
+<pre>&lt;!-- FIREBASE CSP - TILLÅTER ANSLUTNING TILL FIREBASE --&gt;
+&lt;meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https://*.firebaseio.com https://*.firebasedatabase.app https://*.googleapis.com;
+    connect-src 'self' https://*.firebaseio.com https://*.firebasedatabase.app https://*.googleapis.com https://www.googleapis.com wss://*.firebaseio.com wss://*.firebasedatabase.app;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.firebasedatabase.app https://www.gstatic.com https://www.gstatic.com/firebasejs/11.0.0/ https://*.googleapis.com;
+    script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.firebasedatabase.app https://www.gstatic.com https://www.gstatic.com/firebasejs/11.0.0/ https://*.googleapis.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    frame-src 'self' https://*.firebaseapp.com;
+    img-src 'self' data:;
+"&gt;</pre>
+
+                <div class="info">
+                    <strong>💡 Varför CSP?</strong><br>
+                    Content Security Policy skyddar mot XSS-attacker genom att kontrollera vilka källor som får köra scripts. Firebase kräver dessa specifika domäner för att fungera.
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Steg 2: Firebase SDK Import (ES6 Modules)</h3>
+                <p>Kent använder <strong>Firebase SDK v11.0.0</strong> med ES6 module syntax:</p>
+
+<pre>&lt;script type="module"&gt;
+    // ============================================
+    // FIREBASE INITIALISERING - KENT'S MÖNSTER
+    // ============================================
+    
+    import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js';
+    import { getDatabase, ref, set, push, onValue, remove } from 'https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js';
+
+    console.log('FIREBASE v11.0.0 MODULER LADDADE');
+
+    const initFirebase = async () =&gt; {
+        console.log('INITIERAR FIREBASE...');
+
+        try {
+            // FIREBASE KONFIGURATION - HÄR LÄGGER DU DIN EGEN CONFIG
+            const firebaseConfig = {
+                apiKey: "DIN_API_KEY",
+                authDomain: "DITT_PROJEKT.firebaseapp.com",
+                databaseURL: "https://DITT_PROJEKT.firebasedatabase.app",
+                projectId: "DITT_PROJEKT",
+                storageBucket: "DITT_PROJEKT.appspot.com",
+                messagingSenderId: "DITT_ID",
+                appId: "DITT_APP_ID"
+            };
+
+            // Kontrollera om Firebase redan är initialiserad
+            if (!getApps().length) {
+                const app = initializeApp(firebaseConfig);
+                console.log('FIREBASE APP INITIERAD MED VERSION 11.0.0');
+            } else {
+                console.log('FIREBASE APP REDAN INITIALISERAD');
+            }
+
+            const db = getDatabase();
+            console.log('FIREBASE DATABASE REFERENS SKAPAD');
+
+            // GÖR FIREBASE TILLGÄNGLIGT GLOBALT FÖR ÖVRIGA SCRIPTS
+            window.firebaseDb = db;
+            window.firebaseRef = ref;
+            window.firebaseSet = set;
+            window.firebasePush = push;
+            window.firebaseOnValue = onValue;  // FÖR ATT LÄSA DATA
+            window.firebaseRemove = remove;    // FÖR ATT RADERA DATA
+            window.firebaseReady = true;
+
+            // SKICKA EVENT SÅ ATT ÖVRIGA SCRIPTS VET ATT FIREBASE ÄR REDO
+            window.dispatchEvent(new Event('firebaseReady'));
+            console.log('FIREBASE ÄR REDO FÖR ANVÄNDNING');
+
+        } catch (error) {
+            console.error('FEL VID FIREBASE-INITIERING:', error);
+            window.firebaseReady = false;
+            window.dispatchEvent(new CustomEvent('firebaseError', { detail: error }));
+        }
+    };
+
+    // STARTA FIREBASE NÄR SIDAN LADDAS
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFirebase);
+    } else {
+        initFirebase();
+    }
+&lt;/script&gt;</pre>
+
+                <div class="warning">
+                    <strong>⚠️ VIKTIGT:</strong> Byt ut <code>firebaseConfig</code> med din egen Firebase-projektkonfiguration som du får från Firebase Console.
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>Steg 3: Använda Firebase i ditt huvudscript</h3>
+                <p>I din <code>&lt;script&gt;</code> eller <code>script.js</code>-fil, lyssna på när Firebase är redo:</p>
+
+<pre>// VÄNTA PÅ ATT FIREBASE SKA VARA REDO
+window.addEventListener('firebaseReady', () => {
+    console.log('Firebase är redo! Kan nu spara och läsa data.');
+    
+    // NU KAN DU ANVÄNDA FIREBASE-FUNKTIONERNA
+});
+
+// HANTERA FIREBASE-FEL
+window.addEventListener('firebaseError', (event) => {
+    console.error('Firebase-fel:', event.detail);
+    alert('❌ Kunde inte ansluta till Firebase. Kontrollera internetanslutning.');
+});
+
+// ============================================
+// SPARA DATA TILL FIREBASE
+// ============================================
+function saveToFirebase(data) {
+    if (!window.firebaseReady) {
+        alert('Firebase är inte redo ännu. Vänta ett ögonblick.');
+        return;
+    }
+    
+    try {
+        const db = window.firebaseDb;
+        const dbRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+        
+        // PUSH = SKAPA NYTT UNIKT ID AUTOMATISKT
+        window.firebasePush(dbRef, data)
+            .then(() => {
+                console.log('✅ Data sparad till Firebase:', data);
+                alert('✅ Data sparad!');
+            })
+            .catch((error) => {
+                console.error('❌ Fel vid sparande:', error);
+                alert('❌ Kunde inte spara data: ' + error.message);
+            });
+            
+    } catch (error) {
+        console.error('Firebase-fel:', error);
+        alert('❌ Firebase-fel: ' + error.message);
+    }
+}
+
+// ============================================
+// LÄSA DATA FRÅN FIREBASE (REALTID)
+// ============================================
+function readFromFirebase() {
+    if (!window.firebaseReady) {
+        alert('Firebase är inte redo ännu.');
+        return;
+    }
+    
+    const db = window.firebaseDb;
+    const dbRef = window.firebaseRef(db, 'dagensDubbel/veckor');
+    
+    // ONVALUE = LYSSNAR PÅ ÄNDRINGAR I REALTID
+    window.firebaseOnValue(dbRef, (snapshot) => {
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            console.log('📥 Data från Firebase:', data);
+            
+            // KONVERTERA FIREBASE-OBJEKT TILL ARRAY
+            const weeks = Object.keys(data).map(key => ({
+                id: key,
+                ...data[key]
+            }));
+            
+            console.log('Veckor som array:', weeks);
+            // HÄR KAN DU UPPDATERA DITT UI
+            
+        } else {
+            console.log('Ingen data i Firebase ännu.');
+        }
+    }, (error) => {
+        console.error('❌ Fel vid läsning:', error);
+    });
+}
+
+// ============================================
+// RADERA DATA FRÅN FIREBASE
+// ============================================
+function deleteFromFirebase(weekId) {
+    if (!window.firebaseReady) {
+        alert('Firebase är inte redo ännu.');
+        return;
+    }
+    
+    const db = window.firebaseDb;
+    const dbRef = window.firebaseRef(db, `dagensDubbel/veckor/${weekId}`);
+    
+    window.firebaseRemove(dbRef)
+        .then(() => {
+            console.log('✅ Vecka raderad');
+            alert('✅ Data raderad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid radering:', error);
+            alert('❌ Kunde inte radera: ' + error.message);
+        });
+}
+
+// ============================================
+// EXEMPEL: SPARA VECKODATA
+// ============================================
+function saveWeekData() {
+    const weekData = {
+        week: 1,
+        date: "2026-02-07",
+        notes: "STL-final",
+        players: {
+            kent: { race1: [2,5,6], race2: [6,11], bet: 45 },
+            lotta: { race1: [1,3], race2: [7,9], bet: 40 }
+        },
+        results: {
+            winner_race1: 5,
+            winner_race2: 11,
+            dd_payout: 156.50
+        },
+        timestamp: new Date().toISOString()
+    };
+    
+    saveToFirebase(weekData);
+}</pre>
+            </div>
+
+            <!-- ============================================
+                 DATASTRUKTUR I FIREBASE
+                 ============================================ -->
+            <h2>🗄️ Datastruktur i Firebase Realtime Database</h2>
+            
+            <div class="section">
+                <p>Firebase lagrar data i JSON-format i en trädstruktur:</p>
+
+<pre>{
+  "dagensDubbel": {
+    "veckor": {
+      "-NjK3s4LmPQr8xYzAbc1": {
+        "week": 1,
+        "date": "2026-02-07",
+        "notes": "STL-final",
+        "players": {
+          "kent": {
+            "race1": [2, 5, 6],
+            "race2": [6, 11, 15],
+            "bet": 45
+          },
+          "lotta": { ... }
+        },
+        "results": {
+          "winner_race1": 5,
+          "winner_race2": 11,
+          "dd_payout": 156.50
+        },
+        "timestamp": "2026-02-07T14:30:00.000Z"
+      },
+      "-NjK3s4LmPQr8xYzAbc2": {
+        // Vecka 2...
+      }
+    }
+  }
+}</pre>
+
+                <div class="info">
+                    <strong>💡 Nyckel-struktur:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><code>dagensDubbel/veckor</code> - Huvudsökvägen för veckodata</li>
+                        <li><code>-NjK3s4...</code> - Automatiskt genererad unik ID (från push)</li>
+                        <li>Använd <code>ref(db, 'path/to/data')</code> för att referera till data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 SETUP FIREBASE-PROJEKT
+                 ============================================ -->
+            <h2>🚀 Setup: Skapa Firebase-projekt</h2>
+            
+            <div class="section">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Gå till Firebase Console</strong><br>
+                    Besök <a href="https://console.firebase.google.com/" target="_blank">https://console.firebase.google.com/</a> och logga in med ditt Google-konto.
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Skapa nytt projekt</strong><br>
+                    Klicka på "Add project" och följ guiden. Välj ett lämpligt namn (t.ex. "dagens-dubbel").
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Lägg till en webbapp</strong><br>
+                    I projektöversikten, klicka på "Web" (&lt;/&gt;-ikonen) och registrera din app.
+                </div>
+
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <strong>Kopiera Firebase Config</strong><br>
+                    Firebase visar en <code>firebaseConfig</code>-objekt. Kopiera detta och klistra in i ditt script (se Steg 2 ovan).
+                </div>
+
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <strong>Aktivera Realtime Database</strong><br>
+                    I sidomenyn, gå till "Build" → "Realtime Database" → "Create Database".<br>
+                    Välj region (t.ex. <code>europe-west1</code> för Europa).<br>
+                    Starta i "Test mode" (öppna regler, byt senare till säkrare regler).
+                </div>
+
+                <div class="step">
+                    <span class="step-number">6</span>
+                    <strong>Säkerhetsregler (VIKTIGT!)</strong><br>
+                    Under "Rules"-fliken, byt ut reglerna:
+
+<pre>{
+  "rules": {
+    ".read": "auth != null",  // Endast inloggade användare kan läsa
+    ".write": "auth != null"  // Endast inloggade användare kan skriva
+  }
+}</pre>
+
+                    <div class="warning">
+                        <strong>⚠️ För utveckling (osäkert, använd bara lokalt):</strong>
+<pre>{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}</pre>
+                        <strong>Byt till säkra regler innan publicering!</strong>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <span class="step-number">7</span>
+                    <strong>Testa anslutningen</strong><br>
+                    Öppna din HTML-fil i webbläsaren och kontrollera Console (F12).<br>
+                    Du bör se: <code>FIREBASE ÄR REDO FÖR ANVÄNDNING</code>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 ALTERNATIVA BACKEND-DATABASER
+                 ============================================ -->
+            <h2>🔍 Alternativa gratis backend-databaser för "glada amatörer"</h2>
+            
+            <div class="section">
+                <p>Firebase är bra, men här är några alternativ som också är gratis och lätta att använda:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Databas</th>
+                            <th>Typ</th>
+                            <th>Gratis Tier</th>
+                            <th class="pros">Fördelar</th>
+                            <th class="cons">Nackdelar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Firebase Realtime Database</strong><br><a href="https://firebase.google.com/" target="_blank">firebase.google.com</a></td>
+                            <td>NoSQL (JSON)</td>
+                            <td>1GB data<br>10GB/månad nedladdning</td>
+                            <td class="pros">
+                                ✅ Realtidssynk<br>
+                                ✅ Google-integration<br>
+                                ✅ Offline-stöd<br>
+                                ✅ Kent's favorit
+                            </td>
+                            <td class="cons">
+                                ❌ Komplex query-syntax<br>
+                                ❌ Begränsad till JSON-struktur
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Supabase</strong><br><a href="https://supabase.com/" target="_blank">supabase.com</a></td>
+                            <td>PostgreSQL (SQL)</td>
+                            <td>500MB databas<br>1GB fillagring<br>50,000 monthly active users</td>
+                            <td class="pros">
+                                ✅ Open source<br>
+                                ✅ Kraftfull SQL<br>
+                                ✅ Autentisering inbyggd<br>
+                                ✅ RESTful API
+                            </td>
+                            <td class="cons">
+                                ❌ Lite mer komplex setup<br>
+                                ❌ Kräver SQL-kunskap
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>PocketBase</strong><br><a href="https://pocketbase.io/" target="_blank">pocketbase.io</a></td>
+                            <td>SQLite</td>
+                            <td>Gratis (self-hosted)</td>
+                            <td class="pros">
+                                ✅ Enklast att komma igång<br>
+                                ✅ En enda fil (< 10MB)<br>
+                                ✅ Admin UI inbyggd<br>
+                                ✅ Perfekt för små projekt
+                            </td>
+                            <td class="cons">
+                                ❌ Self-hosted (egen server krävs)<br>
+                                ❌ Inte lika skalbar
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Appwrite</strong><br><a href="https://appwrite.io/" target="_blank">appwrite.io</a></td>
+                            <td>MariaDB</td>
+                            <td>Gratis (self-hosted)<br>Cloud: $15/månad</td>
+                            <td class="pros">
+                                ✅ Self-hosted alternativ<br>
+                                ✅ All-in-one (DB, Auth, Storage)<br>
+                                ✅ Docker-baserad
+                            </td>
+                            <td class="cons">
+                                ❌ Kräver Docker-kunskap<br>
+                                ❌ Cloud-version är betalversion
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>MongoDB Atlas</strong><br><a href="https://www.mongodb.com/atlas" target="_blank">mongodb.com/atlas</a></td>
+                            <td>NoSQL (Dokument)</td>
+                            <td>512MB lagring</td>
+                            <td class="pros">
+                                ✅ Populär NoSQL<br>
+                                ✅ Flexibel schema<br>
+                                ✅ Kraftfulla queries
+                            </td>
+                            <td class="cons">
+                                ❌ Svårare att lära sig<br>
+                                ❌ Begränsad gratis tier
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cloudflare D1</strong><br><a href="https://www.cloudflare.com/developer-platform/d1/" target="_blank">cloudflare.com/d1</a></td>
+                            <td>SQLite (Edge)</td>
+                            <td>10 GB data<br>5 miljoner reads/dag</td>
+                            <td class="pros">
+                                ✅ Blixsnabbt (edge network)<br>
+                                ✅ Generöst gratis tier<br>
+                                ✅ SQL-stöd
+                            </td>
+                            <td class="cons">
+                                ❌ Kräver Cloudflare Workers<br>
+                                ❌ Mer avancerad setup
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight">
+                    <strong>🎯 Kent's rekommendation:</strong><br>
+                    <strong>Firebase Realtime Database</strong> är perfekt för dig om:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Du vill ha realtidssynkronisering mellan användare</li>
+                        <li>Du inte vill hantera egen server</li>
+                        <li>Du är nybörjare och vill komma igång snabbt</li>
+                        <li>Du har < 1000 användare</li>
+                    </ul>
+                    <br>
+                    <strong>Alternativt Supabase</strong> om du vill lära dig SQL och ha mer kontroll.
+                </div>
+            </div>
+
+            <!-- ============================================
+                 JÄMFÖRELSE: LOCALSTORAGE VS FIREBASE
+                 ============================================ -->
+            <h2>⚖️ LocalStorage vs Firebase Realtime Database</h2>
+            
+            <div class="section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>LocalStorage</th>
+                            <th>Firebase Realtime Database</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lagring</strong></td>
+                            <td>Lokalt i webbläsaren (5-10 MB)</td>
+                            <td>Molnet (1 GB gratis)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Synkronisering</strong></td>
+                            <td>❌ Endast på en enhet</td>
+                            <td>✅ Alla enheter + användare</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Realtidsuppdateringar</strong></td>
+                            <td>❌ Nej</td>
+                            <td>✅ Ja, automatisk</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backup</strong></td>
+                            <td>❌ Användaren måste exportera manuellt</td>
+                            <td>✅ Automatisk i molnet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Multi-användare</strong></td>
+                            <td>❌ Omöjlig</td>
+                            <td>✅ Inbyggt stöd</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Offline-stöd</strong></td>
+                            <td>✅ Fungerar offline</td>
+                            <td>✅ Fungerar offline + synkar senare</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setup</strong></td>
+                            <td>✅ Ingen setup krävs</td>
+                            <td>⚠️ Firebase-projekt krävs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kostnad</strong></td>
+                            <td>✅ Helt gratis</td>
+                            <td>✅ Gratis upp till 1 GB</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Säkerhet</strong></td>
+                            <td>⚠️ Lokal, ingen autentisering</td>
+                            <td>✅ Autentisering + säkerhetsregler</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Komplexitet</strong></td>
+                            <td>✅ Mycket enkel</td>
+                            <td>⚠️ Något mer komplex</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info">
+                    <strong>💡 När ska du använda vad?</strong><br><br>
+                    <strong>Använd LocalStorage när:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Du endast har en användare</li>
+                        <li>Data ska vara privat för varje enhet</li>
+                        <li>Projektet är ett enkelt personligt verktyg</li>
+                        <li>Du vill minimera komplexitet</li>
+                    </ul>
+                    <br>
+                    <strong>Använd Firebase när:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Du vill dela data mellan flera användare</li>
+                        <li>Du vill synka data mellan enheter</li>
+                        <li>Du behöver realtidsuppdateringar</li>
+                        <li>Du vill ha backup i molnet</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 MIGRATION FRÅN LOCALSTORAGE TILL FIREBASE
+                 ============================================ -->
+            <h2>🔄 Migration: LocalStorage → Firebase</h2>
+            
+            <div class="section">
+                <p>Om du vill migrera Dagens Dubbel från localStorage till Firebase:</p>
+
+<pre>// ============================================
+// MIGRERA BEFINTLIG DATA FRÅN LOCALSTORAGE TILL FIREBASE
+// ============================================
+function migrateToFirebase() {
+    if (!window.firebaseReady) {
+        alert('Firebase är inte redo ännu.');
+        return;
+    }
+    
+    // 1. HÄMTA DATA FRÅN LOCALSTORAGE
+    const localData = localStorage.getItem('ddWeeklyData');
+    if (!localData) {
+        alert('Ingen data i localStorage att migrera.');
+        return;
+    }
+    
+    const weeks = JSON.parse(localData);
+    console.log(`Migrerar ${weeks.length} veckor till Firebase...`);
+    
+    // 2. SPARA VARJE VECKA TILL FIREBASE
+    const db = window.firebaseDb;
+    const promises = weeks.map(week => {
+        const weekRef = window.firebaseRef(db, `dagensDubbel/veckor`);
+        return window.firebasePush(weekRef, week);
+    });
+    
+    // 3. VÄNTA PÅ ATT ALLA SPARAS
+    Promise.all(promises)
+        .then(() => {
+            console.log('✅ Migration klar!');
+            alert(`✅ ${weeks.length} veckor migrerade till Firebase!`);
+            
+            // 4. (VALFRITT) RENSA LOCALSTORAGE
+            // localStorage.removeItem('ddWeeklyData');
+        })
+        .catch((error) => {
+            console.error('❌ Migration misslyckades:', error);
+            alert('❌ Migration misslyckades: ' + error.message);
+        });
+}
+
+// KÖR MIGRATION (EN GÅNG)
+// migrateToFirebase();</pre>
+            </div>
+
+            <!-- ============================================
+                 FELSÖKNING
+                 ============================================ -->
+            <h2>🐛 Felsökning</h2>
+            
+            <div class="section">
+                <h3>Problem: "Firebase är inte redo ännu"</h3>
+                <p><strong>Lösning:</strong> Kontrollera att Firebase-scriptet laddas innan ditt huvudscript. Använd <code>window.addEventListener('firebaseReady', ...)</code> för att vänta.</p>
+
+                <h3>Problem: CORS-fel eller "Blocked by CSP"</h3>
+                <p><strong>Lösning:</strong> Kontrollera att du har rätt CSP-meta-tag (se Steg 1). Verifiera att alla Firebase-domäner är inkluderade.</p>
+
+                <h3>Problem: "Permission denied" vid läsning/skrivning</h3>
+                <p><strong>Lösning:</strong> Kontrollera säkerhetsreglerna i Firebase Console. För test, använd:</p>
+<pre>{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}</pre>
+                <p><strong>OBS!</strong> Byt till säkrare regler innan publicering.</p>
+
+                <h3>Problem: Data sparas inte korrekt</h3>
+                <p><strong>Lösning:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Kontrollera console.log() för fel</li>
+                    <li>Verifiera att <code>window.firebaseReady === true</code></li>
+                    <li>Kolla att data-strukturen är giltig JSON</li>
+                    <li>Testa sparande i Firebase Console direkt</li>
+                </ul>
+
+                <h3>Problem: "Quota exceeded" (gratis tier överskiden)</h3>
+                <p><strong>Lösning:</strong> Du har överskridit 1 GB data eller 10 GB nedladdning/månad. Uppgradera till Blaze-plan eller optimera data.</p>
+            </div>
+
+            <!-- ============================================
+                 LÄNKAR OCH RESURSER
+                 ============================================ -->
+            <h2>🔗 Användbara länkar</h2>
+            
+            <div class="section">
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><a href="https://firebase.google.com/docs/database" target="_blank">Firebase Realtime Database Documentation</a></li>
+                    <li><a href="https://firebase.google.com/docs/database/web/start" target="_blank">Get Started with Firebase (Web)</a></li>
+                    <li><a href="https://firebase.google.com/docs/database/security" target="_blank">Security Rules Guide</a></li>
+                    <li><a href="https://console.firebase.google.com/" target="_blank">Firebase Console</a></li>
+                    <li><a href="https://supabase.com/" target="_blank">Supabase (Alternativ)</a></li>
+                    <li><a href="https://pocketbase.io/" target="_blank">PocketBase (Alternativ)</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <footer>
+            <h3>🔗 Projektnavigation</h3>
+            <div style="margin-top: 15px;">
+                <a href="README.md" style="color: white; margin: 0 10px;">📖 README</a>
+                <a href="index.html" style="color: white; margin: 0 10px;">🏠 Huvudapplikation</a>
+                <a href=".claude/agents/BackEnd.md" style="color: white; margin: 0 10px;">⚙️ Backend Agent</a>
+                <a href=".claude/agents/FrontEnd.md" style="color: white; margin: 0 10px;">🎨 Frontend Agent</a>
+            </div>
+            <p style="margin-top: 20px; opacity: 0.8;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Dagens Dubbel Analyssystem
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
