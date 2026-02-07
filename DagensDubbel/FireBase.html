@@ -788,45 +788,170 @@ function saveWeekData() {
 
                 <div class="step">
                     <span class="step-number">1</span>
-                    <strong>Gå till Firebase Console</strong><br>
-                    Besök <a href="https://console.firebase.google.com/" target="_blank">https://console.firebase.google.com/</a> och logga in med ditt Google-konto.
+                    <strong>Gå till Firebase Console och logga in</strong><br>
+                    Besök <a href="https://console.firebase.google.com/" target="_blank">https://console.firebase.google.com/</a><br><br>
+                    
+                    <strong>Vad du ser:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Första gången:</strong> Google-inloggning - logga in med ditt Gmail-konto</li>
+                        <li><strong>Efter inloggning:</strong> Firebase Console med en stor blå knapp <strong>"Create a project"</strong> eller <strong>"Add project"</strong></li>
+                    </ul>
                 </div>
 
                 <div class="step">
                     <span class="step-number">2</span>
                     <strong>Skapa nytt projekt</strong><br>
-                    Klicka på "Add project" och följ guiden. Välj ett lämpligt namn (t.ex. "dagens-dubbel").
+                    Klicka på <strong>"Create a project"</strong> eller <strong>"Add project"</strong> (stora blå knappen).<br><br>
+                    
+                    <strong>Följ guiden:</strong><br><br>
+                    
+                    <strong>Steg 1 av 3 - Projektnamn:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Skriv ett namn (t.ex. <code>dagens-dubbel</code>)</li>
+                        <li>Kryssa i "I accept the Firebase terms"</li>
+                        <li>Klicka <strong>"Continue"</strong></li>
+                    </ul>
+                    
+                    <strong>Steg 2 av 3 - Google Analytics (valfritt):</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Du kan lämna "Enable Google Analytics" påslaget (rekommenderat)</li>
+                        <li>ELLER stänga av det om du inte vill ha analytics</li>
+                        <li>Klicka <strong>"Continue"</strong></li>
+                    </ul>
+                    
+                    <strong>Steg 3 av 3 - Analytics-konfiguration (om aktiverat):</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Välj ett Analytics-konto (ofta "Default Account for Firebase")</li>
+                        <li>Klicka <strong>"Create project"</strong></li>
+                    </ul>
+                    
+                    <strong>⏱️ Vänta 30-60 sekunder...</strong><br>
+                    Firebase skapar nu ditt projekt. När det är klart ser du "Your new project is ready!" → Klicka <strong>"Continue"</strong>.
+                    
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>💡 Du kommer nu till projektöversikten</strong> (hemskärmen för ditt nya Firebase-projekt). Här ser du olika ikoner för att lägga till iOS, Android, Web, etc.
+                    </div>
                 </div>
 
                 <div class="step">
                     <span class="step-number">3</span>
                     <strong>Lägg till en webbapp</strong><br>
-                    I projektöversikten, klicka på "Web" (&lt;/&gt;-ikonen) och registrera din app.
+                    Du är nu i <strong>projektöversikten</strong> (Project Overview).<br><br>
+                    
+                    <strong>Vad du ser:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Text: "Get started by adding Firebase to your app"</li>
+                        <li>Fyra ikoner: 📱 iOS | 🍎 Android | <strong>🌐 Web</strong> | 🎮 Unity</li>
+                    </ul>
+                    
+                    <strong>Gör detta:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Klicka på <strong>🌐 Web</strong> (ikonen som ser ut som <code>&lt;/&gt;</code>)</li>
+                        <li>Skriv ett "App nickname" (t.ex. <code>dagens-dubbel-web</code>)</li>
+                        <li>Kryssa INTE i "Also set up Firebase Hosting" (vi hostar på GitHub Pages)</li>
+                        <li>Klicka <strong>"Register app"</strong></li>
+                    </ol>
                 </div>
 
                 <div class="step">
                     <span class="step-number">4</span>
-                    <strong>Kopiera Firebase Config</strong><br>
-                    Firebase visar en <code>firebaseConfig</code>-objekt. Kopiera detta och klistra in i ditt script.<br>
-                    <strong>SAMMA config fungerar för båda mönstren!</strong>
+                    <strong>Kopiera Firebase Config (VIKTIGT! ✅)</strong><br>
+                    Efter du registrerat appen visar Firebase en <strong>kod-snippet</strong> med din Firebase-konfiguration.<br><br>
+                    
+                    <strong>Leta efter denna kod:</strong>
+<pre style="font-size: 0.85em;">const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "dagens-dubbel-a1b2c.firebaseapp.com",
+  projectId: "dagens-dubbel-a1b2c",
+  storageBucket: "dagens-dubbel-a1b2c.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};</pre>
+                    
+                    <strong>Gör detta:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Kopiera hela firebaseConfig-objektet</strong> (markera och Ctrl+C)</li>
+                        <li>Spara det i en textfil eller direkt i din HTML-fil</li>
+                        <li>Klicka <strong>"Continue to console"</strong></li>
+                    </ol>
+                    
+                    <div class="highlight">
+                        <strong>💡 SAMMA config fungerar för BÅDA mönstren!</strong><br>
+                        Denna config kan användas både för Mönster A (Compat + Firestore) och Mönster B (Modular + Realtime DB). Du behöver inte skapa två olika projekt!
+                    </div>
                 </div>
 
                 <div class="step">
                     <span class="step-number">5</span>
-                    <strong>Aktivera databas (VÄLJ ETT ALTERNATIV)</strong><br><br>
+                    <strong>Aktivera databas (VÄLJ ETT ALTERNATIV) 🔥</strong><br><br>
                     
-                    <strong>🅰️ För Mönster A (Firestore):</strong><br>
-                    I sidomenyn, gå till "Build" → <strong>"Firestore Database"</strong> → "Create Database".<br>
-                    Välj region (t.ex. <code>europe-west1</code> för Europa).<br>
-                    Starta i "Test mode" (öppna regler, byt senare till säkrare regler).<br><br>
+                    <div class="warning">
+                        <strong>⚠️ VIKTIGT VAL - Läs detta först!</strong><br><br>
+                        <strong>För Dagens Dubbel rekommenderar jag Mönster A (Firestore)</strong> eftersom du får kraftfullare queries.<br>
+                        Men du kan också välja Mönster B (Realtime Database) om du vill ha lägre latens för realtidssynk.
+                    </div>
                     
-                    <strong>🅱️ För Mönster B (Realtime Database):</strong><br>
-                    I sidomenyn, gå till "Build" → <strong>"Realtime Database"</strong> → "Create Database".<br>
-                    Välj region (t.ex. <code>europe-west1</code> för Europa).<br>
-                    Starta i "Test mode" (öppna regler, byt senare till säkrare regler).
+                    <strong>🅰️ För Mönster A (Firestore) - REKOMMENDERAT:</strong><br><br>
                     
-                    <div class="highlight" style="margin-top: 15px;">
-                        <strong>📌 Viktigt:</strong> Du kan aktivera BÅDA databaserna i samma projekt om du vill testa båda mönstren! Firebase-projektet stödjer både Firestore och Realtime Database samtidigt.
+                    <strong>Steg-för-steg:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Titta på <strong>vänster sidmeny</strong> i Firebase Console</li>
+                        <li>Klicka på <strong>"Build"</strong> (expandera menyn om den är stängd)</li>
+                        <li>Klicka på <strong>"Firestore Database"</strong></li>
+                        <li>Klicka på den stora knappen <strong>"Create database"</strong></li>
+                        <li><strong>Välj säkerhetsläge:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Välj <strong>"Start in test mode"</strong> (öppna regler för utveckling)</li>
+                                <li>Klicka <strong>"Next"</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Välj region:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Välj <strong>"europe-west1 (Belgium)"</strong> (närmaste Europa)</li>
+                                <li>Klicka <strong>"Enable"</strong></li>
+                            </ul>
+                        </li>
+                        <li>⏱️ <strong>Vänta 10-30 sekunder...</strong> Firestore aktiveras nu!</li>
+                    </ol>
+                    
+                    <strong>✅ Firestore är redo när du ser:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>En tom databas-vy med "Start collection" knapp</li>
+                        <li>Flikar: "Data" | "Rules" | "Indexes" | "Usage"</li>
+                    </ul><br>
+                    
+                    <strong>🅱️ För Mönster B (Realtime Database) - ALTERNATIV:</strong><br><br>
+                    
+                    <strong>Steg-för-steg:</strong>
+                    <ol style="margin-left: 20px; margin-top: 10px;">
+                        <li>Titta på <strong>vänster sidmeny</strong> i Firebase Console</li>
+                        <li>Klicka på <strong>"Build"</strong></li>
+                        <li>Klicka på <strong>"Realtime Database"</strong></li>
+                        <li>Klicka på den stora knappen <strong>"Create Database"</strong></li>
+                        <li><strong>Välj region:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Välj <strong>"europe-west1"</strong></li>
+                                <li>Klicka <strong>"Next"</strong></li>
+                            </ul>
+                        </li>
+                        <li><strong>Välj säkerhetsläge:</strong>
+                            <ul style="margin-top: 5px;">
+                                <li>Välj <strong>"Start in test mode"</strong></li>
+                                <li>Klicka <strong>"Enable"</strong></li>
+                            </ul>
+                        </li>
+                        <li>⏱️ <strong>Vänta 10-30 sekunder...</strong> Realtime Database aktiveras nu!</li>
+                    </ol>
+                    
+                    <strong>✅ Realtime Database är redo när du ser:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>En JSON-trädstruktur med "null" som root</li>
+                        <li>Flikar: "Data" | "Rules" | "Backups" | "Usage"</li>
+                    </ul>
+                    
+                    <div class="highlight" style="margin-top: 20px;">
+                        <strong>📌 BONUS-TIP:</strong> Du kan aktivera BÅDA databaserna i samma projekt!<br>
+                        Firebase stödjer både Firestore och Realtime Database samtidigt. Perfekt om du vill testa båda mönstren och se vilket du föredrar!
                     </div>
                 </div>
 
