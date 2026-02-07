@@ -788,13 +788,24 @@ function saveWeekData() {
 
                 <div class="warning" style="margin: 20px 0;">
                     <strong>🚨 VANLIGA MISSTAG - LÄS DETTA FÖRST!</strong><br><br>
-                    <strong style="font-size: 1.1em;">I STEG 3 (projektöversikten):</strong><br>
+                    
+                    <strong style="font-size: 1.1em;">MISSTAG 1 - I STEG 3 (projektöversikten):</strong><br>
                     <strong style="color: #27ae60; font-size: 1.2em;">✅ KLICKA PÅ: "+ Add app"</strong> (knappen högst upp)<br>
                     <strong style="color: #e74c3c; font-size: 1.2em;">❌ KLICKA INTE PÅ: "Tell us about your app"</strong> (Gemini AI-förslag)<br><br>
                     
                     <strong>Varför?</strong> Firebase visar flera "Next steps with Gemini"-kort med AI-förslag. Dessa är valfria och inte nödvändiga för att komma igång. Vi behöver bara klicka på <strong>"+ Add app"</strong> för att registrera vår webbapp!<br><br>
                     
-                    <strong>📸 Visuell guide:</strong> Se bilden <code>projektoversikten.jpg</code> i projektmappen - den röda pilen visar exakt var "+ Add app" finns!
+                    <strong>📸 Visuell guide:</strong> Se bilden <code>projektoversikten.jpg</code> i projektmappen - den röda pilen visar exakt var "+ Add app" finns!<br><br>
+                    
+                    <hr style="margin: 20px 0; border: 1px solid rgba(255,255,255,0.3);">
+                    
+                    <strong style="font-size: 1.1em;">MISSTAG 2 - I STEG 5 (skapa databas):</strong><br>
+                    <strong style="color: #27ae60; font-size: 1.2em;">✅ VÄLJ: "Start in test mode"</strong><br>
+                    <strong style="color: #e74c3c; font-size: 1.2em;">❌ VÄLJ INTE: "Start in production mode"</strong> (förvald men fel för utveckling!)<br><br>
+                    
+                    <strong>Varför?</strong> Firebase har ändrat sitt standardval (2025-2026) och förväljer nu "production mode" som blockerar all data om du inte har autentisering. För utveckling behöver du <strong>"test mode"</strong> som är öppet i 30 dagar!<br><br>
+                    
+                    <strong>📸 Visuell guide:</strong> Se bilden <code>Create_a_database.jpg</code> i projektmappen - visar skärmen där du måste välja test mode!
                 </div>
 
                 <div class="step">
@@ -941,16 +952,51 @@ function saveWeekData() {
                         <li>Klicka på <strong>"Build"</strong> (expandera menyn om den är stängd)</li>
                         <li>Klicka på <strong>"Firestore Database"</strong></li>
                         <li>Klicka på den stora knappen <strong>"Create database"</strong></li>
-                        <li><strong>Välj säkerhetsläge:</strong>
+                        <li><strong>Välj Database ID & location:</strong>
                             <ul style="margin-top: 5px;">
-                                <li>Välj <strong>"Start in test mode"</strong> (öppna regler för utveckling)</li>
+                                <li>Lämna Database ID som standard: <code>(default)</code></li>
+                                <li>Välj region: <strong>"europe-west1 (Belgium)"</strong></li>
                                 <li>Klicka <strong>"Next"</strong></li>
                             </ul>
                         </li>
-                        <li><strong>Välj region:</strong>
-                            <ul style="margin-top: 5px;">
-                                <li>Välj <strong>"europe-west1 (Belgium)"</strong> (närmaste Europa)</li>
-                                <li>Klicka <strong>"Enable"</strong></li>
+                        <li><strong>⚠️ VIKTIGT VAL - Välj säkerhetsläge (Configure):</strong><br><br>
+                            
+                            <div class="warning" style="margin: 15px 0;">
+                                <strong>🚨 OBSERVERA: Firebase förväljer "production mode"!</strong><br><br>
+                                
+                                <strong style="font-size: 1.1em;">Du kommer att se två alternativ:</strong><br><br>
+                                
+                                <strong style="color: #e74c3c;">⚪ Start in production mode</strong> ← <strong>FÖRVALD MEN FEL FÖR UTVECKLING!</strong><br>
+                                <code>allow read, write: if false;</code><br>
+                                <em style="margin-left: 20px;">❌ Allt blockerat - omöjligt att testa utan autentisering</em><br><br>
+                                
+                                <strong style="color: #27ae60;">⚪ Start in test mode</strong> ← <strong style="font-size: 1.2em;">VÄLJ DENNA! ✅</strong><br>
+                                <code>allow read, write: if true;</code><br>
+                                <em style="margin-left: 20px;">✅ Öppet i 30 dagar - perfekt för utveckling och testning</em><br><br>
+                                
+                                <strong>📸 Se bilden:</strong> <code>Create_a_database.jpg</code> i projektmappen visar exakt denna skärm.<br><br>
+                                
+                                <strong style="color: #e74c3c;">⚠️ VIKTIG INFO:</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Firebase har ändrat sitt standardval (2025-2026)</li>
+                                    <li>Tidigare var "test mode" standard</li>
+                                    <li>Nu är "production mode" förvald - men det är FEL för utveckling!</li>
+                                    <li><strong>Du MÅSTE aktivt klicka på "Start in test mode"</strong></li>
+                                </ul>
+                                
+                                <strong style="color: #27ae60;">✅ Varför test mode för utveckling?</strong>
+                                <ul style="margin-left: 20px; margin-top: 10px;">
+                                    <li>Du kan testa direkt utan autentisering</li>
+                                    <li>30 dagars utvecklingstid (Firebase påminner dig sedan)</li>
+                                    <li>Byt till säkrare regler innan publicering</li>
+                                    <li>Standard för utveckling sedan Firebase skapades</li>
+                                </ul>
+                            </div>
+                            
+                            <strong>Gör detta:</strong>
+                            <ul style="margin-top: 10px;">
+                                <li><strong>Klicka på radioknappen:</strong> "Start in <strong>test mode</strong>"</li>
+                                <li><strong>Klicka:</strong> <strong>"Create"</strong> (blå knappen längst ner till höger)</li>
                             </ul>
                         </li>
                         <li>⏱️ <strong>Vänta 10-30 sekunder...</strong> Firestore aktiveras nu!</li>
@@ -960,6 +1006,7 @@ function saveWeekData() {
                     <ul style="margin-left: 20px; margin-top: 10px;">
                         <li>En tom databas-vy med "Start collection" knapp</li>
                         <li>Flikar: "Data" | "Rules" | "Indexes" | "Usage"</li>
+                        <li>I "Rules"-fliken ser du: <code>allow read, write: if true;</code></li>
                     </ul><br>
                     
                     <strong>🅱️ För Mönster B (Realtime Database) - ALTERNATIV:</strong><br><br>
@@ -1111,10 +1158,18 @@ service cloud.firestore {
                             <td class="pros">✅ SAMMA</td>
                         </tr>
                         <tr>
-                            <td><strong>5. Aktivera databas</strong></td>
+                            <td><strong>5a. Aktivera databas</strong></td>
                             <td>Build → <strong>Firestore Database</strong></td>
                             <td>Build → <strong>Realtime Database</strong></td>
                             <td class="cons">❌ OLIKA</td>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>5b. Säkerhetsläge (VIKTIGT!)</strong></td>
+                            <td colspan="2" style="text-align: center;">
+                                <strong>⚠️ Välj "Start in test mode"</strong><br>
+                                <em style="font-size: 0.9em;">(Firebase förväljer "production mode" men det är FEL för utveckling!)</em>
+                            </td>
+                            <td style="color: #e74c3c; font-weight: bold;">⚠️ OBSERVERA!</td>
                         </tr>
                         <tr>
                             <td><strong>6. Säkerhetsregler</strong></td>
