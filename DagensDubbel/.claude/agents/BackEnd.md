@@ -1247,6 +1247,489 @@ service cloud.firestore {
 
 ---
 
+## 🎨 UI-FEEDBACK OCH FÄRGKODNING - UPPDATERING 2026-02-07
+
+### Färgkodning av input-fält
+
+**Syfte:** Tydlig visuell feedback för att visa användaren vilka fält som ska fyllas i, vilka som är automatiska, och vilka som är sparade.
+
+### Färgschema
+
+| Färg | Bakgrund | Användning | CSS |
+|------|----------|------------|-----|
+| **🟡 GUL** | `#fffacd` | Fält som ska fyllas i manuellt | Standard för alla inputs |
+| **⚪ LJUSGRÅ** | `#f8f9fa` | Automatiskt beräknade fält | `input[id$="-bet"]` |
+| **⬜ MÖRKGRÅ** | `#e9ecef` | Sparade fält | `.saved` class |
+
+### CSS-implementering
+
+```css
+/* Standard: Alla input-fält börjar gula */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea {
+    background-color: #fffacd;  /* Ljusgul */
+    transition: all 0.3s ease;
+}
+
+/* Insatsfält är ljusgrå (automatiskt beräknade) */
+input[id$="-bet"] {
+    background-color: #f8f9fa;  /* Ljusgrå */
+    font-weight: 600;
+    color: #667eea;  /* Blå text */
+    cursor: not-allowed;
+}
+
+/* Sparade fält blir mörkgrå */
+input.saved,
+textarea.saved {
+    background-color: #e9ecef;  /* Mörkgrå */
+}
+
+/* Insatsfält förblir ljusgrå även efter sparande */
+input[id$="-bet"].saved {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #667eea;
+}
+```
+
+### JavaScript-funktioner
+
+#### 1. Markera fält som sparade
+
+```javascript
+/**
+ * Markerar alla input-fält som "saved" efter sparande
+ * Anropas automatiskt i saveWeekData() efter lyckad sparning
+ */
+function markFieldsAsSaved() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+    
+    inputs.forEach(input => {
+        input.classList.add('saved');
+    });
+    
+    console.log('✅ Alla fält markerade som sparade (grå bakgrund)');
+}
+```
+
+#### 2. Återställ färgkodning vid redigering
+
+```javascript
+/**
+ * Tar bort "saved" class när användaren börjar redigera
+ * Fältet blir gult igen för att visa att det är under redigering
+ */
+function setupFieldColorReset() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.classList.remove('saved');
+        });
+    });
+    
+    console.log('✅ Färgkodning återställs automatiskt vid redigering');
+}
+```
+
+### Användarflöde
+
+1. **Initial laddning:**
+   - Manuella fält (lopp, datum, anteckningar) = 🟡 GUL
+   - Insatsfält (automatiska) = ⚪ LJUSGRÅ
+
+2. **Efter sparande:**
+   - Anropa `markFieldsAsSaved()` automatiskt
+   - Manuella fält → ⬜ MÖRKGRÅ
+   - Insatsfält → ⚪ LJUSGRÅ (oförändrade)
+
+3. **Vid redigering:**
+   - Användaren klickar i ett grått fält
+   - Event listener tar bort `.saved` class
+   - Fältet blir 🟡 GUL igen
+
+### Integration i saveWeekData()
+
+```javascript
+function saveWeekData() {
+    try {
+        // ... (befintlig spara-logik) ...
+        
+        // Uppdatera alla visningar
+        updateAllDisplays();
+        
+        // UPPDATERING 2026-02-07: Markera fält som sparade
+        markFieldsAsSaved();
+        
+    } catch (error) {
+        console.error('Fel vid sparande:', error);
+        showNotification('Fel vid sparande: ' + error.message, 'error');
+    }
+}
+```
+
+### Integration i window.onload
+
+```javascript
+window.onload = function() {
+    loadDataFromStorage();
+    updateAllDisplays();
+    setDefaultDate();
+    
+    // UPPDATERING 2026-02-07: Aktivera färgkodning
+    setupFieldColorReset();
+    
+    // ... (övrig initialisering) ...
+};
+```
+
+---
+
+## 🧮 AUTOMATISK INSATSBERÄKNING - UPPDATERING 2026-02-07
+
+### Syfte
+
+Automatiskt beräkna insats baserat på antal hästar som valts i varje lopp enligt formeln:
+
+**Insats = antal_hästar_lopp1 × antal_hästar_lopp2 × 5 kr**
+
+### Implementering
+
+#### 1. Räkna antal hästar
+
+```javascript
+/**
+ * Räknar antal kommaseparerade värden i en sträng
+ * @param {string} str - T.ex. "2,5,6" ger 3 hästar
+ * @returns {number} - Antal hästar
+ */
+function countHorses(str) {
+    if (!str || str.trim() === '') return 0;
+    return str.split(',').filter(s => s.trim() !== '').length;
+}
+```
+
+#### 2. Beräkna insats för en spelare
+
+```javascript
+/**
+ * Beräknar och uppdaterar insats automatiskt
+ * @param {string} playerId - T.ex. "kent", "lotta", "bengt"
+ */
+function calculateBet(playerId) {
+    const race1Input = document.getElementById(`${playerId}-race1`);
+    const race2Input = document.getElementById(`${playerId}-race2`);
+    const betInput = document.getElementById(`${playerId}-bet`);
+    
+    if (!race1Input || !race2Input || !betInput) return;
+    
+    const horsesRace1 = countHorses(race1Input.value);
+    const horsesRace2 = countHorses(race2Input.value);
+    
+    // Beräkna: antal × antal × 5kr
+    const calculatedBet = horsesRace1 * horsesRace2 * 5;
+    
+    betInput.value = calculatedBet;
+    
+    console.log(`${playerId}: ${horsesRace1} × ${horsesRace2} × 5kr = ${calculatedBet}kr`);
+}
+```
+
+#### 3. Setup event listeners
+
+```javascript
+/**
+ * Aktiverar automatisk insatsberäkning för alla spelare
+ * Lyssnar på input-events i race1 och race2 fält
+ */
+function setupBetCalculation() {
+    const players = ['kent', 'lotta', 'bengt', 'benita', 'system'];
+    
+    players.forEach(playerId => {
+        const race1Input = document.getElementById(`${playerId}-race1`);
+        const race2Input = document.getElementById(`${playerId}-race2`);
+        
+        if (race1Input && race2Input) {
+            // Beräkna när användaren skriver
+            race1Input.addEventListener('input', () => calculateBet(playerId));
+            race2Input.addEventListener('input', () => calculateBet(playerId));
+            
+            // Beräkna direkt vid laddning om värden finns
+            if (race1Input.value && race2Input.value) {
+                calculateBet(playerId);
+            }
+        }
+    });
+    
+    console.log('✅ Automatisk insatsberäkning aktiverad');
+}
+```
+
+### HTML-ändringar
+
+Alla insatsfält ska vara `readonly` eftersom de beräknas automatiskt:
+
+```html
+<!-- Kent -->
+<input type="number" id="kent-bet" value="45" min="0" readonly>
+
+<!-- Lotta -->
+<input type="number" id="lotta-bet" value="42" min="0" readonly>
+
+<!-- Bengt -->
+<input type="number" id="bengt-bet" value="40" min="0" readonly>
+
+<!-- Benita -->
+<input type="number" id="benita-bet" value="38" min="0" readonly>
+
+<!-- System -->
+<input type="number" id="system-bet" value="0" readonly>
+```
+
+### Integration i window.onload
+
+```javascript
+window.onload = function() {
+    loadDataFromStorage();
+    updateAllDisplays();
+    setDefaultDate();
+    
+    // UPPDATERING 2026-02-07: Automatisk insatsberäkning
+    setupBetCalculation();
+    
+    // UPPDATERING 2026-02-07: Färgkodning
+    setupFieldColorReset();
+    
+    // ... (övrig initialisering) ...
+};
+```
+
+### Exempel
+
+| Spelare | Lopp 1 | Lopp 2 | Beräkning | Insats |
+|---------|--------|--------|-----------|--------|
+| Kent | `2,5,6` (3 hästar) | `6,11,15` (3 hästar) | 3 × 3 × 5 | **45 kr** |
+| Bengt | `2,4,5,6,8` (5 hästar) | `10` (1 häst) | 5 × 1 × 5 | **25 kr** |
+| Lotta | `5,6,8` (3 hästar) | `10,13,15` (3 hästar) | 3 × 3 × 5 | **45 kr** |
+
+---
+
+## 🔥 FIREBASE IMPLEMENTATION - PRAKTISK GUIDE (UPPDATERING 2026-02-07)
+
+### Dagens Dubbel: Vald lösning
+
+**Mönster A: Compat SDK + Firestore** har implementerats i Dagens Dubbel projektet.
+
+### Faktisk implementation i index.html
+
+#### Steg 1: Firebase SDK och konfiguration
+
+Placerat i `<head>` efter `<title>`:
+
+```html
+<!-- Firebase App (grundläggande) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase initialisering -->
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDrQs10JA1dE1Rf9PZjUGFI6PkCREs42zQ",
+        authDomain: "dagens-dubbel.firebaseapp.com",
+        projectId: "dagens-dubbel",
+        storageBucket: "dagens-dubbel.firebasestorage.app",
+        messagingSenderId: "982717111499",
+        appId: "1:982717111499:web:250a78091cf957177dcf4e",
+        measurementId: "G-1NZQ4SJ7F6"
+    };
+    
+    // Initiera Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Gör Firestore tillgänglig globalt
+    const db = firebase.firestore();
+    
+    console.log("✅ Firebase initierad!");
+</script>
+```
+
+#### Steg 2: Spara till Firestore
+
+```javascript
+/**
+ * Sparar veckodata till Firestore
+ * Anropas automatiskt från saveWeekData()
+ */
+function saveToFirestore(weekData) {
+    try {
+        db.collection('dagensDubbel')
+            .doc('veckor')
+            .collection('items')
+            .add({
+                ...weekData,
+                firestoreTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then((docRef) => {
+                console.log('✅ Sparad till Firestore med ID:', docRef.id);
+            })
+            .catch((error) => {
+                console.error('❌ Firestore-fel:', error);
+            });
+    } catch (error) {
+        console.error('❌ Firebase-exception:', error);
+    }
+}
+```
+
+#### Steg 3: Ladda från Firestore (realtid)
+
+```javascript
+/**
+ * Lyssnar på Firestore-ändringar i realtid
+ * Synkar automatiskt till localStorage och uppdaterar UI
+ */
+function loadFromFirestore() {
+    try {
+        db.collection('dagensDubbel')
+            .doc('veckor')
+            .collection('items')
+            .orderBy('week', 'asc')
+            .onSnapshot((snapshot) => {
+                console.log('📥 Firestore-uppdatering mottagen');
+                
+                const firestoreWeeks = [];
+                snapshot.forEach((doc) => {
+                    firestoreWeeks.push({
+                        firestoreId: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                // Synka med localStorage
+                if (firestoreWeeks.length > 0) {
+                    weeklyData = firestoreWeeks;
+                    localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
+                    updateAllDisplays();
+                    console.log('✅ Data synkad från Firestore');
+                }
+            }, (error) => {
+                console.error('❌ Fel vid läsning:', error);
+            });
+    } catch (error) {
+        console.error('❌ Firebase-exception:', error);
+    }
+}
+```
+
+#### Steg 4: Integration i saveWeekData()
+
+```javascript
+function saveWeekData() {
+    try {
+        // ... (befintlig localStorage-logik) ...
+        
+        // Spara till localStorage
+        localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
+        
+        // UPPDATERING 2026-02-07: Spara även till Firestore
+        saveToFirestore(weekData);
+        
+        // Uppdatera UI
+        updateAllDisplays();
+        markFieldsAsSaved();
+        
+    } catch (error) {
+        console.error('Fel vid sparande:', error);
+    }
+}
+```
+
+#### Steg 5: Integration i window.onload
+
+```javascript
+window.onload = function() {
+    // Ladda från localStorage först (snabbt)
+    loadDataFromStorage();
+    updateAllDisplays();
+    setDefaultDate();
+    
+    // Automatisk insatsberäkning
+    setupBetCalculation();
+    
+    // Färgkodning
+    setupFieldColorReset();
+    
+    // UPPDATERING 2026-02-07: Lyssna på Firestore (realtid)
+    loadFromFirestore();
+};
+```
+
+### Hybrid-strategi: localStorage + Firebase
+
+**Dagens Dubbel använder en hybrid-lösning:**
+
+1. **Spara:** Data sparas först till localStorage (snabbt, fungerar offline), sedan till Firestore (cloud backup)
+2. **Ladda:** Data laddas först från localStorage (snabbt vid startup), sedan lyssnar vi på Firestore för realtidsuppdateringar
+3. **Synk:** När Firestore får nya data, uppdateras localStorage och UI automatiskt
+
+**Fördelar:**
+- ✅ Snabb initial laddning (localStorage)
+- ✅ Realtidssynk mellan användare (Firestore)
+- ✅ Fungerar offline (localStorage som fallback)
+- ✅ Automatisk cloud backup (Firestore)
+
+### Firestore-säkerhetsregler (Production Mode)
+
+Dagens Dubbel-projektet använder **production mode** med temporära utvecklingsregler:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;  // TEMPORÄRT - för utveckling
+    }
+  }
+}
+```
+
+**⚠️ VIKTIGT:** Uppdatera till säkrare regler innan publicering:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      allow read: if true;  // Alla kan läsa
+      allow write: if request.auth != null;  // Endast inloggade kan skriva
+    }
+  }
+}
+```
+
+### Firestore-struktur
+
+```
+dagens-dubbel (Firebase-projekt)
+└── dagensDubbel (collection)
+    └── veckor (document)
+        └── items (subcollection)
+            ├── auto-generated-id-1 (document)
+            │   ├── week: 1
+            │   ├── date: "2026-02-07"
+            │   ├── players: { ... }
+            │   └── results: { ... }
+            ├── auto-generated-id-2 (document)
+            └── ...
+```
+
+---
+
 ## 🚀 Framtida utbyggnad
 
 ### Möjliga förbättringar:
