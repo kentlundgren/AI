@@ -748,6 +748,8 @@ mkdir -p .claude/agents
 - ✅ Använd **permissions** för att skydda känsliga filer
 - ✅ Commita agenter till git för teamdelning
 - ✅ **Testa interaktiva element** (quiz, formulär, knappar) innan publicering
+- ✅ **Använd färgkodning** för att visa input-status (gul → grå vid sparande)
+- ✅ **Automatisera beräkningar** där möjligt för bättre UX
 
 ### Undvik:
 - ❌ Generiska agentnamn (agent1, agent2, agent3)
@@ -756,6 +758,7 @@ mkdir -p .claude/agents
 - ❌ Skapa för många agenter utan tydlig roll
 - ❌ Ignorera README.md och index.html
 - ❌ Publicera interaktiva element utan att testa dem först
+- ❌ Lämna användaren osäker på om data är sparad eller inte
 
 ### Interaktiva HTML-Element (Quiz, Formulär, etc.)
 
@@ -784,6 +787,419 @@ Om ditt projekt innehåller **interaktiva HTML-element** (som quiz-frågor, form
 
 **Exempel från Matematik-projektet:**
 Se [Matematik/CLAUDE.md](Matematik/CLAUDE.md) för detaljerade quiz-implementationskrav.
+
+---
+
+## 🎨 UI-Feedback: Färgkodning av Input-fält
+
+**Implementerat i:** [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) (2026-02-07)
+
+### Syfte
+
+Tydlig visuell feedback för att visa användaren vilka fält som ska fyllas i, vilka som är automatiska, och vilka som är sparade.
+
+### Färgschema
+
+| Status | Färg | Bakgrund | Användning |
+|--------|------|----------|------------|
+| **Ska fyllas i** | 🟡 GUL | `#fffacd` | Tomma/redigerbara fält som användaren ska fylla i |
+| **Automatisk** | ⚪ LJUSGRÅ | `#f8f9fa` | Fält som beräknas automatiskt (t.ex. insats) |
+| **Sparad** | ⬜ MÖRKGRÅ | `#e9ecef` | Fält med sparad data |
+
+### CSS-implementation
+
+```css
+/* Standard: Alla input-fält börjar gula */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea {
+    background-color: #fffacd;  /* Ljusgul */
+    transition: all 0.3s ease;
+}
+
+/* Automatiskt beräknade fält (t.ex. insats) */
+input[id$="-bet"] {
+    background-color: #f8f9fa;  /* Ljusgrå */
+    font-weight: 600;
+    color: #667eea;  /* Blå text */
+    cursor: not-allowed;
+}
+
+/* Sparade fält blir mörkgrå */
+input.saved,
+textarea.saved {
+    background-color: #e9ecef;  /* Mörkgrå */
+}
+```
+
+### JavaScript-funktioner
+
+#### Markera fält som sparade
+
+```javascript
+/**
+ * Markerar alla input-fält som "saved" efter sparande
+ * Anropas automatiskt i saveData() efter lyckad sparning
+ */
+function markFieldsAsSaved() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+    inputs.forEach(input => {
+        input.classList.add('saved');
+    });
+}
+```
+
+#### Återställ vid redigering
+
+```javascript
+/**
+ * Tar bort "saved" class när användaren börjar redigera
+ */
+function setupFieldColorReset() {
+    const inputs = document.querySelectorAll('input[type="text"], input[type="number"], textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.classList.remove('saved');
+        });
+    });
+}
+```
+
+### Användarflöde
+
+1. **Initial laddning:** Manuella fält = 🟡 GUL, Automatiska fält = ⚪ LJUSGRÅ
+2. **Efter sparande:** Manuella fält → ⬜ MÖRKGRÅ, Automatiska fält → ⚪ LJUSGRÅ (oförändrade)
+3. **Vid redigering:** Klicka i grått fält → blir 🟡 GUL igen
+
+### Integration
+
+```javascript
+// I saveData()-funktionen
+function saveData() {
+    // ... spara-logik ...
+    markFieldsAsSaved();  // Markera som sparad
+}
+
+// I window.onload
+window.onload = function() {
+    setupFieldColorReset();  // Aktivera återställning vid redigering
+    // ... övrig initialisering ...
+};
+```
+
+---
+
+## 🧮 Automatisk Beräkning av Fält
+
+**Implementerat i:** [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) (2026-02-07)
+
+### Syfte
+
+Automatisera beräkningar som användaren annars skulle behöva göra manuellt, vilket förbättrar UX och minskar felkällor.
+
+### Exempel: Automatisk insatsberäkning
+
+**Formel:** `Insats = antal_val_lopp1 × antal_val_lopp2 × 5 kr`
+
+### Implementation
+
+#### 1. Räkna antal val
+
+```javascript
+/**
+ * Räknar antal kommaseparerade värden
+ * @param {string} str - T.ex. "2,5,6" ger 3
+ */
+function countValues(str) {
+    if (!str || str.trim() === '') return 0;
+    return str.split(',').filter(s => s.trim() !== '').length;
+}
+```
+
+#### 2. Beräkna automatiskt
+
+```javascript
+/**
+ * Beräknar och uppdaterar automatiskt beräknade fält
+ * @param {string} entityId - T.ex. "player1", "player2"
+ */
+function calculateValue(entityId) {
+    const input1 = document.getElementById(`${entityId}-input1`);
+    const input2 = document.getElementById(`${entityId}-input2`);
+    const resultField = document.getElementById(`${entityId}-result`);
+    
+    const count1 = countValues(input1.value);
+    const count2 = countValues(input2.value);
+    
+    resultField.value = count1 * count2 * 5;
+}
+```
+
+#### 3. Event listeners
+
+```javascript
+/**
+ * Lyssnar på input-events och beräknar automatiskt
+ */
+function setupAutoCalculation() {
+    const entities = ['player1', 'player2', 'player3'];
+    
+    entities.forEach(entityId => {
+        const input1 = document.getElementById(`${entityId}-input1`);
+        const input2 = document.getElementById(`${entityId}-input2`);
+        
+        input1.addEventListener('input', () => calculateValue(entityId));
+        input2.addEventListener('input', () => calculateValue(entityId));
+        
+        // Beräkna direkt vid laddning om värden finns
+        if (input1.value && input2.value) {
+            calculateValue(entityId);
+        }
+    });
+}
+```
+
+### HTML: Readonly-fält
+
+Automatiskt beräknade fält ska vara `readonly`:
+
+```html
+<input type="number" id="player1-result" readonly>
+```
+
+### Integration
+
+```javascript
+window.onload = function() {
+    setupAutoCalculation();  // Aktivera automatiska beräkningar
+    // ... övrig initialisering ...
+};
+```
+
+---
+
+## 🔥 Firebase Backend-integration
+
+**Implementerat i:** [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) (2026-02-07)
+
+### När ska Firebase användas?
+
+Firebase är perfekt när:
+- ✅ **Multi-användare:** Data ska delas mellan flera personer
+- ✅ **Multi-enhet:** Synka data mellan desktop, mobil, tablet
+- ✅ **Realtidsuppdateringar:** Se andras ändringar direkt
+- ✅ **Cloud backup:** Automatisk backup i molnet
+
+### Kent's Firebase-mönster
+
+Kent har framgångsrikt använt två olika Firebase-mönster:
+
+| Mönster | SDK | Databas | Komplexitet | Projekt |
+|---------|-----|---------|-------------|---------|
+| **A** | v10.7.0 Compat | Firestore | ⭐ Enklast | DagensDubbel, Bjerred-skylt |
+| **B** | v11.0.0 Modular | Realtime DB | ⭐⭐ Mer komplex | Quiz-projekt |
+
+**Mönster A (Compat + Firestore)** rekommenderas för de flesta projekt:
+- ✅ Enklare setup (ingen CSP krävs)
+- ✅ `<script src>` imports (inga modules)
+- ✅ Firestore = bättre för komplexa queries
+
+### Setup: Skapa Firebase-projekt
+
+1. **Gå till** [Firebase Console](https://console.firebase.google.com/)
+2. **Klicka** "Create a new Firebase project" eller "Add project"
+3. **Namnge** projektet (t.ex. "dagens-dubbel")
+4. **Välj** om Google Analytics ska användas (valfritt)
+5. **Klicka** "Create project"
+6. **Vänta** tills projektet skapas
+7. **Klicka** "Continue" när klar
+
+### Setup: Registrera webbapp
+
+1. **I projektöversikten**, klicka på **"+ Add app"** (högst upp)
+   - ⚠️ **VIKTIGT:** Klicka INTE på "Tell us about your app" (Gemini AI-förslag)
+2. **Välj** `</>` (Web)
+3. **Ge appen ett namn** (t.ex. "Dagens Dubbel Web")
+4. **Klicka** "Register app"
+5. **Kopiera** `firebaseConfig`-objektet som visas
+6. **Klicka** "Continue to console"
+
+### Setup: Aktivera databas
+
+**För Mönster A (Firestore):**
+1. **I menyn**, gå till **Build → Firestore Database**
+2. **Klicka** "Create Database"
+3. **Välj region:** `europe-west1` (för Europa)
+4. **Säkerhetsregler:**
+   - **PRODUCTION MODE** väljs automatiskt (säkrast)
+   - Uppdatera reglerna direkt efter skapande till:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;  // TEMPORÄRT - för utveckling
+    }
+  }
+}
+```
+
+5. **Klicka** "Create"
+
+**⚠️ VIKTIGT:** Byt till säkrare regler innan publicering:
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /yourCollectionName/{document=**} {
+      allow read: if true;  // Alla kan läsa
+      allow write: if request.auth != null;  // Endast inloggade kan skriva
+    }
+  }
+}
+```
+
+### Implementering: Mönster A (Compat + Firestore)
+
+#### 1. Lägg till Firebase SDK
+
+I `<head>` efter `<title>`:
+
+```html
+<!-- Firebase App (grundläggande) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase initialisering -->
+<script>
+    const firebaseConfig = {
+        apiKey: "DIN-API-KEY",
+        authDomain: "ditt-projekt.firebaseapp.com",
+        projectId: "ditt-projekt",
+        storageBucket: "ditt-projekt.firebasestorage.app",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abc123",
+        measurementId: "G-ABC123"
+    };
+    
+    // Initiera Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Gör Firestore tillgänglig globalt
+    const db = firebase.firestore();
+    
+    console.log("✅ Firebase initierad!");
+</script>
+```
+
+#### 2. Spara data till Firestore
+
+```javascript
+function saveToFirestore(data) {
+    try {
+        db.collection('yourCollection')
+            .doc('yourDocument')
+            .collection('items')
+            .add({
+                ...data,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then((docRef) => {
+                console.log('✅ Sparad till Firestore:', docRef.id);
+            })
+            .catch((error) => {
+                console.error('❌ Firestore-fel:', error);
+            });
+    } catch (error) {
+        console.error('❌ Firebase-exception:', error);
+    }
+}
+```
+
+#### 3. Ladda data från Firestore (realtid)
+
+```javascript
+function loadFromFirestore() {
+    try {
+        db.collection('yourCollection')
+            .doc('yourDocument')
+            .collection('items')
+            .orderBy('timestamp', 'asc')
+            .onSnapshot((snapshot) => {
+                console.log('📥 Firestore-uppdatering mottagen');
+                
+                const items = [];
+                snapshot.forEach((doc) => {
+                    items.push({
+                        firestoreId: doc.id,
+                        ...doc.data()
+                    });
+                });
+                
+                // Uppdatera localStorage och UI
+                localStorage.setItem('yourData', JSON.stringify(items));
+                updateUI(items);
+                
+            }, (error) => {
+                console.error('❌ Fel vid läsning:', error);
+            });
+    } catch (error) {
+        console.error('❌ Firebase-exception:', error);
+    }
+}
+```
+
+### Hybrid-strategi: localStorage + Firebase
+
+**Rekommenderad approach:**
+
+1. **Spara:** localStorage först (snabbt), sedan Firebase (cloud backup)
+2. **Ladda:** localStorage vid startup (snabbt), sedan lyssna på Firebase (realtid)
+3. **Synk:** När Firebase får nya data → uppdatera localStorage och UI
+
+**Fördelar:**
+- ✅ Snabb initial laddning
+- ✅ Realtidssynk mellan användare
+- ✅ Fungerar offline (localStorage fallback)
+- ✅ Automatisk cloud backup
+
+### Integration
+
+```javascript
+// I saveData()-funktionen
+function saveData() {
+    // Spara först till localStorage (snabbt)
+    localStorage.setItem('yourData', JSON.stringify(data));
+    
+    // Sedan till Firebase (cloud backup)
+    saveToFirestore(data);
+    
+    updateUI();
+    markFieldsAsSaved();
+}
+
+// I window.onload
+window.onload = function() {
+    // Ladda från localStorage först (snabbt)
+    loadFromLocalStorage();
+    
+    // Lyssna på Firebase för realtidsuppdateringar
+    loadFromFirestore();
+    
+    // ... övrig initialisering ...
+};
+```
+
+### Se också
+
+- **FireBase.html** - Komplett guide med detaljerade setup-instruktioner
+- **Firebase Documentation:** https://firebase.google.com/docs
+- **Exempel:** [DagensDubbel/.claude/agents/BackEnd.md](https://github.com/kentlundgren/AI/tree/main/DagensDubbel/.claude/agents/BackEnd.md)
 
 ---
 
