@@ -722,8 +722,8 @@
                     <input type="number" id="winner-race2" placeholder="t.ex. 11" min="1">
                 </div>
                 <div class="form-group">
-                    <label for="dd-payout">DD-utdelning (kr):</label>
-                    <input type="number" id="dd-payout" placeholder="t.ex. 156.50" step="0.01" min="0">
+                    <label for="dd-payout">DD-odds (gånger pengarna):</label>
+                    <input type="text" id="dd-payout" placeholder="t.ex. 70,08 eller 70.08" step="0.01" min="0">
                 </div>
                 <div class="form-group">
                     <label for="result-notes">Anteckningar om resultatet:</label>
@@ -797,7 +797,7 @@
                             <th>Datum</th>
                             <th>Vinnare L1</th>
                             <th>Vinnare L2</th>
-                            <th>DD-utdelning</th>
+                            <th>DD-odds</th>
                             <th>Kent</th>
                             <th>Lotta</th>
                             <th>Bengt</th>
@@ -975,6 +975,9 @@
             // UPPDATERING 2026-02-07: Automatisk veckonummerberäkning
             setupWeekNumberCalculation();
             
+            // UPPDATERING 2026-02-07: Komma/punkt-hantering för decimalfält
+            setupDecimalInputHandling();
+            
             // UPPDATERING 2026-02-07: Färgkodning av input-fält (gul → grå)
             setupFieldColorReset();
             
@@ -1057,6 +1060,33 @@
                 dateInput.addEventListener('input', calculateWeekNumber);
                 
                 console.log('✅ Automatisk veckonummerberäkning aktiverad');
+            }
+        }
+
+        // ========================================
+        // KOMMA/PUNKT-HANTERING - UPPDATERING 2026-02-07
+        // ========================================
+
+        /**
+         * Konverterar komma till punkt i decimalfält
+         * Tillåter både "70,08" och "70.08" som inmatning
+         */
+        function setupDecimalInputHandling() {
+            const ddPayoutInput = document.getElementById('dd-payout');
+            
+            if (ddPayoutInput) {
+                // När användaren skriver eller klistrar in
+                ddPayoutInput.addEventListener('input', function() {
+                    // Ersätt komma med punkt
+                    this.value = this.value.replace(',', '.');
+                });
+                
+                // Extra säkerhet: när fältet lämnas
+                ddPayoutInput.addEventListener('blur', function() {
+                    this.value = this.value.replace(',', '.');
+                });
+                
+                console.log('✅ Komma/punkt-hantering aktiverad för DD-odds');
             }
         }
 
@@ -1523,7 +1553,7 @@
                         <h3>Faktiska resultat:</h3>
                         <p><strong>Lopp 1 vinnare:</strong> Häst #${latest.results.winner_race1}</p>
                         <p><strong>Lopp 2 vinnare:</strong> Häst #${latest.results.winner_race2}</p>
-                        <p><strong>DD-utdelning:</strong> ${latest.results.dd_payout.toFixed(2)} kr</p>
+                        <p><strong>DD-odds:</strong> ${latest.results.dd_payout.toFixed(2)}x</p>
                         ${latest.results.notes ? `<p><em>${latest.results.notes}</em></p>` : ''}
                     </div>
                 `;
@@ -1547,7 +1577,7 @@
                             <p><strong>Lopp 2:</strong> ${player.race2.join(', ')} ${hasWinner2 ? '✅' : '❌'}</p>
                             <p><strong>Insats:</strong> ${player.bet} kr</p>
                             ${ddHit ? 
-                                `<div class="badge badge-success" style="display: block; margin-top: 10px; text-align: center;">DD-TRÄFF! Vinst: ${(latest.results.dd_payout - player.bet).toFixed(2)} kr</div>` :
+                                `<div class="badge badge-success" style="display: block; margin-top: 10px; text-align: center;">DD-TRÄFF! Utdelning: ${(latest.results.dd_payout * player.bet).toFixed(2)} kr (Vinst: +${(player.bet * (latest.results.dd_payout - 1)).toFixed(2)} kr)</div>` :
                                 `<div class="badge badge-danger" style="display: block; margin-top: 10px; text-align: center;">Ingen träff (Förlust: -${player.bet} kr)</div>`
                             }
                         </div>
@@ -1720,7 +1750,9 @@
                     
                     roiData[playerId].bet += player.bet;
                     if (hasWinner1 && hasWinner2) {
-                        roiData[playerId].win += week.results.dd_payout;
+                        // UPPDATERING 2026-02-07: dd_payout är odds, inte kr
+                        // Utdelning = odds × insats
+                        roiData[playerId].win += week.results.dd_payout * player.bet;
                     }
                 });
             });
@@ -1810,9 +1842,9 @@
             );
             insights.push(`🏆 <strong>Bästa spelare hittills:</strong> ${players[bestPlayer].name} med ${playerStats[bestPlayer].hits} DD-träffar på ${playerStats[bestPlayer].weeks} veckor (${((playerStats[bestPlayer].hits/playerStats[bestPlayer].weeks)*100).toFixed(1)}%)`);
 
-            // Insikt 2: Genomsnittlig utdelning
+            // Insikt 2: Genomsnittligt odds
             const avgPayout = weeksWithResults.reduce((sum, w) => sum + w.results.dd_payout, 0) / weeksWithResults.length;
-            insights.push(`💰 <strong>Genomsnittlig DD-utdelning:</strong> ${avgPayout.toFixed(2)} kr`);
+            insights.push(`💰 <strong>Genomsnittligt DD-odds:</strong> ${avgPayout.toFixed(2)}x`);
 
             // Insikt 3: Hösta/lägsta utdelning
             const maxPayout = Math.max(...weeksWithResults.map(w => w.results.dd_payout));
@@ -1862,7 +1894,7 @@
                     <td>${formatDate(week.date)}</td>
                     <td>${week.results.winner_race1 || '-'}</td>
                     <td>${week.results.winner_race2 || '-'}</td>
-                    <td>${week.results.dd_payout > 0 ? week.results.dd_payout.toFixed(2) + ' kr' : '-'}</td>
+                    <td>${week.results.dd_payout > 0 ? week.results.dd_payout.toFixed(2) + 'x' : '-'}</td>
                 `;
 
                 if (hasResults) {
@@ -2018,7 +2050,7 @@
                 return;
             }
 
-            let csv = 'Vecka,Datum,Vinnare L1,Vinnare L2,DD-utdelning,Kent Träff,Lotta Träff,Bengt Träff,Benita Träff,System Träff\n';
+            let csv = 'Vecka,Datum,Vinnare L1,Vinnare L2,DD-odds,Kent Träff,Lotta Träff,Bengt Träff,Benita Träff,System Träff\n';
             
             weeklyData.forEach(week => {
                 const row = [
