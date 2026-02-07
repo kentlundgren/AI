@@ -786,6 +786,17 @@ function saveWeekData() {
                     <strong>Steg 7:</strong> SAMMA - testa anslutningen
                 </div>
 
+                <div class="warning" style="margin: 20px 0;">
+                    <strong>🚨 VANLIGA MISSTAG - LÄS DETTA FÖRST!</strong><br><br>
+                    <strong style="font-size: 1.1em;">I STEG 3 (projektöversikten):</strong><br>
+                    <strong style="color: #27ae60; font-size: 1.2em;">✅ KLICKA PÅ: "+ Add app"</strong> (knappen högst upp)<br>
+                    <strong style="color: #e74c3c; font-size: 1.2em;">❌ KLICKA INTE PÅ: "Tell us about your app"</strong> (Gemini AI-förslag)<br><br>
+                    
+                    <strong>Varför?</strong> Firebase visar flera "Next steps with Gemini"-kort med AI-förslag. Dessa är valfria och inte nödvändiga för att komma igång. Vi behöver bara klicka på <strong>"+ Add app"</strong> för att registrera vår webbapp!<br><br>
+                    
+                    <strong>📸 Visuell guide:</strong> Se bilden <code>projektoversikten.jpg</code> i projektmappen - den röda pilen visar exakt var "+ Add app" finns!
+                </div>
+
                 <div class="step">
                     <span class="step-number">1</span>
                     <strong>Gå till Firebase Console och logga in</strong><br>
@@ -835,22 +846,53 @@ function saveWeekData() {
 
                 <div class="step">
                     <span class="step-number">3</span>
-                    <strong>Lägg till en webbapp</strong><br>
+                    <strong>Lägg till en webbapp - KLICKA PÅ "+ Add app" ⚠️</strong><br>
                     Du är nu i <strong>projektöversikten</strong> (Project Overview).<br><br>
                     
-                    <strong>Vad du ser:</strong>
+                    <div class="warning" style="margin: 15px 0;">
+                        <strong>🚨 VIKTIGT - RÄTT KNAPP ATT KLICKA PÅ!</strong><br><br>
+                        <strong style="font-size: 1.2em; color: #e74c3c;">➜ Klicka på: "+ Add app"</strong><br>
+                        <em>Knappen finns längst upp på sidan, precis under projektnamnet "dagens-dubbel"</em><br><br>
+                        
+                        <strong style="color: #e74c3c;">❌ KLICKA INTE PÅ:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>"Tell us about your app"</strong> - Detta är Gemini AI-förslag (behövs inte)</li>
+                            <li><strong>"Build a backend"</strong> - Gemini AI-förslag (ignorera)</li>
+                            <li><strong>"Monetize your app"</strong> - Gemini AI-förslag (ignorera)</li>
+                            <li><strong>"Host a web app"</strong> - Gemini AI-förslag (vi använder GitHub Pages)</li>
+                        </ul>
+                        <br>
+                        <strong>💡 Tips:</strong> Alla kort med rubriken "Next steps with Gemini" är bara AI-förslag som du kan ignorera. Vi följer denna guide istället!
+                    </div>
+                    
+                    <strong>Vad du ser på skärmen:</strong>
                     <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li>Text: "Get started by adding Firebase to your app"</li>
-                        <li>Fyra ikoner: 📱 iOS | 🍎 Android | <strong>🌐 Web</strong> | 🎮 Unity</li>
+                        <li><strong>Överst:</strong> 
+                            <code style="background: #f0f0f0; padding: 5px;">dagens-dubbel   Spark plan</code><br>
+                            <code style="background: #e8f5e9; padding: 5px; font-weight: bold;">➕ Add app</code> ← <strong style="color: #27ae60;">KLICKA HÄR!</strong>
+                        </li>
+                        <li><strong>Under det:</strong> "Hello, Kent - Welcome to your Firebase project!"</li>
+                        <li><strong>Längre ner:</strong> Gemini-förslag i orange ramar (ignorera dessa)</li>
                     </ul>
                     
-                    <strong>Gör detta:</strong>
+                    <strong>Steg-för-steg efter du klickat "+ Add app":</strong>
                     <ol style="margin-left: 20px; margin-top: 10px;">
-                        <li>Klicka på <strong>🌐 Web</strong> (ikonen som ser ut som <code>&lt;/&gt;</code>)</li>
-                        <li>Skriv ett "App nickname" (t.ex. <code>dagens-dubbel-web</code>)</li>
-                        <li>Kryssa INTE i "Also set up Firebase Hosting" (vi hostar på GitHub Pages)</li>
-                        <li>Klicka <strong>"Register app"</strong></li>
+                        <li><strong>En popup öppnas</strong> med fyra plattformar:<br>
+                            📱 iOS | 🍎 Android | <strong>🌐 Web</strong> | 🎮 Unity
+                        </li>
+                        <li><strong>Klicka på 🌐 Web</strong> (ikonen som ser ut som <code>&lt;/&gt;</code>)</li>
+                        <li><strong>Ny skärm öppnas:</strong> "Add Firebase to your web app"
+                            <ul style="margin-top: 5px;">
+                                <li>Skriv "App nickname": <code>dagens-dubbel-web</code></li>
+                                <li>Kryssa <strong>INTE</strong> i "Also set up Firebase Hosting" (vi använder GitHub Pages)</li>
+                                <li>Klicka <strong>"Register app"</strong></li>
+                            </ul>
+                        </li>
                     </ol>
+                    
+                    <div class="info" style="margin-top: 15px;">
+                        <strong>📸 Se bifogad bild:</strong> <code>projektoversikten.jpg</code> i projektmappen visar exakt var "+ Add app"-knappen finns (med röd pil).
+                    </div>
                 </div>
 
                 <div class="step">
