@@ -4,6 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dagens Dubbel Analyssystem - Solvalla</title>
+    
+    <!-- =======================================================================
+         FIREBASE INTEGRATION - UPPDATERING 2026-02-07
+         =======================================================================
+         Mönster A: Compat SDK + Firestore (Kent's enklaste mönster)
+         Använder Firebase SDK v10.7.0 för molnbaserad datalagring
+         Data synkas mellan alla användare i realtid
+         ======================================================================= -->
+    
+    <!-- Firebase App (grundläggande - krävs alltid) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    
+    <!-- Firebase Firestore (för databas) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Firebase konfiguration och initialisering -->
+    <script>
+        // ============================================
+        // FIREBASE INITIALISERING - UPPDATERING 2026-02-07
+        // ============================================
+        // Projekt: dagens-dubbel
+        // Databas: Firestore (Cloud Firestore)
+        // Säkerhetsregler: Production mode med tillfälliga utvecklingsregler
+        // ============================================
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDrQs10JA1dE1Rf9pZjUGFI6PkCREs42zQ",
+            authDomain: "dagens-dubbel.firebaseapp.com",
+            projectId: "dagens-dubbel",
+            storageBucket: "dagens-dubbel.firebasestorage.app",
+            messagingSenderId: "982717111499",
+            appId: "1:982717111499:web:250a78091cf957177dcf4e",
+            measurementId: "G-1NZQ4SJ7F6"
+        };
+
+        // INITIERA FIREBASE
+        firebase.initializeApp(firebaseConfig);
+        
+        // GÖR FIRESTORE TILLGÄNGLIG GLOBALT
+        const db = firebase.firestore();
+        
+        console.log("✅ Firebase initierad! Projekt:", firebaseConfig.projectId);
+        console.log("✅ Firestore database tillgänglig");
+    </script>
+    
     <style>
         /* ========================================
            GRUNDLÄGGANDE STILAR
@@ -829,9 +874,14 @@
          * Laddar sparad data från localStorage när sidan laddas
          */
         window.onload = function() {
+            // Ladda från localStorage först (snabbt)
             loadDataFromStorage();
             updateAllDisplays();
             setDefaultDate();
+            
+            // UPPDATERING 2026-02-07: Lyssna på Firestore-uppdateringar (realtid)
+            // Detta synkar data från molnet och uppdaterar UI automatiskt
+            loadFromFirestore();
         };
 
         /**
@@ -1019,6 +1069,9 @@
                 // Spara till localStorage
                 localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
 
+                // UPPDATERING 2026-02-07: Spara även till Firestore
+                saveToFirestore(weekData);
+
                 // Uppdatera alla visningar
                 updateAllDisplays();
 
@@ -1056,6 +1109,110 @@
                     console.error('Fel vid laddning av data:', error);
                     weeklyData = [];
                 }
+            }
+        }
+
+        // ============================================
+        // FIREBASE FUNKTIONER - UPPDATERING 2026-02-07
+        // ============================================
+        // Mönster A: Compat SDK + Firestore
+        // Hybrid-lösning: localStorage som cache + Firestore som molnbackend
+        // ============================================
+
+        /**
+         * Sparar veckodata till Firestore (Cloud Firestore)
+         * @param {Object} weekData - Veckans data att spara
+         */
+        function saveToFirestore(weekData) {
+            try {
+                // FIRESTORE STRUKTUR: collection -> document -> subcollection -> document
+                db.collection('dagensDubbel')
+                    .doc('veckor')
+                    .collection('items')
+                    .add({
+                        ...weekData,
+                        firestoreTimestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    })
+                    .then((docRef) => {
+                        console.log('✅ Sparad till Firestore med ID:', docRef.id);
+                    })
+                    .catch((error) => {
+                        console.error('❌ Firestore-fel vid sparande:', error);
+                        // Ingen alert - localStorage är redan sparad
+                    });
+            } catch (error) {
+                console.error('❌ Firebase-exception:', error);
+            }
+        }
+
+        /**
+         * Laddar data från Firestore i realtid
+         * Lyssnar på ändringar och uppdaterar UI automatiskt
+         */
+        function loadFromFirestore() {
+            try {
+                // ONSNAPSHOT = LYSSNAR PÅ ÄNDRINGAR I REALTID
+                db.collection('dagensDubbel')
+                    .doc('veckor')
+                    .collection('items')
+                    .orderBy('week', 'asc')  // Sortera efter veckonummer
+                    .onSnapshot((snapshot) => {
+                        console.log('📥 Firestore-uppdatering mottagen');
+                        
+                        const firestoreWeeks = [];
+                        snapshot.forEach((doc) => {
+                            firestoreWeeks.push({
+                                firestoreId: doc.id,  // Spara Firestore-ID
+                                ...doc.data()
+                            });
+                        });
+                        
+                        console.log(`Firestore har ${firestoreWeeks.length} veckor`);
+                        
+                        // SYNKA MED LOCALSTORAGE
+                        if (firestoreWeeks.length > 0) {
+                            weeklyData = firestoreWeeks;
+                            localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
+                            updateAllDisplays();
+                            console.log('✅ Data synkad från Firestore till localStorage');
+                        }
+                        
+                    }, (error) => {
+                        console.error('❌ Fel vid läsning från Firestore:', error);
+                    });
+            } catch (error) {
+                console.error('❌ Firebase-exception vid läsning:', error);
+            }
+        }
+
+        /**
+         * Raderar en vecka från Firestore
+         * @param {string} firestoreId - Firestore-dokumentets ID
+         */
+        function deleteWeekFromFirestore(firestoreId) {
+            if (!firestoreId) {
+                console.warn('Inget Firestore-ID att radera');
+                return;
+            }
+            
+            if (!confirm('Radera denna vecka från molnet också?')) {
+                return;
+            }
+            
+            try {
+                db.collection('dagensDubbel')
+                    .doc('veckor')
+                    .collection('items')
+                    .doc(firestoreId)
+                    .delete()
+                    .then(() => {
+                        console.log('✅ Vecka raderad från Firestore');
+                    })
+                    .catch((error) => {
+                        console.error('❌ Fel vid radering från Firestore:', error);
+                    });
+            } catch (error) {
+                console.error('❌ Firebase-exception vid radering:', error);
             }
         }
 

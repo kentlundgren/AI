@@ -1118,6 +1118,224 @@ service cloud.firestore {
             </div>
 
             <!-- ============================================
+                 PRODUCTION MODE - DETALJERAD GUIDE
+                 ============================================ -->
+            <h2>🔒 Production Mode - Detaljerad guide för säkra regler</h2>
+            
+            <div class="section">
+                <p>Om du valde <strong>production mode</strong> när du skapade databasen, är allt blockerat från början:</p>
+
+<pre>allow read, write: if false;  // ALLT BLOCKERAT</pre>
+
+                <p>Du behöver nu <strong>uppdatera säkerhetsreglerna</strong> för att kunna använda databasen. Här är dina alternativ:</p>
+
+                <h3>📋 Steg-för-steg: Uppdatera säkerhetsregler</h3>
+                
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Gå till Rules-fliken</strong><br>
+                    I Firestore Database → Klicka på <strong>"Rules"</strong> (andra fliken)
+                </div>
+
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <strong>Välj säkerhetsnivå</strong><br>
+                    Välj ETT av alternativen nedan baserat på dina behov:
+                </div>
+
+                <h3>🔓 Alternativ 1: Öppet för alla (utveckling/test)</h3>
+                <div class="warning">
+                    <strong>⚠️ ENDAST FÖR UTVECKLING OCH TESTNING!</strong><br><br>
+                    Använd detta när du utvecklar och testar lokalt. Byt till säkrare regler innan publicering!
+                </div>
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      // TILLFÄLLIGT för utveckling
+      // OBS: Ändra innan publicering!
+      allow read, write: if true;
+    }
+  }
+}</pre>
+
+                <div class="pros">
+                    <strong>✅ Fördelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Enklast att testa - ingen autentisering krävs</li>
+                        <li>Fungerar direkt</li>
+                        <li>Perfekt för lokal utveckling</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <strong>❌ Nackdelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Osäkert - vem som helst kan läsa/skriva</li>
+                        <li>MÅSTE ändras innan publicering på internet</li>
+                    </ul>
+                </div>
+
+                <h3>👁️ Alternativ 2: Alla kan läsa, ingen kan skriva (publicerad app)</h3>
+                <div class="info">
+                    Bra för appar där data är publik men endast du (via Firebase Console) ska kunna lägga till data.
+                </div>
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      allow read: if true;        // Alla kan läsa
+      allow write: if false;      // Ingen kan skriva
+    }
+  }
+}</pre>
+
+                <div class="pros">
+                    <strong>✅ Användningsfall:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Visa resultat publikt på hemsidan</li>
+                        <li>Du registrerar data via Firebase Console manuellt</li>
+                        <li>Skyddar mot spam och manipulation</li>
+                    </ul>
+                </div>
+
+                <h3>🔐 Alternativ 3: Endast autentiserade användare</h3>
+                <div class="info">
+                    Kräver att du lägger till Firebase Authentication, men ger bästa säkerheten.
+                </div>
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      // Endast inloggade användare kan läsa och skriva
+      allow read, write: if request.auth != null;
+    }
+  }
+}</pre>
+
+                <div class="pros">
+                    <strong>✅ Användningsfall:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Endast de 5 spelarna ska kunna registrera satsningar</li>
+                        <li>Kräver att alla loggar in (Google, Email, etc.)</li>
+                        <li>Säkrast alternativet</li>
+                    </ul>
+                </div>
+
+                <h3>👥 Alternativ 4: Specifika email-adresser (mest kontroll)</h3>
+                <div class="info">
+                    Endast specifika användare får tillgång. Bäst för slutna grupper.
+                </div>
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      // Endast dessa 5 email-adresser
+      allow read, write: if request.auth != null && 
+        request.auth.token.email in [
+          'kent@example.com',
+          'lotta@example.com',
+          'bengt@example.com',
+          'benita@example.com',
+          'system@example.com'
+        ];
+    }
+  }
+}</pre>
+
+                <div class="pros">
+                    <strong>✅ Användningsfall:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Endast de 5 spelarna + ingen annan</li>
+                        <li>Maximal kontroll</li>
+                        <li>Perfekt för Dagens Dubbel!</li>
+                    </ul>
+                </div>
+
+                <h3>📊 Alternativ 5: Läs öppet, skriv endast för autentiserade</h3>
+                <div class="info">
+                    Bästa balansen - alla kan se resultat, endast spelarna kan registrera.
+                </div>
+
+<pre>rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /dagensDubbel/{document=**} {
+      allow read: if true;                    // Alla kan läsa resultat
+      allow write: if request.auth != null;   // Endast inloggade kan skriva
+    }
+  }
+}</pre>
+
+                <div class="pros">
+                    <strong>✅ Användningsfall:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Resultat visas publikt för alla</li>
+                        <li>Endast de 5 spelarna (inloggade) kan registrera satsningar</li>
+                        <li>Bra balans mellan öppenhet och säkerhet</li>
+                    </ul>
+                </div>
+
+                <h3>🎯 Rekommendation för Dagens Dubbel</h3>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fas</th>
+                            <th>Rekommenderad regel</th>
+                            <th>Varför?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Utveckling (nu)</strong></td>
+                            <td>Alternativ 1: <code>if true</code></td>
+                            <td>Snabb testning, ingen autentisering</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Publicering (enkel)</strong></td>
+                            <td>Alternativ 1: <code>if true</code></td>
+                            <td>Om du litar på att ingen hittar URL:en</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Publicering (säker)</strong></td>
+                            <td>Alternativ 5: Läs öppet, skriv auth</td>
+                            <td>Bästa balansen för Dagens Dubbel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maximalt säkert</strong></td>
+                            <td>Alternativ 4: Specifika emails</td>
+                            <td>Endast de 5 spelarna har tillgång</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight">
+                    <strong>💡 Kent's approach för Dagens Dubbel:</strong><br><br>
+                    <strong>Fas 1 - Utveckling (nu):</strong><br>
+                    <code>allow read, write: if true;</code><br>
+                    <em>Snabb testning, fungerar direkt</em><br><br>
+                    
+                    <strong>Fas 2 - Publicering (senare):</strong><br>
+                    <code>allow read: if true; allow write: if request.auth != null;</code><br>
+                    <em>Alla kan se resultat, endast inloggade kan registrera satsningar</em>
+                </div>
+
+                <h3>📝 Hur du ändrar regler senare:</h3>
+                
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Gå till Firebase Console</li>
+                    <li>Firestore Database → <strong>Rules</strong></li>
+                    <li>Ersätt hela regelkoden</li>
+                    <li>Klicka <strong>"Publish"</strong></li>
+                    <li>✅ Nya regler aktiveras direkt!</li>
+                </ol>
+            </div>
+
+            <!-- ============================================
                  SAMMANFATTNING: VAD ÄR SAMMA/OLIKA
                  ============================================ -->
             <h2>📋 Sammanfattning: Vad är samma och vad är olika?</h2>
