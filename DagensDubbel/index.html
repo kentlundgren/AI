@@ -224,7 +224,8 @@
         }
 
         /* Uppdatering 2026-02-07: Insatsfält (bet) ska INTE vara gula - de beräknas automatiskt */
-        input[id$="-bet"] {
+        input[id$="-bet"],
+        #weekNumber {
             background-color: #f8f9fa;  /* Ljusgrå/vit - automatiskt fält */
             font-weight: 600;
             color: #667eea;
@@ -245,8 +246,9 @@
             background-color: #e9ecef;  /* Ljusgrå - indikerar att data är sparad */
         }
         
-        /* Insatsfält förblir ljusgrå även efter sparande */
-        input[id$="-bet"].saved {
+        /* Insatsfält och veckonummer förblir ljusgrå även efter sparande */
+        input[id$="-bet"].saved,
+        #weekNumber.saved {
             background-color: #f8f9fa;
             font-weight: 600;
             color: #667eea;
@@ -604,7 +606,7 @@
                 </div>
                 <div class="form-group">
                     <label for="weekNumber">Veckonummer:</label>
-                    <input type="number" id="weekNumber" value="1" min="1">
+                    <input type="number" id="weekNumber" min="1" readonly>
                 </div>
                 <div class="form-group">
                     <label for="raceNotes">Anteckningar om loppet (t.ex. STL-final, Margareta-serie):</label>
@@ -970,6 +972,9 @@
             // UPPDATERING 2026-02-07: Automatisk insatsberäkning
             setupBetCalculation();
             
+            // UPPDATERING 2026-02-07: Automatisk veckonummerberäkning
+            setupWeekNumberCalculation();
+            
             // UPPDATERING 2026-02-07: Färgkodning av input-fält (gul → grå)
             setupFieldColorReset();
             
@@ -984,6 +989,75 @@
         function setDefaultDate() {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('raceDate').value = today;
+            
+            // UPPDATERING 2026-02-07: Beräkna veckonummer automatiskt
+            calculateWeekNumber();
+        }
+
+        // ========================================
+        // AUTOMATISK VECKONUMMERBERÄKNING - UPPDATERING 2026-02-07
+        // ========================================
+
+        /**
+         * Beräknar ISO-veckonummer från ett datum
+         * ISO-vecka börjar på måndag och vecka 1 är veckan med första torsdagen i året
+         * @param {Date} date - Datum att beräkna veckonummer för
+         * @returns {number} - ISO-veckonummer (1-53)
+         */
+        function getISOWeekNumber(date) {
+            // Kopiera datum så vi inte ändrar originalet
+            const d = new Date(date);
+            
+            // Sätt till närmaste torsdag (ISO-vecka regel)
+            d.setHours(0, 0, 0, 0);
+            d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+            
+            // Årets första dag
+            const yearStart = new Date(d.getFullYear(), 0, 1);
+            
+            // Beräkna veckonummer
+            const weekNumber = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            
+            return weekNumber;
+        }
+
+        /**
+         * Beräknar och uppdaterar veckonummer baserat på valt datum
+         */
+        function calculateWeekNumber() {
+            const dateInput = document.getElementById('raceDate');
+            const weekInput = document.getElementById('weekNumber');
+            
+            if (!dateInput.value) {
+                weekInput.value = '';
+                return;
+            }
+            
+            // Skapa Date-objekt från input-värde
+            const selectedDate = new Date(dateInput.value + 'T12:00:00'); // Lägg till tid för att undvika timezone-problem
+            
+            // Beräkna ISO-veckonummer
+            const weekNumber = getISOWeekNumber(selectedDate);
+            
+            // Uppdatera fältet
+            weekInput.value = weekNumber;
+            
+            console.log(`📅 Datum: ${dateInput.value} → Vecka ${weekNumber}`);
+        }
+
+        /**
+         * Lägger till event listener för automatisk veckonummerberäkning
+         */
+        function setupWeekNumberCalculation() {
+            const dateInput = document.getElementById('raceDate');
+            
+            if (dateInput) {
+                // Beräkna när användaren ändrar datum
+                dateInput.addEventListener('change', calculateWeekNumber);
+                dateInput.addEventListener('input', calculateWeekNumber);
+                
+                console.log('✅ Automatisk veckonummerberäkning aktiverad');
+            }
         }
 
         // ========================================
