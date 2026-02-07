@@ -214,11 +214,294 @@
             </div>
 
             <!-- ============================================
-                 KENT'S FIREBASE-MÖNSTER
+                 KENT HAR ANVÄNT TVÅ OLIKA FIREBASE-MÖNSTER
                  ============================================ -->
-            <h2>🔧 Kent's Firebase-implementationsmönster</h2>
+            <h2>🎭 Kent's två Firebase-mönster - Vilket ska du välja?</h2>
             
             <div class="section">
+                <p>Kent har framgångsrikt implementerat Firebase i flera projekt med <strong>två olika mönster</strong>. Båda fungerar utmärkt, men passar olika användningsfall:</p>
+                
+                <h3>Mönster A: Compat SDK + Firestore (Bjerred-skylt 2024) ⭐ ENKLAST</h3>
+                <div class="highlight">
+                    <strong>✅ Fördelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Mycket enklare att komma igång - ingen CSP, inga modules</li>
+                        <li>Firestore = dokumentdatabas (bättre för komplexa queries)</li>
+                        <li>Fungerar direkt utan konfiguration</li>
+                        <li>Perfekt för nybörjare</li>
+                    </ul>
+                    <strong>❌ Nackdelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Äldre API (men kommer stödjas länge)</li>
+                        <li>Något större bundle-size</li>
+                    </ul>
+                </div>
+
+                <h3>Mönster B: Modular SDK + Realtime Database (Quiz-projekt) ⭐⭐ MODERNARE</h3>
+                <div class="info">
+                    <strong>✅ Fördelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Modernare kodstil (ES6 modules)</li>
+                        <li>Realtime Database = enklare JSON-struktur, lägre latens</li>
+                        <li>Mindre bundle-size (tree-shaking)</li>
+                        <li>Framtidssäker</li>
+                    </ul>
+                    <strong>❌ Nackdelar:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Kräver CSP (Content Security Policy)</li>
+                        <li>Mer komplex setup</li>
+                        <li>Module imports kan vara förvirrande för nybörjare</li>
+                    </ul>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspekt</th>
+                            <th>Mönster A: Compat + Firestore</th>
+                            <th>Mönster B: Modular + Realtime DB</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Använt i projekt</strong></td>
+                            <td><a href="https://kentlundgren.github.io/Bjerred-skylt/" target="_blank">Bjerred-skylt (2024)</a></td>
+                            <td>Quiz-projekt (2025)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SDK Version</strong></td>
+                            <td>v10.7.0 (compat)</td>
+                            <td>v11.0.0 (modular)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Import-stil</strong></td>
+                            <td><code>&lt;script src="..."&gt;</code></td>
+                            <td><code>import { ... } from '...'</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSP krävs?</strong></td>
+                            <td>❌ Nej</td>
+                            <td>✅ Ja</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Databas-typ</strong></td>
+                            <td>Firestore (dokument)</td>
+                            <td>Realtime Database (JSON)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Global objekt</strong></td>
+                            <td><code>firebase</code></td>
+                            <td><code>window.firebaseDb</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setup-tid</strong></td>
+                            <td>⚡ 5 minuter</td>
+                            <td>⏱️ 10 minuter</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Svårighetsgrad</strong></td>
+                            <td class="pros">⭐ Mycket lätt</td>
+                            <td class="cons">⭐⭐ Lite svårare</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rekommendation</strong></td>
+                            <td>Första Firebase-projektet</td>
+                            <td>När du lärt dig grunderna</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="warning">
+                    <strong>💡 Kent's rekommendation för Dagens Dubbel:</strong><br><br>
+                    Eftersom detta är ditt fjärde Firebase-projekt och du redan känner till båda mönstren, välj baserat på behov:
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Mönster A (Compat + Firestore)</strong> - Om du vill ha snabbast setup och Firestore's query-kapacitet</li>
+                        <li><strong>Mönster B (Modular + Realtime DB)</strong> - Om du vill ha realtidssynk med lägsta latens</li>
+                    </ul>
+                    <strong>För Dagens Dubbel:</strong> Mönster A är troligen bäst - enklare och Firestore hanterar komplexa queries bättre (t.ex. "hitta alla veckor där Kent vann").
+                </div>
+            </div>
+
+            <!-- ============================================
+                 MÖNSTER A: COMPAT SDK + FIRESTORE (ENKLAST)
+                 ============================================ -->
+            <h2>🔧 Mönster A: Compat SDK + Firestore (Bjerred-skylt)</h2>
+            
+            <div class="section">
+                <p>Detta är det <strong>enklaste</strong> sättet att komma igång med Firebase. Ingen CSP krävs, inga module imports.</p>
+
+                <h3>Steg 1: Lägg till Firebase SDK (compat)</h3>
+                <p>Lägg till följande i <code>&lt;head&gt;</code> eller innan <code>&lt;/body&gt;</code>:</p>
+
+<pre>&lt;!-- =======================================================================
+     FIREBASE SDK (COMPAT-BIBLIOTEK)
+     Version: 10.7.0 eller senare
+     Databas: Firestore (dokumentdatabas)
+     ======================================================================= --&gt;
+
+&lt;!-- Firebase App (grundläggande - krävs alltid) --&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"&gt;&lt;/script&gt;
+
+&lt;!-- Firebase Firestore (för databas) --&gt;
+&lt;script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"&gt;&lt;/script&gt;
+
+&lt;!-- Firebase konfiguration (kan vara separat fil eller inline) --&gt;
+&lt;script&gt;
+    // FIREBASE KONFIGURATION - FÅ DETTA FRÅN FIREBASE CONSOLE
+    const firebaseConfig = {
+        apiKey: "DIN_API_KEY",
+        authDomain: "DITT_PROJEKT.firebaseapp.com",
+        projectId: "DITT_PROJEKT",
+        storageBucket: "DITT_PROJEKT.appspot.com",
+        messagingSenderId: "DITT_ID",
+        appId: "DITT_APP_ID"
+    };
+
+    // INITIERA FIREBASE
+    firebase.initializeApp(firebaseConfig);
+    
+    // GÖR FIRESTORE TILLGÄNGLIG GLOBALT
+    const db = firebase.firestore();
+    
+    console.log("Firebase initierad! Projekt:", firebaseConfig.projectId);
+&lt;/script&gt;
+
+&lt;!-- Extern JavaScript-fil för funktionalitet (EFTER Firebase) --&gt;
+&lt;script src="script.js"&gt;&lt;/script&gt;</pre>
+
+                <div class="info">
+                    <strong>💡 Fördel med separat config-fil:</strong><br>
+                    Du kan skapa <code>firebase-config.js</code> och importera den:
+<pre>&lt;script src="firebase-config.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+&lt;/script&gt;</pre>
+                    Detta håller koden mer organiserad.
+                </div>
+
+                <h3>Steg 2: Spara data till Firestore</h3>
+<pre>// SPARA DATA TILL FIRESTORE (COMPAT API)
+function saveWeekDataToFirestore(weekData) {
+    // FIRESTORE ANVÄNDER COLLECTIONS OCH DOCUMENTS
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .add(weekData)  // ADD = automatiskt ID
+        .then((docRef) => {
+            console.log('✅ Sparad med ID:', docRef.id);
+            alert('✅ Data sparad i molnet!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel:', error);
+            alert('❌ Kunde inte spara: ' + error.message);
+        });
+}
+
+// EXEMPEL: SPARA VECKA 1
+const weekData = {
+    week: 1,
+    date: "2026-02-07",
+    players: {
+        kent: { race1: [2,5,6], race2: [6,11], bet: 45 }
+    },
+    results: {
+        winner_race1: 5,
+        winner_race2: 11,
+        dd_payout: 156.50
+    },
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+};
+
+saveWeekDataToFirestore(weekData);</pre>
+
+                <h3>Steg 3: Läsa data från Firestore</h3>
+<pre>// LÄSA DATA FRÅN FIRESTORE (REALTID)
+function loadWeeksFromFirestore() {
+    // ONSE SNAPSHOT = LYSSNAR PÅ ÄNDRINGAR I REALTID
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .orderBy('week', 'asc')  // SORTERA EFTER VECKONUMMER
+        .onSnapshot((snapshot) => {
+            const weeks = [];
+            snapshot.forEach((doc) => {
+                weeks.push({
+                    firestoreId: doc.id,  // Spara Firestore-ID
+                    ...doc.data()
+                });
+            });
+            
+            console.log(`📥 Laddade ${weeks.length} veckor från Firestore`);
+            displayWeeks(weeks);
+        }, (error) => {
+            console.error('❌ Fel vid läsning:', error);
+        });
+}
+
+// KÖR VID SIDLADDNING
+loadWeeksFromFirestore();</pre>
+
+                <h3>Steg 4: Uppdatera och radera data</h3>
+<pre>// UPPDATERA BEFINTLIG VECKA
+function updateWeekInFirestore(firestoreId, updates) {
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .doc(firestoreId)
+        .update(updates)
+        .then(() => {
+            console.log('✅ Uppdaterad');
+            alert('✅ Data uppdaterad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel:', error);
+        });
+}
+
+// RADERA VECKA
+function deleteWeekFromFirestore(firestoreId) {
+    if (!confirm('Radera denna vecka från molnet?')) return;
+    
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .doc(firestoreId)
+        .delete()
+        .then(() => {
+            console.log('✅ Raderad');
+            alert('✅ Data raderad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel:', error);
+        });
+}</pre>
+
+                <div class="highlight">
+                    <strong>🎯 Firestore vs Realtime Database:</strong><br><br>
+                    <strong>Firestore är bättre när:</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Du behöver komplexa queries (WHERE-frågor, sortering, filtrering)</li>
+                        <li>Du vill ha bättre offlinestöd automatiskt</li>
+                        <li>Du har mycket data och behöver paginering</li>
+                    </ul>
+                    <strong>Realtime Database är bättre när:</strong>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Du vill ha lägsta möjliga latens (realtidssynk är snabbare)</li>
+                        <li>Du har enklare data-struktur (JSON)</li>
+                        <li>Du vill ha enklare prissättning</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ============================================
+                 MÖNSTER B: MODULAR SDK + REALTIME DATABASE
+                 ============================================ -->
+            <h2>🔧 Mönster B: Modular SDK + Realtime Database (Quiz-projekt)</h2>
+            
+            <div class="section">
+                <p>Detta är det <strong>modernare</strong> mönstret med ES6 modules. Kräver CSP men ger bättre performance.</p>
+
                 <h3>Steg 1: Content Security Policy (CSP)</h3>
                 <p>Lägg till följande i <code>&lt;head&gt;</code> för att tillåta Firebase-anslutningar:</p>
 

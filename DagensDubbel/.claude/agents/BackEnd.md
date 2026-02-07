@@ -495,13 +495,34 @@ DagensDubbel/
 
 ---
 
-## 🔥 FIREBASE REALTIME DATABASE - KENT'S MÖNSTER
+## 🔥 FIREBASE INTEGRATION - KENT'S TVÅ MÖNSTER
 
-**UPPDATERING 2026-02-07:** Dokumentation av Kent's Firebase-integrationsmönster för molnbaserad datalagring.
+**UPPDATERING 2026-02-07:** Kent har framgångsrikt använt Firebase i flera projekt med två olika mönster.
+
+### 🎭 Vilket Firebase-mönster ska du välja?
+
+Kent har implementerat Firebase på två sätt i tidigare projekt:
+
+| Mönster | Projekt | SDK | Databas | Komplexitet |
+|---------|---------|-----|---------|-------------|
+| **A** | [Bjerred-skylt](https://kentlundgren.github.io/Bjerred-skylt/) | v10.7.0 Compat | Firestore | ⭐ Enklast |
+| **B** | Quiz-projekt | v11.0.0 Modular | Realtime DB | ⭐⭐ Mer komplex |
+
+**Mönster A (Compat + Firestore)** - REKOMMENDERAS FÖR DAGENS DUBBEL
+- ✅ Enklare setup (ingen CSP krävs)
+- ✅ Firestore = bättre för komplexa queries
+- ✅ `<script src>` imports (inga modules)
+- ❌ Något äldre API (men stöds länge)
+
+**Mönster B (Modular + Realtime DB)**
+- ✅ Modernare kodstil (ES6 modules)
+- ✅ Realtime DB = lägre latens för realtidssynk
+- ❌ Kräver CSP (Content Security Policy)
+- ❌ Mer komplex setup
 
 ### När ska Firebase användas?
 
-Firebase Realtime Database är ett alternativ till localStorage när:
+Firebase (oavsett mönster) är ett alternativ till localStorage när:
 - ✅ **Multi-användare**: Data ska delas mellan flera personer (t.ex. alla 5 spelare i Dagens Dubbel)
 - ✅ **Multi-enhet**: Synka data mellan desktop, mobil, tablet
 - ✅ **Realtidsuppdateringar**: Se andras satsningar direkt när de registreras
@@ -510,7 +531,288 @@ Firebase Realtime Database är ett alternativ till localStorage när:
 
 **För Dagens Dubbel:** Firebase är perfekt om alla 5 spelare (Kent, Lotta, Bengt, Benita + System) ska kunna registrera sina egna satsningar från sina egna enheter.
 
-### Kent's Firebase-implementationsmönster
+---
+
+## 🅰️ MÖNSTER A: COMPAT SDK + FIRESTORE (ENKLAST)
+
+**Använt i:** [Bjerred-skylt](https://kentlundgren.github.io/Bjerred-skylt/) (2024)  
+**Svårighetsgrad:** ⭐ Mycket lätt  
+**Rekommenderat för:** Dagens Dubbel (enklare setup, bättre queries)
+
+### Setup Mönster A
+
+Detta mönster kräver **ingen CSP** och **inga ES6 modules**. Allt fungerar direkt med `<script src>` tags.
+
+#### Steg 1: Lägg till Firebase SDK (Compat)
+
+```html
+<!-- =======================================================================
+     FIREBASE SDK (COMPAT-BIBLIOTEK)
+     Version: 10.7.0 eller senare
+     Databas: Firestore (dokumentdatabas)
+     ======================================================================= -->
+
+<!-- Firebase App (grundläggande - krävs alltid) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Firestore (för databas) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+
+<!-- Firebase konfiguration -->
+<script>
+    // FIREBASE KONFIGURATION - FÅ DETTA FRÅN FIREBASE CONSOLE
+    const firebaseConfig = {
+        apiKey: "DIN_API_KEY",
+        authDomain: "DITT_PROJEKT.firebaseapp.com",
+        projectId: "DITT_PROJEKT",
+        storageBucket: "DITT_PROJEKT.appspot.com",
+        messagingSenderId: "DITT_ID",
+        appId: "DITT_APP_ID"
+    };
+
+    // INITIERA FIREBASE
+    firebase.initializeApp(firebaseConfig);
+    
+    // GÖR FIRESTORE TILLGÄNGLIG GLOBALT
+    const db = firebase.firestore();
+    
+    console.log("Firebase initierad! Projekt:", firebaseConfig.projectId);
+</script>
+
+<!-- Extern JavaScript-fil för funktionalitet (EFTER Firebase) -->
+<script src="script.js"></script>
+```
+
+**Alternativ:** Separat config-fil för bättre organisation:
+```javascript
+// firebase-config.js
+const firebaseConfig = {
+    apiKey: "...",
+    // ... resten av config
+};
+```
+
+Sedan i HTML:
+```html
+<script src="firebase-config.js"></script>
+<script>
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+</script>
+```
+
+#### Steg 2: Spara data till Firestore
+
+```javascript
+// SPARA DATA TILL FIRESTORE (COMPAT API)
+function saveWeekDataToFirestore(weekData) {
+    // FIRESTORE ANVÄNDER COLLECTIONS OCH DOCUMENTS
+    // Struktur: collection -> document -> subcollection -> document
+    
+    db.collection('dagensDubbel')          // Collection
+        .doc('veckor')                     // Document
+        .collection('items')               // Subcollection
+        .add(weekData)                     // ADD = automatiskt ID
+        .then((docRef) => {
+            console.log('✅ Sparad med ID:', docRef.id);
+            alert('✅ Data sparad i molnet!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid sparande:', error);
+            alert('❌ Kunde inte spara: ' + error.message);
+        });
+}
+
+// EXEMPEL: SPARA VECKA 1
+const weekData = {
+    week: 1,
+    date: "2026-02-07",
+    notes: "STL-final",
+    players: {
+        kent: {
+            race1: [2, 5, 6],
+            race2: [6, 11, 15],
+            bet: 45
+        },
+        lotta: { /* ... */ },
+        bengt: { /* ... */ },
+        benita: { /* ... */ },
+        system: { /* ... */ }
+    },
+    results: {
+        winner_race1: 5,
+        winner_race2: 11,
+        dd_payout: 156.50,
+        notes: "Favorit vann båda loppen"
+    },
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()  // Server-tid
+};
+
+saveWeekDataToFirestore(weekData);
+```
+
+#### Steg 3: Läsa data från Firestore (Realtid)
+
+```javascript
+// LÄSA DATA FRÅN FIRESTORE (REALTID)
+function loadWeeksFromFirestore() {
+    // ONSNAPSHOT = LYSSNAR PÅ ÄNDRINGAR I REALTID
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .orderBy('week', 'asc')            // SORTERA EFTER VECKONUMMER
+        .onSnapshot((snapshot) => {
+            const weeks = [];
+            
+            snapshot.forEach((doc) => {
+                weeks.push({
+                    firestoreId: doc.id,   // Spara Firestore-ID
+                    ...doc.data()
+                });
+            });
+            
+            console.log(`📥 Laddade ${weeks.length} veckor från Firestore`);
+            
+            // UPPDATERA UI
+            displayWeeks(weeks);
+            displayResults(weeks);
+            displayAnalysis(weeks);
+            
+        }, (error) => {
+            console.error('❌ Fel vid läsning:', error);
+        });
+}
+
+// KÖR VID SIDLADDNING
+window.addEventListener('DOMContentLoaded', () => {
+    loadWeeksFromFirestore();
+});
+```
+
+#### Steg 4: Uppdatera och radera data
+
+```javascript
+// UPPDATERA BEFINTLIG VECKA
+function updateWeekInFirestore(firestoreId, updates) {
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .doc(firestoreId)
+        .update(updates)
+        .then(() => {
+            console.log('✅ Uppdaterad');
+            alert('✅ Data uppdaterad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid uppdatering:', error);
+        });
+}
+
+// EXEMPEL: UPPDATERA RESULTAT
+updateWeekInFirestore('abc123', {
+    results: {
+        winner_race1: 5,
+        winner_race2: 11,
+        dd_payout: 156.50
+    }
+});
+
+// RADERA VECKA
+function deleteWeekFromFirestore(firestoreId) {
+    if (!confirm('Radera denna vecka från molnet?')) return;
+    
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .doc(firestoreId)
+        .delete()
+        .then(() => {
+            console.log('✅ Raderad');
+            alert('✅ Data raderad!');
+        })
+        .catch((error) => {
+            console.error('❌ Fel vid radering:', error);
+        });
+}
+```
+
+#### Steg 5: Komplexa queries (Firestore's styrka!)
+
+```javascript
+// HITTA ALLA VECKOR DÄR KENT VANN
+function findKentWins() {
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .where('kentWon', '==', true)      // WHERE-query
+        .orderBy('week', 'desc')           // Nyaste först
+        .limit(10)                         // Endast 10 senaste
+        .get()
+        .then((snapshot) => {
+            const wins = [];
+            snapshot.forEach((doc) => {
+                wins.push(doc.data());
+            });
+            console.log('Kent vann dessa veckor:', wins);
+        });
+}
+
+// HITTA VECKOR MED HÖG UTDELNING
+function findHighPayouts() {
+    db.collection('dagensDubbel')
+        .doc('veckor')
+        .collection('items')
+        .where('results.dd_payout', '>', 1000)  // Över 1000kr
+        .orderBy('results.dd_payout', 'desc')   // Högsta först
+        .get()
+        .then((snapshot) => {
+            snapshot.forEach((doc) => {
+                console.log('Hög utdelning:', doc.data());
+            });
+        });
+}
+```
+
+### Datastruktur i Firestore
+
+Firestore lagrar data i **collections** (mappar) och **documents** (filer):
+
+```
+dagensDubbel (collection)
+└── veckor (document)
+    └── items (subcollection)
+        ├── abc123 (document - Vecka 1)
+        │   ├── week: 1
+        │   ├── date: "2026-02-07"
+        │   ├── players: {...}
+        │   └── results: {...}
+        ├── def456 (document - Vecka 2)
+        └── ghi789 (document - Vecka 3)
+```
+
+### Firestore vs Realtime Database
+
+| Aspekt | Firestore | Realtime Database |
+|--------|-----------|-------------------|
+| **Datamodell** | Dokument/Collections | JSON-träd |
+| **Queries** | ✅ Kraftfulla (WHERE, ORDER BY, LIMIT) | ❌ Begränsade |
+| **Latens** | ~100-200ms | ~50-100ms (snabbare) |
+| **Offline** | ✅ Automatisk cache | ⚠️ Manuell hantering |
+| **Skalning** | ✅ Automatisk | ⚠️ Manuell sharding |
+| **Pris** | Per operation | Per GB/månad |
+| **Setup** | ⭐ Lättare (ingen CSP) | ⭐⭐ Svårare (CSP krävs med modular SDK) |
+
+**För Dagens Dubbel:** Firestore är bättre om du vill kunna söka "alla veckor där Kent vann" eller "topp 10 högsta utdelningar".
+
+---
+
+## 🅱️ MÖNSTER B: MODULAR SDK + REALTIME DATABASE
+
+**Använt i:** Quiz-projekt (2025)  
+**Svårighetsgrad:** ⭐⭐ Lite svårare  
+**Rekommenderat för:** När du vill ha absolut lägsta latens för realtidssynk
+
+### Setup Mönster B
 
 #### Steg 1: Firebase Setup i `<head>`
 
