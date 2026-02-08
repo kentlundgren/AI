@@ -174,20 +174,35 @@
             <h2>🔄 Workflow: Från utveckling till produktion</h2>
 
             <div class="workflow">
-                <strong>Typiskt arbetsflöde:</strong>
+                <strong>Typiskt arbetsflöde (med Pull Request):</strong>
                 <ol>
                     <li><strong>Skapa branch:</strong> <code>git checkout -b development</code></li>
                     <li><strong>Utveckla:</strong> Gör ändringar, testa, committa</li>
                     <li><strong>Pusha:</strong> <code>git push -u origin development</code></li>
                     <li><strong>Testa:</strong> Verifiera att allt fungerar</li>
-                    <li><strong>Merge till main:</strong> När du är nöjd, slå ihop med main</li>
+                    <li><strong>Skapa PR:</strong> Gå till GitHub och skapa Pull Request</li>
+                    <li><strong>Granska:</strong> Se alla ändringar i diff-visningen</li>
+                    <li><strong>Merge PR:</strong> Klicka "Merge pull request" på GitHub</li>
                     <li><strong>Ta bort branch:</strong> Efter merge (valfritt)</li>
                 </ol>
             </div>
 
+            <div class="success">
+                <strong>🌟 Varför Pull Request är bättre:</strong>
+                <ul>
+                    <li><strong>Visuell granskning:</strong> Se alla ändringar sida vid sida (grön = nytt, röd = borttaget)</li>
+                    <li><strong>Dokumentation:</strong> PR-beskrivningen blir permanent historik i GitHub</li>
+                    <li><strong>Säkerhet:</strong> Kan backa eller stänga PR utan att merge om något är fel</li>
+                    <li><strong>Diskussion:</strong> Lägg till kommentarer på specifika kodrader (användbart i team)</li>
+                    <li><strong>CI/CD:</strong> Automatiska tester kan köras innan merge (avancerat)</li>
+                </ul>
+            </div>
+
             <h2>🔀 Slå ihop (merge) till main när du är klar</h2>
 
-            <h3>När funktionen är testad och klar:</h3>
+            <p>Det finns två sätt att slå ihop utvecklingsbranchen med main:</p>
+
+            <h3>Metod 1: Direkt merge (snabbt, lokalt)</h3>
 
             <div class="command-box">
                 <strong>1. Växla till main:</strong><br>
@@ -197,10 +212,83 @@
                 <code>git pull origin main</code><br><br>
 
                 <strong>3. Slå ihop development med main:</strong><br>
-                <code>git merge development</code><br><br>
+                <code>git merge utveckling</code><br><br>
 
                 <strong>4. Pusha den uppdaterade main:</strong><br>
                 <code>git push origin main</code>
+            </div>
+
+            <h3>Metod 2: Pull Request (PR) via GitHub 🌟 Rekommenderad!</h3>
+
+            <p><strong>Fördelar med Pull Request:</strong></p>
+            <ul>
+                <li>✅ Du ser alla ändringar visuellt innan merge</li>
+                <li>✅ Kan lägga till beskrivning av vad som ändrats</li>
+                <li>✅ Möjlighet att granska kod (för teams eller egen dokumentation)</li>
+                <li>✅ GitHub sparar historik av varför ändringar gjordes</li>
+                <li>✅ Säkrare - du kan backa enkelt om något går fel</li>
+            </ul>
+
+            <div class="workflow">
+                <strong>Steg-för-steg: Pull Request</strong>
+                
+                <p><strong>Steg 1: Pusha utvecklingsbranchen till GitHub</strong></p>
+                <div class="command-box">
+                    <code>git push -u origin utveckling</code>
+                </div>
+
+                <p><strong>Steg 2: Gå till GitHub</strong></p>
+                <ol>
+                    <li>Öppna <a href="https://github.com/kentlundgren/AI" target="_blank">https://github.com/kentlundgren/AI</a></li>
+                    <li>Du ser ett gult meddelande: <em>"utveckling had recent pushes"</em></li>
+                    <li>Klicka på <strong>"Compare & pull request"</strong> (grön knapp)</li>
+                </ol>
+
+                <p><strong>Steg 3: Skapa Pull Request</strong></p>
+                <ol>
+                    <li><strong>Title:</strong> Ge en beskrivande titel (t.ex. "Förbättrad EV-analys för vecka 7")</li>
+                    <li><strong>Description:</strong> Beskriv vad du ändrat:
+                        <ul>
+                            <li>Vad har du lagt till/ändrat?</li>
+                            <li>Varför gjorde du ändringen?</li>
+                            <li>Har du testat det?</li>
+                        </ul>
+                    </li>
+                    <li>Kontrollera att det är: <code>base: main</code> ← <code>compare: utveckling</code></li>
+                    <li>Klicka på <strong>"Create pull request"</strong></li>
+                </ol>
+
+                <p><strong>Steg 4: Granska ändringarna</strong></p>
+                <ol>
+                    <li>GitHub visar alla filer som ändrats</li>
+                    <li>Klicka på <strong>"Files changed"</strong> för att se kod-diff</li>
+                    <li>Grön = tillagt, Röd = borttaget</li>
+                    <li>Kontrollera att allt ser korrekt ut</li>
+                </ol>
+
+                <p><strong>Steg 5: Merge Pull Request</strong></p>
+                <ol>
+                    <li>Klicka på <strong>"Merge pull request"</strong> (grön knapp)</li>
+                    <li>Klicka på <strong>"Confirm merge"</strong></li>
+                    <li>✅ Färdig! Din utvecklingsbranch är nu mergead med main</li>
+                </ol>
+
+                <p><strong>Steg 6: Uppdatera lokal main (valfritt)</strong></p>
+                <div class="command-box">
+                    <code>git checkout main</code><br>
+                    <code>git pull origin main</code>
+                </div>
+
+                <p><strong>Steg 7: Radera utvecklingsbranch (valfritt)</strong></p>
+                <p>GitHub frågar om du vill radera branchen efter merge. Du kan välja att:</p>
+                <ul>
+                    <li><strong>Radera branchen</strong> om du är helt klar med funktionen</li>
+                    <li><strong>Behålla branchen</strong> om du vill fortsätta utveckla</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>💡 Pro-tips:</strong> Använd Pull Request även när du jobbar själv! Det hjälper dig att dokumentera varför du gjorde ändringar, och du kan alltid gå tillbaka och läsa motiveringar senare.
             </div>
 
             <h2>⚠️ Viktiga regler</h2>
@@ -274,6 +362,8 @@
 
             <p>Låt säga du vill förbättra systemets EV-analys utan att riskera nuvarande version:</p>
 
+            <h3>📋 Med Pull Request (rekommenderat):</h3>
+
             <div class="command-box">
                 <strong># 1. Skapa och växla till utvecklingsbranch</strong><br>
                 <code>git checkout -b ev-analysis-v2</code><br><br>
@@ -288,15 +378,30 @@
                 <strong># 4. Pusha till GitHub</strong><br>
                 <code>git push -u origin ev-analysis-v2</code><br><br>
 
-                <strong># 5. Testa grundligt i development-versionen</strong><br>
-                <em style="color: #6c757d;">(GitHub Pages kan visa development-branchen också)</em><br><br>
+                <strong># 5. Skapa Pull Request på GitHub</strong><br>
+                <em style="color: #28a745;">→ Gå till GitHub.com</em><br>
+                <em style="color: #28a745;">→ Klicka "Compare & pull request"</em><br>
+                <em style="color: #28a745;">→ Beskriv ändringar</em><br>
+                <em style="color: #28a745;">→ Granska diff</em><br>
+                <em style="color: #28a745;">→ Klicka "Merge pull request"</em><br><br>
 
-                <strong># 6. När du är nöjd: Merge till main</strong><br>
+                <strong># 6. Uppdatera lokal main</strong><br>
+                <code>git checkout main</code><br>
+                <code>git pull origin main</code>
+            </div>
+
+            <h3>⚡ Med direkt merge (snabbare):</h3>
+
+            <div class="command-box">
+                <strong># 1-4. Samma som ovan</strong><br>
+                <em style="color: #6c757d;">(Skapa branch, redigera, committa, pusha)</em><br><br>
+
+                <strong># 5. Direkt merge lokalt</strong><br>
                 <code>git checkout main</code><br>
                 <code>git merge ev-analysis-v2</code><br>
                 <code>git push origin main</code><br><br>
 
-                <strong># 7. Ta bort development-branch (valfritt)</strong><br>
+                <strong># 6. Ta bort development-branch (valfritt)</strong><br>
                 <code>git branch -d ev-analysis-v2</code><br>
                 <code>git push origin --delete ev-analysis-v2</code>
             </div>
@@ -310,8 +415,46 @@
                 <li><a href="README.md">README - Användarguide</a></li>
             </ul>
 
+            <h2>❓ Vanliga frågor om Pull Requests</h2>
+
+            <div class="workflow">
+                <h3>Kan jag fortsätta arbeta i branchen efter PR är skapad?</h3>
+                <p><strong>Ja!</strong> PR uppdateras automatiskt när du pushar nya commits:</p>
+                <div class="command-box">
+                    <code>git add .</code><br>
+                    <code>git commit -m "Fixade bugg"</code><br>
+                    <code>git push</code> <span style="color: #28a745;">← PR uppdateras automatiskt</span>
+                </div>
+
+                <h3>Vad händer om någon ändrat i main medan jag utvecklat?</h3>
+                <p>Du kan uppdatera din branch från main innan merge:</p>
+                <div class="command-box">
+                    <code>git checkout utveckling</code><br>
+                    <code>git pull origin main</code> <span style="color: #28a745;">← Hämtar senaste från main</span><br>
+                    <code>git push</code> <span style="color: #28a745;">← Uppdaterar PR</span>
+                </div>
+
+                <h3>Kan jag stänga en PR utan att merge?</h3>
+                <p><strong>Ja!</strong> Klicka "Close pull request" på GitHub. Ingenting mergas och utvecklingsbranchen behålls.</p>
+
+                <h3>Hur ser jag alla mina öppna PRs?</h3>
+                <p>På GitHub: Gå till repositoryt → <strong>Pull requests</strong> tab → Se alla öppna/stängda PRs</p>
+            </div>
+
             <div class="note">
                 <strong>📌 Kom ihåg:</strong> Detta dokument ligger i DagensDubbel-projektet. Git-repositoryt ligger på överliggande nivå (<code>/AI/</code>), så du hanterar branches därifrån.
+            </div>
+
+            <div class="success">
+                <strong>🎓 Best Practice för dig:</strong>
+                <p>Eftersom du jobbar själv och gillar PR-metoden, rekommenderar jag:</p>
+                <ol>
+                    <li>Skapa alltid en utvecklingsbranch för nya funktioner</li>
+                    <li>Committa ofta med beskrivande meddelanden</li>
+                    <li>Pusha till GitHub regelbundet (backup)</li>
+                    <li>Använd PR för att dokumentera VARFÖR du gjorde ändringar</li>
+                    <li>Granska diff innan merge - fånga buggar tidigt!</li>
+                </ol>
             </div>
         </div>
     </div>
