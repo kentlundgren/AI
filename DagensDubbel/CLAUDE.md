@@ -80,31 +80,55 @@ Ett **självförbättrande prediktionssystem** för Dagens Dubbel (Solvalla lör
 
 | Från | Till | Typ | Placering |
 |------|------|-----|-----------|
-| **index.html** | systemets_tips.html | Tab-knapp (🟢 grön) | Huvudnavigation |
-| **index.html** | FireBase.html | Tab-knapp (🟠 orange) | Huvudnavigation |
+| **index.html** | systemets_tips.html | Tab-knapp (🟢 grön) | Huvudnavigation (tabs) |
+| **index.html** | FireBase.html | Dokumentations-kort | Footer |
 | **systemets_tips.html** | index.html | Text-länk | Inom innehåll |
 | **FireBase.html** | index.html | Knapp (framträdande) | Footer |
 
 ### Implementeringsmönster
 
-#### 1. Från index.html till andra sidor (Tab-knapp)
+#### 1. Från index.html till andra sidor
 
+**A. Tab-knapp (för korta/frekventa sidor):**
 ```html
-<!-- I index.html navigation -->
+<!-- I index.html huvudnavigation (tabs) -->
 <button class="tab-button" onclick="window.location.href='systemets_tips.html'" 
         style="background: linear-gradient(135deg, #27ae60, #229954);">
     🤖 Systemets Tips
-</button>
-<button class="tab-button" onclick="window.location.href='FireBase.html'" 
-        style="background: linear-gradient(135deg, #e67e22, #d35400);">
-    🔥 Firebase Guide
 </button>
 ```
 
 **Fördelar:**
 - ✅ Visuellt konsekvent med övriga tabs
-- ✅ Tydlig färgkodning (grön för system, orange för teknisk guide)
+- ✅ Tydlig färgkodning (grön för system-tips)
 - ✅ Enkel onclick-navigation
+- ✅ Passar för sidor användaren besöker ofta
+
+**B. Footer-kort (för dokumentation/sällan besökta sidor):**
+```html
+<!-- I index.html footer -->
+<footer>
+    <h3>🔗 Projektdokumentation</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        <div style="text-align: center;">
+            <a href="FireBase.html" 
+               style="color: white; background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; 
+                      border-radius: 8px; text-decoration: none; display: inline-block;">
+                🔥 Firebase Integration Guide
+            </a>
+            <p style="font-size: 0.9em; opacity: 0.9;">
+                Komplett guide för Firebase-setup och best practices
+            </p>
+        </div>
+    </div>
+</footer>
+```
+
+**Fördelar:**
+- ✅ Stör inte huvudnavigeringen
+- ✅ Passar för teknisk dokumentation
+- ✅ Kan gruppera med andra dokumentationslänkar
+- ✅ Beskrivande text under varje länk
 
 #### 2. Tillbaka till index.html från andra sidor
 
