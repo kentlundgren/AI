@@ -66,12 +66,24 @@ Ett webbbaserat analyssystem för Dagens Dubbel (Solvalla lördagstrav) som spå
 
 ---
 
-### 🧮 Matematik - Interaktiv matematikguide
-Ett pedagogiskt projekt för att lära ut matematik interaktivt.
+### 🧮 Matematik - Interaktiva övningar för gymnasiematematik
+Interaktiva övningar för svensk gymnasiematematik (Matte 1-5) med quiz-frågor och steg-för-steg lösningar. Ett dubbelt lärandeprojekt som kombinerar matematikundervisning med demonstration av Claude Code permanenta agenter.
 
-**💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/Matematik)**
+**🚀 [Se live demo →](https://kentlundgren.github.io/AI/Matematik/)** | **💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/Matematik)**
 
-*Live demo kommer snart*
+**Funktioner:**
+- Quiz-frågor med pedagogiska förklaringar av både rätt och fel svar
+- Steg-för-steg lösningar enligt strukturen: Förstå → Planera → Genomföra → Kontrollera → Slutsats
+- Fördjupningsuppgifter för extra utmaning
+- Anpassad för svensk gymnasieskola (följer Skolverkets läroplan)
+- Demonstration av Claude Code Desktop och Git branch-hantering
+- Artikel "Kunskap är Kul" om projektets skapandeprocess
+
+**Teknik:** HTML5, CSS3, Vanilla JavaScript, Git, GitHub Pages
+
+**🤖 Permanenta agenter:** math-tutor (pedagogisk förklaring) + problem-solver (systematisk problemlösning) + exercise-creator (övningsdesign)
+
+**Skapad:** Januari 2026 | **Status:** Matematik 1-3 tillgängliga, Matematik 4-5 kommer snart
 
 ---
 
