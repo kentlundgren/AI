@@ -80,10 +80,10 @@ Ett **självförbättrande prediktionssystem** för Dagens Dubbel (Solvalla lör
 
 | Från | Till | Typ | Placering |
 |------|------|-----|-----------|
-| **index.html** | systemets_tips.html | Tab-knapp | Huvudnavigation |
-| **index.html** | FireBase.html | Tab-knapp | Huvudnavigation |
+| **index.html** | systemets_tips.html | Tab-knapp (🟢 grön) | Huvudnavigation |
+| **index.html** | FireBase.html | Tab-knapp (🟠 orange) | Huvudnavigation |
 | **systemets_tips.html** | index.html | Text-länk | Inom innehåll |
-| **FireBase.html** | index.html | Knapp | Header |
+| **FireBase.html** | index.html | Knapp (framträdande) | Footer |
 
 ### Implementeringsmönster
 
@@ -106,35 +106,58 @@ Ett **självförbättrande prediktionssystem** för Dagens Dubbel (Solvalla lör
 - ✅ Tydlig färgkodning (grön för system, orange för teknisk guide)
 - ✅ Enkel onclick-navigation
 
-#### 2. Tillbaka till index.html från andra sidor (Header-knapp)
+#### 2. Tillbaka till index.html från andra sidor
 
-**A. Från FireBase.html (knapp i header):**
+**⚠️ VIKTIGT: FRÅGA ALLTID ANVÄNDAREN om länken ska vara i HEADER eller FOOTER!**
+
+**Vägledning för när du ska föreslå vad:**
+- **Header (snabb access)**: För sidor där användaren kan vilja hoppa tillbaka snabbt (t.ex. korta tips, FAQ)
+- **Footer (efter läsning)**: För sidor med långt innehåll där användaren läser igenom först (t.ex. guider, dokumentation)
+
+**A. Från FireBase.html (knapp i FOOTER - teknisk dokumentation):**
 ```html
-<header>
-    <h1>🔥 Firebase Integration Guide</h1>
-    <p>Kent's standardmönster för Firebase Realtime Database</p>
-    <p style="margin-top: 1rem;">
+<footer>
+    <!-- Framträdande tillbaka-länk -->
+    <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.2);">
         <a href="index.html" 
-           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
-                  border-radius: 5px; text-decoration: none; display: inline-block; margin-right: 0.5rem;">
+           style="color: white; background: rgba(255,255,255,0.3); padding: 0.8rem 2rem; 
+                  border-radius: 8px; text-decoration: none; display: inline-block;
+                  font-size: 1.1em; font-weight: 600; transition: all 0.3s ease;">
             ← Tillbaka till huvudsystemet
         </a>
-        <a href="https://github.com/kentlundgren/AI/tree/main/DagensDubbel" target="_blank" 
-           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
-                  border-radius: 5px; text-decoration: none; display: inline-block;">
-            💻 Visa källkod på GitHub
-        </a>
-    </p>
-</header>
+    </div>
+    
+    <h3 style="margin-top: 25px;">🔗 Projektnavigation</h3>
+    <div style="margin-top: 15px;">
+        <a href="README.md" style="color: white; margin: 0 10px;">📖 README</a>
+        <a href="systemets_tips.html" style="color: white; margin: 0 10px;">🤖 Systemets Tips</a>
+        <!-- Övriga länkar -->
+    </div>
+</footer>
 ```
 
-**B. Från systemets_tips.html (text-länk i innehåll):**
+**B. Från systemets_tips.html (text-länk i INNEHÅLL - kort tips-sida):**
 ```html
 <p style="text-align: center; margin-top: 2rem;">
     <a href="index.html" style="color: #667eea; text-decoration: none; font-size: 1.1em;">
         ← Tillbaka till huvudsystemet
     </a>
 </p>
+```
+
+**C. Alternativ: I HEADER (om användaren önskar det):**
+```html
+<header>
+    <h1>Titel på sidan</h1>
+    <p>Beskrivning</p>
+    <p style="margin-top: 1rem;">
+        <a href="index.html" 
+           style="color: white; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; 
+                  border-radius: 5px; text-decoration: none; display: inline-block;">
+            ← Tillbaka till huvudsystemet
+        </a>
+    </p>
+</header>
 ```
 
 ### Designprinciper för korsnavigering
@@ -146,19 +169,23 @@ Ett **självförbättrande prediktionssystem** för Dagens Dubbel (Solvalla lör
    - 🟠 Orange: Tekniska guider och dokumentation
    - 🔵 Blå: Standardfärg för vanliga tabs
 
-4. **Placering**: 
+4. **Placering (FRÅGA ALLTID ANVÄNDAREN!)**: 
    - Från index.html → Tabs i huvudnavigationen
-   - Från andra sidor → Header (primär) eller footer (sekundär)
+   - Från andra sidor → **Header ELLER Footer** (beror på innehållstyp och användarens preferens)
+   
+   **Tumregel (men fråga alltid!):**
+   - Header: Kortare sidor, snabb navigation önskad
+   - Footer: Längre sidor (guider, dokumentation), läs-först-navigera-sedan
 
 ### Nya HTML-filer i framtiden
 
 När du skapar en ny HTML-fil (t.ex. `systemets_tips_v7.html`, `tranings_guide.html`):
 
-**CHECKLISTA:**
+**OBLIGATORISK CHECKLISTA:**
 1. ✅ Lägg till tab-knapp i `index.html` huvudnavigation
-2. ✅ Lägg till "← Tillbaka till huvudsystemet" länk i den nya filens header
+2. ✅ **FRÅGA ANVÄNDAREN**: "Ska 'Tillbaka till huvudsystemet'-länken vara i header eller footer?"
 3. ✅ Välj lämplig färgkodning baserat på typ av innehåll
-4. ✅ Uppdatera denna sektion i CLAUDE.md med den nya länken
+4. ✅ Uppdatera denna sektion i CLAUDE.md med den nya länken och var den är placerad
 
 ### Exempel: Lägga till en ny fil
 

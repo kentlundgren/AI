@@ -848,11 +848,21 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 
 #### 2️⃣ Från annan HTML-fil tillbaka till index.html
 
-**Variant A: I header-sektionen (rekommenderas för dokumentation):**
+**⚠️ VIKTIGT: FRÅGA ALLTID ANVÄNDAREN om länken ska vara i HEADER eller FOOTER!**
+
+**Fråga användaren:** "Ska 'Tillbaka till huvudsystemet'-länken vara i **header** eller **footer**?"
+
+**Vägledning för när du ska föreslå vad:**
+- **Header (snabb access)**: För sidor där användaren kan vilja hoppa tillbaka snabbt (t.ex. korta tips, FAQ, snabbreferenser)
+- **Footer (efter läsning)**: För sidor med långt innehåll där användaren läser igenom först (t.ex. långa guider, omfattande dokumentation, tutorials)
+
+---
+
+**Variant A: I HEADER-sektionen:**
 ```html
 <header>
-    <h1>🔥 Firebase Integration Guide</h1>
-    <p>Kent's standardmönster för Firebase Realtime Database</p>
+    <h1>Titel på sidan</h1>
+    <p>Beskrivning</p>
     <p style="margin-top: 1rem;">
         <!-- Tillbaka-länk FÖRST -->
         <a href="index.html" 
@@ -870,7 +880,28 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 </header>
 ```
 
-**Variant B: I innehåll/footer (enklare variant):**
+**Variant B: I FOOTER-sektionen (framträdande knapp):**
+```html
+<footer>
+    <!-- Framträdande tillbaka-länk -->
+    <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.2);">
+        <a href="index.html" 
+           style="color: white; background: rgba(255,255,255,0.3); padding: 0.8rem 2rem; 
+                  border-radius: 8px; text-decoration: none; display: inline-block;
+                  font-size: 1.1em; font-weight: 600; transition: all 0.3s ease;">
+            ← Tillbaka till huvudsystemet
+        </a>
+    </div>
+    
+    <!-- Övrig navigation -->
+    <h3 style="margin-top: 25px;">🔗 Projektnavigation</h3>
+    <div style="margin-top: 15px;">
+        <!-- Övriga projektlänkar -->
+    </div>
+</footer>
+```
+
+**Variant C: I innehåll/enkel text-länk (minst framträdande):**
 ```html
 <p style="text-align: center; margin-top: 2rem;">
     <a href="index.html" style="color: #667eea; text-decoration: none; font-size: 1.1em;">
@@ -894,19 +925,20 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 - `systemets_tips.html` - 🟢 Grön flik (AI-strategi)
 - `FireBase.html` - 🟠 Orange flik (Teknisk guide)
 
-**Båda filerna har tillbaka-länkar:**
-- `systemets_tips.html` → Enkel text-länk i innehåll
-- `FireBase.html` → Knapp i header (bredvid GitHub-länk)
+**Tillbaka-länkar (efter diskussion med Kent):**
+- `systemets_tips.html` → Enkel text-länk i **innehåll** (kort sida, användaren vill hoppa snabbt)
+- `FireBase.html` → Framträdande knapp i **footer** (lång teknisk guide, läs-först-navigera-sedan)
 
 ### Checklista när du lägger till ny HTML-fil
 
 ```markdown
 □ 1. Skapa HTML-filen (t.ex. `ny_fil.html`)
 □ 2. I index.html: Lägg till tab-knapp med passande färg
-□ 3. I ny_fil.html: Lägg till "← Tillbaka till huvudsystemet" i header
-□ 4. Testa båda navigationsriktningarna
-□ 5. Uppdatera projektets CLAUDE.md med ny länk i "Korsnavigering"-sektion
-□ 6. Commit med beskrivande meddelande (t.ex. "Lagt till Firebase-guide med korsnavigering")
+□ 3. ⚠️ FRÅGA ANVÄNDAREN: "Ska 'Tillbaka till huvudsystemet'-länken vara i header eller footer?"
+□ 4. I ny_fil.html: Lägg till "← Tillbaka till huvudsystemet" enligt användarens val
+□ 5. Testa båda navigationsriktningarna
+□ 6. Uppdatera projektets CLAUDE.md med ny länk och var den är placerad
+□ 7. Commit med beskrivande meddelande (t.ex. "Lagt till Firebase-guide med korsnavigering i footer")
 ```
 
 ### Varför detta är viktigt
@@ -922,9 +954,10 @@ När ett projekt innehåller flera HTML-filer ska det vara lätt för användare
 
 ❌ **Glömmer tillbaka-länk** - Användare blir strandsatta på undersida  
 ❌ **Ingen färgkodning** - Svårt att skilja olika typer av innehåll  
-❌ **Länkar i footer istället för header** - Användare ser inte dem direkt  
+❌ **Väljer själv header/footer utan att fråga** - Användaren har preferenser baserat på innehållstyp  
 ❌ **Använder `target="_blank"` för interna länkar** - Öppnar onödiga tabs  
 ❌ **Glömmer uppdatera CLAUDE.md** - Framtida Claude-sessioner vet inte om länkarna  
+❌ **Footer-länk är för liten/svår att hitta** - Om footer, använd framträdande knapp-stil  
 
 ### Mall för ny HTML-fil
 
