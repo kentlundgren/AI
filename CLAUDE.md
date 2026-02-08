@@ -10,6 +10,8 @@ Detta repository innehåller flera AI-projekt som demonstrerar olika användning
 
 **Aktiva underprojekt:**
 - [ClaudeCode1](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1) - Danmark-Grönland perspektivanalys med permanenta agenter
+- [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) - Självförbättrande prediktionssystem för Solvalla travlopp (Firebase + permanenta agenter)
+- [Matematik](https://github.com/kentlundgren/AI/tree/main/Matematik) - Interaktiv matematikguide med quiz-funktionalitet
 
 ---
 
@@ -200,6 +202,84 @@ Claude kommer att **fråga vid lämpligt tillfälle** (oftast efter att agentern
 - Ska navigation inkluderas?
 - Ska visualiseringar inkluderas?
 - Responsiv design?
+
+### Steg 5: Uppdatera överliggande README.md
+
+**🔴 OBLIGATORISK REGEL: När ett nytt underprojekt skapas, uppdatera ALLTID den överliggande README.md-filen.**
+
+**Varför detta är viktigt:**
+- ✅ Användare ser alla tillgängliga projekt på ett ställe
+- ✅ Enkel navigation mellan underprojekt
+- ✅ SEO-fördelar (Google indexerar huvudsidan bättre)
+- ✅ Professionellt och strukturerat intryck
+- ✅ Undviker "dolda" projekt som ingen hittar
+
+**Vad ska inkluderas:**
+
+1. **Projektnamn och beskrivning** (1-2 meningar)
+2. **Länkar:**
+   - 🌐 GitHub Pages live demo: `https://kentlundgren.github.io/AI/[projektnamn]/`
+   - 💻 GitHub källkod: `https://github.com/kentlundgren/AI/tree/main/[projektnamn]`
+3. **Huvudfunktioner** (3-6 punkter)
+4. **Teknisk stack** (HTML, CSS, JS, Firebase, etc.)
+5. **Status** (om relevant: "Pågående", "Komplett", "Beta", etc.)
+
+**Exempel från DagensDubbel:**
+
+```markdown
+### 📊 DagensDubbel - Självförbättrande prediktionssystem
+Ett webbbaserat analyssystem för Dagens Dubbel (Solvalla lördagstrav) som spårar 5 spelare och ett AI-system, beräknar statistik och ROI, och lär sig från varje veckas resultat.
+
+**🚀 [Se live demo →](https://kentlundgren.github.io/AI/DagensDubbel/)** | **💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/DagensDubbel)**
+
+**Funktioner:**
+- Firebase Firestore-integration för molnbaserad datasynkning
+- Automatisk insatsberäkning och veckonummerberäkning
+- Färgkodning för tydlig input-feedback (gul → grå vid sparande)
+- Expected Value (EV)-analys för smartare prediktioner
+- ROI-jämförelse och kumulativ statistik
+- Pedagogisk förklaring av systemets strategi
+
+**Teknik:** HTML, CSS, Vanilla JavaScript, Firebase Firestore (v10.7.0 Compat SDK)
+
+**🤖 Permanenta agenter:** Backend-agent (datahantering, Firebase, beräkningar) + Frontend-agent (UI/UX, interaktivitet)
+
+**Skapad:** 7 februari 2026 | **Status:** Vecka 6 genomförd, förberedelse för vecka 7
+```
+
+**Placering i README.md:**
+- Lägg till nya projekt **efter** befintliga projekt men **före** "## Om projektet"-sektionen
+- Använd `---` (horisontell linje) för tydlig separation mellan projekt
+- Följ samma struktur som befintliga projekt för konsistens
+
+**Checklista när du skapar nytt underprojekt:**
+
+```markdown
+□ 1. Skapa underprojekt-mapp (t.ex. `DagensDubbel/`)
+□ 2. Skapa projektets egna filer (index.html, README.md, etc.)
+□ 3. Skapa `.claude/agents/` med permanenta agenter
+□ 4. Skapa projektspecifik CLAUDE.md (om komplext projekt)
+□ 5. ✅ **UPPDATERA överliggande `/AI/README.md`** med projektinfo och länkar
+□ 6. ✅ **UPPDATERA denna `/AI/CLAUDE.md`** under "Aktiva underprojekt"
+□ 7. Testa GitHub Pages-länken (kontrollera att den fungerar)
+□ 8. Commit och push till GitHub
+```
+
+**Vanliga misstag att undvika:**
+- ❌ Glömmer uppdatera överliggande README.md → Projektet blir "osynligt"
+- ❌ Länkar är felaktiga (404-fel) → Dålig användarupplevelse
+- ❌ Ingen beskrivning → Användare förstår inte vad projektet gör
+- ❌ Inconsistent formatering → Ser oprofessionellt ut
+
+**Automatisering (framtida förbättring):**
+I framtiden kan detta automatiseras med ett script:
+```bash
+# create-project.sh
+PROJECT_NAME=$1
+mkdir -p "$PROJECT_NAME/.claude/agents"
+# ... skapa filer ...
+# Uppdatera README.md automatiskt
+```
 
 ---
 
