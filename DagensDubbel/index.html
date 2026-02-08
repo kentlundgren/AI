@@ -592,7 +592,6 @@
             <button class="tab-button" onclick="switchTab('history')">📚 Historik</button>
             <button class="tab-button" onclick="switchTab('prd')">📄 PRD-Update</button>
             <button class="tab-button" onclick="window.location.href='systemets_tips.html'" style="background: linear-gradient(135deg, #27ae60, #229954);">🤖 Systemets Tips</button>
-            <button class="tab-button" onclick="window.location.href='FireBase.html'" style="background: linear-gradient(135deg, #e67e22, #d35400);">🔥 Firebase Guide</button>
         </div>
 
         <!-- ========================================
@@ -2247,5 +2246,58 @@ Sidan laddas om automatiskt om 2 sekunder...`;
             showNotification('All data raderad!', 'info');
         }
     </script>
+
+    <!-- ========================================
+         FOOTER MED NAVIGATION
+         ======================================== -->
+    <footer style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2.5rem 2rem; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">🔗 Projektdokumentation</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0;">
+                <div style="text-align: center;">
+                    <a href="FireBase.html" 
+                       style="color: white; background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; 
+                              border-radius: 8px; text-decoration: none; display: inline-block;
+                              transition: all 0.3s ease; font-weight: 600;">
+                        🔥 Firebase Integration Guide
+                    </a>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; opacity: 0.9;">
+                        Komplett guide för Firebase-setup och best practices
+                    </p>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="PRD_ver2.md" 
+                       style="color: white; background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; 
+                              border-radius: 8px; text-decoration: none; display: inline-block;
+                              transition: all 0.3s ease; font-weight: 600;">
+                        📄 PRD Version 2
+                    </a>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; opacity: 0.9;">
+                        Produktkrav och strategiförbättringar
+                    </p>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="README.md" 
+                       style="color: white; background: rgba(255,255,255,0.2); padding: 0.8rem 1.5rem; 
+                              border-radius: 8px; text-decoration: none; display: inline-block;
+                              transition: all 0.3s ease; font-weight: 600;">
+                        📖 README
+                    </a>
+                    <p style="margin-top: 0.5rem; font-size: 0.9em; opacity: 0.9;">
+                        Användarguide och teknisk dokumentation
+                    </p>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.2); 
+                      opacity: 0.8; text-align: center;">
+                Skapad med <strong>Claude Code</strong> permanenta agenter<br>
+                © 2026 - Dagens Dubbel Analyssystem
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
