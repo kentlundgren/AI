@@ -506,7 +506,7 @@ Kent har implementerat Firebase på två sätt i tidigare projekt:
 | Mönster | Projekt | SDK | Databas | Komplexitet |
 |---------|---------|-----|---------|-------------|
 | **A** | [Bjerred-skylt](https://kentlundgren.github.io/Bjerred-skylt/) | v10.7.0 Compat | Firestore | ⭐ Enklast |
-| **B** | Quiz-projekt | v11.0.0 Modular | Realtime DB | ⭐⭐ Mer komplex |
+| **B** | [Quiz-projekt](https://kentlundgren.github.io/quiz/16B/) | v11.0.0 Modular | Realtime DB | ⭐⭐ Mer komplex |
 
 **Mönster A (Compat + Firestore)** - REKOMMENDERAS FÖR DAGENS DUBBEL
 - ✅ Enklare setup (ingen CSP krävs)
@@ -808,7 +808,7 @@ dagensDubbel (collection)
 
 ## 🅱️ MÖNSTER B: MODULAR SDK + REALTIME DATABASE
 
-**Använt i:** Quiz-projekt (2025)  
+**Använt i:** [Quiz-projekt](https://kentlundgren.github.io/quiz/16B/) (2025)  
 **Svårighetsgrad:** ⭐⭐ Lite svårare  
 **Rekommenderat för:** När du vill ha absolut lägsta latens för realtidssynk
 
