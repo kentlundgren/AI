@@ -9,9 +9,9 @@ Detta repository innehåller flera AI-projekt som demonstrerar olika användning
 **GitHub Repository:** https://github.com/kentlundgren/AI/
 
 **Aktiva underprojekt:**
-- [ClaudeCode1](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1) - Danmark-Grönland perspektivanalys med permanenta agenter
-- [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) - Självförbättrande prediktionssystem för Solvalla travlopp (Firebase + permanenta agenter)
-- [Matematik](https://github.com/kentlundgren/AI/tree/main/Matematik) - Interaktiv matematikguide med quiz-funktionalitet
+- [ClaudeCode1](https://github.com/kentlundgren/AI/tree/main/ClaudeCode1) - Danmark-Grönland perspektivanalys med permanenta agenter (multiperspektivdebatt, historisk forskning, syntesanalys)
+- [DagensDubbel](https://github.com/kentlundgren/AI/tree/main/DagensDubbel) | [Live demo](https://kentlundgren.github.io/AI/DagensDubbel/) - Självförbättrande prediktionssystem för Solvalla travlopp (Firebase Firestore, automatiska beräkningar, EV-analys, permanenta agenter: Backend + Frontend)
+- [Matematik](https://github.com/kentlundgren/AI/tree/main/Matematik) | [Live demo](https://kentlundgren.github.io/AI/Matematik/) - Interaktiva övningar för gymnasiematematik (quiz med pedagogiska förklaringar, steg-för-steg lösningar, permanenta agenter: math-tutor + problem-solver + exercise-creator)
 
 ---
 
@@ -218,11 +218,13 @@ Claude kommer att **fråga vid lämpligt tillfälle** (oftast efter att agentern
 
 1. **Projektnamn och beskrivning** (1-2 meningar)
 2. **Länkar:**
-   - 🌐 GitHub Pages live demo: `https://kentlundgren.github.io/AI/[projektnamn]/`
+   - ⚠️ **VIKTIGT: Kontrollera om live demo finns!** Öppna `https://kentlundgren.github.io/AI/[projektnamn]/` i webbläsare för att verifiera
+   - 🌐 GitHub Pages live demo: `https://kentlundgren.github.io/AI/[projektnamn]/` (om tillgänglig)
    - 💻 GitHub källkod: `https://github.com/kentlundgren/AI/tree/main/[projektnamn]`
-3. **Huvudfunktioner** (3-6 punkter)
+3. **Huvudfunktioner** (3-6 punkter) - specifika features som gör projektet unikt
 4. **Teknisk stack** (HTML, CSS, JS, Firebase, etc.)
-5. **Status** (om relevant: "Pågående", "Komplett", "Beta", etc.)
+5. **Permanenta agenter** (om projektet använder sådana) - namnge dem och beskriv deras roller kortfattat
+6. **Status** (om relevant: "Pågående", "Komplett", "Beta", etc.)
 
 **Exempel från DagensDubbel:**
 
@@ -247,6 +249,29 @@ Ett webbbaserat analyssystem för Dagens Dubbel (Solvalla lördagstrav) som spå
 **Skapad:** 7 februari 2026 | **Status:** Vecka 6 genomförd, förberedelse för vecka 7
 ```
 
+**Exempel 2: Matematik-projektet**
+
+```markdown
+### 🧮 Matematik - Interaktiva övningar för gymnasiematematik
+Interaktiva övningar för svensk gymnasiematematik (Matte 1-5) med quiz-frågor och steg-för-steg lösningar. Ett dubbelt lärandeprojekt som kombinerar matematikundervisning med demonstration av Claude Code permanenta agenter.
+
+**🚀 [Se live demo →](https://kentlundgren.github.io/AI/Matematik/)** | **💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/Matematik)**
+
+**Funktioner:**
+- Quiz-frågor med pedagogiska förklaringar av både rätt och fel svar
+- Steg-för-steg lösningar enligt strukturen: Förstå → Planera → Genomföra → Kontrollera → Slutsats
+- Fördjupningsuppgifter för extra utmaning
+- Anpassad för svensk gymnasieskola (följer Skolverkets läroplan)
+- Demonstration av Claude Code Desktop och Git branch-hantering
+- Artikel "Kunskap är Kul" om projektets skapandeprocess
+
+**Teknik:** HTML5, CSS3, Vanilla JavaScript, Git, GitHub Pages
+
+**🤖 Permanenta agenter:** math-tutor (pedagogisk förklaring) + problem-solver (systematisk problemlösning) + exercise-creator (övningsdesign)
+
+**Skapad:** Januari 2026 | **Status:** Matematik 1-3 tillgängliga, Matematik 4-5 kommer snart
+```
+
 **Placering i README.md:**
 - Lägg till nya projekt **efter** befintliga projekt men **före** "## Om projektet"-sektionen
 - Använd `---` (horisontell linje) för tydlig separation mellan projekt
@@ -257,18 +282,27 @@ Ett webbbaserat analyssystem för Dagens Dubbel (Solvalla lördagstrav) som spå
 ```markdown
 □ 1. Skapa underprojekt-mapp (t.ex. `DagensDubbel/`)
 □ 2. Skapa projektets egna filer (index.html, README.md, etc.)
-□ 3. Skapa `.claude/agents/` med permanenta agenter
+□ 3. Skapa `.claude/agents/` med permanenta agenter (om relevant)
 □ 4. Skapa projektspecifik CLAUDE.md (om komplext projekt)
-□ 5. ✅ **UPPDATERA överliggande `/AI/README.md`** med projektinfo och länkar
-□ 6. ✅ **UPPDATERA denna `/AI/CLAUDE.md`** under "Aktiva underprojekt"
-□ 7. Testa GitHub Pages-länken (kontrollera att den fungerar)
-□ 8. Commit och push till GitHub
+□ 5. ⚠️ **KONTROLLERA om live demo finns**: Öppna https://kentlundgren.github.io/AI/[projektnamn]/ i webbläsare
+□ 6. ✅ **UPPDATERA överliggande `/AI/README.md`** med:
+   - Projektbeskrivning (1-2 meningar)
+   - Live demo-länk (om tillgänglig) + Källkodslänk
+   - Funktioner (3-6 punkter, specifika features)
+   - Teknisk stack
+   - Permanenta agenter (om projektet använder sådana)
+   - Status (om relevant)
+□ 7. ✅ **UPPDATERA denna `/AI/CLAUDE.md`** under "Aktiva underprojekt" med kortfattad beskrivning
+□ 8. Testa GitHub Pages-länken (verifiera att den fungerar och visar rätt innehåll)
+□ 9. Commit och push till GitHub
 ```
 
 **Vanliga misstag att undvika:**
 - ❌ Glömmer uppdatera överliggande README.md → Projektet blir "osynligt"
+- ❌ Glömmer kontrollera om live demo finns → Skriver "kommer snart" fast den är live
 - ❌ Länkar är felaktiga (404-fel) → Dålig användarupplevelse
-- ❌ Ingen beskrivning → Användare förstår inte vad projektet gör
+- ❌ Ingen beskrivning av funktioner → Användare förstår inte vad projektet gör
+- ❌ Glömmer namnge permanenta agenter → Missar viktig projektinformation
 - ❌ Inconsistent formatering → Ser oprofessionellt ut
 
 **Automatisering (framtida förbättring):**
