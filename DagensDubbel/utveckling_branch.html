@@ -187,7 +187,9 @@
 
             <h2>🔀 Slå ihop (merge) till main när du är klar</h2>
 
-            <h3>När funktionen är testad och klar:</h3>
+            <p>Det finns två sätt att slå ihop utvecklingsbranchen med main:</p>
+
+            <h3>Metod 1: Direkt merge (snabbt, lokalt)</h3>
 
             <div class="command-box">
                 <strong>1. Växla till main:</strong><br>
@@ -197,10 +199,83 @@
                 <code>git pull origin main</code><br><br>
 
                 <strong>3. Slå ihop development med main:</strong><br>
-                <code>git merge development</code><br><br>
+                <code>git merge utveckling</code><br><br>
 
                 <strong>4. Pusha den uppdaterade main:</strong><br>
                 <code>git push origin main</code>
+            </div>
+
+            <h3>Metod 2: Pull Request (PR) via GitHub 🌟 Rekommenderad!</h3>
+
+            <p><strong>Fördelar med Pull Request:</strong></p>
+            <ul>
+                <li>✅ Du ser alla ändringar visuellt innan merge</li>
+                <li>✅ Kan lägga till beskrivning av vad som ändrats</li>
+                <li>✅ Möjlighet att granska kod (för teams eller egen dokumentation)</li>
+                <li>✅ GitHub sparar historik av varför ändringar gjordes</li>
+                <li>✅ Säkrare - du kan backa enkelt om något går fel</li>
+            </ul>
+
+            <div class="workflow">
+                <strong>Steg-för-steg: Pull Request</strong>
+                
+                <p><strong>Steg 1: Pusha utvecklingsbranchen till GitHub</strong></p>
+                <div class="command-box">
+                    <code>git push -u origin utveckling</code>
+                </div>
+
+                <p><strong>Steg 2: Gå till GitHub</strong></p>
+                <ol>
+                    <li>Öppna <a href="https://github.com/kentlundgren/AI" target="_blank">https://github.com/kentlundgren/AI</a></li>
+                    <li>Du ser ett gult meddelande: <em>"utveckling had recent pushes"</em></li>
+                    <li>Klicka på <strong>"Compare & pull request"</strong> (grön knapp)</li>
+                </ol>
+
+                <p><strong>Steg 3: Skapa Pull Request</strong></p>
+                <ol>
+                    <li><strong>Title:</strong> Ge en beskrivande titel (t.ex. "Förbättrad EV-analys för vecka 7")</li>
+                    <li><strong>Description:</strong> Beskriv vad du ändrat:
+                        <ul>
+                            <li>Vad har du lagt till/ändrat?</li>
+                            <li>Varför gjorde du ändringen?</li>
+                            <li>Har du testat det?</li>
+                        </ul>
+                    </li>
+                    <li>Kontrollera att det är: <code>base: main</code> ← <code>compare: utveckling</code></li>
+                    <li>Klicka på <strong>"Create pull request"</strong></li>
+                </ol>
+
+                <p><strong>Steg 4: Granska ändringarna</strong></p>
+                <ol>
+                    <li>GitHub visar alla filer som ändrats</li>
+                    <li>Klicka på <strong>"Files changed"</strong> för att se kod-diff</li>
+                    <li>Grön = tillagt, Röd = borttaget</li>
+                    <li>Kontrollera att allt ser korrekt ut</li>
+                </ol>
+
+                <p><strong>Steg 5: Merge Pull Request</strong></p>
+                <ol>
+                    <li>Klicka på <strong>"Merge pull request"</strong> (grön knapp)</li>
+                    <li>Klicka på <strong>"Confirm merge"</strong></li>
+                    <li>✅ Färdig! Din utvecklingsbranch är nu mergead med main</li>
+                </ol>
+
+                <p><strong>Steg 6: Uppdatera lokal main (valfritt)</strong></p>
+                <div class="command-box">
+                    <code>git checkout main</code><br>
+                    <code>git pull origin main</code>
+                </div>
+
+                <p><strong>Steg 7: Radera utvecklingsbranch (valfritt)</strong></p>
+                <p>GitHub frågar om du vill radera branchen efter merge. Du kan välja att:</p>
+                <ul>
+                    <li><strong>Radera branchen</strong> om du är helt klar med funktionen</li>
+                    <li><strong>Behålla branchen</strong> om du vill fortsätta utveckla</li>
+                </ul>
+            </div>
+
+            <div class="note">
+                <strong>💡 Pro-tips:</strong> Använd Pull Request även när du jobbar själv! Det hjälper dig att dokumentera varför du gjorde ändringar, och du kan alltid gå tillbaka och läsa motiveringar senare.
             </div>
 
             <h2>⚠️ Viktiga regler</h2>
