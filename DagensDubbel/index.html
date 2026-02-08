@@ -44,7 +44,14 @@
            * Resultatfliken: Per spelare, varje vecka
            * Analysfliken: Jämförelse mellan spelare, genomsnitt över tid
          - Default-värden: Vecka 6 odds (2026-02-07) förfyllda
-         - odds1 och odds2 mappas och sparas automatiskt med varje veckodata
+         
+         DATASTRUKTUR I DATABASE:
+         - weekData.allOdds: { race1: {1: 45.76, 2: 5.57, ...}, race2: {...} }
+           → Alla hästar och deras odds för varje lopp
+         - weekData.players[playerId].odds1: [5.57, 3.72, 3.04]
+           → Endast spelares valda hästars odds
+         - weekData.players[playerId].riskProfile: 28.4
+           → Beräknat riskprofilvärde för spelaren
          ======================================================================= -->
     
     <!-- Firebase App (grundläggande - krävs alltid) -->
@@ -1384,68 +1391,66 @@
          */
         function saveWeekData() {
             try {
+                // UPPDATERING 2026-02-08: Hämta alla odds från central tabell
+                const allOddsRace1 = getAllOddsForRace(1);
+                const allOddsRace2 = getAllOddsForRace(2);
+
                 // Samla data från formulär
                 const weekData = {
                     week: parseInt(document.getElementById('weekNumber').value),
                     date: document.getElementById('raceDate').value,
                     notes: document.getElementById('raceNotes').value,
                     
-                    // UPPDATERING 2026-02-08: Spelares satsningar inkluderar nu betPerRow och odds
+                    // UPPDATERING 2026-02-08: Spara ALLA odds för alla hästar
+                    allOdds: {
+                        race1: allOddsRace1,
+                        race2: allOddsRace2
+                    },
+                    
+                    // UPPDATERING 2026-02-08: Spelares satsningar inkluderar nu betPerRow, odds och riskprofil
                     // Odds hämtas automatiskt från central odds-tabell
+                    // Riskprofil beräknas och sparas för varje spelare
                     // Spelares satsningar
-                    players: {
-                        kent: {
-                            race1: parseHorses(document.getElementById('kent-race1').value),
-                            race2: parseHorses(document.getElementById('kent-race2').value),
-                            bet: parseFloat(document.getElementById('kent-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="kent-bet-per-row"]:checked')?.value || 5),
-                            odds1: getOddsForHorses(parseHorses(document.getElementById('kent-race1').value), 1),
-                            odds2: getOddsForHorses(parseHorses(document.getElementById('kent-race2').value), 2)
-                        },
-                        lotta: {
-                            race1: parseHorses(document.getElementById('lotta-race1').value),
-                            race2: parseHorses(document.getElementById('lotta-race2').value),
-                            bet: parseFloat(document.getElementById('lotta-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="lotta-bet-per-row"]:checked')?.value || 5),
-                            odds1: getOddsForHorses(parseHorses(document.getElementById('lotta-race1').value), 1),
-                            odds2: getOddsForHorses(parseHorses(document.getElementById('lotta-race2').value), 2)
-                        },
-                        bengt: {
-                            race1: parseHorses(document.getElementById('bengt-race1').value),
-                            race2: parseHorses(document.getElementById('bengt-race2').value),
-                            bet: parseFloat(document.getElementById('bengt-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="bengt-bet-per-row"]:checked')?.value || 10),
-                            odds1: getOddsForHorses(parseHorses(document.getElementById('bengt-race1').value), 1),
-                            odds2: getOddsForHorses(parseHorses(document.getElementById('bengt-race2').value), 2)
-                        },
-                        benita: {
-                            race1: parseHorses(document.getElementById('benita-race1').value),
-                            race2: parseHorses(document.getElementById('benita-race2').value),
-                            bet: parseFloat(document.getElementById('benita-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="benita-bet-per-row"]:checked')?.value || 5),
-                            odds1: getOddsForHorses(parseHorses(document.getElementById('benita-race1').value), 1),
-                            odds2: getOddsForHorses(parseHorses(document.getElementById('benita-race2').value), 2)
-                        },
-                        system: {
-                            race1: parseHorses(document.getElementById('system-race1').value),
-                            race2: parseHorses(document.getElementById('system-race2').value),
-                            bet: parseFloat(document.getElementById('system-bet').value),
-                            betPerRow: 5,  // Systemet satsar alltid 5 kr/rad
-                            odds1: getOddsForHorses(parseHorses(document.getElementById('system-race1').value), 1),
-                            odds2: getOddsForHorses(parseHorses(document.getElementById('system-race2').value), 2)
-                        }
-                    },
-                    
-                    // Faktiska resultat
-                    results: {
-                        winner_race1: parseInt(document.getElementById('winner-race1').value) || null,
-                        winner_race2: parseInt(document.getElementById('winner-race2').value) || null,
-                        dd_payout: parseFloat(document.getElementById('dd-payout').value) || 0,
-                        notes: document.getElementById('result-notes').value
-                    },
-                    
-                    timestamp: new Date().toISOString()
+                    players: {}
                 };
+
+                // UPPDATERING 2026-02-08: Bygg player-objekt med riskprofil för varje spelare
+                const playerIds = ['kent', 'lotta', 'bengt', 'benita', 'system'];
+                playerIds.forEach(playerId => {
+                    const race1 = parseHorses(document.getElementById(`${playerId}-race1`).value);
+                    const race2 = parseHorses(document.getElementById(`${playerId}-race2`).value);
+                    const odds1 = getOddsForHorses(race1, 1);
+                    const odds2 = getOddsForHorses(race2, 2);
+                    const riskProfile = calculateRiskProfile(odds1, odds2);
+                    
+                    let betPerRow = 5;
+                    if (playerId !== 'system') {
+                        betPerRow = parseInt(document.querySelector(`input[name="${playerId}-bet-per-row"]:checked`)?.value || 5);
+                    }
+                    if (playerId === 'bengt' && !document.querySelector(`input[name="${playerId}-bet-per-row"]:checked`)) {
+                        betPerRow = 10; // Default för Bengt
+                    }
+                    
+                    weekData.players[playerId] = {
+                        race1: race1,
+                        race2: race2,
+                        bet: parseFloat(document.getElementById(`${playerId}-bet`).value),
+                        betPerRow: betPerRow,
+                        odds1: odds1,
+                        odds2: odds2,
+                        riskProfile: riskProfile  // NYTT: Sparar riskprofilvärde
+                    };
+                });
+
+                // Faktiska resultat
+                weekData.results = {
+                    winner_race1: parseInt(document.getElementById('winner-race1').value) || null,
+                    winner_race2: parseInt(document.getElementById('winner-race2').value) || null,
+                    dd_payout: parseFloat(document.getElementById('dd-payout').value) || 0,
+                    notes: document.getElementById('result-notes').value
+                };
+                
+                weekData.timestamp = new Date().toISOString();
 
                 // Validering
                 if (!weekData.date) {
@@ -1471,6 +1476,15 @@
                 // Spara till localStorage
                 localStorage.setItem('ddWeeklyData', JSON.stringify(weeklyData));
 
+                // UPPDATERING 2026-02-08: Logga vad som sparas (för debugging)
+                console.log('✅ Sparad veckodata:', {
+                    vecka: weekData.week,
+                    allaOdds: `Lopp 1: ${Object.keys(weekData.allOdds.race1).length} hästar, Lopp 2: ${Object.keys(weekData.allOdds.race2).length} hästar`,
+                    riskprofiler: Object.keys(weekData.players).map(pid => 
+                        `${pid}: ${weekData.players[pid].riskProfile ? weekData.players[pid].riskProfile.toFixed(1) : 'N/A'}`
+                    ).join(', ')
+                });
+
                 // UPPDATERING 2026-02-07: Spara även till Firestore
                 saveToFirestore(weekData);
 
@@ -1478,7 +1492,7 @@
                 updateAllDisplays();
 
                 // Beräkna och visa vinnare
-                if (weekData.results.winner_race1 && weekData.results.winner_race2) {
+                if (weekData.results && weekData.results.winner_race1 && weekData.results.winner_race2) {
                     calculateWeekWinners(weekData);
                 }
 
@@ -1573,6 +1587,29 @@
             });
             
             return odds;
+        }
+
+        /**
+         * UPPDATERING 2026-02-08: Hämtar ALLA odds från central tabell (alla hästar)
+         * @param {number} raceNum - Loppnummer (1 eller 2)
+         * @returns {Object} - Objekt med hästnummer som nycklar och odds som värden
+         */
+        function getAllOddsForRace(raceNum) {
+            const maxHorses = raceNum === 1 ? 12 : 15;
+            const allOdds = {};
+            
+            for (let i = 1; i <= maxHorses; i++) {
+                const inputId = `odds-race${raceNum}-horse${i}`;
+                const input = document.getElementById(inputId);
+                if (input && !input.disabled && input.value) {
+                    const oddsValue = parseFloat(input.value.replace(',', '.'));
+                    if (!isNaN(oddsValue) && oddsValue > 0) {
+                        allOdds[i] = oddsValue;
+                    }
+                }
+            }
+            
+            return allOdds;
         }
 
         /**
