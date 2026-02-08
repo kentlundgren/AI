@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utvecklingsbranch Guide - Dagens Dubbel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2em;
+        }
+        header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .back-link {
+            margin-top: 1rem;
+        }
+        .back-link a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-link a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .content {
+            padding: 40px;
+        }
+        h2 {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+        }
+        .command-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .command-box code {
+            color: #e83e8c;
+            font-weight: 600;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        ul {
+            line-height: 1.8;
+        }
+        .workflow {
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔀 Utvecklingsbranch Guide</h1>
+            <p>Arbeta säkert med nya funktioner utan att påverka huvudprogrammet</p>
+            <div class="back-link">
+                <a href="index.html">← Tillbaka till huvudsystemet</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <h2>📖 Vad är en utvecklingsbranch?</h2>
+            <p>En <strong>utvecklingsbranch (development branch)</strong> är en separat version av ditt projekt där du kan experimentera och utveckla nya funktioner utan att riskera att förstöra den fungerande versionen.</p>
+
+            <div class="success">
+                <strong>✅ Fördelar:</strong>
+                <ul>
+                    <li>Huvudprogrammet (main) förblir funktionellt hela tiden</li>
+                    <li>Du kan experimentera fritt utan rädsla</li>
+                    <li>Enkelt att jämföra ändringar</li>
+                    <li>Kan ångra eller kassera ändringar helt</li>
+                    <li>Möjligt att ha flera parallella utvecklingsgrenar</li>
+                </ul>
+            </div>
+
+            <h2>🚀 Skapa och använda utvecklingsbranch</h2>
+
+            <h3>1. Skapa ny branch</h3>
+            <div class="command-box">
+                <code>git branch development</code><br>
+                <em>eller</em><br>
+                <code>git checkout -b development</code> <span style="color: #28a745;">← Skapar och växlar direkt</span>
+            </div>
+
+            <h3>2. Växla till utvecklingsbranchen</h3>
+            <div class="command-box">
+                <code>git checkout development</code>
+            </div>
+
+            <h3>3. Kontrollera vilken branch du är på</h3>
+            <div class="command-box">
+                <code>git branch</code><br>
+                <em style="color: #6c757d;">Visar alla branches, * markerar aktiv branch</em>
+            </div>
+
+            <h3>4. Arbeta i utvecklingsbranchen</h3>
+            <p>Nu kan du göra ändringar som vanligt:</p>
+            <div class="command-box">
+                <code>git add .</code><br>
+                <code>git commit -m "Testar ny funktion X"</code><br>
+                <code>git push -u origin development</code> <span style="color: #28a745;">← Första gången</span><br>
+                <em>eller</em><br>
+                <code>git push</code> <span style="color: #6c757d;">← Efterföljande pushar</span>
+            </div>
+
+            <h3>5. Växla tillbaka till main (när du vill)</h3>
+            <div class="command-box">
+                <code>git checkout main</code>
+            </div>
+
+            <div class="note">
+                <strong>📝 Tips:</strong> Du kan växla mellan branches när som helst. Osparade ändringar måste antingen committas eller "stashas" först.
+            </div>
+
+            <h2>🔄 Workflow: Från utveckling till produktion</h2>
+
+            <div class="workflow">
+                <strong>Typiskt arbetsflöde:</strong>
+                <ol>
+                    <li><strong>Skapa branch:</strong> <code>git checkout -b development</code></li>
+                    <li><strong>Utveckla:</strong> Gör ändringar, testa, committa</li>
+                    <li><strong>Pusha:</strong> <code>git push -u origin development</code></li>
+                    <li><strong>Testa:</strong> Verifiera att allt fungerar</li>
+                    <li><strong>Merge till main:</strong> När du är nöjd, slå ihop med main</li>
+                    <li><strong>Ta bort branch:</strong> Efter merge (valfritt)</li>
+                </ol>
+            </div>
+
+            <h2>🔀 Slå ihop (merge) till main när du är klar</h2>
+
+            <h3>När funktionen är testad och klar:</h3>
+
+            <div class="command-box">
+                <strong>1. Växla till main:</strong><br>
+                <code>git checkout main</code><br><br>
+
+                <strong>2. Se till att main är uppdaterad:</strong><br>
+                <code>git pull origin main</code><br><br>
+
+                <strong>3. Slå ihop development med main:</strong><br>
+                <code>git merge development</code><br><br>
+
+                <strong>4. Pusha den uppdaterade main:</strong><br>
+                <code>git push origin main</code>
+            </div>
+
+            <h2>⚠️ Viktiga regler</h2>
+
+            <div class="warning">
+                <strong>❌ Gör INTE:</strong>
+                <ul>
+                    <li>Merge till main utan att testa ordentligt först</li>
+                    <li>Arbeta direkt i main när du experimenterar</li>
+                    <li>Glöm vilken branch du är på (kolla ofta med <code>git branch</code>)</li>
+                    <li>Radera en branch innan du mergeat om du vill behålla ändringarna</li>
+                </ul>
+            </div>
+
+            <div class="success">
+                <strong>✅ Gör:</strong>
+                <ul>
+                    <li>Använd beskrivande branch-namn (t.ex. "ev-analysis-v2", "firebase-optimization")</li>
+                    <li>Committa ofta med tydliga meddelanden</li>
+                    <li>Testa grundligt i development innan merge</li>
+                    <li>Håll main-branchen ren och fungerande</li>
+                </ul>
+            </div>
+
+            <h2>🛠️ Användbara kommandon</h2>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <thead>
+                    <tr style="background: #667eea; color: white;">
+                        <th style="padding: 10px; text-align: left;">Kommando</th>
+                        <th style="padding: 10px; text-align: left;">Vad det gör</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px;"><code>git branch</code></td>
+                        <td style="padding: 10px;">Lista alla branches (* = aktiv)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><code>git branch [namn]</code></td>
+                        <td style="padding: 10px;">Skapa ny branch</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px;"><code>git checkout [namn]</code></td>
+                        <td style="padding: 10px;">Växla till branch</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><code>git checkout -b [namn]</code></td>
+                        <td style="padding: 10px;">Skapa och växla direkt</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px;"><code>git merge [branch]</code></td>
+                        <td style="padding: 10px;">Slå ihop branch med nuvarande</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><code>git branch -d [namn]</code></td>
+                        <td style="padding: 10px;">Ta bort branch (lokal)</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 10px;"><code>git push origin --delete [namn]</code></td>
+                        <td style="padding: 10px;">Ta bort branch (remote)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px;"><code>git status</code></td>
+                        <td style="padding: 10px;">Se vilken branch du är på + ändringar</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>💡 Exempel: EV-analys v2</h2>
+
+            <p>Låt säga du vill förbättra systemets EV-analys utan att riskera nuvarande version:</p>
+
+            <div class="command-box">
+                <strong># 1. Skapa och växla till utvecklingsbranch</strong><br>
+                <code>git checkout -b ev-analysis-v2</code><br><br>
+
+                <strong># 2. Gör ändringar i index.html</strong><br>
+                <em style="color: #6c757d;">(Redigera filer, testa lokalt)</em><br><br>
+
+                <strong># 3. Committa ändringar</strong><br>
+                <code>git add .</code><br>
+                <code>git commit -m "Förbättrad EV-analys med Solvalla-data"</code><br><br>
+
+                <strong># 4. Pusha till GitHub</strong><br>
+                <code>git push -u origin ev-analysis-v2</code><br><br>
+
+                <strong># 5. Testa grundligt i development-versionen</strong><br>
+                <em style="color: #6c757d;">(GitHub Pages kan visa development-branchen också)</em><br><br>
+
+                <strong># 6. När du är nöjd: Merge till main</strong><br>
+                <code>git checkout main</code><br>
+                <code>git merge ev-analysis-v2</code><br>
+                <code>git push origin main</code><br><br>
+
+                <strong># 7. Ta bort development-branch (valfritt)</strong><br>
+                <code>git branch -d ev-analysis-v2</code><br>
+                <code>git push origin --delete ev-analysis-v2</code>
+            </div>
+
+            <h2>🔗 Resurser</h2>
+
+            <ul>
+                <li><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging" target="_blank">Git Branching - Official Documentation</a></li>
+                <li><a href="https://learngitbranching.js.org/" target="_blank">Learn Git Branching (Interaktiv guide)</a></li>
+                <li><a href="PRD_ver2.md">PRD Version 2 - Systemets strategi</a></li>
+                <li><a href="README.md">README - Användarguide</a></li>
+            </ul>
+
+            <div class="note">
+                <strong>📌 Kom ihåg:</strong> Detta dokument ligger i DagensDubbel-projektet. Git-repositoryt ligger på överliggande nivå (<code>/AI/</code>), så du hanterar branches därifrån.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
