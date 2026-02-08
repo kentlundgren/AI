@@ -26,6 +26,22 @@
          - Insatsberäkning: antal_hästar_lopp1 × antal_hästar_lopp2 × sats_per_rad
          - Radio-knappar för val av sats per rad
          - betPerRow sparas med varje veckodata
+         =======================================================================
+         
+         UPPDATERING 2026-02-08: ODDS OCH RISKPROFIL-ANALYS
+         =======================================================================
+         - Varje spelare anger V-odds för sina valda hästar (kommaseparerat)
+         - Riskprofil beräknas: (⌀ odds lopp 1) × (⌀ odds lopp 2)
+         - Riskprofil-kategorier:
+           * < 30: Mycket låg risk (🟢 favoriter)
+           * 30-60: Låg risk (🟢)
+           * 60-120: Medel risk (🟡 balanserat)
+           * 120-250: Hög risk (🟠 utmanare)
+           * > 250: Mycket hög risk (🔴 långskott)
+         - Riskprofil visas i:
+           * Resultatfliken: Per spelare, varje vecka
+           * Analysfliken: Jämförelse mellan spelare, genomsnitt över tid
+         - odds1 och odds2 sparas med varje veckodata
          ======================================================================= -->
     
     <!-- Firebase App (grundläggande - krävs alltid) -->
@@ -643,9 +659,21 @@
                             <label>Lopp 1 (V85-7):</label>
                             <input type="text" id="kent-race1" placeholder="t.ex. 2,5,6" value="2,5,6">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 1 -->
+                        <div class="form-group">
+                            <label>Odds lopp 1:</label>
+                            <input type="text" id="kent-odds1" placeholder="t.ex. 5.57,3.72,3.04" value="5.57,3.72,3.04" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
+                        </div>
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="kent-race2" placeholder="t.ex. 6,11,15" value="6,11,15">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 2 -->
+                        <div class="form-group">
+                            <label>Odds lopp 2:</label>
+                            <input type="text" id="kent-odds2" placeholder="t.ex. 6.17,8.89,2.98" value="6.17,8.89,2.98" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
                         </div>
                         <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
                         <div class="form-group">
@@ -672,9 +700,21 @@
                             <label>Lopp 1 (V85-7):</label>
                             <input type="text" id="lotta-race1" placeholder="t.ex. 5,6,8" value="5,6,8">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 1 -->
+                        <div class="form-group">
+                            <label>Odds lopp 1:</label>
+                            <input type="text" id="lotta-odds1" placeholder="t.ex. 3.72,3.04,12.15" value="3.72,3.04,12.15" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
+                        </div>
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="lotta-race2" placeholder="t.ex. 10,13,15" value="10,13,15">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 2 -->
+                        <div class="form-group">
+                            <label>Odds lopp 2:</label>
+                            <input type="text" id="lotta-odds2" placeholder="t.ex. 5.71,15.48,2.98" value="5.71,15.48,2.98" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
                         </div>
                         <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
                         <div class="form-group">
@@ -701,9 +741,21 @@
                             <label>Lopp 1 (V85-7):</label>
                             <input type="text" id="bengt-race1" placeholder="t.ex. 1,3,7" value="2,4,5,6,8">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 1 -->
+                        <div class="form-group">
+                            <label>Odds lopp 1:</label>
+                            <input type="text" id="bengt-odds1" placeholder="t.ex. 5.57,11.54,3.72,3.04,12.15" value="5.57,11.54,3.72,3.04,12.15" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
+                        </div>
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="bengt-race2" placeholder="t.ex. 2,5,9" value="10">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 2 -->
+                        <div class="form-group">
+                            <label>Odds lopp 2:</label>
+                            <input type="text" id="bengt-odds2" placeholder="t.ex. 5.71" value="5.71" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
                         </div>
                         <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) - BENGT HAR 10 KR SOM STANDARD -->
                         <div class="form-group">
@@ -730,9 +782,21 @@
                             <label>Lopp 1 (V85-7):</label>
                             <input type="text" id="benita-race1" placeholder="t.ex. 4,6,9" value="4,5,6">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 1 -->
+                        <div class="form-group">
+                            <label>Odds lopp 1:</label>
+                            <input type="text" id="benita-odds1" placeholder="t.ex. 11.54,3.72,3.04" value="11.54,3.72,3.04" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
+                        </div>
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="benita-race2" placeholder="t.ex. 3,7,12" value="10,11">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-tabell för lopp 2 -->
+                        <div class="form-group">
+                            <label>Odds lopp 2:</label>
+                            <input type="text" id="benita-odds2" placeholder="t.ex. 5.71,8.89" value="5.71,8.89" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
                         </div>
                         <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
                         <div class="form-group">
@@ -759,9 +823,21 @@
                             <label>Lopp 1 (V85-7):</label>
                             <input type="text" id="system-race1" placeholder="Genereras automatiskt" readonly>
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-fält för systemet (fylls i manuellt) -->
+                        <div class="form-group">
+                            <label>Odds lopp 1:</label>
+                            <input type="text" id="system-odds1" placeholder="Fylls i manuellt efter generering" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
+                        </div>
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="system-race2" placeholder="Genereras automatiskt" readonly>
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Odds-fält för systemet (fylls i manuellt) -->
+                        <div class="form-group">
+                            <label>Odds lopp 2:</label>
+                            <input type="text" id="system-odds2" placeholder="Fylls i manuellt efter generering" style="font-size: 0.9em;">
+                            <small style="color: #6c757d; font-size: 0.85em;">Kommaseparerade odds för varje häst (samma ordning)</small>
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
@@ -844,6 +920,19 @@
                 <h2>Insikter och mönster</h2>
                 <div id="insights">
                     <p class="text-muted text-center">Analyserar data...</p>
+                </div>
+            </div>
+
+            <!-- UPPDATERING 2026-02-08: Riskprofil-jämförelse -->
+            <div class="section">
+                <h2>🎯 Riskprofil-jämförelse</h2>
+                <div class="alert alert-info" style="margin-bottom: 20px;">
+                    <strong>Hur beräknas riskprofil?</strong><br>
+                    Riskprofil = (Genomsnittligt odds lopp 1) × (Genomsnittligt odds lopp 2)<br>
+                    <em>Högre värde = högre risk (valt hästar med högre odds). Lägre värde = lägre risk (favoriter).</em>
+                </div>
+                <div id="risk-profile-comparison">
+                    <p class="text-muted text-center">Data laddas...</p>
                 </div>
             </div>
         </div>
@@ -1220,6 +1309,7 @@
                     displayCumulativeStats();
                     displayROIComparison();
                     generateInsights();
+                    displayRiskProfileComparison();  // UPPDATERING 2026-02-08
                     break;
                 case 'history':
                     displayFullHistory();
@@ -1314,38 +1404,48 @@
                     date: document.getElementById('raceDate').value,
                     notes: document.getElementById('raceNotes').value,
                     
-                    // UPPDATERING 2026-02-08: Spelares satsningar inkluderar nu även betPerRow
+                    // UPPDATERING 2026-02-08: Spelares satsningar inkluderar nu betPerRow och odds
                     // Spelares satsningar
                     players: {
                         kent: {
                             race1: parseHorses(document.getElementById('kent-race1').value),
                             race2: parseHorses(document.getElementById('kent-race2').value),
                             bet: parseFloat(document.getElementById('kent-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="kent-bet-per-row"]:checked')?.value || 5)
+                            betPerRow: parseInt(document.querySelector('input[name="kent-bet-per-row"]:checked')?.value || 5),
+                            odds1: parseOdds(document.getElementById('kent-odds1').value),
+                            odds2: parseOdds(document.getElementById('kent-odds2').value)
                         },
                         lotta: {
                             race1: parseHorses(document.getElementById('lotta-race1').value),
                             race2: parseHorses(document.getElementById('lotta-race2').value),
                             bet: parseFloat(document.getElementById('lotta-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="lotta-bet-per-row"]:checked')?.value || 5)
+                            betPerRow: parseInt(document.querySelector('input[name="lotta-bet-per-row"]:checked')?.value || 5),
+                            odds1: parseOdds(document.getElementById('lotta-odds1').value),
+                            odds2: parseOdds(document.getElementById('lotta-odds2').value)
                         },
                         bengt: {
                             race1: parseHorses(document.getElementById('bengt-race1').value),
                             race2: parseHorses(document.getElementById('bengt-race2').value),
                             bet: parseFloat(document.getElementById('bengt-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="bengt-bet-per-row"]:checked')?.value || 10)
+                            betPerRow: parseInt(document.querySelector('input[name="bengt-bet-per-row"]:checked')?.value || 10),
+                            odds1: parseOdds(document.getElementById('bengt-odds1').value),
+                            odds2: parseOdds(document.getElementById('bengt-odds2').value)
                         },
                         benita: {
                             race1: parseHorses(document.getElementById('benita-race1').value),
                             race2: parseHorses(document.getElementById('benita-race2').value),
                             bet: parseFloat(document.getElementById('benita-bet').value),
-                            betPerRow: parseInt(document.querySelector('input[name="benita-bet-per-row"]:checked')?.value || 5)
+                            betPerRow: parseInt(document.querySelector('input[name="benita-bet-per-row"]:checked')?.value || 5),
+                            odds1: parseOdds(document.getElementById('benita-odds1').value),
+                            odds2: parseOdds(document.getElementById('benita-odds2').value)
                         },
                         system: {
                             race1: parseHorses(document.getElementById('system-race1').value),
                             race2: parseHorses(document.getElementById('system-race2').value),
                             bet: parseFloat(document.getElementById('system-bet').value),
-                            betPerRow: 5  // Systemet satsar alltid 5 kr/rad
+                            betPerRow: 5,  // Systemet satsar alltid 5 kr/rad
+                            odds1: parseOdds(document.getElementById('system-odds1').value),
+                            odds2: parseOdds(document.getElementById('system-odds2').value)
                         }
                     },
                     
@@ -1449,6 +1549,64 @@
         function parseHorses(str) {
             if (!str || str.trim() === '') return [];
             return str.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+        }
+
+        /**
+         * UPPDATERING 2026-02-08: Parsar en sträng med odds till en array av decimaltal
+         * @param {string} str - Sträng med kommaseparerade odds (t.ex. "5.57,3.72,3.04")
+         * @returns {Array} - Array med odds som decimaltal
+         */
+        function parseOdds(str) {
+            if (!str || str.trim() === '') return [];
+            // Konvertera komma till punkt om användaren skriver med komma
+            return str.split(',')
+                .map(n => parseFloat(n.trim().replace(',', '.')))
+                .filter(n => !isNaN(n) && n > 0);
+        }
+
+        /**
+         * UPPDATERING 2026-02-08: Beräknar riskprofil för en spelares satsning
+         * Metod: Genomsnittligt odds lopp 1 × Genomsnittligt odds lopp 2
+         * 
+         * Högre värde = högre risk (valt hästar med högre odds = underdogs/långskott)
+         * Lägre värde = lägre risk (valt favoriter med låga odds)
+         * 
+         * @param {Array} odds1 - Odds för hästar i lopp 1
+         * @param {Array} odds2 - Odds för hästar i lopp 2
+         * @returns {number} - Riskprofilvärde (DD-odds för genomsnittlig kombination)
+         */
+        function calculateRiskProfile(odds1, odds2) {
+            if (!odds1 || odds1.length === 0 || !odds2 || odds2.length === 0) {
+                return 0;
+            }
+            
+            // Beräkna genomsnitt för varje lopp
+            const avgOdds1 = odds1.reduce((sum, o) => sum + o, 0) / odds1.length;
+            const avgOdds2 = odds2.reduce((sum, o) => sum + o, 0) / odds2.length;
+            
+            // DD-riskprofil = genomsnitt lopp 1 × genomsnitt lopp 2
+            return avgOdds1 * avgOdds2;
+        }
+
+        /**
+         * UPPDATERING 2026-02-08: Returnerar riskprofil-kategori och färg
+         * @param {number} riskValue - Riskprofilvärde från calculateRiskProfile()
+         * @returns {Object} - { category: string, color: string, emoji: string }
+         */
+        function getRiskCategory(riskValue) {
+            if (riskValue === 0) {
+                return { category: 'Ej beräknad', color: '#6c757d', emoji: '❓' };
+            } else if (riskValue < 30) {
+                return { category: 'Mycket låg risk', color: '#28a745', emoji: '🟢' };
+            } else if (riskValue < 60) {
+                return { category: 'Låg risk', color: '#20c997', emoji: '🟢' };
+            } else if (riskValue < 120) {
+                return { category: 'Medel risk', color: '#ffc107', emoji: '🟡' };
+            } else if (riskValue < 250) {
+                return { category: 'Hög risk', color: '#fd7e14', emoji: '🟠' };
+            } else {
+                return { category: 'Mycket hög risk', color: '#dc3545', emoji: '🔴' };
+            }
         }
 
         /**
@@ -1720,6 +1878,7 @@ Sidan laddas om automatiskt om 2 sekunder...`;
             displayCumulativeStats();
             displayROIComparison();
             generateInsights();
+            displayRiskProfileComparison();  // UPPDATERING 2026-02-08
             displayFullHistory();
             updatePRDSection();
         }
@@ -1805,13 +1964,28 @@ Sidan laddas om automatiskt om 2 sekunder...`;
 
                     const playerInfo = players[playerId];
                     
+                    // UPPDATERING 2026-02-08: Beräkna riskprofil
+                    const riskValue = calculateRiskProfile(player.odds1 || [], player.odds2 || []);
+                    const riskInfo = getRiskCategory(riskValue);
+                    
                     html += `
                         <div class="player-card">
                             <h4><span class="player-icon ${playerInfo.color}">${playerInfo.icon}</span>${playerInfo.name}</h4>
                             <p><strong>Lopp 1:</strong> ${player.race1.join(', ')} ${hasWinner1 ? '✅' : '❌'}</p>
+                            ${player.odds1 && player.odds1.length > 0 ? 
+                                `<p style="font-size: 0.9em; color: #6c757d;"><em>Odds: ${player.odds1.map(o => o.toFixed(2)).join(', ')} (⌀ ${(player.odds1.reduce((s,o) => s+o, 0) / player.odds1.length).toFixed(2)})</em></p>` : ''}
                             <p><strong>Lopp 2:</strong> ${player.race2.join(', ')} ${hasWinner2 ? '✅' : '❌'}</p>
+                            ${player.odds2 && player.odds2.length > 0 ? 
+                                `<p style="font-size: 0.9em; color: #6c757d;"><em>Odds: ${player.odds2.map(o => o.toFixed(2)).join(', ')} (⌀ ${(player.odds2.reduce((s,o) => s+o, 0) / player.odds2.length).toFixed(2)})</em></p>` : ''}
                             <p><strong>Sats per rad:</strong> ${player.betPerRow || 5} kr/rad</p>
                             <p><strong>Insats:</strong> ${player.bet} kr (${player.race1.length} × ${player.race2.length} × ${player.betPerRow || 5} kr)</p>
+                            ${riskValue > 0 ? 
+                                `<div style="background: ${riskInfo.color}; color: white; padding: 8px; border-radius: 6px; margin: 10px 0; text-align: center; font-weight: 600;">
+                                    ${riskInfo.emoji} Riskprofil: ${riskValue.toFixed(1)} (${riskInfo.category})
+                                </div>
+                                <p style="font-size: 0.85em; color: #6c757d; text-align: center; margin-top: 5px;">
+                                    <em>Beräknat: (⌀${(player.odds1.reduce((s,o) => s+o, 0) / player.odds1.length).toFixed(2)} × ⌀${(player.odds2.reduce((s,o) => s+o, 0) / player.odds2.length).toFixed(2)}) = ${riskValue.toFixed(1)}</em>
+                                </p>` : ''}
                             ${ddHit ? 
                                 `<div class="badge badge-success" style="display: block; margin-top: 10px; text-align: center;">DD-TRÄFF! Utdelning: ${(latest.results.dd_payout * player.bet).toFixed(2)} kr (Vinst: +${(player.bet * (latest.results.dd_payout - 1)).toFixed(2)} kr)</div>` :
                                 `<div class="badge badge-danger" style="display: block; margin-top: 10px; text-align: center;">Ingen träff (Förlust: -${player.bet} kr)</div>`
@@ -2101,12 +2275,146 @@ Sidan laddas om automatiskt om 2 sekunder...`;
                 }
             }
 
+            // UPPDATERING 2026-02-08: Insikt 5 - Riskprofil-analys
+            const riskProfiles = {};
+            weeksWithResults.forEach(week => {
+                Object.keys(week.players).forEach(pid => {
+                    const p = week.players[pid];
+                    if (p.odds1 && p.odds1.length > 0 && p.odds2 && p.odds2.length > 0) {
+                        if (!riskProfiles[pid]) riskProfiles[pid] = [];
+                        riskProfiles[pid].push(calculateRiskProfile(p.odds1, p.odds2));
+                    }
+                });
+            });
+
+            // Beräkna genomsnittlig riskprofil per spelare
+            const avgRiskProfiles = {};
+            Object.keys(riskProfiles).forEach(pid => {
+                if (riskProfiles[pid].length > 0) {
+                    avgRiskProfiles[pid] = riskProfiles[pid].reduce((s, r) => s + r, 0) / riskProfiles[pid].length;
+                }
+            });
+
+            // Hitta mest konservativa och mest riskbenägna
+            if (Object.keys(avgRiskProfiles).length > 0) {
+                const sortedByRisk = Object.keys(avgRiskProfiles).sort((a, b) => avgRiskProfiles[a] - avgRiskProfiles[b]);
+                const mostConservative = sortedByRisk[0];
+                const mostRisky = sortedByRisk[sortedByRisk.length - 1];
+
+                const conservativeRisk = getRiskCategory(avgRiskProfiles[mostConservative]);
+                const riskyRisk = getRiskCategory(avgRiskProfiles[mostRisky]);
+
+                insights.push(`${conservativeRisk.emoji} <strong>Mest konservativ:</strong> ${players[mostConservative].name} (⌀ risk ${avgRiskProfiles[mostConservative].toFixed(1)} - ${conservativeRisk.category})`);
+                insights.push(`${riskyRisk.emoji} <strong>Mest riskbenägen:</strong> ${players[mostRisky].name} (⌀ risk ${avgRiskProfiles[mostRisky].toFixed(1)} - ${riskyRisk.category})`);
+            }
+
             let html = '<ul style="background: white; padding: 20px 40px; border-radius: 8px; line-height: 2;">';
             insights.forEach(insight => {
                 html += `<li>${insight}</li>`;
             });
             html += '</ul>';
 
+            container.innerHTML = html;
+        }
+
+        /**
+         * UPPDATERING 2026-02-08: Visar riskprofil-jämförelse mellan alla spelare
+         */
+        function displayRiskProfileComparison() {
+            const container = document.getElementById('risk-profile-comparison');
+            
+            if (weeklyData.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen data ännu.</p>';
+                return;
+            }
+
+            const weeksWithResults = weeklyData.filter(w => w.results.winner_race1 && w.results.winner_race2);
+            
+            if (weeksWithResults.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Inga resultat att analysera ännu.</p>';
+                return;
+            }
+
+            // Samla riskprofiler per spelare
+            const riskData = {};
+            Object.keys(players).forEach(pid => {
+                riskData[pid] = {
+                    risks: [],
+                    weeks: 0
+                };
+            });
+
+            weeksWithResults.forEach(week => {
+                Object.keys(week.players).forEach(pid => {
+                    const p = week.players[pid];
+                    if (p.odds1 && p.odds1.length > 0 && p.odds2 && p.odds2.length > 0) {
+                        const risk = calculateRiskProfile(p.odds1, p.odds2);
+                        riskData[pid].risks.push(risk);
+                        riskData[pid].weeks++;
+                    }
+                });
+            });
+
+            // Beräkna genomsnittlig riskprofil
+            const avgRisks = {};
+            Object.keys(riskData).forEach(pid => {
+                if (riskData[pid].risks.length > 0) {
+                    avgRisks[pid] = riskData[pid].risks.reduce((s, r) => s + r, 0) / riskData[pid].risks.length;
+                }
+            });
+
+            // Sortera efter riskprofil (lägst risk först)
+            const sorted = Object.keys(avgRisks)
+                .filter(pid => avgRisks[pid] > 0)
+                .sort((a, b) => avgRisks[a] - avgRisks[b]);
+
+            if (sorted.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Ingen odds-data tillgänglig för riskprofil-analys.</p>';
+                return;
+            }
+
+            let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+            
+            sorted.forEach((pid, index) => {
+                const playerInfo = players[pid];
+                const avgRisk = avgRisks[pid];
+                const riskInfo = getRiskCategory(avgRisk);
+                const minRisk = Math.min(...riskData[pid].risks);
+                const maxRisk = Math.max(...riskData[pid].risks);
+                
+                html += `
+                    <div style="background: white; padding: 20px; border-radius: 8px; border-left: 5px solid ${riskInfo.color}; position: relative;">
+                        <div style="position: absolute; top: 10px; right: 10px; font-size: 2em; opacity: 0.2;">${index + 1}</div>
+                        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                            <span class="player-icon ${playerInfo.color}" style="width: 50px; height: 50px; font-size: 1.5em;">${playerInfo.icon}</span>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: #2a5298;">${playerInfo.name}</h3>
+                                <p style="margin: 5px 0 0 0; color: #6c757d;">Genomsnittlig riskprofil: <strong style="color: ${riskInfo.color}; font-size: 1.3em;">${avgRisk.toFixed(1)}</strong></p>
+                            </div>
+                            <div style="text-align: center; background: ${riskInfo.color}; color: white; padding: 10px 20px; border-radius: 8px;">
+                                <div style="font-size: 2em;">${riskInfo.emoji}</div>
+                                <div style="font-size: 0.9em; font-weight: 600;">${riskInfo.category}</div>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Lägsta risk</div>
+                                <div style="font-weight: bold;">${minRisk.toFixed(1)}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Högsta risk</div>
+                                <div style="font-weight: bold;">${maxRisk.toFixed(1)}</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 0.8em; color: #6c757d;">Antal veckor</div>
+                                <div style="font-weight: bold;">${riskData[pid].weeks}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
             container.innerHTML = html;
         }
 
