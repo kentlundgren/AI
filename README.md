@@ -45,5 +45,35 @@ En interaktiv presentation som visar Geoffrey Hintons 10 viktigaste bidrag till 
 
 ---
 
+### 📊 DagensDubbel - Självförbättrande prediktionssystem
+Ett webbbaserat analyssystem för Dagens Dubbel (Solvalla lördagstrav) som spårar 5 spelare och ett AI-system, beräknar statistik och ROI, och lär sig från varje veckas resultat.
+
+**🚀 [Se live demo →](https://kentlundgren.github.io/AI/DagensDubbel/)** | **💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/DagensDubbel)**
+
+**Funktioner:**
+- Firebase Firestore-integration för molnbaserad datasynkning
+- Automatisk insatsberäkning och veckonummerberäkning
+- Färgkodning för tydlig input-feedback (gul → grå vid sparande)
+- Expected Value (EV)-analys för smartare prediktioner
+- ROI-jämförelse och kumulativ statistik
+- Pedagogisk förklaring av systemets strategi
+
+**Teknik:** HTML, CSS, Vanilla JavaScript, Firebase Firestore (v10.7.0 Compat SDK)
+
+**🤖 Permanenta agenter:** Backend-agent (datahantering, Firebase, beräkningar) + Frontend-agent (UI/UX, interaktivitet)
+
+**Skapad:** 7 februari 2026 | **Status:** Vecka 6 genomförd, förberedelse för vecka 7
+
+---
+
+### 🧮 Matematik - Interaktiv matematikguide
+Ett pedagogiskt projekt för att lära ut matematik interaktivt.
+
+**💻 [Källkod →](https://github.com/kentlundgren/AI/tree/main/Matematik)**
+
+*Live demo kommer snart*
+
+---
+
 ## Om projektet
-Detta repo skapades för att samla olika AI-relaterade demonstrationer och exempel.
+Detta repo skapades för att samla olika AI-relaterade demonstrationer och exempel. Varje underprojekt har sin egen README.md med detaljerad dokumentation och användarguide.
