@@ -11,6 +11,21 @@
          Mönster A: Compat SDK + Firestore (Kent's enklaste mönster)
          Använder Firebase SDK v10.7.0 för molnbaserad datalagring
          Data synkas mellan alla användare i realtid
+         =======================================================================
+         
+         UPPDATERING 2026-02-08: SATS PER RAD (5 kr eller 10 kr)
+         =======================================================================
+         - Varje spelare (Kent, Lotta, Bengt, Benita) kan nu välja mellan 5 kr/rad eller 10 kr/rad
+         - Systemet satsar alltid 5 kr/rad (inget val)
+         - Standardvärden:
+           * Kent: 5 kr/rad
+           * Lotta: 5 kr/rad
+           * Bengt: 10 kr/rad (standard)
+           * Benita: 5 kr/rad
+           * Systemet: 5 kr/rad (fast)
+         - Insatsberäkning: antal_hästar_lopp1 × antal_hästar_lopp2 × sats_per_rad
+         - Radio-knappar för val av sats per rad
+         - betPerRow sparas med varje veckodata
          ======================================================================= -->
     
     <!-- Firebase App (grundläggande - krävs alltid) -->
@@ -632,6 +647,18 @@
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="kent-race2" placeholder="t.ex. 6,11,15" value="6,11,15">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
+                        <div class="form-group">
+                            <label>Sats per rad:</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="kent-bet-per-row" value="5" checked> 5 kr/rad
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="kent-bet-per-row" value="10"> 10 kr/rad
+                                </label>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
                             <input type="number" id="kent-bet" min="0" readonly>
@@ -648,6 +675,18 @@
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="lotta-race2" placeholder="t.ex. 10,13,15" value="10,13,15">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
+                        <div class="form-group">
+                            <label>Sats per rad:</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="lotta-bet-per-row" value="5" checked> 5 kr/rad
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="lotta-bet-per-row" value="10"> 10 kr/rad
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
@@ -666,6 +705,18 @@
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="bengt-race2" placeholder="t.ex. 2,5,9" value="10">
                         </div>
+                        <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) - BENGT HAR 10 KR SOM STANDARD -->
+                        <div class="form-group">
+                            <label>Sats per rad:</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="bengt-bet-per-row" value="5"> 5 kr/rad
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="bengt-bet-per-row" value="10" checked> 10 kr/rad
+                                </label>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
                             <input type="number" id="bengt-bet" min="0" readonly>
@@ -682,6 +733,18 @@
                         <div class="form-group">
                             <label>Lopp 2 (V85-8):</label>
                             <input type="text" id="benita-race2" placeholder="t.ex. 3,7,12" value="10,11">
+                        </div>
+                        <!-- UPPDATERING 2026-02-08: Sats per rad (5 kr eller 10 kr) -->
+                        <div class="form-group">
+                            <label>Sats per rad:</label>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="benita-bet-per-row" value="5" checked> 5 kr/rad
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                                    <input type="radio" name="benita-bet-per-row" value="10"> 10 kr/rad
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Insats (kr):</label>
@@ -918,6 +981,7 @@
         }
 
         /**
+         * UPPDATERING 2026-02-08: Beräknar insats baserat på antal hästar OCH vald sats per rad
          * Beräknar insats för en spelare baserat på antal hästar i varje lopp
          * @param {string} playerId - Spelarens prefix (kent, lotta, bengt, benita, system)
          */
@@ -931,16 +995,31 @@
             const horsesRace1 = countHorses(race1Input.value);
             const horsesRace2 = countHorses(race2Input.value);
 
-            // Beräkna insats: antal_lopp1 × antal_lopp2 × 5 kr
-            const calculatedBet = horsesRace1 * horsesRace2 * 5;
+            // UPPDATERING 2026-02-08: Hämta vald sats per rad (5 eller 10 kr)
+            let betPerRow = 5; // Default för systemet
+            
+            if (playerId !== 'system') {
+                // För mänskliga spelare: läs från radio-knapp
+                const radioButtons = document.getElementsByName(`${playerId}-bet-per-row`);
+                for (const radio of radioButtons) {
+                    if (radio.checked) {
+                        betPerRow = parseInt(radio.value);
+                        break;
+                    }
+                }
+            }
+
+            // Beräkna insats: antal_lopp1 × antal_lopp2 × sats_per_rad
+            const calculatedBet = horsesRace1 * horsesRace2 * betPerRow;
 
             // Uppdatera fältet
             betInput.value = calculatedBet;
 
-            console.log(`${playerId}: ${horsesRace1} × ${horsesRace2} × 5kr = ${calculatedBet}kr`);
+            console.log(`${playerId}: ${horsesRace1} × ${horsesRace2} × ${betPerRow}kr/rad = ${calculatedBet}kr`);
         }
 
         /**
+         * UPPDATERING 2026-02-08: Lyssnar även på radio-knappar för sats per rad
          * Lägger till event listeners för automatisk insatsberäkning för alla spelare
          */
         function setupBetCalculation() {
@@ -954,6 +1033,14 @@
                     // Beräkna när användaren skriver
                     race1Input.addEventListener('input', () => calculateBet(playerId));
                     race2Input.addEventListener('input', () => calculateBet(playerId));
+
+                    // UPPDATERING 2026-02-08: Beräkna när användaren ändrar sats per rad
+                    if (playerId !== 'system') {
+                        const radioButtons = document.getElementsByName(`${playerId}-bet-per-row`);
+                        radioButtons.forEach(radio => {
+                            radio.addEventListener('change', () => calculateBet(playerId));
+                        });
+                    }
 
                     // Beräkna direkt vid laddning om värden finns
                     if (race1Input.value && race2Input.value) {
@@ -1227,32 +1314,38 @@
                     date: document.getElementById('raceDate').value,
                     notes: document.getElementById('raceNotes').value,
                     
+                    // UPPDATERING 2026-02-08: Spelares satsningar inkluderar nu även betPerRow
                     // Spelares satsningar
                     players: {
                         kent: {
                             race1: parseHorses(document.getElementById('kent-race1').value),
                             race2: parseHorses(document.getElementById('kent-race2').value),
-                            bet: parseFloat(document.getElementById('kent-bet').value)
+                            bet: parseFloat(document.getElementById('kent-bet').value),
+                            betPerRow: parseInt(document.querySelector('input[name="kent-bet-per-row"]:checked')?.value || 5)
                         },
                         lotta: {
                             race1: parseHorses(document.getElementById('lotta-race1').value),
                             race2: parseHorses(document.getElementById('lotta-race2').value),
-                            bet: parseFloat(document.getElementById('lotta-bet').value)
+                            bet: parseFloat(document.getElementById('lotta-bet').value),
+                            betPerRow: parseInt(document.querySelector('input[name="lotta-bet-per-row"]:checked')?.value || 5)
                         },
                         bengt: {
                             race1: parseHorses(document.getElementById('bengt-race1').value),
                             race2: parseHorses(document.getElementById('bengt-race2').value),
-                            bet: parseFloat(document.getElementById('bengt-bet').value)
+                            bet: parseFloat(document.getElementById('bengt-bet').value),
+                            betPerRow: parseInt(document.querySelector('input[name="bengt-bet-per-row"]:checked')?.value || 10)
                         },
                         benita: {
                             race1: parseHorses(document.getElementById('benita-race1').value),
                             race2: parseHorses(document.getElementById('benita-race2').value),
-                            bet: parseFloat(document.getElementById('benita-bet').value)
+                            bet: parseFloat(document.getElementById('benita-bet').value),
+                            betPerRow: parseInt(document.querySelector('input[name="benita-bet-per-row"]:checked')?.value || 5)
                         },
                         system: {
                             race1: parseHorses(document.getElementById('system-race1').value),
                             race2: parseHorses(document.getElementById('system-race2').value),
-                            bet: parseFloat(document.getElementById('system-bet').value)
+                            bet: parseFloat(document.getElementById('system-bet').value),
+                            betPerRow: 5  // Systemet satsar alltid 5 kr/rad
                         }
                     },
                     
@@ -1717,7 +1810,8 @@ Sidan laddas om automatiskt om 2 sekunder...`;
                             <h4><span class="player-icon ${playerInfo.color}">${playerInfo.icon}</span>${playerInfo.name}</h4>
                             <p><strong>Lopp 1:</strong> ${player.race1.join(', ')} ${hasWinner1 ? '✅' : '❌'}</p>
                             <p><strong>Lopp 2:</strong> ${player.race2.join(', ')} ${hasWinner2 ? '✅' : '❌'}</p>
-                            <p><strong>Insats:</strong> ${player.bet} kr</p>
+                            <p><strong>Sats per rad:</strong> ${player.betPerRow || 5} kr/rad</p>
+                            <p><strong>Insats:</strong> ${player.bet} kr (${player.race1.length} × ${player.race2.length} × ${player.betPerRow || 5} kr)</p>
                             ${ddHit ? 
                                 `<div class="badge badge-success" style="display: block; margin-top: 10px; text-align: center;">DD-TRÄFF! Utdelning: ${(latest.results.dd_payout * player.bet).toFixed(2)} kr (Vinst: +${(player.bet * (latest.results.dd_payout - 1)).toFixed(2)} kr)</div>` :
                                 `<div class="badge badge-danger" style="display: block; margin-top: 10px; text-align: center;">Ingen träff (Förlust: -${player.bet} kr)</div>`
