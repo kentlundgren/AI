@@ -190,8 +190,6 @@ Sida 13: "Ett ytterligare bidragande skäl" → "En annan orsak"
 
 ### 📄 Dokumentation
 - [📖 README](README.md)
-- [📊 Sifferanalys Version 1](rapport-sifferanalys.md)
-- [📊 Sifferanalys Version 2](rapport-sifferanalys-ver2.md)
 - [📝 Språkanalys Version 1](rapport-sprakanalys.md)
 - [🌐 Index](index.html)
 

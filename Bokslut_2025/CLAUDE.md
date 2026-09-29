@@ -9,7 +9,6 @@ Detta projekt demonstrerar hur Claude Code subagents kan användas för att anal
 1. **Kontrollera siffror och tabeller** - verifiera att summor stämmer, hitta eventuella räknefel
 2. **Granska svenska språket** - korrekturläsning, klarspråk och förbättrad läsbarhet
 
-**Källdokument:** `Bokslut_2025.pdf` - Simrishamns kommuns Kultur- och fritidsnämnds årsbokslut 2025
 
 ---
 
@@ -74,7 +73,6 @@ Bokslut_2025/
 │       ├── siffergranskare.md    # Agent för tabellanalys
 │       └── sprakgranskare.md     # Agent för språkgranskning
 ├── CLAUDE.md                      # Denna fil - projektkoordinator
-├── Bokslut_2025.pdf              # Källdokument att analysera
 └── [analysrapporter]              # Genererade rapporter (skapas vid körning)
 ```
 
@@ -122,3 +120,7 @@ Granska språket i verksamhetsberättelsen och föreslå förbättringar
 **Skapad:** 2026-02-01
 **Version:** 1.0
 **Skapad med:** Claude Code subagents
+
+---
+
+**Obs (2026-09-29):** Siffrorna i projektets verktyg är påhittade (ändrade men konsekventa). Originaldokumentet och sifferrapporterna är borttagna. Poängen är arbetssättet med specialiserade AI-agenter, inte några verkliga belopp.

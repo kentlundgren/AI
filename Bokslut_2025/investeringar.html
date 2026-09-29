@@ -320,10 +320,9 @@
 
         <footer>
             <p><strong>Interaktiv analys skapad:</strong> 2026-02-01</p>
-            <p><em>Dokument analyserat: Bokslut_2025.pdf - Simrishamns kommun, Kultur- och fritidsnämnden</em></p>
+            <p><em>Exempel med påhittade siffror – test av granskning med AI-agenter. Ingen verklig organisations siffror.</em></p>
             <p style="margin-top: 10px;">
-                <a href="index.html">← Tillbaka till huvudsidan</a> |
-                <a href="Bokslut_2025.pdf" target="_blank">📄 Se originaldokument</a>
+                <a href="index.html">← Tillbaka till huvudsidan</a> 
             </p>
         </footer>
     </div>
@@ -334,19 +333,19 @@
         // Datastruktur för investeringsprojekt
         let projectData = {
             fardigstallda: [
-                { name: "Inventarier, löpande", code: "[1400]", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.800, utfall2025: 0.617, budgetAvvikelse: 0.183 },
-                { name: "Konstinköp, löpande", code: "6011", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.125, utfall2025: 0.125, budgetAvvikelse: 0.000 }
+                { name: "Inventarier, löpande", code: "[1400]", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.664, utfall2025: 0.512, budgetAvvikelse: 0.152 },
+                { name: "Konstinköp, löpande", code: "6011", totalBudget: null, ackUtfall: null, avvikelse: null, budget2025: 0.104, utfall2025: 0.104, budgetAvvikelse: 0.000 }
             ],
             pagaende: [
-                { name: "Ny inredning, biblioteket", code: "6014", totalBudget: 4.827, ackUtfall: 4.812, avvikelse: 0.015, budget2025: 0.709, utfall2025: 0.694, budgetAvvikelse: 0.015 },
-                { name: "Ombyggnad Garvaren", code: "6013", totalBudget: 2.575, ackUtfall: 2.340, avvikelse: 0.235, budget2025: 0.388, utfall2025: 0.153, budgetAvvikelse: 0.235 },
-                { name: "Ombyggnad Hafreborg", code: "6012", totalBudget: 3.124, ackUtfall: 3.059, avvikelse: 0.065, budget2025: 0.539, utfall2025: 0.474, budgetAvvikelse: 0.065 },
-                { name: "Teknik/digital utveckling, bibliotek", code: "6015, 6119", totalBudget: 0.850, ackUtfall: 0.942, avvikelse: -0.092, budget2025: 0.412, utfall2025: 0.504, budgetAvvikelse: -0.092 },
-                { name: "Korsavadanläggningen", code: "[1401]", totalBudget: 2.492, ackUtfall: 1.586, avvikelse: 0.906, budget2025: 1.352, utfall2025: 0.446, budgetAvvikelse: 0.906 },
-                { name: "Löparbana Korsavad", code: "6151", totalBudget: 2.400, ackUtfall: 0.010, avvikelse: 2.390, budget2025: 2.400, utfall2025: 0.010, budgetAvvikelse: 2.390 },
-                { name: "Tillgänglig hjärtstartare", code: "6152", totalBudget: 0.300, ackUtfall: 0.261, avvikelse: 0.039, budget2025: 0.300, utfall2025: 0.261, budgetAvvikelse: 0.039 },
-                { name: "Ny teknik bowlinghall Korsavad", code: "6154", totalBudget: 3.000, ackUtfall: 2.117, avvikelse: 0.883, budget2025: 3.000, utfall2025: 2.117, budgetAvvikelse: 0.883 },
-                { name: "Konstnärlig utsmyckning", code: "6155", totalBudget: 0.500, ackUtfall: 0.000, avvikelse: 0.500, budget2025: 0.500, utfall2025: 0.000, budgetAvvikelse: 0.500 }
+                { name: "Ny inredning, biblioteket", code: "6014", totalBudget: 4.006, ackUtfall: 3.994, avvikelse: 0.012, budget2025: 0.588, utfall2025: 0.576, budgetAvvikelse: 0.012 },
+                { name: "Ombyggnad Garvaren", code: "6013", totalBudget: 2.137, ackUtfall: 1.942, avvikelse: 0.195, budget2025: 0.322, utfall2025: 0.127, budgetAvvikelse: 0.195 },
+                { name: "Ombyggnad Hafreborg", code: "6012", totalBudget: 2.593, ackUtfall: 2.539, avvikelse: 0.054, budget2025: 0.447, utfall2025: 0.393, budgetAvvikelse: 0.054 },
+                { name: "Teknik/digital utveckling, bibliotek", code: "6015, 6119", totalBudget: 0.705, ackUtfall: 0.781, avvikelse: -0.076, budget2025: 0.342, utfall2025: 0.418, budgetAvvikelse: -0.076 },
+                { name: "Korsavadanläggningen", code: "[1401]", totalBudget: 2.068, ackUtfall: 1.316, avvikelse: 0.752, budget2025: 1.122, utfall2025: 0.370, budgetAvvikelse: 0.752 },
+                { name: "Löparbana Korsavad", code: "6151", totalBudget: 1.992, ackUtfall: 0.008, avvikelse: 1.984, budget2025: 1.992, utfall2025: 0.008, budgetAvvikelse: 1.984 },
+                { name: "Tillgänglig hjärtstartare", code: "6152", totalBudget: 0.249, ackUtfall: 0.217, avvikelse: 0.032, budget2025: 0.249, utfall2025: 0.217, budgetAvvikelse: 0.032 },
+                { name: "Ny teknik bowlinghall Korsavad", code: "6154", totalBudget: 2.490, ackUtfall: 1.757, avvikelse: 0.733, budget2025: 2.490, utfall2025: 1.757, budgetAvvikelse: 0.733 },
+                { name: "Konstnärlig utsmyckning", code: "6155", totalBudget: 0.415, ackUtfall: 0.000, avvikelse: 0.415, budget2025: 0.415, utfall2025: 0.000, budgetAvvikelse: 0.415 }
             ]
         };
         
@@ -548,15 +547,15 @@
             const utfall2025Class = 'correct';
             const budgetAvvikelseClass = 'correct';
             
-            // För pågående projekt, kontrollera om det är fel (jämför med originaldokumentets 9,600)
+            // För pågående projekt, kontrollera om det är fel (jämför med originaldokumentets 7,967)
             let budget2025Display = formatNumber(sums.budget2025);
             let budget2025CellClass = `number ${budget2025Class}`;
             
             if (section === 'pagaende') {
-                // Kontrollera om summan är cirka 9,600 (korrekt enligt uppdaterad PDF 2026-02-01)
-                if (Math.abs(sums.budget2025 - 9.600) < 0.01) {
+                // Kontrollera om summan är cirka 7,967 (korrekt enligt uppdaterad PDF 2026-02-01)
+                if (Math.abs(sums.budget2025 - 7.967) < 0.01) {
                     budget2025Display = `${formatNumber(sums.budget2025)} <small style="color: #28a745;">(Korrekt!)</small>`;
-                } else if (Math.abs(sums.budget2025 - 6.223) < 0.01) {
+                } else if (Math.abs(sums.budget2025 - 5.164) < 0.01) {
                     budget2025Display = `${formatNumber(sums.budget2025)} <small style="color: #dc3545;">(FEL: Gammal version - saknar uppdatering av Korsavadanläggningen)</small>`;
                     budget2025CellClass = 'number error';
                 }

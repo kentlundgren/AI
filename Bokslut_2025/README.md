@@ -74,9 +74,9 @@ Istället för att låta en enda AI hantera all analys, skapas **specialiserade 
 - Hittar avrundningsproblem
 
 **Exempelresultat:**
-- Hittade att investeringsbudgeten saknar **3,377 mnkr**
+- Hittade att investeringsbudgeten saknar **2,803 mnkr**
 - Identifierade 5 mindre avrundningsfel
-- Noterade diskrepans mellan två tabeller (30 tkr)
+- Noterade diskrepans mellan två tabeller (25 tkr)
 
 ### 2. Språkgranskare (`sprakgranskare.md`)
 
@@ -155,7 +155,7 @@ Använd [agentnamn]-agenten för att analysera [dokument/uppgift]
 | Mindre räknefel | 5 | Låg |
 | Diskrepanser mellan tabeller | 2 | Medel |
 
-**Viktigaste fyndet:** Investeringsbudgeten för pågående projekt saknar 3,377 mnkr i de enskilda raderna.
+**Viktigaste fyndet:** Investeringsbudgeten för pågående projekt saknar 2,803 mnkr i de enskilda raderna.
 
 ### Språkanalys
 
@@ -180,11 +180,9 @@ Bokslut_2025/
 │   └── agents/
 │       ├── siffergranskare.md    # Agent: Tabellanalys
 │       └── sprakgranskare.md     # Agent: Språkgranskning
-├── Bokslut_2025.pdf              # Källdokument
 ├── CLAUDE.md                     # Projektkoordinator
 ├── README.md                     # Denna fil
 ├── index.html                    # Webbpresentation
-├── rapport-sifferanalys.md       # Output: Sifferrapport
 └── rapport-sprakanalys.md        # Output: Språkrapport
 ```
 
@@ -194,12 +192,10 @@ Bokslut_2025/
 
 ### Kör siffergranskaren
 ```
-Använd siffergranskare-agenten för att kontrollera tabellerna i Bokslut_2025.pdf
 ```
 
 ### Kör språkgranskaren
 ```
-Använd språkgranskare-agenten för att granska texten i Bokslut_2025.pdf
 ```
 
 ### Kör båda parallellt
@@ -245,3 +241,7 @@ Kör båda agenterna parallellt och sammanställ resultaten
 **Skapad med Claude Code permanenta agenter**
 
 Datum: 2026-02-01
+
+---
+
+**Obs (2026-09-29):** Siffrorna i projektets verktyg är påhittade (ändrade men konsekventa). Originaldokumentet och sifferrapporterna är borttagna. Poängen är arbetssättet med specialiserade AI-agenter, inte några verkliga belopp.
